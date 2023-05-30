@@ -1,28 +1,26 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Comidas } from 'src/app/models/comidas';
-import { Bebidas } from 'src/app/models/bebidas';
-import { Evento } from 'src/app/models/evento';
-import { Localidad } from 'src/app/models/localidad';
-import { ProductoLista } from 'src/app/models/ProductoLista';
+import { Comidas } from 'src/app/core/models/comidas';
+import { Bebidas } from 'src/app/core/models/bebidas';
+import { Evento } from 'src/app/core/models/evento';
+import { Localidad } from 'src/app/core/models/localidad';
+import { ProductoLista } from 'src/app/core/models/ProductoLista';
 import { FormControl } from '@angular/forms';
-import { ListaComprasService } from 'src/app/services/lista-compra.service';
+import { ConsultarEventoService } from '@modules/consultar-evento/services/consultar-evento.service';
 
 
 @Component({
-  selector: 'app-formulario-evento',
-  templateUrl: './formulario-evento.component.html',
-  styleUrls: ['./formulario-evento.component.scss'],
+  selector: 'app-consultar-evento',
+  templateUrl: './consultar-evento.component.html',
+  styleUrls: ['./consultar-evento.component.scss'],
   
   
 })
-export class FormularioEventoComponent {
+export class ConsultarEventoComponent {
   idEventoSeleccionado!: number;
   localidadesSeleccionadas!: number[];
-  primeraLocalidadControl: FormControl = new FormControl();
-  segundaLocalidadControl: FormControl = new FormControl();
-  terceraLocalidadControl: FormControl = new FormControl();
+
   idComidaSeleccionada!: number;
   idBebidaSeleccionada!: number;
   listaEventos!: Evento[];
@@ -42,7 +40,7 @@ export class FormularioEventoComponent {
 
   constructor(
     private router: Router,
-    private listaComprasService: ListaComprasService
+    private consultarEventoService: ConsultarEventoService
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +48,7 @@ export class FormularioEventoComponent {
   }
 
   getListaEventos() {
-    this.listaComprasService.getListaEventos().subscribe(
+    this.consultarEventoService.getListaEventos().subscribe(
       (listaEventos: Evento[]) => {
         this.listaEventos = listaEventos;
       },
@@ -59,7 +57,7 @@ export class FormularioEventoComponent {
   }
 
   getTiposDeComidas(idEvento: number) {
-    this.listaComprasService.getListaTiposDeComidas(idEvento).subscribe(
+    this.consultarEventoService.getListaTiposDeComidas(idEvento).subscribe(
       (listaComidas: Comidas[]) => {
         this.tiposDeComidas = listaComidas;
       },
@@ -81,7 +79,7 @@ export class FormularioEventoComponent {
   }
 
   getTiposDeBebidas() {
-    this.listaComprasService
+    this.consultarEventoService
       .getListaBebidas(this.idEventoSeleccionado)
       .subscribe(
         (listaBebidas: Bebidas[]) => {
@@ -101,7 +99,7 @@ export class FormularioEventoComponent {
   mostrarLocalidades(idBebida: number) {
     this.mostrarPreguntaQueTipoDeBebida = false;
     this.mostrarOpcionSeleccionada = true;
-    this.listaComprasService.getLocalidades().subscribe(
+    this.consultarEventoService.getLocalidades().subscribe(
       (listaDeLocalidades: Localidad[]) => {
         this.ListaDeLocalidades = listaDeLocalidades;
       },
@@ -111,7 +109,7 @@ export class FormularioEventoComponent {
   }
 
   getListadoDeCompras() {
-    this.listaComprasService
+    this.consultarEventoService
       .getListadeCompras(
         this.idEventoSeleccionado,
         this.idComidaSeleccionada,
@@ -138,9 +136,9 @@ export class FormularioEventoComponent {
 
   verOfertas() {
     this.localidadesSeleccionadas = [
-      this.primeraLocalidadControl.value,
-      this.segundaLocalidadControl.value,
-      this.terceraLocalidadControl.value,
+      // this.primeraLocalidadControl.value,
+      // this.segundaLocalidadControl.value,
+      // this.terceraLocalidadControl.value,
     ];
   
     const queryParams = {

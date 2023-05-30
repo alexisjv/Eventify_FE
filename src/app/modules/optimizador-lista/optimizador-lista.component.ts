@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MejorRutaComponent } from 'src/app/components/mejor-ruta/mejor-ruta.component';
-import { Oferta } from 'src/app/models/oferta';
-import { Evento } from 'src/app/models/evento';
+import { MejorRutaComponent } from 'src/app/shared/components/mejor-ruta/mejor-ruta.component';
+import { Oferta } from 'src/app/core/models/oferta';
+import { Evento } from 'src/app/core/models/evento';
 import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
 import { ListaComprasService } from 'src/app/services/lista-compra.service';
 

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormularioEventoComponent } from './formulario-evento.component';
+import { FormularioEventoComponent } from './consultar-evento.component';
 
 describe('FormularioEventoComponent', () => {
   let component: FormularioEventoComponent;
