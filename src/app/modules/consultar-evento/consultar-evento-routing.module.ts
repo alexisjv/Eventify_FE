@@ -5,7 +5,7 @@ import { ConsultarEventoComponent } from './page/consultar-evento/consultar-even
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'consultar-evento',
     component: ConsultarEventoComponent
   }
 ];

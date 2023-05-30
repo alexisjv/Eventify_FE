@@ -22,7 +22,7 @@ import { SharedModule } from '@shared/shared.module';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
   ],
   
   bootstrap: [AppComponent]

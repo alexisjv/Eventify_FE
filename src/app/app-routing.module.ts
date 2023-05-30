@@ -10,13 +10,16 @@ const routes: Routes = [
   {
     path: '', //TODO (Public) Login, Register, Forgot...
     component: HomeLandingComponent,
-    loadChildren: () => import(`./modules/home-landing/home-landing.module`).then(m => m.HomeLandingModule)
+    loadChildren: () => import('@modules/home-landing/home-landing.module').then(m => m.HomeLandingModule),
+
+  },
+  {
+    path: 'consultar-evento',
+    component: ConsultarEventoComponent,
+    loadChildren: () => import('@modules/consultar-evento/consultar-evento.module').then(m => m.ConsultarEventoModule)
   }
-  // {
-  //   path: 'consultar-evento',
-  //   component: ConsultarEventoComponent,
-  //   loadChildren: () => import('@modules/consultar-evento/consultar-evento.module').then(m => m.ConsultarEventoModule)
-  // }
+  
+
   ];
 
 @NgModule({
