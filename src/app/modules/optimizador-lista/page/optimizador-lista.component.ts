@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MejorRutaComponent } from 'src/app/shared/components/mejor-ruta/mejor-ruta.component';
 import { Oferta } from 'src/app/core/models/oferta';
 import { Evento } from 'src/app/core/models/evento';
-import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
-import { ListaComprasService } from 'src/app/services/lista-compra.service';
-
+import {
+  NgxQrcodeElementTypes,
+  NgxQrcodeErrorCorrectionLevels,
+} from '@techiediaries/ngx-qrcode';
+import { OptimizadorListaService } from '../services/optimizador-lista.service';
+import { MapaComponent } from '@shared/components/mapa/mapa.component';
 
 @Component({
   selector: 'app-optimizador-lista',
   templateUrl: './optimizador-lista.component.html',
-  styleUrls: ['./optimizador-lista.component.scss']
+  styleUrls: ['./optimizador-lista.component.scss'],
 })
-export class OptimizadorListaComponent implements OnInit{
-
+export class OptimizadorListaComponent implements OnInit {
   listaEconomicaSeleccionada = false;
   menosRecorridoSeleccionado = false;
   listaOfertaMenorRecorrido!: Oferta[];
@@ -25,7 +26,7 @@ export class OptimizadorListaComponent implements OnInit{
   distanciaMenosRecorrido!: string;
   distanciaElegida!: string;
   comerciosElegido!: number;
-  mejorRutaComponent: MejorRutaComponent = new MejorRutaComponent();
+  mapaComponent: MapaComponent = new MapaComponent();
   cantidadComerciosEconomico!: number;
   cantidadComerciosMenosRecorrido!: number;
   listaLocalidadesSeleccionadas!: string[];
@@ -37,62 +38,79 @@ export class OptimizadorListaComponent implements OnInit{
   escenarios = true;
   estaLogueado = false;
 
-  
   elementType = NgxQrcodeElementTypes.URL;
   errorCorrectionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
-  value = "";
+  value = '';
 
-
-  constructor(private listaCompraService: ListaComprasService, private router: ActivatedRoute ) {}
+  constructor(
+    private listaCompraService: OptimizadorListaService,
+    private router: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.router.queryParams.subscribe(params => {
+    this.router.queryParams.subscribe((params) => {
       this.idComida = parseInt(params['idComida']);
       this.idBebida = parseInt(params['idBebida']);
       this.idEvento = parseInt(params['idEvento']);
-      const idLocalidadesSeleccionadas = JSON.parse(params['idLocalidadesSeleccionadas']);
-      this.listaLocalidadesSeleccionadas = idLocalidadesSeleccionadas
+      const idLocalidadesSeleccionadas = JSON.parse(
+        params['idLocalidadesSeleccionadas']
+      );
+      this.listaLocalidadesSeleccionadas = idLocalidadesSeleccionadas;
 
-      
-      
-    this.getListaOfertasMenorRecorrido(parseInt(idLocalidadesSeleccionadas[0]), this.idComida, this.idBebida);
-    this.getListaOfertasEconomicas();
-    this.getNombreEvento(this.idEvento);
-    })
+      this.getListaOfertasMenorRecorrido(
+        parseInt(idLocalidadesSeleccionadas[0]),
+        this.idComida,
+        this.idBebida
+      );
+      this.getListaOfertasEconomicas();
+      this.getNombreEvento(this.idEvento);
+    });
   }
 
- 
-
-  getListaOfertasMenorRecorrido(idLocalidad: number, idComida: number, idBebida: number) {
-  
-    this.listaCompraService.getListaOfertasMenorRecorrido(idLocalidad, idComida, idBebida).subscribe(
-      (listaOfertas: Oferta[]) => {
-        this.listaOfertaMenorRecorrido = listaOfertas;
-        console.log('Ofertas menor recorrido' + this.listaOfertaMenorRecorrido);
-      },
-      (error) => console.error(error)
-    );
+  getListaOfertasMenorRecorrido(
+    idLocalidad: number,
+    idComida: number,
+    idBebida: number
+  ) {
+    this.listaCompraService
+      .getListaOfertasMenorRecorrido(idLocalidad, idComida, idBebida)
+      .subscribe(
+        (listaOfertas: Oferta[]) => {
+          this.listaOfertaMenorRecorrido = listaOfertas;
+          console.log(
+            'Ofertas menor recorrido' + this.listaOfertaMenorRecorrido
+          );
+        },
+        (error) => console.error(error)
+      );
   }
 
   getListaOfertasEconomicas() {
-    const listaLocalidadesNumeros = this.listaLocalidadesSeleccionadas.map(localidad => parseInt(localidad, 10));
-
-    this.listaCompraService.postListaOfertasEconomicas(listaLocalidadesNumeros, this.idComida, this.idBebida).subscribe(
-      (listaOfertas: Oferta[]) => {
-        this.listaOfertaEconomicos = listaOfertas;
-        console.log('Ofertas economicas' + this.listaOfertaEconomicos);
-      },
-      (error) => console.error(error)
+    const listaLocalidadesNumeros = this.listaLocalidadesSeleccionadas.map(
+      (localidad) => parseInt(localidad, 10)
     );
+
+    this.listaCompraService
+      .postListaOfertasEconomicas(
+        listaLocalidadesNumeros,
+        this.idComida,
+        this.idBebida
+      )
+      .subscribe(
+        (listaOfertas: Oferta[]) => {
+          this.listaOfertaEconomicos = listaOfertas;
+          console.log('Ofertas economicas' + this.listaOfertaEconomicos);
+        },
+        (error) => console.error(error)
+      );
   }
 
   getNombreEvento(idEvento: number): void {
     this.listaCompraService.getListaEventos().subscribe((eventos: Evento[]) => {
-      const eventoEncontrado = eventos.find(evento => evento.id === idEvento);
+      const eventoEncontrado = eventos.find((evento) => evento.id === idEvento);
       this.nombreEvento = eventoEncontrado ? eventoEncontrado.nombre : '';
     });
   }
-  
 
   public seleccionarListaEconomica() {
     this.listaEconomicaSeleccionada = true;
@@ -101,24 +119,25 @@ export class OptimizadorListaComponent implements OnInit{
     const comerciosVisitados = new Set<string>();
     const waypoints: { location: string }[] = [];
 
-  
     const miUbicacionActual = [-34.67058109744653, -58.56281593172098];
-    waypoints.push({ location: `${miUbicacionActual[0]}, ${miUbicacionActual[1]}` });
-  
+    waypoints.push({
+      location: `${miUbicacionActual[0]}, ${miUbicacionActual[1]}`,
+    });
+
     for (const oferta of this.listaOfertaEconomicos) {
       if (!comerciosVisitados.has(oferta.nombreComercio)) {
         waypoints.push({
-          location: `${oferta.latitud}, ${oferta.longitud}`
+          location: `${oferta.latitud}, ${oferta.longitud}`,
         });
 
         comerciosVisitados.add(oferta.nombreComercio);
       }
     }
-  
+
     this.cantidadComerciosEconomico = waypoints.length - 1;
     this.listaOfertaElegida = this.listaOfertaEconomicos;
-  
-    this.mejorRutaComponent.calculateAndDisplayRoute(waypoints, (distance) => {
+
+    this.mapaComponent.calcularYMostrarRuta(waypoints, (distance) => {
       console.log('Distancia recibida:', distance);
       this.distanciaEconomico = distance;
       this.distanciaElegida = this.distanciaEconomico;
@@ -126,8 +145,7 @@ export class OptimizadorListaComponent implements OnInit{
       this.obtenerLinkGps();
     });
   }
-  
-  
+
   public seleccionarMenosRecorrido() {
     this.listaEconomicaSeleccionada = false;
     this.menosRecorridoSeleccionado = true;
@@ -135,25 +153,25 @@ export class OptimizadorListaComponent implements OnInit{
     const comerciosVisitados = new Set<string>();
     const waypoints: { location: string }[] = [];
 
-  
     const miUbicacionActual = [-34.67058109744653, -58.56281593172098];
-    waypoints.push({ location: `${miUbicacionActual[0]}, ${miUbicacionActual[1]}` });
-  
+    waypoints.push({
+      location: `${miUbicacionActual[0]}, ${miUbicacionActual[1]}`,
+    });
+
     for (const oferta of this.listaOfertaMenorRecorrido) {
       if (!comerciosVisitados.has(oferta.nombreComercio)) {
         waypoints.push({
-          location: `${oferta.latitud}, ${oferta.longitud}`
+          location: `${oferta.latitud}, ${oferta.longitud}`,
         });
 
         comerciosVisitados.add(oferta.nombreComercio);
       }
     }
-  
+
     this.cantidadComerciosMenosRecorrido = waypoints.length - 1;
     this.listaOfertaElegida = this.listaOfertaMenorRecorrido;
 
-  
-    this.mejorRutaComponent.calculateAndDisplayRoute(waypoints, (distance) => {
+    this.mapaComponent.calcularYMostrarRuta(waypoints, (distance) => {
       console.log('Distancia recibida:', distance);
       this.distanciaMenosRecorrido = distance;
       this.distanciaElegida = this.distanciaMenosRecorrido;
@@ -161,45 +179,46 @@ export class OptimizadorListaComponent implements OnInit{
       this.obtenerLinkGps();
     });
   }
-  
+
   public shareMap() {
-    this.mejorRutaComponent.shareMap();
+    this.mapaComponent.compartirMapa();
   }
 
-  public obtenerLinkGps(){
-    const url = this.mejorRutaComponent.obtenerLinkGps();
+  public obtenerLinkGps() {
+    const url = this.mapaComponent.obtenerEnlaceGPS();
     this.value = url;
-    console.log(this.value)
+    console.log(this.value);
   }
 
   groupOffersByCommerceName(offers: Oferta[]): Oferta[][] {
     const groupedOffers: Oferta[][] = [];
-    
+
     offers.forEach((offer) => {
-      const existingGroup = groupedOffers.find((group) => group[0].nombreComercio === offer.nombreComercio);
-      
+      const existingGroup = groupedOffers.find(
+        (group) => group[0].nombreComercio === offer.nombreComercio
+      );
+
       if (existingGroup) {
         existingGroup.push(offer);
       } else {
         groupedOffers.push([offer]);
       }
     });
-    
+
     return groupedOffers;
   }
 
-  obtenerResumen(){
+  obtenerResumen() {
     this.escenarios = false;
     this.resumen = true;
   }
 
-  inciarSesion(){
+  inciarSesion() {
     this.estaLogueado = true;
   }
 
-  elegirOtroEscenario(){
+  elegirOtroEscenario() {
     this.escenarios = true;
     this.resumen = false;
   }
-  
 }
