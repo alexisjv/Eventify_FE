@@ -4,8 +4,10 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '@shared/components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormRegistroComponent } from './components/form-registro/form-registro.component';
-import { MejorRutaComponent } from './components/mejor-ruta/mejor-ruta.component';
+import { MapaComponent } from './components/mapa/mapa.component';
 import { VariantesModalComponent } from './components/variantes-modal/variantes-modal.component';
+import { FormsModule } from '@angular/forms';
+import { DireccionAutocompletadoComponent } from './components/direccion-autocompletado/direccion-autocompletado.component';
 
 
 
@@ -16,19 +18,22 @@ import { VariantesModalComponent } from './components/variantes-modal/variantes-
         HeaderComponent,
         FooterComponent,
         FormRegistroComponent,
-        MejorRutaComponent,
-        VariantesModalComponent
+        MapaComponent,
+        VariantesModalComponent,
+        DireccionAutocompletadoComponent
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   exports: [
     HeaderComponent,
     FooterComponent,
     FormRegistroComponent,
-    MejorRutaComponent,
-    VariantesModalComponent
+    MapaComponent,
+    VariantesModalComponent,
+    DireccionAutocompletadoComponent
 
   ]
 })

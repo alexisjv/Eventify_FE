@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ConsultarEventoComponent } from '@modules/consultar-evento/page/consultar-evento/consultar-evento.component';
 import { HomeLandingComponent } from '@modules/home-landing/pages/home-landing.component';
-import { MejorRutaComponent } from '@shared/components/mejor-ruta/mejor-ruta.component';
+import { OptimizadorListaComponent } from '@modules/optimizador-lista/page/optimizador-lista.component';
 
 
 
@@ -17,6 +17,11 @@ const routes: Routes = [
     path: 'consultar-evento',
     component: ConsultarEventoComponent,
     loadChildren: () => import('@modules/consultar-evento/consultar-evento.module').then(m => m.ConsultarEventoModule)
+  },
+  {
+    path: 'optimizador-lista',
+    component: OptimizadorListaComponent,
+    loadChildren: () => import('@modules/optimizador-lista/optimizador-lista.module').then(m => m.OptimizadorListaModule)
   }
   
 

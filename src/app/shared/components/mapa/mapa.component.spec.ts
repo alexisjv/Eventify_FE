@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MejorRutaComponent } from './mejor-ruta.component';
+import { MapaComponent } from './mapa.component';
 
 describe('MejorRutaComponent', () => {
-  let component: MejorRutaComponent;
-  let fixture: ComponentFixture<MejorRutaComponent>;
+  let component: MapaComponent;
+  let fixture: ComponentFixture<MapaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MejorRutaComponent ]
+      declarations: [ MapaComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(MejorRutaComponent);
+    fixture = TestBed.createComponent(MapaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
