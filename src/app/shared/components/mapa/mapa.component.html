@@ -1,0 +1,14 @@
+<div class="form-range-container">
+  <input
+    type="range"
+    class="form-range"
+    min="1"
+    max="20"
+    [(ngModel)]="valorRadio"
+    (input)="actualizarValorRadio($event)"
+  />
+  <span class="range-value" [style.left.%]="valorRadioAPorcentaje(valorRadio)">
+    {{ valorRadio }} Km
+  </span>
+</div>
+<div id="map" class="mapa"></div>

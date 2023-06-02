@@ -1,0 +1,224 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Oferta } from 'src/app/core/models/oferta';
+import { Evento } from 'src/app/core/models/evento';
+import {
+  NgxQrcodeElementTypes,
+  NgxQrcodeErrorCorrectionLevels,
+} from '@techiediaries/ngx-qrcode';
+import { OptimizadorListaService } from '../services/optimizador-lista.service';
+import { MapaComponent } from '@shared/components/mapa/mapa.component';
+
+@Component({
+  selector: 'app-optimizador-lista',
+  templateUrl: './optimizador-lista.component.html',
+  styleUrls: ['./optimizador-lista.component.scss'],
+})
+export class OptimizadorListaComponent implements OnInit {
+  listaEconomicaSeleccionada = false;
+  menosRecorridoSeleccionado = false;
+  listaOfertaMenorRecorrido!: Oferta[];
+  listaOfertaEconomicos!: Oferta[];
+  listaOfertaElegida!: Oferta[];
+  idEvento!: number;
+  localidad!: string;
+  distanciaEconomico!: string;
+  distanciaMenosRecorrido!: string;
+  distanciaElegida!: string;
+  comerciosElegido!: number;
+  mapaComponent: MapaComponent = new MapaComponent();
+  cantidadComerciosEconomico!: number;
+  cantidadComerciosMenosRecorrido!: number;
+  listaLocalidadesSeleccionadas!: string[];
+  idComida!: number;
+  idBebida!: number;
+  listaSeleccionada!: boolean;
+  nombreEvento!: string;
+  resumen = false;
+  escenarios = true;
+  estaLogueado = false;
+
+  elementType = NgxQrcodeElementTypes.URL;
+  errorCorrectionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
+  value = '';
+
+  constructor(
+    private listaCompraService: OptimizadorListaService,
+    private router: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.router.queryParams.subscribe((params) => {
+      this.idComida = parseInt(params['idComida']);
+      this.idBebida = parseInt(params['idBebida']);
+      this.idEvento = parseInt(params['idEvento']);
+      const idLocalidadesSeleccionadas = JSON.parse(
+        params['idLocalidadesSeleccionadas']
+      );
+      this.listaLocalidadesSeleccionadas = idLocalidadesSeleccionadas;
+
+      this.getListaOfertasMenorRecorrido(
+        parseInt(idLocalidadesSeleccionadas[0]),
+        this.idComida,
+        this.idBebida
+      );
+      this.getListaOfertasEconomicas();
+      this.getNombreEvento(this.idEvento);
+    });
+  }
+
+  getListaOfertasMenorRecorrido(
+    idLocalidad: number,
+    idComida: number,
+    idBebida: number
+  ) {
+    this.listaCompraService
+      .getListaOfertasMenorRecorrido(idLocalidad, idComida, idBebida)
+      .subscribe(
+        (listaOfertas: Oferta[]) => {
+          this.listaOfertaMenorRecorrido = listaOfertas;
+          console.log(
+            'Ofertas menor recorrido' + this.listaOfertaMenorRecorrido
+          );
+        },
+        (error) => console.error(error)
+      );
+  }
+
+  getListaOfertasEconomicas() {
+    const listaLocalidadesNumeros = this.listaLocalidadesSeleccionadas.map(
+      (localidad) => parseInt(localidad, 10)
+    );
+
+    this.listaCompraService
+      .postListaOfertasEconomicas(
+        listaLocalidadesNumeros,
+        this.idComida,
+        this.idBebida
+      )
+      .subscribe(
+        (listaOfertas: Oferta[]) => {
+          this.listaOfertaEconomicos = listaOfertas;
+          console.log('Ofertas economicas' + this.listaOfertaEconomicos);
+        },
+        (error) => console.error(error)
+      );
+  }
+
+  getNombreEvento(idEvento: number): void {
+    this.listaCompraService.getListaEventos().subscribe((eventos: Evento[]) => {
+      const eventoEncontrado = eventos.find((evento) => evento.id === idEvento);
+      this.nombreEvento = eventoEncontrado ? eventoEncontrado.nombre : '';
+    });
+  }
+
+  public seleccionarListaEconomica() {
+    this.listaEconomicaSeleccionada = true;
+    this.menosRecorridoSeleccionado = false;
+    this.listaSeleccionada = this.listaEconomicaSeleccionada;
+    const comerciosVisitados = new Set<string>();
+    const waypoints: { location: string }[] = [];
+
+    const miUbicacionActual = [-34.67058109744653, -58.56281593172098];
+    waypoints.push({
+      location: `${miUbicacionActual[0]}, ${miUbicacionActual[1]}`,
+    });
+
+    for (const oferta of this.listaOfertaEconomicos) {
+      if (!comerciosVisitados.has(oferta.nombreComercio)) {
+        waypoints.push({
+          location: `${oferta.latitud}, ${oferta.longitud}`,
+        });
+
+        comerciosVisitados.add(oferta.nombreComercio);
+      }
+    }
+
+    this.cantidadComerciosEconomico = waypoints.length - 1;
+    this.listaOfertaElegida = this.listaOfertaEconomicos;
+
+    this.mapaComponent.calcularYMostrarRuta(waypoints, (distance) => {
+      console.log('Distancia recibida:', distance);
+      this.distanciaEconomico = distance;
+      this.distanciaElegida = this.distanciaEconomico;
+      this.comerciosElegido = waypoints.length - 1;
+      this.obtenerLinkGps();
+    });
+  }
+
+  public seleccionarMenosRecorrido() {
+    this.listaEconomicaSeleccionada = false;
+    this.menosRecorridoSeleccionado = true;
+    this.listaSeleccionada = this.menosRecorridoSeleccionado;
+    const comerciosVisitados = new Set<string>();
+    const waypoints: { location: string }[] = [];
+
+    const miUbicacionActual = [-34.67058109744653, -58.56281593172098];
+    waypoints.push({
+      location: `${miUbicacionActual[0]}, ${miUbicacionActual[1]}`,
+    });
+
+    for (const oferta of this.listaOfertaMenorRecorrido) {
+      if (!comerciosVisitados.has(oferta.nombreComercio)) {
+        waypoints.push({
+          location: `${oferta.latitud}, ${oferta.longitud}`,
+        });
+
+        comerciosVisitados.add(oferta.nombreComercio);
+      }
+    }
+
+    this.cantidadComerciosMenosRecorrido = waypoints.length - 1;
+    this.listaOfertaElegida = this.listaOfertaMenorRecorrido;
+
+    this.mapaComponent.calcularYMostrarRuta(waypoints, (distance) => {
+      console.log('Distancia recibida:', distance);
+      this.distanciaMenosRecorrido = distance;
+      this.distanciaElegida = this.distanciaMenosRecorrido;
+      this.comerciosElegido = waypoints.length - 1;
+      this.obtenerLinkGps();
+    });
+  }
+
+  public shareMap() {
+    this.mapaComponent.compartirMapa();
+  }
+
+  public obtenerLinkGps() {
+    const url = this.mapaComponent.obtenerEnlaceGPS();
+    this.value = url;
+    console.log(this.value);
+  }
+
+  groupOffersByCommerceName(offers: Oferta[]): Oferta[][] {
+    const groupedOffers: Oferta[][] = [];
+
+    offers.forEach((offer) => {
+      const existingGroup = groupedOffers.find(
+        (group) => group[0].nombreComercio === offer.nombreComercio
+      );
+
+      if (existingGroup) {
+        existingGroup.push(offer);
+      } else {
+        groupedOffers.push([offer]);
+      }
+    });
+
+    return groupedOffers;
+  }
+
+  obtenerResumen() {
+    this.escenarios = false;
+    this.resumen = true;
+  }
+
+  inciarSesion() {
+    this.estaLogueado = true;
+  }
+
+  elegirOtroEscenario() {
+    this.escenarios = true;
+    this.resumen = false;
+  }
+}
