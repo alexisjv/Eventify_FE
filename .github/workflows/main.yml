@@ -1,24 +1,29 @@
-name: CI
+name: Deploy-To-Firebase
 
-on:
+on: 
   push:
-    branches:
-    - master
+    branches: 
+      - master
+
+  workflow_dispatch:
 
 jobs:
-  firebase-deploy:
+  build:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@master
-    - uses: actions/setup-node@master
+    - uses: actions/checkout@v1
+    - name: Use Node.js 16.13
+      uses: actions/setup-node@v1
       with:
-        node-version: '16.x'
-    - run: npm install
-    - run: npm run build:prod
+        node-version: 16.13    
+    - name: Install dependencies
+      run: npm install
+    - name: Build
+      run: npm run build -- --prod
     - uses: w9jds/firebase-action@master
       with:
-        args: deploy --only hosting
+        args: deploy
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
