@@ -9,21 +9,20 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js 16.13
-      uses: actions/setup-node@v1
-      with:
-        node-version: 16.13    
-    - name: Install dependencies
-      run: npm install
-    - name: Build
-      run: ng build --configuration production
-    - uses: w9jds/firebase-action@master
-      with:
-        args: deploy
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - uses: actions/checkout@v1
+      - name: Use Node.js 16.13
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.13    
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npx ng build --configuration production
+      - uses: w9jds/firebase-action@master
+        with:
+          args: deploy
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
