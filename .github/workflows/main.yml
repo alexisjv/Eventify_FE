@@ -20,7 +20,7 @@ jobs:
         run: npm install
       - name: Build
         run: npx ng build --configuration production
-      - uses: w9jds/firebase-action@master
+      - uses: docker://w9jds/firebase-action:master
         with:
           args: deploy
         env:
