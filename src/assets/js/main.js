@@ -85,12 +85,17 @@
   let selectHeader = select('#header')
   if (selectHeader) {
     const headerScrolled = () => {
-      if (window.scrollY > 100) {
-        selectHeader.classList.add('header-scrolled')
+      if (window.scrollY > 800) {
+        selectHeader.classList.add('header-scrolled');
+        select('#logo').classList.remove('logotipo');
+        select('#logo').classList.add('imagotipo');
       } else {
-        selectHeader.classList.remove('header-scrolled')
+        selectHeader.classList.remove('header-scrolled');
+        select('#logo').classList.remove('imagotipo');
+        select('#logo').classList.add('logotipo');
       }
-    }
+    };
+    
     window.addEventListener('load', headerScrolled)
     onscroll(document, headerScrolled)
   }
