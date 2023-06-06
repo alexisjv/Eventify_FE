@@ -14,13 +14,14 @@ import { ConsultarEventoService } from '@modules/consultar-evento/services/consu
   selector: 'app-consultar-evento',
   templateUrl: './consultar-evento.component.html',
   styleUrls: ['./consultar-evento.component.scss'],
-  
-  
+
+
 })
 export class ConsultarEventoComponent {
   idEventoSeleccionado!: number;
   localidadesSeleccionadas!: number[];
-
+  comidasSeleccionadas: number[] = [];
+  bebidasSeleccionadas:number[] =[];
   idComidaSeleccionada!: number;
   idBebidaSeleccionada!: number;
   listaEventos!: Evento[];
@@ -31,17 +32,20 @@ export class ConsultarEventoComponent {
   mostrarPreguntaQueTipoDeEvento: boolean = true;
   mostrarPreguntaQueTipoDeComida: boolean = false;
   mostrarPreguntaQueTipoDeBebida: boolean = false;
-  mostrarPreguntaQueZonas: boolean = false;
+  mostrarPreguntaCantidadComensales: boolean = false;
   mostrarListaDeProductos: boolean = false;
   img: string = 'assets/images/asistente.png';
   mostrarQueCompraQueresRealizar: boolean = true;
   listaDeCompras!: ProductoLista[];
   mostrarLoading: boolean = false;
+  isOpened = false;
+  button;
+ 
 
   constructor(
     private router: Router,
     private consultarEventoService: ConsultarEventoService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getListaEventos();
@@ -89,23 +93,15 @@ export class ConsultarEventoComponent {
       );
   }
 
-  mostrarTiposDeBebida(idComida: number) {
+  mostrarTiposDeBebida() {
     this.getTiposDeBebidas();
     this.mostrarPreguntaQueTipoDeComida = false;
     this.mostrarPreguntaQueTipoDeBebida = true;
-    this.idComidaSeleccionada = idComida;
   }
 
-  mostrarLocalidades(idBebida: number) {
+  mostrarPreguntaCantidadPersonas() {
     this.mostrarPreguntaQueTipoDeBebida = false;
-    this.mostrarOpcionSeleccionada = true;
-    this.consultarEventoService.getLocalidades().subscribe(
-      (listaDeLocalidades: Localidad[]) => {
-        this.ListaDeLocalidades = listaDeLocalidades;
-      },
-      (error) => console.error(error)
-    );
-    this.idBebidaSeleccionada = idBebida;
+    this.mostrarPreguntaCantidadComensales = true;
   }
 
   getListadoDeCompras() {
@@ -140,18 +136,41 @@ export class ConsultarEventoComponent {
       // this.segundaLocalidadControl.value,
       // this.terceraLocalidadControl.value,
     ];
-  
+
     const queryParams = {
       idEvento: this.idEventoSeleccionado,
       idComida: this.idComidaSeleccionada,
       idBebida: this.idBebidaSeleccionada,
       idLocalidadesSeleccionadas: JSON.stringify(this.localidadesSeleccionadas),
     };
-  
+
     this.router.navigate(['optimizadorLista'], { queryParams });
   }
-  
-  
-  
-  
+  onSeleccionComida(idComida) {
+    this.button = document.getElementById("btn-check" + idComida);
+    if (this.button.style.backgroundColor === "rgb(242, 48, 48)") {
+      this.button.style.backgroundColor = 'rgb(64, 64, 64)';
+      var index = this.comidasSeleccionadas.indexOf(idComida);
+      this.comidasSeleccionadas.splice(index, 1);
+    } else {
+      this.button.style.backgroundColor = "rgb(242, 48, 48)"
+      this.comidasSeleccionadas.push(idComida);
+    }
+  }
+
+  onSeleccionBebida(idBebida){
+    this.button = document.getElementById("btn-checkBebida" + idBebida);
+    if (this.button.style.backgroundColor === "rgb(242, 48, 48)") {
+      this.button.style.backgroundColor = 'rgb(64, 64, 64)';
+      var index = this.bebidasSeleccionadas.indexOf(idBebida);
+      this.bebidasSeleccionadas.splice(index, 1);
+    } else {
+      this.button.style.backgroundColor = "rgb(242, 48, 48)"
+      this.bebidasSeleccionadas.push(idBebida);
+    }
+  }
+
+
+
+
 }
