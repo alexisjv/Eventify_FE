@@ -90,25 +90,26 @@ p{
   border-radius: 50px;
   transition: 0.5s;
   margin: 10px;
-  border: 2px solid #fff;
+  border: 2px solid #ff8153;
   color: #fff;
+  background: #ff8153;
 }
 
 .btn-get-started:hover {
-  background: #ff8153;
-  border: 2px solid #ff8153;
+  background: none;
+  border: 2px solid #fff;
 }
 
 .arma-tu-lista{
-  background: #04BFBF;
-  border: 2px solid #04BFBF;
+  background: #ff8153;
+  border: 2px solid #ff8153;
   font-size: 17px;
   padding: 15px 35px;
 }
 
 .arma-tu-lista:hover {
-  background: #ff8153;
-  border: 2px solid #ff8153;
+  background: #1371B0;
+  border: 2px solid #1371B0;
 }
 
 .isotipo{
@@ -306,7 +307,7 @@ p{
     border: 1px solid #e6e6e6;
     height: 200px;
     position: relative;
-    background: #fafafa;
+    background: red;
   }
   
   #services .icon {
@@ -771,5 +772,29 @@ p{
     100% {
       transform: rotate(360deg);
     }
+  }
+  .registro-comercio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .box {
+    text-align: center;
+  }
+  
+.logo-seccion-comercio{
+padding-bottom: 20px;
+  }
+
+  .quiero-publicar {
+    margin-top: 50px;
+    display: block;
+    text-align: center;
+  }
+
+  .quiero-publicar:hover {
+    background: #1371B0;
+    border: 2px solid #1371B0;
   }
   
