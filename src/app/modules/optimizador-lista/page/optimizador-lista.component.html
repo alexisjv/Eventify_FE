@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <!-- columna optimizacion -->
-    <div class="col-xl-12 col-md-12" *ngIf="escenarios">
+    <div class="col-xl-12 col-md-12">
       <div class="row">
         <div class="col-md-12">
           <div class="div-lista">
@@ -14,95 +14,31 @@
                       <h2>Listas Recomendadas</h2>
                       <div class="linea-titulo"></div>
                       <div class="row">
-                        <div class="col-xl-7">
-                          <div class="div-icono">
-                            <button
-                              class="icon-circle mr-3"
-                              id="botonEconomico"
-                              (click)="seleccionarListaEconomica()"
-                              mdbTooltip="Más económico"
-                              placement="top"
-                              tooltipAnimation="true"
-                            >
-                              <img
-                                src="assets/icons/precio.svg"
-                                alt="Icono económico"
-                                width="30"
-                                height="30"
-                              />
-                            </button>
-                          </div>
+                        <div class="col-xl-4">
+
+                        </div>
+                        <div class="col-xl-4">
+                          <div class="div-icono"></div>
                           <div>
                             <h2 class="subtitulo">Más económico</h2>
                           </div>
                           <div>
-                            <p>
-                              Distancia a recorrer: {{ distanciaEconomico }}
-                            </p>
-                            <p>
-                              Comercios a visitar:
-                              {{ cantidadComerciosEconomico }}
-                            </p>
+                            <app-card-oferta
+                              *ngFor="let oferta of listaOfertas"
+                              [nombreProducto]="oferta.nombreProducto"
+                              [marca]="oferta.marca"
+                              [precio]="oferta.precio"
+                              [nombreComercio]="oferta.nombreComercio"
+                              [imagen]="oferta.imagen"
+                            >
+                            </app-card-oferta>
                           </div>
-                          <table
-                            class="table tabla-redondeada"
-                            [ngClass]="{
-                              'tabla-seleccionada': listaEconomicaSeleccionada,
-                              'tabla-desactivada': menosRecorridoSeleccionado
-                            }"
-                          >
-                            <tbody>
-                              <tr
-                                class="fila list text-center align-middle"
-                                *ngFor="let oferta of listaOfertaEconomicos"
-                              >
-                                <th scope="row">
-                                  <img
-                                    src="{{ oferta.imagen }}"
-                                    class="card-img-top mx-auto"
-                                  />
-                                </th>
-                                <td class="align-middle">
-                                  {{ oferta.nombreProducto }}
-                                </td>
-
-                                <td class="align-middle">
-                                  {{ oferta.nombreComercio }}
-                                </td>
-                                <td class="align-middle price">
-                                  ${{ oferta.precio }}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
                         </div>
 
-                        <div class="col-xl-5">
+                        <div class="col-xl-4">
                           <!-- mapa -->
-                          <div  style="padding-top: 40px;">
+                          <div style="padding-top: 40px">
                             <app-mapa></app-mapa>
-
-                           <!--  <div class="contenedor-imagen" *ngIf="estaLogueado">
-                              <div class="capa-superior">
-                                <span class="texto-superior"
-                                  >Inicie sesión para ver el recorrido</span
-                                >
-                              </div>
-                              <img
-                                src="https://www.solidbackgrounds.com/images/2560x1440/2560x1440-davys-grey-solid-color-background.jpg"
-                                class="imagen-mapa"
-                              />
-                              <div class="capa-inferior">
-                                <button
-                                  type="button "
-                                  data-bs-target="#exampleModalLogin"
-                                  data-bs-toggle="modal"
-                                  class="btn btn-primary buttonnregistro text-light boton-loguearse"
-                                >
-                                  <a class="botonregistro"> Iniciar sesión</a>
-                                </button>
-                              </div>
-                            </div> -->
                           </div>
 
                           <div>
@@ -129,7 +65,7 @@
   </div>
 
   <!-- resumen -->
-  <div class="container-fluid" *ngIf="resumen">
+  <!-- <div class="container-fluid" *ngIf="resumen">
     <div class="justify-content-center align-items-center">
       <div class="card card-optimizar">
         <div class="card-body p-5">
@@ -189,7 +125,6 @@
                   <p>
                     Escanea el código QR para abrir el GPS
                   </p>
-                  <!-- <img src="assets/images/qr-code.png" width="400px" /> -->
                   <ngx-qrcode
                     [elementType]="elementType"
                     [value]="value"
@@ -224,21 +159,7 @@
                     </button>
                   </div>
                   <div class="col-md-6">
-                  <!--   <button
-                      type="button"
-                      class="btn btn-primary btn-lg icono-generar"
-                      (click)="shareMap()"
-                    >
-                      <img
-                        src="assets/icons/gps.svg"
-                        alt="Icono económico"
-                        width="40"
-                        height="40"
-                        class="icono-boton-compartir"
-                      />
-                      Iniciar recorrido
-                    </button> -->
-                    
+                 
                     <button
                     type="button"
                     class="btn btn-primary btn-lg icono-generar"
@@ -254,6 +175,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
-

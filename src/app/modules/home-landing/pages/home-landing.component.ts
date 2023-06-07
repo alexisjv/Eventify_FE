@@ -1,9 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 @Component({
   selector: 'app-home-landing',
   templateUrl: './home-landing.component.html',
   styleUrls: ['./home-landing.component.scss']
 })
-export class HomeLandingComponent {
+export class HomeLandingComponent implements OnInit, OnDestroy {
+
+  constructor(private renderer: Renderer2) {}
+
+  ngOnInit() {
+    const script = this.renderer.createElement('script');
+    script.src = 'assets/js/main.js';
+    this.renderer.appendChild(document.body, script);
+
+
+    const headerElement = document.getElementById('header');
+
+    
+  if (headerElement) {
+    this.renderer.setStyle(headerElement, 'position', 'fixed');
+  }
+  }
+
+  ngOnDestroy() {
+    const headerElement = document.getElementById('header');
+
+    if (headerElement) {
+      this.renderer.removeStyle(headerElement, 'position');
+
+    }
+  }
+
 
 }

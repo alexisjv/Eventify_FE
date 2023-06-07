@@ -35,4 +35,11 @@ getListaProductosPorCriterio(criterio): Observable<Producto[]> {
   getListaEventos(): Observable<Evento[]>{
     return this.http.get<Evento[]>(this.apiUrl + 'evento/eventos');
   }
+
+  obtenerOfertas(latitud: number, longitud: number, distancia: number, idComida: number, idBebida: number): Observable<Oferta[]> {
+
+   // return this.http.get<Oferta[]>(this.apiUrl + `oferta/ofertasEconomicasPorRadio/${latitud}/${longitud}/${distancia}/${idComida}/${idBebida}`);
+    return this.http.get<Oferta[]>(this.apiUrl + `oferta/ofertasEconomicasPorRadio/-34.66840561123746/-58.563812756834885/1000/1/1`);
+
+  }
 }

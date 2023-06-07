@@ -1,31 +1,42 @@
-<div class="container">
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom ">
-      <div class="col-md-3 mb-2 mb-md-0">
-        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-          <img class="bi" width="120" height="80" role="img" src="../../../assets/images/logo1.svg">
-        </a>
-      </div>
-  
-      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li class="nav-item"><a role="button" class="nav-link fs-6" routerLink="/" href="#">Home</a></li>
-        <li class="nav-item"> <a routerLink="consultar-evento"> Obtener lista de compras </a>
-        </li>
-        
-        <li class="nav-item"> <a routerLink="optimizador-lista"> Optimizador lista </a></li>
-      </ul>
 
-      <a routerLink="/consultar-evento">Ir a la sección</a>
-  
-      <div class="col-md-3 text-end">
-        <button type="button" class="btn btn-outline-primary me-2">
-          Iniciar sesion</button>
-        <button type="button " data-bs-target="#exampleModalRegistro" data-bs-toggle="modal" class="btn btn-primary text-light">
-          <a class="">
-            Registrarme</a></button>
-      </div>
-    </header>
+<header id="header" class="d-flex align-items-center">
+  <div class="container d-flex justify-content-between align-items-center">
+
+    <div id="logo">
+      <a href="index.html"></a>
+    </div>
+    
+
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li><a class="nav-link scrollto active" href="#hero">Inicio</a></li>
+        <li><a class="nav-link scrollto" href="#team">Sobre nosotros</a></li>
+        <li><a class="nav-link scrollto" routerLink="consultar-evento">Armá tu lista</a></li>
+        <li><a class="nav-link scrollto" routerLink="optimizador-lista">Optimizar</a></li>
+        <!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+          <ul>
+            <li><a href="#">Drop Down 1</a></li>
+            <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
+              <ul>
+                <li><a href="#">Deep Drop Down 1</a></li>
+                <li><a href="#">Deep Drop Down 2</a></li>
+                <li><a href="#">Deep Drop Down 3</a></li>
+                <li><a href="#">Deep Drop Down 4</a></li>
+                <li><a href="#">Deep Drop Down 5</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Drop Down 2</a></li>
+            <li><a href="#">Drop Down 3</a></li>
+            <li><a href="#">Drop Down 4</a></li>
+          </ul>
+        </li> -->
+        <li><a class="nav-link scrollto" href="#contact">Iniciar sesión</a></li>
+        <li><a class="nav-link scrollto" href="#contact">Registrarse</a></li>
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
   </div>
-  
-  
+</header>
+
   <!-- <app-form-registro></app-form-registro> -->
   
