@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Oferta } from 'src/app/core/models/oferta';
 import { Evento } from 'src/app/core/models/evento';
-import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
+import {
+  NgxQrcodeElementTypes,
+  NgxQrcodeErrorCorrectionLevels,
+} from '@techiediaries/ngx-qrcode';
 import { OptimizadorListaService } from '../services/optimizador-lista.service';
+import { ListaPost } from '@core/models/listaPost';
 
 @Component({
   selector: 'app-optimizador-lista',
@@ -22,7 +26,7 @@ export class OptimizadorListaComponent implements OnInit {
   resumen = false;
   escenarios = true;
   estaLogueado = false;
-  listaOfertas! : Oferta[];
+  listaOfertas!: Oferta[];
 
   elementType = NgxQrcodeElementTypes.URL;
   errorCorrectionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
@@ -61,17 +65,28 @@ export class OptimizadorListaComponent implements OnInit {
     this.resumen = false;
   }
 
-  obtenerOfertas(){
-    this.listaCompraService
-    .obtenerOfertas(this.latitud, this.longitud, this.distancia, this.idComida, this.idBebida)
-    .subscribe(
-      (listaOfertas: Oferta[]) => {
-        this.listaOfertas = listaOfertas;
-        console.log(
-          'Ofertas encontradas' + this.listaOfertas
-        );
+  obtenerOfertas() {
+    const lista: ListaPost = {
+      latitudUbicacion: -34.66741731547843,
+      longitudUbicacion: -58.56522896214421,
+      distancia: 1000,
+      comidas: [1,2,3],
+      bebidas: [1,2],
+      marcasComida: [],
+      marcasBebida: [],
+      cantidadInvitados: 0,
+      presupuesto: 0,
+    };
+
+    this.listaCompraService.obtenerOfertas(lista).subscribe(
+      (response) => {
+        console.log('Respuesta:', response);
+        this.listaOfertas = response
       },
-      (error) => console.error(error)
+      (error) => {
+        console.error('Error:', error);
+        // Manejar el error aquí
+      }
     );
   }
 }
