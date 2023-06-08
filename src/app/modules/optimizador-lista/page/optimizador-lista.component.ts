@@ -27,7 +27,6 @@ export class OptimizadorListaComponent implements OnInit {
   escenarios = true;
   estaLogueado = false;
   listaOfertas!: Oferta[];
-
   elementType = NgxQrcodeElementTypes.URL;
   errorCorrectionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   value = '';
@@ -42,6 +41,17 @@ export class OptimizadorListaComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerOfertas();
+  }
+
+  view: string = 'list'; // Vista por defecto
+  cards: any[] = [
+    { title: 'Card 1', description: 'Descripción de la card 1' },
+    { title: 'Card 2', description: 'Descripción de la card 2' },
+    { title: 'Card 3', description: 'Descripción de la card 3' }
+  ];
+
+  changeView(view: string) {
+    this.view = view;
   }
 
   getNombreEvento(idEvento: number): void {
@@ -70,7 +80,7 @@ export class OptimizadorListaComponent implements OnInit {
       latitudUbicacion: -34.66741731547843,
       longitudUbicacion: -58.56522896214421,
       distancia: 1000,
-      comidas: [1,2,3],
+      comidas: [4,2,3],
       bebidas: [1,2],
       marcasComida: [],
       marcasBebida: [],
@@ -88,5 +98,9 @@ export class OptimizadorListaComponent implements OnInit {
         // Manejar el error aquí
       }
     );
+  }
+
+  eliminarOferta(index: number) {
+    this.listaOfertas.splice(index, 1);
   }
 }

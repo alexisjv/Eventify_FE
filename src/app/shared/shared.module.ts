@@ -8,7 +8,7 @@ import { MapaComponent } from './components/mapa/mapa.component';
 import { VariantesModalComponent } from './components/variantes-modal/variantes-modal.component';
 import { FormsModule } from '@angular/forms';
 import { DireccionAutocompletadoComponent } from './components/direccion-autocompletado/direccion-autocompletado.component';
-import { CardOfertaComponent } from './card-oferta/card-oferta.component';
+import { CardOfertaComponent } from './components/card-oferta/card-oferta.component';
 
 
 
