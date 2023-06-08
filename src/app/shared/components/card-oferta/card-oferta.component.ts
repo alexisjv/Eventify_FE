@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-card-oferta',
@@ -16,4 +16,11 @@ export class CardOfertaComponent {
   nombreComercio!: string;
   @Input()
   imagen!: string;
+  @Input() i!: number;
+  @Output() eliminar: EventEmitter<void> = new EventEmitter<void>();
+
+
+  eliminarOferta() {
+    this.eliminar.emit();
+  }
 }
