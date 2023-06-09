@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { Producto } from '../models/producto';
-import { Evento } from '../models/evento';
-import { Localidad } from '../models/localidad';
-import { Comidas } from '../models/comidas';
-import { Bebidas } from '../models/bebidas';
-import { ProductoLista } from '../models/ProductoLista';
-import { Oferta } from '../models/oferta';
+import { Oferta } from '@core/models/oferta';
+import { Evento } from '@core/models/evento';
+import { Comidas } from '@core/models/comidas';
+import { Bebidas } from '@core/models/bebidas';
+import { Localidad } from '@core/models/localidad';
+import { ProductoLista } from '@core/models/ProductoLista';
+import { Producto } from '@core/models/producto';
 
 @Injectable({
   providedIn: 'root'
