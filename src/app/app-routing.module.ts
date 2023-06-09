@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ConsultaEventoComponent } from '@modules/consulta-evento/page/consulta-evento.component';
-import { HomeLandingComponent } from '@modules/home-landing/pages/home-landing.component';
+import { HomeLandingComponent } from '@modules/home-landing/page/home-landing.component';
 import { OptimizadorListaComponent } from '@modules/optimizador-lista/page/optimizador-lista.component';
 
 

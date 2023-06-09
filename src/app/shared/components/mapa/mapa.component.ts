@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from '@shared/services/shared.service';
 
 declare var google: any;
 
@@ -9,14 +10,13 @@ declare var google: any;
 })
 export class MapaComponent implements OnInit {
   map: any;
-  directionsService: any;
   directionsRenderer: any;
   comercios: any[] = [];
   ubicacionActual: any;
   valorRadio: number = 5;
   circulo: any;
 
-  constructor() {}
+  constructor(private mapaService: SharedService) {}
 
   ngOnInit() {
     this.obtenerUbicacionActual();
@@ -24,7 +24,6 @@ export class MapaComponent implements OnInit {
   }
 
   inicializarMapa() {
-    this.directionsService = new google.maps.DirectionsService();
     this.directionsRenderer = new google.maps.DirectionsRenderer();
 
     const opcionesMapa = {
@@ -40,23 +39,15 @@ export class MapaComponent implements OnInit {
   }
 
   obtenerUbicacionActual() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (posicion) => {
-          this.ubicacionActual = {
-            lat: posicion.coords.latitude,
-            lng: posicion.coords.longitude,
-          };
-          this.centrarMapa();
-          this.agregarMarcadorRadio();
-        },
-        (error) => {
-          console.error('Error al obtener la ubicación:', error);
-        }
-      );
-    } else {
-      console.error('La geolocalización no es soportada por el navegador.');
-    }
+    this.mapaService.obtenerUbicacionActual()
+      .then((ubicacionActual) => {
+        this.ubicacionActual = ubicacionActual;
+        this.centrarMapa();
+        this.agregarMarcadorRadio();
+      })
+      .catch((error) => {
+        console.error('Error al obtener la ubicación:', error);
+      });
   }
 
   actualizarValorRadio(evento: any) {
@@ -118,10 +109,7 @@ export class MapaComponent implements OnInit {
     });
   }
 
-  calcularYMostrarRuta(
-    comercios: any[],
-    callback: (distancia: string) => void
-  ) {
+  calcularYMostrarRuta(comercios: any[], callback: (distancia: string) => void) {
     this.comercios = comercios;
     const origen = this.comercios[0].ubicacion;
     const destino = this.comercios[this.comercios.length - 1].ubicacion;
@@ -144,33 +132,21 @@ export class MapaComponent implements OnInit {
       travelMode: 'DRIVING',
     };
 
-    this.directionsService.route(solicitudRuta, (respuesta, estado) => {
-      if (estado === 'OK') {
+    this.mapaService.calcularRuta(solicitudRuta)
+      .then((respuesta) => {
         this.directionsRenderer.setDirections(respuesta);
-        const servicioDistancia = new google.maps.DistanceMatrixService();
-        servicioDistancia.getDistanceMatrix(
-          {
-            origins: [origen],
-            destinations: [destino],
-            travelMode: 'DRIVING',
-            unitSystem: google.maps.UnitSystem.METRIC,
-          },
-          (respuesta, estado) => {
-            if (estado === 'OK') {
-              const distancia = respuesta.rows[0].elements[0].distance.text;
-              console.log('Distancia del recorrido:', distancia);
-              callback(distancia);
-            } else {
-              console.error('No se pudo calcular la distancia. Error:', estado);
-            }
-          }
-        );
-        console.log(comercios);
-        console.log(destino);
-      } else {
-        window.alert('No se pudo calcular la ruta. Error: ' + estado);
-      }
-    });
+        return this.mapaService.calcularDistancia(origen, destino);
+      })
+      .then((distancia) => {
+        console.log('Distancia del recorrido:', distancia);
+        callback(distancia);
+      })
+      .catch((error) => {
+        console.error('No se pudo calcular la distancia. Error:', error);
+      });
+
+    console.log(this.comercios);
+    console.log(destino);
   }
 
   compartirMapa() {

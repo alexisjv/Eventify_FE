@@ -17,6 +17,5 @@ export class CardOfertaComponent {
   @Input()
   imagen!: string;
   @Input() i!: number;
-  @Output() eliminar: EventEmitter<void> = new EventEmitter<void>();
 
 }
