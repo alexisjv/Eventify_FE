@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
-import { Oferta } from '@core/models/oferta';
-import { Evento } from '@core/models/evento';
-import { Comidas } from '@core/models/comidas';
-import { Bebidas } from '@core/models/bebidas';
-import { Localidad } from '@core/models/localidad';
-import { ProductoLista } from '@core/models/ProductoLista';
-import { Producto } from '@core/models/producto';
+
+declare var google: any;
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +9,70 @@ import { Producto } from '@core/models/producto';
 
 export class SharedService {
 
-  apiUrl = 'https://localhost:7292/api/';
+  // apiUrl = 'https://localhost:7292/api/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
+
+
+
+
+
+  // Servicios de Mapa 
+
+  obtenerUbicacionActual(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (posicion) => {
+            const ubicacionActual = {
+              lat: posicion.coords.latitude,
+              lng: posicion.coords.longitude,
+            };
+            resolve(ubicacionActual);
+          },
+          (error) => {
+            reject('Error al obtener la ubicación: ' + error);
+          }
+        );
+      } else {
+        reject('La geolocalización no es soportada por el navegador.');
+      }
+    });
+  }
+
+  calcularDistancia(origen: any, destino: any): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const servicioDistancia = new google.maps.DistanceMatrixService();
+      servicioDistancia.getDistanceMatrix(
+        {
+          origins: [origen],
+          destinations: [destino],
+          travelMode: 'DRIVING',
+          unitSystem: google.maps.UnitSystem.METRIC,
+        },
+        (respuesta, estado) => {
+          if (estado === 'OK') {
+            const distancia = respuesta.rows[0].elements[0].distance.text;
+            resolve(distancia);
+          } else {
+            reject('No se pudo calcular la distancia. Error: ' + estado);
+          }
+        }
+      );
+    });
+  }
+
+  calcularRuta(solicitudRuta: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const directionsService = new google.maps.DirectionsService();
+      directionsService.route(solicitudRuta, (respuesta, estado) => {
+        if (estado === 'OK') {
+          resolve(respuesta);
+        } else {
+          reject('No se pudo calcular la ruta. Error: ' + estado);
+        }
+      });
+    });
+  }
   
 }
