@@ -4,11 +4,11 @@
     class="form-range"
     min="1"
     max="20"
-    [(ngModel)]="valorRadio"
+    [(ngModel)]="nValorRadio"
     (input)="actualizarValorRadio($event)"
   />
-  <span class="range-value" [style.left.%]="valorRadioAPorcentaje(valorRadio)">
-    {{ valorRadio }} Km
+  <span class="range-value" [style.left.%]="valorRadioAPorcentaje(nValorRadio)">
+    {{ nValorRadio }} Km
   </span>
 </div>
 <div id="map" class="mapa"></div>

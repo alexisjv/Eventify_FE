@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ConsultaEventoComponent } from './pages/consulta-evento.component';
-import { OptimizadorListaComponent } from '@modules/optimizador-lista/pages/optimizador-lista.component';
+import { ConsultaEventoComponent } from './page/consulta-evento.component';
+import { OptimizadorListaComponent } from '@modules/optimizador-lista/page/optimizador-lista.component';
 
 
 const routes: Routes = [

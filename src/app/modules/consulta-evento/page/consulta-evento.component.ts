@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Comidas } from 'src/app/core/models/comidas';
 import { Bebidas } from 'src/app/core/models/bebidas';
 import { Evento } from 'src/app/core/models/evento';
-import { ProductoLista } from 'src/app/core/models/ProductoLista';
+import { ProductoLista } from '@core/models/productoLista';
 import { ConsultaEventoService } from '../services/consulta-evento.service';
 
 
