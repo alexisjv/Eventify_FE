@@ -1,6 +1,3 @@
-// Karma configuration file, see link for more information
-// https://karma-runner.github.io/1.0/config/configuration-file.html
-
 module.exports = function (config) {
   config.set({
     basePath: '',
@@ -14,15 +11,12 @@ module.exports = function (config) {
     ],
     client: {
       jasmine: {
-        // you can add configuration options for Jasmine here
-        // the possible options are listed at https://jasmine.github.io/api/edge/Configuration.html
-        // for example, you can disable the random execution with `random: false`
-        // or set a specific seed with `seed: 4321`
+        // Puedes agregar opciones de configuración para Jasmine aquí
       },
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: false // deja visible la salida de Jasmine Spec Runner en el navegador
     },
     jasmineHtmlReporter: {
-      suppressAll: true // removes the duplicated traces
+      suppressAll: true // elimina las trazas duplicadas
     },
     coverageReporter: {
       dir: require('path').join(__dirname, './coverage/code-five.client'),
@@ -37,8 +31,20 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
+    customLaunchers: {
+      ChromeHeadless: {
+        base: 'Chrome',
+        flags: [
+          '--headless',
+          '--no-sandbox',
+          '--disable-gpu',
+          '--remote-debugging-port=9222',
+        ],
+      },
+    },
     singleRun: false,
     restartOnFileChange: true
   });
 };
+
