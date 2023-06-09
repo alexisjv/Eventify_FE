@@ -68,7 +68,7 @@
                           </div>
 
                           <!-- Cards en forma de lista -->
-                          <div *ngIf="vistaProducto === 'list'">
+                          <div *ngIf="sVistaProducto === 'list'">
                             <table
                               class="table tabla-redondeada"
                               data-aos="fade-up"
@@ -77,7 +77,7 @@
                               <tbody>
                                 <tr
                                   class="fila list text-center align-middle"
-                                  *ngFor="let producto of listaOfertas"
+                                  *ngFor="let producto of aListaOfertas"
                                 >
                                   <th scope="row">
                                     <img
@@ -97,39 +97,17 @@
                                   <td class="align-middle price">
                                     ${{ producto.precio }}
                                   </td>
-                                  <td class="align-middle">
-                                    <button
-                                      class="btn boton-producto btn-sm"
-                                      mdbTooltip="Reemplazar"
-                                      placement="top"
-                                      tooltipAnimation="true"
-                                    >
-                                      <i
-                                        class="fas fa-right-left text-white"
-                                      ></i>
-                                    </button>
-                                  </td>
-                                  <td class="align-middle">
-                                    <button
-                                      class="btn boton-producto eliminar btn-sm"
-                                      mdbTooltip="Eliminar"
-                                      placement="top"
-                                      tooltipAnimation="true"
-                                    >
-                                      <i class="fas fa-times"></i>
-                                    </button>
-                                  </td>
                                 </tr>
                               </tbody>
                             </table>
                           </div>
 
                           <!-- Cards en forma de grid -->
-                          <div *ngIf="vistaProducto === 'grid'">
+                          <div *ngIf="sVistaProducto === 'grid'">
                             <div class="row">
                               <div
                                 *ngFor="
-                                  let oferta of listaOfertas;
+                                  let oferta of aListaOfertas;
                                   let i = index
                                 "
                                 data-aos="fade-up"
@@ -159,7 +137,7 @@
                               type="button"
                               class="btn btn-primary btn-lg icono-generar"
                               (click)="obtenerResumen()"
-                              *ngIf="!estaLogueado"
+                              *ngIf="!bEstaLogueado"
                             >
                               Resumen de lista
                             </button>
