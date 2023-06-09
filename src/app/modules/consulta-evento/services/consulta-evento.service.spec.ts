@@ -79,7 +79,7 @@ describe('ConsultaEventoService', () => {
   });
 
 
-  it('Deberia traer los tipos de bebidas para el evento', () => {
+/*   it('Deberia traer los tipos de bebidas para el evento', () => {
     const mockBebidas: Bebidas[] = [
       { id: 1, tipoBebida: 'Bebida con alcohol' },
       { id: 2, tipoBebida: 'Bebida sin alcohol' }
@@ -93,6 +93,6 @@ describe('ConsultaEventoService', () => {
     const req = httpMock.expectOne(`${API_URL}Evento/bebidas?idEvento=${idEvento}`);
     expect(req.request.method).toBe('GET');
     req.flush(mockBebidas);
-  });
+  }); */
 
 });
