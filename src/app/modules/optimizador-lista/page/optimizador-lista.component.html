@@ -1,5 +1,4 @@
 
-
 <div class="container-fluid">
   <div class="row">
     <!-- columna optimizacion -->
@@ -18,14 +17,31 @@
                       <div class="row">
                         <div class="col-xl-4">
                           <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              value=""
+                              id="flexCheckDefault"
+                            />
+                            <label
+                              class="form-check-label"
+                              for="flexCheckDefault"
+                            >
                               Default checkbox
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                            <label class="form-check-label" for="flexCheckChecked">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              value=""
+                              id="flexCheckChecked"
+                              checked
+                            />
+                            <label
+                              class="form-check-label"
+                              for="flexCheckChecked"
+                            >
                               Checked checkbox
                             </label>
                           </div>
@@ -35,68 +51,79 @@
                           <div>
                             <h2 class="subtitulo">Más económico</h2>
                           </div>
-                         <!-- Opción de visualización -->
-<div class="btn-group mb-3">
-  <button class="btn btn-primary" (click)="changeView('list')">Lista</button>
-  <button class="btn btn-primary" (click)="changeView('grid')">Grid</button>
-</div>
-
-<!-- Cards en forma de lista -->
-<div *ngIf="view === 'list'">
-  <table class="table tabla-redondeada" data-aos="fade-up"
-  data-aos-delay="100">
-    <tbody>
-      <tr class="fila list text-center align-middle" *ngFor="let producto of listaOfertas">
-        <th scope="row">
-          <img [src]="producto.imagen" class="card-img-top mx-auto" />
-        </th>
-        <td class="align-middle">
-          {{ producto.nombreProducto }}
-        </td>
-        <td class="align-middle">
-          {{ producto.marca }}
-        </td>
-        <td class="align-middle">
-          {{ producto.nombreComercio }}
-        </td>
-        <td class="align-middle price">
-          ${{ producto.precio }}
-        </td>
-        <td class="align-middle">
-          <button class="btn boton-producto btn-sm" mdbTooltip="Reemplazar" placement="top" tooltipAnimation="true">
-            <i class="fas fa-right-left text-white"></i>
-          </button>
-        </td>
-        <td class="align-middle">
-          <button class="btn boton-producto eliminar btn-sm"  mdbTooltip="Eliminar" placement="top" tooltipAnimation="true">
-            <i class="fas fa-times"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- Cards en forma de grid -->
-<div *ngIf="view === 'grid'">
-  <div class="row">
-    <div *ngFor="let oferta of listaOfertas; let i = index" 
-                          data-aos="fade-up" [attr.data-aos-delay]="100">
-
-                            <app-card-oferta
-                              [nombreProducto]="oferta.nombreProducto"
-                              [marca]="oferta.marca"
-                              [precio]="oferta.precio"
-                              [nombreComercio]="oferta.nombreComercio"
-                              [imagen]="oferta.imagen"
-                              (eliminar)="eliminarOferta(i)"
-
+                          <!-- Opción de visualización -->
+                          <div class="btn-group mb-3">
+                            <button
+                              class="btn btn-primary"
+                              (click)="cambiarVistaProducto('list')"
                             >
-                            </app-card-oferta>
+                              Lista
+                            </button>
+                            <button
+                              class="btn btn-primary"
+                              (click)="cambiarVistaProducto('grid')"
+                            >
+                              Grid
+                            </button>
                           </div>
-  </div>
-</div>
-                          
+
+                          <!-- Cards en forma de lista -->
+                          <div *ngIf="sVistaProducto === 'list'">
+                            <table
+                              class="table tabla-redondeada"
+                              data-aos="fade-up"
+                              data-aos-delay="100"
+                            >
+                              <tbody>
+                                <tr
+                                  class="fila list text-center align-middle"
+                                  *ngFor="let producto of aListaOfertas"
+                                >
+                                  <th scope="row">
+                                    <img
+                                      [src]="producto.imagen"
+                                      class="card-img-top mx-auto"
+                                    />
+                                  </th>
+                                  <td class="align-middle">
+                                    {{ producto.nombreProducto }}
+                                  </td>
+                                  <td class="align-middle">
+                                    {{ producto.marca }}
+                                  </td>
+                                  <td class="align-middle">
+                                    {{ producto.nombreComercio }}
+                                  </td>
+                                  <td class="align-middle price">
+                                    ${{ producto.precio }}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+
+                          <!-- Cards en forma de grid -->
+                          <div *ngIf="sVistaProducto === 'grid'">
+                            <div class="row">
+                              <div
+                                *ngFor="
+                                  let oferta of aListaOfertas;
+                                  let i = index
+                                "
+                                data-aos="fade-up"
+                                [attr.data-aos-delay]="100"
+                              >
+                                <app-card-oferta
+                                  [nombreProducto]="oferta.nombreProducto"
+                                  [marca]="oferta.marca"
+                                  [precio]="oferta.precio"
+                                  [nombreComercio]="oferta.nombreComercio"
+                                  [imagen]="oferta.imagen"
+                                >
+                                </app-card-oferta>
+                              </div>
+                            </div>
+                          </div>
                         </div>
 
                         <div class="col-xl-4">
@@ -110,7 +137,7 @@
                               type="button"
                               class="btn btn-primary btn-lg icono-generar"
                               (click)="obtenerResumen()"
-                              *ngIf="!estaLogueado"
+                              *ngIf="!bEstaLogueado"
                             >
                               Resumen de lista
                             </button>

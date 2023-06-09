@@ -10,9 +10,9 @@ declare var google: any;
 export class DireccionAutocompletadoComponent {
   @ViewChild('searchInput', { static: false })
   searchInput!: ElementRef;
-  searchText: string = ''; // Agrega la propiedad searchText
-  lat!: number; // Variable para almacenar la latitud
-  lng!: number; // Variable para almacenar la longitud
+  searchText: string = '';
+  lat!: number;
+  lng!: number;
   address!: string;
 
   constructor() { }

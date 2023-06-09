@@ -16,12 +16,12 @@ describe('HeaderComponent', () => {
     fixture.detectChanges();
 
     // Mock de main.js
-    spyOn(window, 'addEventListener'); // Ejemplo de mock para window.addEventListener
-    spyOn(document, 'querySelector'); // Ejemplo de mock para document.querySelector
-    // Mock otras funciones y eventos utilizados en main.js
+    spyOn(window, 'addEventListener'); 
+    spyOn(document, 'querySelector'); 
+    
   });
 
-  it('should create', () => {
+  it('Debería crearse el componente', () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Oferta } from 'src/app/core/models/oferta';
-import { Evento } from 'src/app/core/models/evento';
-import {
-  NgxQrcodeElementTypes,
-  NgxQrcodeErrorCorrectionLevels,
-} from '@techiediaries/ngx-qrcode';
 import { OptimizadorListaService } from '../services/optimizador-lista.service';
 import { ListaPost } from '@core/models/listaPost';
+import { ActivatedRoute } from '@angular/router';
+import { SharedService } from '@shared/services/shared.service';
 
 @Component({
   selector: 'app-optimizador-lista',
@@ -14,91 +11,89 @@ import { ListaPost } from '@core/models/listaPost';
   styleUrls: ['./optimizador-lista.component.scss'],
 })
 export class OptimizadorListaComponent implements OnInit {
-  listaOfertaMenorRecorrido!: Oferta[];
-  listaOfertaEconomicos!: Oferta[];
-  listaOfertaElegida!: Oferta[];
-  idEvento!: number;
-  listaLocalidadesSeleccionadas!: string[];
-  idComida!: number;
-  idBebida!: number;
-  nombreEvento!: string;
-  resumen = false;
-  escenarios = true;
-  estaLogueado = false;
-  listaOfertas!: Oferta[];
-  elementType = NgxQrcodeElementTypes.URL;
-  errorCorrectionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
+  aListaOfertasMenorRecorrido!: Oferta[];
+  alistaOfertasEconomicos!: Oferta[];
+  aListaOfertaElegida!: Oferta[];
+  aListaLocalidadesSeleccionadas!: string[];
+  sNombreEvento!: string;
+  bResumen = false;
+  bEscenarios = true;
+  bEstaLogueado = false;
+  aListaOfertas!: Oferta[];
   value = '';
-  latitud!: number;
-  longitud!: number;
-  distancia!: number;
+  sVistaProducto: string = 'list';
 
   constructor(
-    private listaCompraService: OptimizadorListaService
+    private listaCompraService: OptimizadorListaService,
+    private route: ActivatedRoute,
+    private mapaService: SharedService
   ) {}
 
+
   ngOnInit(): void {
-    this.obtenerOfertas();
-  }
-
-  view: string = 'list'; // Vista por defecto
-  cards: any[] = [
-    { title: 'Card 1', description: 'Descripción de la card 1' },
-    { title: 'Card 2', description: 'Descripción de la card 2' },
-    { title: 'Card 3', description: 'Descripción de la card 3' }
-  ];
-
-  changeView(view: string) {
-    this.view = view;
-  }
-
-  getNombreEvento(idEvento: number): void {
-    this.listaCompraService.getListaEventos().subscribe((eventos: Evento[]) => {
-      const eventoEncontrado = eventos.find((evento) => evento.id === idEvento);
-      this.nombreEvento = eventoEncontrado ? eventoEncontrado.nombre : '';
+    this.mapaService.obtenerUbicacionActual().then((ubicacion) => {
+      const latitudUbicacion = ubicacion.lat;
+      const longitudUbicacion = ubicacion.lng;
+  
+      this.route.queryParams.subscribe((params) => {
+        const cantidadComensales = params['cantidadComensales'];
+        const comidasSeleccionadas = JSON.parse(params['comidas']);
+        const bebidasSeleccionadas = JSON.parse(params['bebidas']);
+  
+        this.obtenerOfertas(
+          latitudUbicacion,
+          longitudUbicacion,
+          cantidadComensales,
+          comidasSeleccionadas,
+          bebidasSeleccionadas
+        );
+      });
+    }).catch((error) => {
+      console.error('Error al obtener la ubicación:', error);
     });
+  }
+  
+  
+
+  cambiarVistaProducto(vista: string) {
+    this.sVistaProducto = vista;
   }
 
   obtenerResumen() {
-    this.escenarios = false;
-    this.resumen = true;
+    this.bEscenarios = false;
+    this.bResumen = true;
   }
 
   inciarSesion() {
-    this.estaLogueado = true;
+    this.bEstaLogueado = true;
   }
 
   elegirOtroEscenario() {
-    this.escenarios = true;
-    this.resumen = false;
+    this.bEscenarios = true;
+    this.bResumen = false;
   }
 
-  obtenerOfertas() {
+  obtenerOfertas(latitudUbicacion: number, longitudUbicacion: number, cantidadComensales: number, comidasSeleccionadas: number[], bebidasSeleccionadas: number[]) {
     const lista: ListaPost = {
-      latitudUbicacion: -34.66741731547843,
-      longitudUbicacion: -58.56522896214421,
-      distancia: 1000,
-      comidas: [4,2,3],
-      bebidas: [1,2],
+      latitudUbicacion: latitudUbicacion,
+      longitudUbicacion: longitudUbicacion,
+      distancia: 5000,
+      comidas: comidasSeleccionadas,
+      bebidas: bebidasSeleccionadas,
       marcasComida: [],
       marcasBebida: [],
-      cantidadInvitados: 0,
+      cantidadInvitados: cantidadComensales,
       presupuesto: 0,
     };
 
     this.listaCompraService.obtenerOfertas(lista).subscribe(
       (response) => {
         console.log('Respuesta:', response);
-        this.listaOfertas = response
+        this.aListaOfertas = response;
       },
       (error) => {
-        console.error('Error:', error);
-        // Manejar el error aquí
+        console.error('Error al obtener las ofertas:', error);
       }
     );
-  }
-
-  eliminarOferta(index: number) {
-    this.listaOfertas.splice(index, 1);
   }
 }
