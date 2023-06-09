@@ -5,7 +5,6 @@ import { HeaderComponent } from '@shared/components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormRegistroComponent } from './components/form-registro/form-registro.component';
 import { MapaComponent } from './components/mapa/mapa.component';
-import { VariantesModalComponent } from './components/variantes-modal/variantes-modal.component';
 import { FormsModule } from '@angular/forms';
 import { DireccionAutocompletadoComponent } from './components/direccion-autocompletado/direccion-autocompletado.component';
 import { CardOfertaComponent } from './components/card-oferta/card-oferta.component';
@@ -19,7 +18,6 @@ import { CardOfertaComponent } from './components/card-oferta/card-oferta.compon
         FooterComponent,
         FormRegistroComponent,
         MapaComponent,
-        VariantesModalComponent,
         DireccionAutocompletadoComponent,
         CardOfertaComponent
   ],
@@ -33,7 +31,6 @@ import { CardOfertaComponent } from './components/card-oferta/card-oferta.compon
     FooterComponent,
     FormRegistroComponent,
     MapaComponent,
-    VariantesModalComponent,
     DireccionAutocompletadoComponent,
     CardOfertaComponent
     

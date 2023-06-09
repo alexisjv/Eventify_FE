@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { DireccionAutocompletadoComponent } from './direccion-autocompletado.component';
 
@@ -8,6 +9,7 @@ describe('DireccionAutocompletadoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [FormsModule], // Importa FormsModule en lugar de NgModel
       declarations: [ DireccionAutocompletadoComponent ]
     })
     .compileComponents();

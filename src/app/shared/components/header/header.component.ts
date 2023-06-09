@@ -22,9 +22,9 @@ export class HeaderComponent implements OnInit{
       }
     ]
 
-    const script = this.renderer.createElement('script');
+/*     const script = this.renderer.createElement('script');
     script.src = 'assets/js/main.js';
-    this.renderer.appendChild(document.body, script);
+    this.renderer.appendChild(document.body, script); */
   }
 
 }

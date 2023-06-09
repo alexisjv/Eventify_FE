@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
@@ -15,6 +14,11 @@ describe('HeaderComponent', () => {
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    // Mock de main.js
+    spyOn(window, 'addEventListener'); // Ejemplo de mock para window.addEventListener
+    spyOn(document, 'querySelector'); // Ejemplo de mock para document.querySelector
+    // Mock otras funciones y eventos utilizados en main.js
   });
 
   it('should create', () => {
