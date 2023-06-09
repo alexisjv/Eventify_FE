@@ -6,7 +6,7 @@ import { Evento } from '@core/models/evento';
 import { Localidad } from '@core/models/localidad';
 import { Comidas } from '@core/models/comidas';
 import { Bebidas } from '@core/models/bebidas';
-import { ProductoLista } from '@core/models/productoLista';
+import { ProductoLista } from '@core/models/ProductoLista';
 import { Oferta } from '@core/models/oferta';
 import { API_URL } from '@core/config/url';
 
