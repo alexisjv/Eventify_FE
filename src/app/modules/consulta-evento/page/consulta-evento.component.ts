@@ -7,17 +7,17 @@ import { Evento } from 'src/app/core/models/evento';
 import { Localidad } from 'src/app/core/models/localidad';
 import { ProductoLista } from 'src/app/core/models/ProductoLista';
 import { FormControl } from '@angular/forms';
-import { ConsultarEventoService } from '@modules/consultar-evento/services/consultar-evento.service';
+import { ConsultaEventoService } from '../services/consulta-evento.service';
 
 
 @Component({
-  selector: 'app-consultar-evento',
-  templateUrl: './consultar-evento.component.html',
-  styleUrls: ['./consultar-evento.component.scss'],
+  selector: 'app-consulta-evento',
+  templateUrl: './consulta-evento.component.html',
+  styleUrls: ['./consulta-evento.component.scss'],
 
 
 })
-export class ConsultarEventoComponent {
+export class ConsultaEventoComponent {
   idEventoSeleccionado!: number;
   localidadesSeleccionadas!: number[];
   comidasSeleccionadas: number[] = [];
@@ -44,7 +44,7 @@ export class ConsultarEventoComponent {
 
   constructor(
     private router: Router,
-    private consultarEventoService: ConsultarEventoService
+    private consultaEventoService: ConsultaEventoService
   ) { }
 
   ngOnInit(): void {
@@ -52,7 +52,7 @@ export class ConsultarEventoComponent {
   }
 
   getListaEventos() {
-    this.consultarEventoService.getListaEventos().subscribe(
+    this.consultaEventoService.getListaEventos().subscribe(
       (listaEventos: Evento[]) => {
         this.listaEventos = listaEventos;
       },
@@ -61,7 +61,7 @@ export class ConsultarEventoComponent {
   }
 
   getTiposDeComidas(idEvento: number) {
-    this.consultarEventoService.getListaTiposDeComidas(idEvento).subscribe(
+    this.consultaEventoService.getListaTiposDeComidas(idEvento).subscribe(
       (listaComidas: Comidas[]) => {
         this.tiposDeComidas = listaComidas;
       },
@@ -83,7 +83,7 @@ export class ConsultarEventoComponent {
   }
 
   getTiposDeBebidas() {
-    this.consultarEventoService
+    this.consultaEventoService
       .getListaBebidas(this.idEventoSeleccionado)
       .subscribe(
         (listaBebidas: Bebidas[]) => {
@@ -105,7 +105,7 @@ export class ConsultarEventoComponent {
   }
 
   getListadoDeCompras() {
-    this.consultarEventoService
+    this.consultaEventoService
       .getListadeCompras(
         this.idEventoSeleccionado,
         this.idComidaSeleccionada,

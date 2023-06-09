@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,25 +6,11 @@ import { Router } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit{
-  mainMenu: {
-    defaultOptions: Array<any>, accessLink: Array<any>
-  } = { defaultOptions: [], accessLink: [] }
+export class HeaderComponent{
 
-  constructor(private router: Router, private renderer: Renderer2) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.mainMenu.defaultOptions = [
-      {
-        name: 'Consultar evento',
-        icon: 'uil uil-estate',
-        router: ['/', 'consultar-evento']
-      }
-    ]
-
-/*     const script = this.renderer.createElement('script');
-    script.src = 'assets/js/main.js';
-    this.renderer.appendChild(document.body, script); */
   }
 
 }

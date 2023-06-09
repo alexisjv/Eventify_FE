@@ -17,21 +17,16 @@ export class OptimizadorListaComponent implements OnInit {
   listaOfertaMenorRecorrido!: Oferta[];
   listaOfertaEconomicos!: Oferta[];
   listaOfertaElegida!: Oferta[];
-  idEvento!: number;
   listaLocalidadesSeleccionadas!: string[];
-  idComida!: number;
-  idBebida!: number;
   nombreEvento!: string;
   resumen = false;
   escenarios = true;
   estaLogueado = false;
   listaOfertas!: Oferta[];
-  elementType = NgxQrcodeElementTypes.URL;
-  errorCorrectionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   value = '';
-  latitud!: number;
-  longitud!: number;
-  distancia!: number;
+  vistaProducto: string = 'list';
+  // elementType = NgxQrcodeElementTypes.URL;
+  // errorCorrectionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
 
   constructor(
     private listaCompraService: OptimizadorListaService
@@ -41,25 +36,18 @@ export class OptimizadorListaComponent implements OnInit {
     this.obtenerOfertas();
   }
 
-  view: string = 'list'; // Vista por defecto
-  cards: any[] = [
-    { title: 'Card 1', description: 'Descripción de la card 1' },
-    { title: 'Card 2', description: 'Descripción de la card 2' },
-    { title: 'Card 3', description: 'Descripción de la card 3' }
-  ];
-
-  changeView(view: string) {
-    this.view = view;
+  cambiarVistaProducto(vista: string) {
+    this.vistaProducto = vista;
   }
 
-  getNombreEvento(idEvento: number): void {
+  /* getNombreEvento(idEvento: number): void {
     this.listaCompraService.getListaEventos().subscribe((eventos: Evento[]) => {
       const eventoEncontrado = eventos.find((evento) => evento.id === idEvento);
       this.nombreEvento = eventoEncontrado ? eventoEncontrado.nombre : '';
     });
-  }
+  } */
 
-  obtenerResumen() {
+   obtenerResumen() {
     this.escenarios = false;
     this.resumen = true;
   }
@@ -71,7 +59,7 @@ export class OptimizadorListaComponent implements OnInit {
   elegirOtroEscenario() {
     this.escenarios = true;
     this.resumen = false;
-  }
+  } 
 
   obtenerOfertas() {
     const lista: ListaPost = {
@@ -98,7 +86,4 @@ export class OptimizadorListaComponent implements OnInit {
     );
   }
 
-  eliminarOferta(index: number) {
-    this.listaOfertas.splice(index, 1);
-  }
 }

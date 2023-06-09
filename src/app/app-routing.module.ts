@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ConsultarEventoComponent } from '@modules/consultar-evento/page/consultar-evento/consultar-evento.component';
+import { ConsultaEventoComponent } from '@modules/consulta-evento/page/consulta-evento.component';
 import { HomeLandingComponent } from '@modules/home-landing/pages/home-landing.component';
 import { OptimizadorListaComponent } from '@modules/optimizador-lista/page/optimizador-lista.component';
 
@@ -14,9 +14,9 @@ const routes: Routes = [
 
   },
   {
-    path: 'consultar-evento',
-    component: ConsultarEventoComponent,
-    loadChildren: () => import('@modules/consultar-evento/consultar-evento.module').then(m => m.ConsultarEventoModule)
+    path: 'consulta-evento',
+    component: ConsultaEventoComponent,
+    loadChildren: () => import('@modules/consulta-evento/consulta-evento.module').then(m => m.ConsultaEventoModule)
   },
   {
     path: 'optimizador-lista',
