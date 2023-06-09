@@ -6,7 +6,7 @@ import { Evento } from '@core/models/evento';
 import { Localidad } from '@core/models/localidad';
 import { Comidas } from '@core/models/comidas';
 import { Bebidas } from '@core/models/bebidas';
-import { ProductoLista } from '@core/models/ProductoLista';
+import { ProductoLista } from '@core/models/productoLista';
 import { Oferta } from '@core/models/oferta';
 import { API_URL } from '@core/config/url';
 
@@ -30,10 +30,6 @@ export class ConsultaEventoService {
 
    getListaBebidas(idEvento: number): Observable<Bebidas[]> {
     return this.http.get<Bebidas[]>(API_URL + `Evento/bebidas?idEvento=${idEvento}`);
-  }
-
-  getLocalidades () : Observable<Localidad[]> {
-    return this.http.get<Localidad[]>(API_URL + `Ubicacion/localidades`);
   }
 
   getListadeCompras( nCantidadInvitados: number, aSelecciones : {}){
