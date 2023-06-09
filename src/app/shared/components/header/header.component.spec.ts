@@ -21,7 +21,7 @@ describe('HeaderComponent', () => {
     
   });
 
-  it('should create', () => {
+  it('Debería crearse el componente', () => {
     expect(component).toBeTruthy();
   });
 });

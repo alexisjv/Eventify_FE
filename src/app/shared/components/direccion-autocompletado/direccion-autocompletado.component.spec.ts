@@ -19,7 +19,7 @@ describe('DireccionAutocompletadoComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('Debería crearse el componente', () => {
     expect(component).toBeTruthy();
   });
 });

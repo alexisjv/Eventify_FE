@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { API_URL } from '@core/config/url';
 
 declare var google: any;
 
@@ -9,12 +10,8 @@ declare var google: any;
 
 export class SharedService {
 
-  // apiUrl = 'https://localhost:7292/api/';
 
   constructor(private http: HttpClient) {}
-
-
-
 
 
   // Servicios de Mapa 
