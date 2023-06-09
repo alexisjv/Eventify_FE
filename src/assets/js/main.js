@@ -1,10 +1,5 @@
-/**
-* Template Name: Regna
-* Updated: May 30 2023 with Bootstrap v5.3.0
-* Template URL: https://bootstrapmade.com/regna-bootstrap-onepage-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
+
+
 (function() {
   "use strict";
 
@@ -198,26 +193,12 @@
   /**
    * Initiate portfolio lightbox 
    */
-  const portfolioLightbox = GLightbox({
-    selector: '.portfolio-lightbox'
-  });
+  
 
   /**
    * Portfolio details slider
    */
-  new Swiper('.portfolio-details-slider', {
-    speed: 400,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true
-    }
-  });
+  
 
   /**
    * Animation on scroll
@@ -234,6 +215,6 @@
   /**
    * Initiate Pure Counter 
    */
-  new PureCounter();
+ /*  new PureCounter(); */
 
 })()

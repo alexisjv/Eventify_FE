@@ -1,18 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
 
-import { FormularioEventoComponent } from './consultar-evento.component';
+import { ConsultarEventoComponent } from './consultar-evento.component';
 
-describe('FormularioEventoComponent', () => {
-  let component: FormularioEventoComponent;
-  let fixture: ComponentFixture<FormularioEventoComponent>;
+describe('ConsultarEventoComponent', () => {
+  let component: ConsultarEventoComponent;
+  let fixture: ComponentFixture<ConsultarEventoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FormularioEventoComponent ]
-    })
-    .compileComponents();
+      imports: [HttpClientModule], // Agrega el módulo HttpClientModule aquí
+      declarations: [ConsultarEventoComponent]
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(FormularioEventoComponent);
+    fixture = TestBed.createComponent(ConsultarEventoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

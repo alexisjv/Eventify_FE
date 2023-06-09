@@ -4,6 +4,7 @@ import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { OptimizarListaRoutingModule } from './optimizador-evento-routing.module';
 import { CommonModule } from '@angular/common';
 import { OptimizadorListaComponent } from './page/optimizador-lista.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -15,7 +16,8 @@ import { OptimizadorListaComponent } from './page/optimizador-lista.component';
     SharedModule,
     NgxQRCodeModule,
     OptimizarListaRoutingModule,
-    CommonModule
+    CommonModule,
+    HttpClientModule 
       ]
 })
 export class OptimizadorListaModule { }

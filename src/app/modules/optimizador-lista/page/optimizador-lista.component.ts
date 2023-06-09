@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Oferta } from 'src/app/core/models/oferta';
 import { Evento } from 'src/app/core/models/evento';
 import {
@@ -35,8 +34,7 @@ export class OptimizadorListaComponent implements OnInit {
   distancia!: number;
 
   constructor(
-    private listaCompraService: OptimizadorListaService,
-    private router: ActivatedRoute
+    private listaCompraService: OptimizadorListaService
   ) {}
 
   ngOnInit(): void {

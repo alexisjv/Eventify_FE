@@ -1,13 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ListaCompraService } from './lista-compra.service';
+import { ListaComprasService } from './lista-compra.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ListaCompraService', () => {
-  let service: ListaCompraService;
+  let service: ListaComprasService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(ListaCompraService);
+    TestBed.configureTestingModule({
+      imports: [HttpClientModule], 
+    });
+    service = TestBed.inject(ListaComprasService);
   });
 
   it('should be created', () => {
