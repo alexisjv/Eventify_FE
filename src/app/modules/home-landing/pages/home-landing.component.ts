@@ -9,13 +9,7 @@ export class HomeLandingComponent implements OnInit, OnDestroy {
   constructor(private renderer: Renderer2) {}
 
   ngOnInit() {
-    const script = this.renderer.createElement('script');
-    script.src = 'assets/js/main.js';
-    this.renderer.appendChild(document.body, script);
-
-
     const headerElement = document.getElementById('header');
-
     
   if (headerElement) {
     this.renderer.setStyle(headerElement, 'position', 'fixed');

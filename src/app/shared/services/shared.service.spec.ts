@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ListaComprasService } from './lista-compra.service';
+import { SharedService } from './shared.service';
 import { HttpClientModule } from '@angular/common/http';
 
-describe('ListaCompraService', () => {
-  let service: ListaComprasService;
+describe('SharedService', () => {
+  let service: SharedService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule], 
     });
-    service = TestBed.inject(ListaComprasService);
+    service = TestBed.inject(SharedService);
   });
 
   it('should be created', () => {

@@ -19,8 +19,4 @@ export class CardOfertaComponent {
   @Input() i!: number;
   @Output() eliminar: EventEmitter<void> = new EventEmitter<void>();
 
-
-  eliminarOferta() {
-    this.eliminar.emit();
-  }
 }

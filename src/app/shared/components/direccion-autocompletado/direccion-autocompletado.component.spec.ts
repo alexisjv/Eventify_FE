@@ -9,7 +9,7 @@ describe('DireccionAutocompletadoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule], // Importa FormsModule en lugar de NgModel
+      imports: [FormsModule],
       declarations: [ DireccionAutocompletadoComponent ]
     })
     .compileComponents();
