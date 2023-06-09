@@ -1,5 +1,6 @@
 export interface ProductoLista {
     id : number,
-    nombre: string
+    nombre: string,
+    unidades: number
     }
     
