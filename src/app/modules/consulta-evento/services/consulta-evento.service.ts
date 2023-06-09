@@ -32,10 +32,6 @@ export class ConsultaEventoService {
     return this.http.get<Bebidas[]>(this.apiUrl + `Evento/bebidas?idEvento=${idEvento}`);
   }
 
-  getLocalidades () : Observable<Localidad[]> {
-    return this.http.get<Localidad[]>(this.apiUrl + `Ubicacion/localidades`);
-  }
-
   getListadeCompras( nCantidadInvitados: number, aSelecciones : {}){
     return this.http.post<ProductoLista[]>(this.apiUrl + `Evento/listadoConCantidades/${nCantidadInvitados}` , aSelecciones);
   }
