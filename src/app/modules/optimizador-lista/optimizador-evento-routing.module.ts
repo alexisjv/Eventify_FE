@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { OptimizadorListaComponent } from './page/optimizador-lista.component';
+import { OptimizadorListaComponent } from './pages/optimizador-lista.component';
 
 
 const routes: Routes = [
