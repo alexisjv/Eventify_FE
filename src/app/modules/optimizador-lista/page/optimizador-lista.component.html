@@ -1,58 +1,98 @@
-
-<div class="container-fluid">
+<div class="container-fluid div-optimizador">
   <div class="row">
-    <!-- columna optimizacion -->
-    <div class="col-xl-12 col-md-12">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="div-lista">
-            <div class="card card-optimizar">
-              <div>
-                <!-- titulo optimizar -->
-                <div class="card-body card-producto">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <h2>Listas Recomendadas</h2>
-                      <div class="linea-titulo"></div>
-                      <div class="row">
-                        <div class="col-xl-4">
-                          <div class="form-check">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              value=""
-                              id="flexCheckDefault"
-                            />
-                            <label
-                              class="form-check-label"
-                              for="flexCheckDefault"
-                            >
-                              Default checkbox
-                            </label>
-                          </div>
-                          <div class="form-check">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              value=""
-                              id="flexCheckChecked"
-                              checked
-                            />
-                            <label
-                              class="form-check-label"
-                              for="flexCheckChecked"
-                            >
-                              Checked checkbox
-                            </label>
-                          </div>
-                        </div>
-                        <div class="col-xl-4">
-                          <div class="div-icono"></div>
-                          <div>
-                            <h2 class="subtitulo">Más económico</h2>
-                          </div>
-                          <!-- Opción de visualización -->
-                          <div class="btn-group mb-3">
+    <div class="col-xl-2">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="flexCheckDefault"
+        />
+        <label class="form-check-label" for="flexCheckDefault">
+          Default checkbox
+        </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="flexCheckChecked"
+          checked
+        />
+        <label class="form-check-label" for="flexCheckChecked">
+          Checked checkbox
+        </label>
+      </div>
+    </div>
+    <div class="col-xl-6">
+      <div class="container">
+        <div class="row">
+          <div class="col-6" [ngClass]="{ 'bg-primary': isOpenDiv1 }">
+            <button class="btn card-redondeada" (click)="toggleDiv1()">
+              <div class="imagen-izquierda">
+                <img src="../../../../assets/icons/precio.svg" alt="Imagen" />
+              </div>
+              <div class="contenido-derecha">
+                <h3>Título</h3>
+                <p>Subtítulo</p>
+              </div>
+            </button>
+          </div>
+          <div class="col-6" [ngClass]="{ 'bg-secondary': isOpenDiv2 }">
+            <button class="btn card-redondeada" (click)="toggleDiv2()">
+              <div class="imagen-izquierda">
+                <img src="../../../../assets/icons/precio.svg" alt="Imagen" />
+              </div>
+              <div class="contenido-derecha">
+                <h3>Título</h3>
+                <p>Subtítulo</p>
+              </div>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12" *ngIf="isOpenDiv1" style="background-color: red">
+            <div
+              *ngFor="let oferta of aListaOfertas; let i = index"
+              data-aos="fade-up"
+              [attr.data-aos-delay]="100"
+            >
+              <app-card-oferta
+                [nombreProducto]="oferta.nombreProducto"
+                [marca]="oferta.marca"
+                [precio]="oferta.precio"
+                [nombreComercio]="oferta.nombreComercio"
+                [imagen]="oferta.imagen"
+              >
+              </app-card-oferta>
+            </div>
+          </div>
+          <div
+            class="col-12"
+            *ngIf="isOpenDiv2"
+            style="background-color: green"
+          >
+            <div
+              *ngFor="let oferta of aListaOfertas; let i = index"
+              data-aos="fade-up"
+              [attr.data-aos-delay]="100"
+            >
+              <app-card-oferta
+                [nombreProducto]="oferta.nombreProducto"
+                [marca]="oferta.marca"
+                [precio]="oferta.precio"
+                [nombreComercio]="oferta.nombreComercio"
+                [imagen]="oferta.imagen"
+              >
+              </app-card-oferta>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Opción de visualización -->
+    <!--  <div class="btn-group mb-3">
                             <button
                               class="btn btn-primary"
                               (click)="cambiarVistaProducto('list')"
@@ -65,10 +105,10 @@
                             >
                               Grid
                             </button>
-                          </div>
+                          </div> -->
 
-                          <!-- Cards en forma de lista -->
-                          <div *ngIf="sVistaProducto === 'list'">
+    <!-- Cards en forma de lista -->
+    <!--   <div *ngIf="sVistaProducto === 'list'">
                             <table
                               class="table tabla-redondeada"
                               data-aos="fade-up"
@@ -100,10 +140,10 @@
                                 </tr>
                               </tbody>
                             </table>
-                          </div>
+                          </div> -->
 
-                          <!-- Cards en forma de grid -->
-                          <div *ngIf="sVistaProducto === 'grid'">
+    <!-- Cards en forma de grid -->
+    <!--  <div *ngIf="sVistaProducto === 'grid'">
                             <div class="row">
                               <div
                                 *ngFor="
@@ -123,40 +163,29 @@
                                 </app-card-oferta>
                               </div>
                             </div>
-                          </div>
-                        </div>
+                          </div> -->
+  
 
-                        <div class="col-xl-4">
-                          <!-- mapa -->
-                          <div style="padding-top: 40px">
-                            <app-mapa></app-mapa>
-                          </div>
+  <div class="col-xl-4">
+    <!-- mapa -->
+    <div style="padding-top: 40px">
+      <app-mapa></app-mapa>
+    </div>
 
-                          <div>
-                            <button
-                              type="button"
-                              class="btn btn-primary btn-lg icono-generar"
-                              (click)="obtenerResumen()"
-                              *ngIf="!bEstaLogueado"
-                            >
-                              Resumen de lista
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div>
+      <button
+        type="button"
+        class="btn btn-primary btn-lg icono-generar"
+        (click)="obtenerResumen()"
+        *ngIf="!bEstaLogueado"
+      >
+        Resumen de lista
+      </button>
     </div>
   </div>
-
-  <!-- resumen -->
-  <!-- <div class="container-fluid" *ngIf="resumen">
+</div>
+<!-- resumen -->
+<!-- <div class="container-fluid" *ngIf="resumen">
     <div class="justify-content-center align-items-center">
       <div class="card card-optimizar">
         <div class="card-body p-5">
@@ -267,4 +296,3 @@
       </div>
     </div>
   </div> -->
-</div>

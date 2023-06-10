@@ -21,7 +21,12 @@ export class OptimizadorListaComponent implements OnInit {
   bEstaLogueado = false;
   aListaOfertas!: Oferta[];
   value = '';
-  sVistaProducto: string = 'list';
+  sVistaProducto: string = 'grid';
+  vistaListaMasEconomica = true;
+  vistaListaMenorRecorrido = false;
+  isOpenDiv1 = false;
+isOpenDiv2 = false;
+isOpenDiv3 = false;
 
   constructor(
     private listaCompraService: OptimizadorListaService,
@@ -52,7 +57,41 @@ export class OptimizadorListaComponent implements OnInit {
       console.error('Error al obtener la ubicación:', error);
     });
   }
+
+toggleDiv1() {
+  this.isOpenDiv1 = !this.isOpenDiv1;
+}
+
+toggleDiv2() {
+  this.isOpenDiv2 = !this.isOpenDiv2;
+}
+
+toggleDiv3() {
+  this.isOpenDiv3 = !this.isOpenDiv3;
+}
+
   
+  cambiarAListaMasEconomico() {
+    this.vistaListaMasEconomica = true;
+    this.vistaListaMenorRecorrido = false;
+    
+    const divMasEconomico = document.querySelector('.div-mas-economico');
+    const divMenorRecorrido = document.querySelector('.div-menor-recorrido');
+  
+    divMasEconomico?.classList.add('activo');
+    divMenorRecorrido?.classList.remove('activo');
+  }
+  
+  cambiarAListaMenorRecorrido() {
+    this.vistaListaMasEconomica = false;
+    this.vistaListaMenorRecorrido = true;
+    
+    const divMenorRecorrido = document.querySelector('.div-menor-recorrido');
+    const divMasEconomico = document.querySelector('.div-mas-economico');
+    
+    divMenorRecorrido?.classList.add('activo');
+    divMasEconomico?.classList.remove('activo');
+  }
   
 
   cambiarVistaProducto(vista: string) {
@@ -96,4 +135,5 @@ export class OptimizadorListaComponent implements OnInit {
       }
     );
   }
+  
 }
