@@ -36,6 +36,7 @@ export class ConsultaEventoComponent {
   bMostrarPreguntaQueTipoDeComida: boolean = false;
   bMostrarPreguntaQueTipoDeBebida: boolean = false;
   bMostrarPreguntaCantidadComensales: boolean = false;
+  bMostrarPreguntaUbicacion: boolean = false;
   bMostrarListaDeProductos: boolean = false;
   sImg: string = 'assets/images/asistente.png';
   bMostrarQueCompraQueresRealizar: boolean = true;
@@ -47,6 +48,9 @@ export class ConsultaEventoComponent {
 
   bMostrarKg: boolean = false;
   bMostrarLt: boolean = false;
+  valorRadio!: number;
+  latitudUbicacion!: number;
+  longitudUbicacion!: number;
 
 
   constructor(private router: Router, private consultaEventoService: ConsultaEventoService) { }
@@ -166,12 +170,31 @@ export class ConsultaEventoComponent {
       this.aListaDeCompras.push(oProducto);
     });
   }
+
+  capturarValorRadio(valorRadio: number) {
+    this.valorRadio = valorRadio;
+    console.log('Valor del rango:', valorRadio);
+  }
+  
+  capturarLatitud(latitud: number) {
+   this.latitudUbicacion = latitud;
+  }
+  
+  capturarLongitud(longitud: number) {
+    this.longitudUbicacion = longitud;
+  }
+
+  mostrarMapaRadio(){
+    this.bMostrarPreguntaCantidadComensales = false;
+    this.bMostrarPreguntaUbicacion = true;
+  }
   
   consultar(): void {
     this.bMostrarListaDeProductos = true;
     this.bMostrarLoading = true;
     this.bMostrarOpcionSeleccionada = false;
     this.bMostrarQueCompraQueresRealizar = false;
+    this.bMostrarPreguntaUbicacion = false;
     this.getListadoDeCompras();
   }
 
@@ -179,7 +202,10 @@ export class ConsultaEventoComponent {
     const queryParams = {
       cantidadComensales: this.oSelecciones.nCantidadComensales,
       comidas: JSON.stringify(this.oSelecciones.aComidasSeleccionadas),
-      bebidas: JSON.stringify(this.oSelecciones.aBebidasSeleccionadas)
+      bebidas: JSON.stringify(this.oSelecciones.aBebidasSeleccionadas),
+      radio: this.valorRadio,
+      latitud: this.latitudUbicacion,
+      longitud: this.longitudUbicacion
     };
 
     this.router.navigate(['optimizador-lista'], { queryParams });

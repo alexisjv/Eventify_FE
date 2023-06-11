@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 declare var google: any;
 
@@ -12,18 +12,32 @@ export class MapaComponent implements OnInit {
   directionsRenderer: any;
   aComercios: any[] = [];
   ubicacionActual: any;
-  nValorRadio: number = 5;
+  nValorRadio: number = 5000;
+  nValorRadioEnPantalla: number = 5;
+  nValorRadioElegido!: number;
   circulo: any;
-
+  @Output() valorRadioEnviado: EventEmitter<number> =
+    new EventEmitter<number>();
+  @Output() ubicacionActualLatitud: EventEmitter<number> =
+    new EventEmitter<number>();
+  @Output() ubicacionActualLongitud: EventEmitter<number> =
+    new EventEmitter<number>();
+    @Input() valorRadioElegido!: number;
 
   constructor() {}
 
   ngOnInit() {
-    this.obtenerUbicacionActual();
-    this.inicializarMapa();
+    if(this.valorRadioElegido != undefined ){
+      this.nValorRadioEnPantalla = this.valorRadioElegido / 1000;
+    }
+      this.inicializarMapa(this.valorRadioElegido);
   }
 
-  inicializarMapa() {
+  multipliarValorRadio() {
+    this.nValorRadioEnPantalla = this.valorRadioElegido / 1000;
+  }
+
+  inicializarMapa(valorRadioElegido: number) {
     this.directionsRenderer = new google.maps.DirectionsRenderer();
 
     const opcionesMapa = {
@@ -35,10 +49,10 @@ export class MapaComponent implements OnInit {
       opcionesMapa
     );
     this.directionsRenderer.setMap(this.map);
-    this.obtenerUbicacionActual();
+    this.obtenerUbicacionActual(valorRadioElegido);
   }
 
-  obtenerUbicacionActual(): Promise<any> {
+  obtenerUbicacionActual(valorRadioElegido: number): Promise<any> {
     return new Promise((resolve, reject) => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -57,23 +71,29 @@ export class MapaComponent implements OnInit {
         reject('La geolocalización no es soportada por el navegador.');
       }
     })
-    .then((ubicacionActual) => {
-      this.ubicacionActual = ubicacionActual;
-      this.centrarMapa();
-        this.agregarMarcadorRadio();
-      
-      this.agregarMarcaUbicacionActual();
-    })
-    .catch((error) => {
-      console.error('Error al obtener la ubicación:', error);
-    });
+      .then((ubicacionActual) => {
+        this.ubicacionActual = ubicacionActual;
+        this.centrarMapa();
+        this.agregarMarcadorRadio(valorRadioElegido);
+        this.agregarMarcaUbicacionActual();
+        this.ubicacionActualLatitud.emit(this.ubicacionActual.lat);
+        this.ubicacionActualLongitud.emit(this.ubicacionActual.lng);
+      })
+      .catch((error) => {
+        console.error('Error al obtener la ubicación:', error);
+      });
   }
-  
 
   actualizarValorRadio(evento: any) {
-    this.nValorRadio = evento.target.value;
-    console.log(this.nValorRadio);
-    this.agregarMarcadorRadio();
+    this.nValorRadioElegido = evento.target.value * 1000;
+    this.agregarMarcadorRadio(this.nValorRadioElegido);
+    this.valorRadioEnviado.emit(this.nValorRadioElegido);
+  }
+
+  setValorRadio(valorRadio: number){
+    this.nValorRadioElegido = valorRadio;
+    this.inicializarMapa(this.nValorRadioElegido)
+
   }
 
   valorRadioAPorcentaje(valor: number): number {
@@ -94,18 +114,24 @@ export class MapaComponent implements OnInit {
     });
   }
 
-  agregarMarcadorRadio() {
+  agregarMarcadorRadio(valorRadioElegido: any) {
     if (this.circulo) {
       this.circulo.setMap(null);
     }
+    
+     let dibujoCirculo = 5000;
+
+     if (valorRadioElegido != undefined) {
+      dibujoCirculo = parseInt(valorRadioElegido, 10); // Convertir a número entero
+    }
+
+    console.log('El tipo de dato es:' + typeof valorRadioElegido)
 
     const marcador = new google.maps.Marker({
       position: this.ubicacionActual,
       map: this.map,
       title: 'Mi ubicación',
     });
-
-    const radioMetros = this.nValorRadio * 1000;
 
     this.circulo = new google.maps.Circle({
       strokeColor: '#FF8153',
@@ -115,7 +141,7 @@ export class MapaComponent implements OnInit {
       fillOpacity: 0.35,
       map: this.map,
       center: this.ubicacionActual,
-      radius: radioMetros,
+      radius: dibujoCirculo,
     });
   }
 
@@ -137,7 +163,10 @@ export class MapaComponent implements OnInit {
     });
   }
 
-  calcularYMostrarRuta(comercios: any[], callback: (distancia: string) => void) {
+  calcularYMostrarRuta(
+    comercios: any[], radio: number,
+    callback: (distancia: string) => void
+  ) {
     this.aComercios = comercios;
     const origen = this.aComercios[0].ubicacion;
     const destino = this.aComercios[this.aComercios.length - 1].ubicacion;
@@ -150,7 +179,7 @@ export class MapaComponent implements OnInit {
         };
       });
 
-    this.inicializarMapa();
+    this.inicializarMapa(radio);
 
     const solicitudRuta = {
       origin: origen,
@@ -208,7 +237,6 @@ export class MapaComponent implements OnInit {
 
     return enlaceMapa;
   }
-
 
   calcularDistancia(origen: any, destino: any): Promise<string> {
     return new Promise((resolve, reject) => {

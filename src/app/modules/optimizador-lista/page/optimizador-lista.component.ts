@@ -24,12 +24,17 @@ export class OptimizadorListaComponent implements OnInit {
   sVistaProducto: string = 'grid';
   vistaListaMasEconomica = true;
   vistaListaMenorRecorrido = false;
-  isOpenDiv1 = false;
+  isOpenDiv1 = true;
   isOpenDiv2 = false;
   isOpenDiv3 = false;
   mostrarRadio: boolean = true;
   mostrarRuta: boolean = false;
-
+  radioElegido!: number;
+  cantidadComensales!: number;
+  comidasSeleccionadas!: number[];
+  bebidasSeleccionadas!: number[];
+  latitudUbicacion!: number;
+  longitudUbicacion!: number;
   constructor(
     private listaCompraService: OptimizadorListaService,
     private route: ActivatedRoute,
@@ -37,36 +42,42 @@ export class OptimizadorListaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    /*  this.mapaService.obtenerUbicacionActual().then((ubicacion) => {
-      const latitudUbicacion = ubicacion.lat;
-      const longitudUbicacion = ubicacion.lng;
-  
-      this.route.queryParams.subscribe((params) => {
-        const cantidadComensales = params['cantidadComensales'];
-        const comidasSeleccionadas = JSON.parse(params['comidas']);
-        const bebidasSeleccionadas = JSON.parse(params['bebidas']);
-  
-        this.obtenerOfertas(
-          latitudUbicacion,
-          longitudUbicacion,
-          cantidadComensales,
-          comidasSeleccionadas,
-          bebidasSeleccionadas
-        );
-      });
-    }).catch((error) => {
-      console.error('Error al obtener la ubicación:', error);
-    }); */
+    this.route.queryParams.subscribe((params) => {
+      this.cantidadComensales = params['cantidadComensales'];
+      this.comidasSeleccionadas = JSON.parse(params['comidas']);
+      this.bebidasSeleccionadas = JSON.parse(params['bebidas']);
+      this.latitudUbicacion = params['latitud'];
+      this.longitudUbicacion = params['longitud'];
+      this.radioElegido = params['radio'];
+
+      console.log(this.cantidadComensales);
+      console.log(this.comidasSeleccionadas);
+      console.log(this.bebidasSeleccionadas);
+      console.log(this.latitudUbicacion);
+      console.log(this.longitudUbicacion);
+      console.log(this.radioElegido);
+
+      this.obtenerOfertas(
+        this.latitudUbicacion,
+        this.longitudUbicacion,
+        this.cantidadComensales,
+        this.comidasSeleccionadas,
+        this.bebidasSeleccionadas,
+        this.radioElegido
+      );
+    });
   }
 
   toggleDiv1() {
-    this.isOpenDiv1 = !this.isOpenDiv1;
+    this.isOpenDiv1 = true;
+    this.isOpenDiv2 = false;
     this.obtenerRutaMasEconomico();
   }
 
   toggleDiv2() {
-    this.isOpenDiv2 = !this.isOpenDiv2;
-    this.obtenerRutaMenorRecorrido()
+    this.isOpenDiv1 = false;
+    this.isOpenDiv2 = true;
+    this.obtenerRutaMenorRecorrido();
   }
 
   toggleDiv3() {
@@ -113,17 +124,34 @@ export class OptimizadorListaComponent implements OnInit {
     this.bResumen = false;
   }
 
+  capturarValorRadio(valorRadio: number) {
+    this.radioElegido = valorRadio;
+    console.log('Valor del rango:', valorRadio);
+  }
+
+  actualizarRadio() {
+    this.obtenerOfertas(
+      this.latitudUbicacion,
+      this.longitudUbicacion,
+      this.cantidadComensales,
+      this.comidasSeleccionadas,
+      this.bebidasSeleccionadas,
+      this.radioElegido
+    );
+  }
+
   obtenerOfertas(
     latitudUbicacion: number,
     longitudUbicacion: number,
     cantidadComensales: number,
     comidasSeleccionadas: number[],
-    bebidasSeleccionadas: number[]
+    bebidasSeleccionadas: number[],
+    valorRadio: number
   ) {
     const lista: ListaPost = {
       latitudUbicacion: latitudUbicacion,
       longitudUbicacion: longitudUbicacion,
-      distancia: 5000,
+      distancia: valorRadio,
       comidas: comidasSeleccionadas,
       bebidas: bebidasSeleccionadas,
       marcasComida: [],
@@ -159,7 +187,7 @@ export class OptimizadorListaComponent implements OnInit {
       },
     ];
 
-    this.mapaService.obtenerRuta(comercios);
+    this.mapaService.obtenerRuta(comercios, this.radioElegido);
   }
 
   obtenerRutaMenorRecorrido() {
@@ -178,6 +206,6 @@ export class OptimizadorListaComponent implements OnInit {
       },
     ];
 
-    this.mapaService.obtenerRuta(comercios);
+    this.mapaService.obtenerRuta(comercios, this.radioElegido);
   }
 }

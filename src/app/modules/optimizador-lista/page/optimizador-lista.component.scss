@@ -58,3 +58,27 @@
  
 }
 
+.form-range-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+  }
+  
+  .form-range {
+  width: 100%;
+  }
+  
+  .range-value {
+  position: absolute;
+  top: -50px;
+  left: 0;
+  transform: translateX(-50%);
+  font-size: 20px;
+  color: #fff;
+  background-color: #4e80a8;
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+

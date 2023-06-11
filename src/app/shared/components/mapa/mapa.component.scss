@@ -16,14 +16,17 @@ width: 100%;
 }
 
 .range-value {
-position: absolute;
-top: -50px;
-left: 0;
-transform: translateX(-50%);
-font-size: 20px;
-color: #fff;
-background-color: #4e80a8;
-padding: 8px 16px;
-border-radius: 20px;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: -35px;
+  left: 50%; /* Cambia el valor del left a 50% para centrar el elemento */
+  transform: translateX(-50%);
+  font-size: 14px; /* Ajusta el tamaño de la fuente según tus necesidades */
+  color: #fff;
+  background-color: #ff8153;
+  padding: 6px 12px;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+  overflow: hidden; /* Oculta cualquier contenido que exceda el ancho del contenedor */
+  text-overflow: ellipsis; /* Agrega puntos suspensivos (...) si el texto se desborda */
 }

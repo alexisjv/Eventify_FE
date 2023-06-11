@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { OptimizadorListaComponent } from './page/optimizador-lista.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedService } from '@shared/services/shared.service';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -18,7 +19,8 @@ import { SharedService } from '@shared/services/shared.service';
     NgxQRCodeModule,
     OptimizarListaRoutingModule,
     CommonModule,
-    HttpClientModule 
+    HttpClientModule,
+    FormsModule 
       ],
   providers: [SharedService]
 })

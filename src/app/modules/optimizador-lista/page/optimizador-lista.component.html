@@ -168,8 +168,12 @@
     <div class="col-xl-4">
       <!-- mapa -->
       <div style="padding-top: 40px">
-        <app-mapa *ngIf="mostrarRadio"></app-mapa>
-        <app-mapa *ngIf="mostrarRuta"></app-mapa>
+        <button type="button" class="btn btn-primary btn-lg icono-generar" (click)="actualizarRadio()"
+          >
+          Actualizar Radio
+        </button>
+        <app-mapa [valorRadioElegido]="radioElegido" (valorRadioEnviado)="capturarValorRadio($event)"></app-mapa>
+
 
       </div>
 
