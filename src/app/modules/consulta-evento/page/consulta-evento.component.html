@@ -116,7 +116,12 @@
                 <li class="list-group-item d-flex justify-content-between align-items-center"
                   *ngFor="let productoLista of aListaDeCompras">
                   <p class="fs-6">{{ productoLista.nombre }}</p>
-                  <span class="badge badge-primary rounded-pill" style="color: white">{{productoLista.unidades}} unidades</span>
+                  <span class="badge badge-primary rounded-pill" style="color: white" *ngIf="productoLista.seManejaPorUnidades"> 
+                    {{productoLista.unidades}} {{productoLista.medida}}
+                  </span>
+                  <span class="badge badge-primary rounded-pill" style="color: white" *ngIf="!productoLista.seManejaPorUnidades"> 
+                    {{productoLista.peso}} {{productoLista.medida}}
+                  </span>
                 </li>
               </ul>
               <div class="btn-container d-flex justify-content-center mt-3 mb-3">
