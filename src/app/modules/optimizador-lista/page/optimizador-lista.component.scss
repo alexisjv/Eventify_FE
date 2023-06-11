@@ -1,7 +1,16 @@
 .div-optimizador{
   padding-top: 50px;
 }
-
+.btn-pestaña-1{
+  background-color: #952FDB !important;
+}
+.btn-pestaña-2{
+  background-color: #D1201B !important;
+}
+.container-lista{
+  border-radius: 10px !important;
+  padding: 20px;
+}
 .activo{
   background-color: green;
 }
@@ -21,8 +30,9 @@
 .card-redondeada {
   display: flex;
   align-items: center;
-  background-color: #f2f2f2;
-  border-radius: 10px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  width: 250px;
   padding: 10px;
 }
 
@@ -45,6 +55,6 @@
 
 .contenido-derecha p {
   font-size: 16px;
-  color: #666666;
+ 
 }
 
