@@ -18,16 +18,16 @@ import { FormRecord } from '@angular/forms';
 })
 export class ConsultaEventoComponent {
   oSelecciones: {
-    idEventoSeleccionado:number
+    idEventoSeleccionado: number
     aComidasSeleccionadas: any[],
     aBebidasSeleccionadas: any[],
     nCantidadComensales: number
   } = {
-    idEventoSeleccionado:0,
-    aComidasSeleccionadas: [],
-    aBebidasSeleccionadas: [],
-    nCantidadComensales: 0
-  };
+      idEventoSeleccionado: 0,
+      aComidasSeleccionadas: [],
+      aBebidasSeleccionadas: [],
+      nCantidadComensales: 0
+    };
   aListaEventos!: Evento[];
   bMostrarOpcionSeleccionada: boolean = false;
   aTiposDeComidas!: Comidas[];
@@ -43,13 +43,13 @@ export class ConsultaEventoComponent {
   bMostrarLoading: boolean = false;
   bIsOpened = false;
   cButton;
-  oMapCantidadesProductos  = Map<string, number>;
+  oMapCantidadesProductos = Map<string, number>;
 
-  bMostrarKg:boolean=false;
+  bMostrarKg: boolean = false;
   bMostrarLt: boolean = false;
 
 
-  constructor( private router: Router,private consultaEventoService: ConsultaEventoService) { }
+  constructor(private router: Router, private consultaEventoService: ConsultaEventoService) { }
 
   ngOnInit(): void {
     this.getListaEventos();
@@ -76,7 +76,7 @@ export class ConsultaEventoComponent {
   mostrarTiposDeComida(idEvento: number) {
     this.oSelecciones.idEventoSeleccionado = idEvento;
     this.getTiposDeComidas(idEvento);
-    
+
     if (idEvento === 1) {
       this.sImg = 'assets/images/asistente-cumpleaños.gif';
     }
@@ -117,7 +117,7 @@ export class ConsultaEventoComponent {
     this.bMostrarPreguntaQueTipoDeBebida = true;
   }
 
-  onSeleccionBebida(idBebida){
+  onSeleccionBebida(idBebida) {
     this.cButton = document.getElementById("btn-checkBebida" + idBebida);
     if (this.cButton.style.backgroundColor === "rgb(242, 48, 48)") {
       this.cButton.style.backgroundColor = 'rgb(64, 64, 64)';
@@ -138,7 +138,7 @@ export class ConsultaEventoComponent {
     var oSelecciones = {
       idComidas: this.oSelecciones.aComidasSeleccionadas,
       idBebidas: this.oSelecciones.aBebidasSeleccionadas
-        }
+    }
     this.consultaEventoService.getListadeCompras(this.oSelecciones.nCantidadComensales, oSelecciones)
       .subscribe(
         (listaCompras: ProductoLista[]) => {
@@ -150,53 +150,23 @@ export class ConsultaEventoComponent {
         (error) => console.error(error)
       );
   }
-
-
-  obtenerProductosConSusCantidades(listaCompras : ProductoLista[]){
-    
-      let that= this;
-      debugger;
+  modificarListaConSusUnidades(listaCompras: ProductoLista[]) {
     listaCompras.forEach(oProducto => {
-     
-        this.oMapCantidadesProductos[oProducto.nombre] = <Number> oProducto.unidades;
-      });
-
-   modificarListaConSusUnidades (listaCompras: ProductoLista[]) {
-    
-    listaCompras.forEach(oProducto => {
-      if (!this.tieneUnidades(oProducto) ){
+      if (!this.tieneUnidades(oProducto)) {
         oProducto.seManejaPorUnidades = false;
-        if(this.elPesoEsMayorA1kg(oProducto)){
+        if (this.elPesoEsMayorA1kg(oProducto)) {
           oProducto = this.asignarUnidadesOPeso(oProducto);
-        }else{
-          oProducto.medida ="grs"
-        }     
-      }else{
+        } else {
+          oProducto.medida = "grs"
+        }
+      } else {
         oProducto.seManejaPorUnidades = true;
-        oProducto.medida ="unidades"
+        oProducto.medida = "unidades"
       }
       this.aListaDeCompras.push(oProducto);
     });
   }
-
-  private asignarUnidadesOPeso(oProducto: ProductoLista) {
-    if (oProducto.ingrediente) {
-      oProducto.peso = oProducto.peso / 1000;
-      oProducto.medida ="kgs"
-      this.bMostrarKg = true;
-    } else {
-      oProducto.medida ="lts"
-      oProducto.unidades = oProducto.peso / 1000;
-      oProducto.peso = oProducto.peso / 1000;
-      this.bMostrarLt = true;
-    }
-    return oProducto;
-  }
-
-  private elPesoEsMayorA1kg(oProducto: ProductoLista) {
-     return oProducto.peso > 1000;
-  }
-
+  
   consultar(): void {
     this.bMostrarListaDeProductos = true;
     this.bMostrarLoading = true;
@@ -214,9 +184,34 @@ export class ConsultaEventoComponent {
 
     this.router.navigate(['optimizador-lista'], { queryParams });
   }
+  obtenerProductosConSusCantidades(listaCompras: ProductoLista[]) {
+    listaCompras.forEach(oProducto => {
+      this.oMapCantidadesProductos[oProducto.nombre] = <Number>oProducto.unidades;
+    });
+  }
+  asignarUnidadesOPeso(oProducto: ProductoLista): ProductoLista {
+    if (oProducto.ingrediente) {
+      oProducto.peso = oProducto.peso / 1000;
+      oProducto.medida = "kgs"
+      this.bMostrarKg = true;
+    } else {
+      oProducto.medida = "lts"
+      oProducto.unidades = oProducto.peso / 1000;
+      oProducto.peso = oProducto.peso / 1000;
+      this.bMostrarLt = true;
+    }
+    return oProducto;
+  }
   private tieneUnidades(oProducto: ProductoLista) {
     return oProducto.unidades !== 0;
   }
+  private elPesoEsMayorA1kg(oProducto: ProductoLista) {
+    return oProducto.peso > 1000;
+  }
+
+
 }
+
+
 
 
