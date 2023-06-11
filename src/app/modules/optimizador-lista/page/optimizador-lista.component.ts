@@ -44,13 +44,16 @@ isOpenDiv3 = false;
         const cantidadComensales = params['cantidadComensales'];
         const comidasSeleccionadas = JSON.parse(params['comidas']);
         const bebidasSeleccionadas = JSON.parse(params['bebidas']);
-  
+        const oCantidadesPorProducto = JSON.parse(params['cantidadProductos']);
+        
+        // oCantidadesPorProducto.replace(/\\/g, "").replace(/\n/g, "");
         this.obtenerOfertas(
           latitudUbicacion,
           longitudUbicacion,
           cantidadComensales,
           comidasSeleccionadas,
-          bebidasSeleccionadas
+          bebidasSeleccionadas,
+          oCantidadesPorProducto
         );
       });
     }).catch((error) => {
@@ -112,7 +115,8 @@ toggleDiv3() {
     this.bResumen = false;
   }
 
-  obtenerOfertas(latitudUbicacion: number, longitudUbicacion: number, cantidadComensales: number, comidasSeleccionadas: number[], bebidasSeleccionadas: number[]) {
+  obtenerOfertas(latitudUbicacion: number, longitudUbicacion: number, cantidadComensales: number, 
+    comidasSeleccionadas: number[], bebidasSeleccionadas: number[], cantidadesPorProducto:{}) {
     const lista: ListaPost = {
       latitudUbicacion: latitudUbicacion,
       longitudUbicacion: longitudUbicacion,
@@ -123,6 +127,8 @@ toggleDiv3() {
       marcasBebida: [],
       cantidadInvitados: cantidadComensales,
       presupuesto: 0,
+      cantidadProductos: cantidadesPorProducto
+
     };
 
     this.listaCompraService.obtenerOfertas(lista).subscribe(
