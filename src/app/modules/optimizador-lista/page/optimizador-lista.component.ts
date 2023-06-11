@@ -4,6 +4,7 @@ import { OptimizadorListaService } from '../services/optimizador-lista.service';
 import { ListaPost } from '@core/models/listaPost';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from '@shared/services/shared.service';
+import{ ProductoCard } from '@core/models/productoCard';
 
 @Component({
   selector: 'app-optimizador-lista',
@@ -19,12 +20,13 @@ export class OptimizadorListaComponent implements OnInit {
   bResumen = false;
   bEscenarios = true;
   bEstaLogueado = false;
-  aListaOfertas!: Oferta[];
+  aListaProductos!: ProductoCard[];
   value = '';
   sVistaProducto: string = 'grid';
   vistaListaMasEconomica = true;
   vistaListaMenorRecorrido = false;
   isOpenDiv1 = true;
+  isOpenDiv1 = false;
   isOpenDiv2 = false;
   isOpenDiv3 = false;
   mostrarRadio: boolean = true;
@@ -35,6 +37,7 @@ export class OptimizadorListaComponent implements OnInit {
   bebidasSeleccionadas!: number[];
   latitudUbicacion!: number;
   longitudUbicacion!: number;
+oCantidadesPorProducto!: any;
   constructor(
     private listaCompraService: OptimizadorListaService,
     private route: ActivatedRoute,
@@ -42,6 +45,7 @@ export class OptimizadorListaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
     this.route.queryParams.subscribe((params) => {
       this.cantidadComensales = params['cantidadComensales'];
       this.comidasSeleccionadas = JSON.parse(params['comidas']);
@@ -49,13 +53,14 @@ export class OptimizadorListaComponent implements OnInit {
       this.latitudUbicacion = params['latitud'];
       this.longitudUbicacion = params['longitud'];
       this.radioElegido = params['radio'];
-
+      this.oCantidadesPorProducto = JSON.parse(params['cantidadProductos']);
       console.log(this.cantidadComensales);
       console.log(this.comidasSeleccionadas);
       console.log(this.bebidasSeleccionadas);
       console.log(this.latitudUbicacion);
       console.log(this.longitudUbicacion);
       console.log(this.radioElegido);
+      
 
       this.obtenerOfertas(
         this.latitudUbicacion,
@@ -63,9 +68,14 @@ export class OptimizadorListaComponent implements OnInit {
         this.cantidadComensales,
         this.comidasSeleccionadas,
         this.bebidasSeleccionadas,
-        this.radioElegido
+        this.radioElegido,
+        this.oCantidadesPorProducto
       );
     });
+}).catch((error) => {
+      console.error('Error al obtener la ubicación:', error);
+    });
+
   }
 
   toggleDiv1() {
@@ -124,6 +134,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.bResumen = false;
   }
 
+
   capturarValorRadio(valorRadio: number) {
     this.radioElegido = valorRadio;
     console.log('Valor del rango:', valorRadio);
@@ -146,7 +157,8 @@ export class OptimizadorListaComponent implements OnInit {
     cantidadComensales: number,
     comidasSeleccionadas: number[],
     bebidasSeleccionadas: number[],
-    valorRadio: number
+    valorRadio: number,
+      cantidadesPorProducto:{}
   ) {
     const lista: ListaPost = {
       latitudUbicacion: latitudUbicacion,
@@ -158,12 +170,14 @@ export class OptimizadorListaComponent implements OnInit {
       marcasBebida: [],
       cantidadInvitados: cantidadComensales,
       presupuesto: 0,
+      cantidadProductos: cantidadesPorProducto
+
     };
 
     this.listaCompraService.obtenerOfertas(lista).subscribe(
-      (response) => {
+      (response : ProductoCard[]) => {
         console.log('Respuesta:', response);
-        this.aListaOfertas = response;
+        this.aListaProductos = response;
       },
       (error) => {
         console.error('Error al obtener las ofertas:', error);
