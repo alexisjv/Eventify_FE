@@ -4,6 +4,7 @@ import { OptimizadorListaService } from '../services/optimizador-lista.service';
 import { ListaPost } from '@core/models/listaPost';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from '@shared/services/shared.service';
+import{ ProductoCard } from '@core/models/productoCard';
 
 @Component({
   selector: 'app-optimizador-lista',
@@ -19,7 +20,7 @@ export class OptimizadorListaComponent implements OnInit {
   bResumen = false;
   bEscenarios = true;
   bEstaLogueado = false;
-  aListaOfertas!: Oferta[];
+  aListaProductos!: ProductoCard[];
   value = '';
   sVistaProducto: string = 'grid';
   vistaListaMasEconomica = true;
@@ -27,6 +28,11 @@ export class OptimizadorListaComponent implements OnInit {
   isOpenDiv1 = false;
 isOpenDiv2 = false;
 isOpenDiv3 = false;
+cards: any[] = [
+  { title: 'Card 1', content: 'Contenido de la Card 1', image: 'imagen1.jpg' },
+  { title: 'Card 2', content: 'Contenido de la Card 2', image: 'imagen2.jpg' },
+  { title: 'Card 3', content: 'Contenido de la Card 3', image: 'imagen3.jpg' }
+];
 
   constructor(
     private listaCompraService: OptimizadorListaService,
@@ -132,9 +138,9 @@ toggleDiv3() {
     };
 
     this.listaCompraService.obtenerOfertas(lista).subscribe(
-      (response) => {
+      (response : ProductoCard[]) => {
         console.log('Respuesta:', response);
-        this.aListaOfertas = response;
+        this.aListaProductos = response;
       },
       (error) => {
         console.error('Error al obtener las ofertas:', error);
