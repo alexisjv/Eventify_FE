@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { SharedService } from '@shared/services/shared.service';
+import { Component, Input, OnInit } from '@angular/core';
 
 declare var google: any;
 
@@ -16,7 +15,8 @@ export class MapaComponent implements OnInit {
   nValorRadio: number = 5;
   circulo: any;
 
-  constructor(private mapaService: SharedService) {}
+
+  constructor() {}
 
   ngOnInit() {
     this.obtenerUbicacionActual();
@@ -38,17 +38,37 @@ export class MapaComponent implements OnInit {
     this.obtenerUbicacionActual();
   }
 
-  obtenerUbicacionActual() {
-    this.mapaService.obtenerUbicacionActual()
-      .then((ubicacionActual) => {
-        this.ubicacionActual = ubicacionActual;
-        this.centrarMapa();
+  obtenerUbicacionActual(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (posicion) => {
+            const ubicacionActual = {
+              lat: posicion.coords.latitude,
+              lng: posicion.coords.longitude,
+            };
+            resolve(ubicacionActual);
+          },
+          (error) => {
+            reject('Error al obtener la ubicación: ' + error);
+          }
+        );
+      } else {
+        reject('La geolocalización no es soportada por el navegador.');
+      }
+    })
+    .then((ubicacionActual) => {
+      this.ubicacionActual = ubicacionActual;
+      this.centrarMapa();
         this.agregarMarcadorRadio();
-      })
-      .catch((error) => {
-        console.error('Error al obtener la ubicación:', error);
-      });
+      
+      this.agregarMarcaUbicacionActual();
+    })
+    .catch((error) => {
+      console.error('Error al obtener la ubicación:', error);
+    });
   }
+  
 
   actualizarValorRadio(evento: any) {
     this.nValorRadio = evento.target.value;
@@ -64,6 +84,14 @@ export class MapaComponent implements OnInit {
     if (this.ubicacionActual) {
       this.map.setCenter(this.ubicacionActual);
     }
+  }
+
+  agregarMarcaUbicacionActual() {
+    const marcador = new google.maps.Marker({
+      position: this.ubicacionActual,
+      map: this.map,
+      title: 'Mi ubicación',
+    });
   }
 
   agregarMarcadorRadio() {
@@ -132,10 +160,10 @@ export class MapaComponent implements OnInit {
       travelMode: 'DRIVING',
     };
 
-    this.mapaService.calcularRuta(solicitudRuta)
+    this.calcularRuta(solicitudRuta)
       .then((respuesta) => {
         this.directionsRenderer.setDirections(respuesta);
-        return this.mapaService.calcularDistancia(origen, destino);
+        return this.calcularDistancia(origen, destino);
       })
       .then((distancia) => {
         console.log('Distancia del recorrido:', distancia);
@@ -179,5 +207,41 @@ export class MapaComponent implements OnInit {
     )}&waypoints=${puntosIntermedios.join('%7C')}&dirflg=d`;
 
     return enlaceMapa;
+  }
+
+
+  calcularDistancia(origen: any, destino: any): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const servicioDistancia = new google.maps.DistanceMatrixService();
+      servicioDistancia.getDistanceMatrix(
+        {
+          origins: [origen],
+          destinations: [destino],
+          travelMode: 'DRIVING',
+          unitSystem: google.maps.UnitSystem.METRIC,
+        },
+        (respuesta, estado) => {
+          if (estado === 'OK') {
+            const distancia = respuesta.rows[0].elements[0].distance.text;
+            resolve(distancia);
+          } else {
+            reject('No se pudo calcular la distancia. Error: ' + estado);
+          }
+        }
+      );
+    });
+  }
+
+  calcularRuta(solicitudRuta: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const directionsService = new google.maps.DirectionsService();
+      directionsService.route(solicitudRuta, (respuesta, estado) => {
+        if (estado === 'OK') {
+          resolve(respuesta);
+        } else {
+          reject('No se pudo calcular la ruta. Error: ' + estado);
+        }
+      });
+    });
   }
 }

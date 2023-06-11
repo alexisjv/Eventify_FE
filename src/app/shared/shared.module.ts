@@ -35,6 +35,9 @@ import { CardOfertaComponent } from './components/card-oferta/card-oferta.compon
     CardOfertaComponent
     
 
+  ],
+  providers: [
+    MapaComponent
   ]
 })
 export class SharedModule { }
