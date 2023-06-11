@@ -5,6 +5,8 @@ import { Bebidas } from 'src/app/core/models/bebidas';
 import { Evento } from 'src/app/core/models/evento';
 import { ProductoLista } from '@core/models/ProductoLista';
 import { ConsultaEventoService } from '../services/consulta-evento.service';
+import { MapType } from '@angular/compiler';
+import { FormRecord } from '@angular/forms';
 
 
 @Component({
@@ -41,8 +43,11 @@ export class ConsultaEventoComponent {
   bMostrarLoading: boolean = false;
   bIsOpened = false;
   cButton;
+  oMapCantidadesProductos  = Map<string, number>;
+
   bMostrarKg:boolean=false;
   bMostrarLt: boolean = false;
+
 
   constructor( private router: Router,private consultaEventoService: ConsultaEventoService) { }
 
@@ -140,10 +145,21 @@ export class ConsultaEventoComponent {
           this.aListaDeCompras = [];
           this.modificarListaConSusUnidades(listaCompras);
           this.bMostrarLoading = false;
+          this.obtenerProductosConSusCantidades(listaCompras);
         },
         (error) => console.error(error)
       );
   }
+
+
+  obtenerProductosConSusCantidades(listaCompras : ProductoLista[]){
+    
+      let that= this;
+      debugger;
+    listaCompras.forEach(oProducto => {
+     
+        this.oMapCantidadesProductos[oProducto.nombre] = <Number> oProducto.unidades;
+      });
 
    modificarListaConSusUnidades (listaCompras: ProductoLista[]) {
     
