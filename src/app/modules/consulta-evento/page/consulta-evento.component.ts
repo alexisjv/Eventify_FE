@@ -45,6 +45,10 @@ export class ConsultaEventoComponent {
   cButton;
   oMapCantidadesProductos  = Map<string, number>;
 
+  bMostrarKg:boolean=false;
+  bMostrarLt: boolean = false;
+
+
   constructor( private router: Router,private consultaEventoService: ConsultaEventoService) { }
 
   ngOnInit(): void {
@@ -138,13 +142,15 @@ export class ConsultaEventoComponent {
     this.consultaEventoService.getListadeCompras(this.oSelecciones.nCantidadComensales, oSelecciones)
       .subscribe(
         (listaCompras: ProductoLista[]) => {
-          this.aListaDeCompras = listaCompras;
+          this.aListaDeCompras = [];
+          this.modificarListaConSusUnidades(listaCompras);
           this.bMostrarLoading = false;
           this.obtenerProductosConSusCantidades(listaCompras);
         },
         (error) => console.error(error)
       );
   }
+
 
   obtenerProductosConSusCantidades(listaCompras : ProductoLista[]){
     
@@ -154,6 +160,41 @@ export class ConsultaEventoComponent {
      
         this.oMapCantidadesProductos[oProducto.nombre] = <Number> oProducto.unidades;
       });
+
+   modificarListaConSusUnidades (listaCompras: ProductoLista[]) {
+    
+    listaCompras.forEach(oProducto => {
+      if (!this.tieneUnidades(oProducto) ){
+        oProducto.seManejaPorUnidades = false;
+        if(this.elPesoEsMayorA1kg(oProducto)){
+          oProducto = this.asignarUnidadesOPeso(oProducto);
+        }else{
+          oProducto.medida ="grs"
+        }     
+      }else{
+        oProducto.seManejaPorUnidades = true;
+        oProducto.medida ="unidades"
+      }
+      this.aListaDeCompras.push(oProducto);
+    });
+  }
+
+  private asignarUnidadesOPeso(oProducto: ProductoLista) {
+    if (oProducto.ingrediente) {
+      oProducto.peso = oProducto.peso / 1000;
+      oProducto.medida ="kgs"
+      this.bMostrarKg = true;
+    } else {
+      oProducto.medida ="lts"
+      oProducto.unidades = oProducto.peso / 1000;
+      oProducto.peso = oProducto.peso / 1000;
+      this.bMostrarLt = true;
+    }
+    return oProducto;
+  }
+
+  private elPesoEsMayorA1kg(oProducto: ProductoLista) {
+     return oProducto.peso > 1000;
   }
 
   consultar(): void {
@@ -173,5 +214,9 @@ export class ConsultaEventoComponent {
 
     this.router.navigate(['optimizador-lista'], { queryParams });
   }
-
+  private tieneUnidades(oProducto: ProductoLista) {
+    return oProducto.unidades !== 0;
+  }
 }
+
+
