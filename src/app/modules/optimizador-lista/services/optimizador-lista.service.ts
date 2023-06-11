@@ -16,7 +16,7 @@ import { API_URL } from '@core/config/url';
     constructor(private http: HttpClient) { }
 
   obtenerOfertas(filtro: ListaPost): Observable<any> {
-    return this.http.post<Oferta>(API_URL + 'oferta/listaPersonalizada', filtro);
+    return this.http.post<Oferta>(API_URL + 'oferta/listadoOfertas', filtro);
   }
   
 }

@@ -1,4 +1,4 @@
-import { RouterModule } from '@angular/router';
+import { RouterModule } from 'node_modules/@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '@shared/components/header/header.component';
@@ -24,7 +24,8 @@ import { CardOfertaComponent } from './components/card-oferta/card-oferta.compon
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+  
   ],
   exports: [
     HeaderComponent,

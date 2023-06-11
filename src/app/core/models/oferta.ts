@@ -1,4 +1,6 @@
 export interface Oferta {
+  cantidad: number,
+  oferta:{
   idPublicacion: number;
   idTipoProducto: number;
   idLocalidad: number;
@@ -10,4 +12,6 @@ export interface Oferta {
   latitud: number;
   longitud: number;
   localidad: string;
+  }
+  subtotal: number;
 }

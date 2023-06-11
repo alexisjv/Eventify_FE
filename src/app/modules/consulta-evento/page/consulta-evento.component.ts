@@ -43,7 +43,7 @@ export class ConsultaEventoComponent {
   bMostrarLoading: boolean = false;
   bIsOpened = false;
   cButton;
-  oMapCantidadesProductos = Map<string, number>;
+  oMapCantidadesProductos = new Map<string, number>;
 
   bMostrarKg: boolean = false;
   bMostrarLt: boolean = false;
@@ -166,7 +166,7 @@ export class ConsultaEventoComponent {
       this.aListaDeCompras.push(oProducto);
     });
   }
-  
+
   consultar(): void {
     this.bMostrarListaDeProductos = true;
     this.bMostrarLoading = true;
@@ -176,17 +176,24 @@ export class ConsultaEventoComponent {
   }
 
   verOfertas() {
+    const oCantidadesPorProducto = Object.fromEntries(this.oMapCantidadesProductos);
+    
     const queryParams = {
       cantidadComensales: this.oSelecciones.nCantidadComensales,
       comidas: JSON.stringify(this.oSelecciones.aComidasSeleccionadas),
-      bebidas: JSON.stringify(this.oSelecciones.aBebidasSeleccionadas)
+      bebidas: JSON.stringify(this.oSelecciones.aBebidasSeleccionadas),
+      cantidadProductos:JSON.stringify(oCantidadesPorProducto, null, 2)
     };
-
+    debugger;
     this.router.navigate(['optimizador-lista'], { queryParams });
   }
   obtenerProductosConSusCantidades(listaCompras: ProductoLista[]) {
     listaCompras.forEach(oProducto => {
-      this.oMapCantidadesProductos[oProducto.nombre] = <Number>oProducto.unidades;
+      if(this.tieneUnidades(oProducto)){
+        this.oMapCantidadesProductos.set(oProducto.nombre , oProducto.unidades);
+      }else{
+        this.oMapCantidadesProductos.set(oProducto.nombre ,oProducto.peso);
+      }
     });
   }
   asignarUnidadesOPeso(oProducto: ProductoLista): ProductoLista {
