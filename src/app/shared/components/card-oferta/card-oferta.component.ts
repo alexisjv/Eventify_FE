@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Oferta } from '@core/models/oferta';
 
 @Component({
   selector: 'app-card-oferta',
@@ -18,4 +19,12 @@ export class CardOfertaComponent {
   imagen!: string;
   @Input() 
   i!: number;
+  @Input()
+  idProducto!: number;
+  @Input() oferta!: Oferta;
+  @Output() publicacionConfirmada = new EventEmitter<Oferta>();
+
+  confirmarPublicacion() {
+    this.publicacionConfirmada.emit(this.oferta);
+  }
 }
