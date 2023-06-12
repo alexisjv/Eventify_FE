@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { Oferta } from 'src/app/core/models/oferta';
 import { OptimizadorListaService } from '../services/optimizador-lista.service';
 import { ListaPost } from '@core/models/listaPost';
@@ -38,6 +38,11 @@ export class OptimizadorListaComponent implements OnInit {
   longitudUbicacion!: number;
   oCantidadesPorProducto: any;
   aListaProductos!: ProductoCard[];
+  aListaComercios!: any[];
+  aListaSeleccionComercio!:any[];
+  isOpenListaSeleccionComercio: boolean = true;
+  totalListaDeComercio!: number;
+  activeButton = -1;
   constructor(
     private listaCompraService: OptimizadorListaService,
     private route: ActivatedRoute,
@@ -45,6 +50,87 @@ export class OptimizadorListaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+    this.aListaComercios = [
+      {
+        nombreComercio: "Walmart",
+        total: 2500,
+        listaOfertas:[{
+            "idPublicacion": 1,
+            "idTipoProducto": 2,
+            "tipoProducto": "Fernet",
+            "nombreProducto": "Branca",
+            "marca": "Branca",
+            "imagen": "https://d2r9epyceweg5n.cloudfront.net/stores/001/151/835/products/77908950004301-80602de5b61cff11bb15890782195412-640-0.jpg",
+            "precio": 0,
+            "peso": 0,
+            "unidades": 0,
+            "nombreComercio": "Walmart",
+            "localidad": "Localidad",
+            "idLocalidad": 2,
+            "latitud": 2,
+            "longitud": 2
+          },
+          {
+            "idPublicacion": 2,
+            "idTipoProducto": 2,
+            "tipoProducto": "prodcuto2",
+            "marca": "producto",
+            "imagen": "https://d2r9epyceweg5n.cloudfront.net/stores/001/151/835/products/77908950004301-80602de5b61cff11bb15890782195412-640-0.jpg",
+            "precio": 0,
+            "peso": 0,
+            "unidades": 0,
+            "nombreComercio": "Walmart",
+            "localidad": "localid",
+            "idLocalidad": 2,
+            "latitud": 2,
+            "longitud": 2
+          },
+        ]
+      },
+      {
+        nombreComercio: "Dia",
+        total:3000,
+        listaOfertas:[{
+            "idPublicacion": 1,
+            "idTipoProducto": 2,
+            "tipoProducto": "Fernet",
+            "nombreProducto": "Branca",
+            "marca": "Branca",
+            "imagen": "https://d2r9epyceweg5n.cloudfront.net/stores/001/151/835/products/77908950004301-80602de5b61cff11bb15890782195412-640-0.jpg",
+            "precio": 0,
+            "peso": 0,
+            "unidades": 0,
+            "nombreComercio": "Dia",
+            "localidad": "Localidad",
+            "idLocalidad": 2,
+            "latitud": 2,
+            "longitud": 2
+          },
+          {
+            "idPublicacion": 2,
+            "idTipoProducto": 2,
+            "tipoProducto": "prodcuto2",
+            "marca": "producto",
+            "imagen": "https://d2r9epyceweg5n.cloudfront.net/stores/001/151/835/products/77908950004301-80602de5b61cff11bb15890782195412-640-0.jpg",
+            "precio": 0,
+            "peso": 0,
+            "unidades": 0,
+            "nombreComercio": "Dia",
+            "localidad": "localid",
+            "idLocalidad": 2,
+            "latitud": 2,
+            "longitud": 2
+          },
+        ]
+      }
+     
+    ]
+
+    this.aListaSeleccionComercio = this.aListaComercios[0].listaOfertas;
+    this.totalListaDeComercio = this.aListaComercios[0].total;
+    
+    
     this.route.queryParams.subscribe((params) => {
       this.cantidadComensales = params['cantidadComensales'];
       this.comidasSeleccionadas = JSON.parse(params['comidas']);
@@ -215,5 +301,12 @@ export class OptimizadorListaComponent implements OnInit {
     ];
 
     this.mapaService.obtenerRuta(comercios, this.radioElegido);
+  }
+
+  onClickVerListaDeComercio (comercio:any){
+    this.aListaSeleccionComercio = comercio.listaOfertas;
+    this.isOpenListaSeleccionComercio = true;
+    this.totalListaDeComercio = comercio.total;
+    
   }
 }
