@@ -243,4 +243,8 @@
   .labelMapa{
 padding-bottom: 50px;
   }
+  .scrollable-list {
+    max-height: 300px; /* Altura máxima de la lista */
+    overflow-y: auto; /* Habilitar el scroll vertical */
+  }
   

@@ -8,6 +8,7 @@ import { MapaComponent } from './components/mapa/mapa.component';
 import { FormsModule } from '@angular/forms';
 import { DireccionAutocompletadoComponent } from './components/direccion-autocompletado/direccion-autocompletado.component';
 import { CardOfertaComponent } from './components/card-oferta/card-oferta.component';
+import { CardComercioComponent } from './components/card-comercio/card-comercio.component';
 
 
 
@@ -19,7 +20,8 @@ import { CardOfertaComponent } from './components/card-oferta/card-oferta.compon
         FormRegistroComponent,
         MapaComponent,
         DireccionAutocompletadoComponent,
-        CardOfertaComponent
+        CardOfertaComponent,
+        CardComercioComponent
   ],
   imports: [
     CommonModule,

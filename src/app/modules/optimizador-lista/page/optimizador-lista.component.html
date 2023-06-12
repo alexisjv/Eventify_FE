@@ -48,6 +48,7 @@
                     <p>Comercios a visitar: {{ cantidadComerciosMasEconomico }}</p>
                     <p>Distancia a recorrer: {{ distanciaMasEconomico }}</p>
                     <p>Total: ${{ totalMasEconomico }}</p>
+
                   </div>
                 </button>
               </div>
@@ -66,8 +67,8 @@
                     />
                   </div>
                   <div class="contenido-derecha text-light">
-                    <h3>Título</h3>
-                    <p>Subtítulo</p>
+                    <h3>Elegir por comercio</h3>
+                    <p class="text-light">Total: ${{totalListaDeComercio}}</p>
                   </div>
                 </button>
               </div>
@@ -92,7 +93,7 @@
                 Deslizá con las flechas hasta encontrar la mejor marca para vos.
               </p>
             </div>
-            <div *ngFor="let producto of aListaProductos; let i = index" data-aos="fade-up" [attr.data-aos-delay]="100" class="d-flex justify-content-center">
+           <div *ngFor="let producto of aListaProductos; let i = index" data-aos="fade-up" [attr.data-aos-delay]="100" class="d-flex justify-content-center">
               <ngb-carousel [interval]="-1" *ngIf="producto.ofertas.length > 0" [showNavigationArrows]="producto.showArrows">
                 <ng-template ngbSlide let-j="index" *ngFor="let publicacion of producto.ofertas">
                   <app-card-oferta
@@ -109,6 +110,7 @@
               ></app-card-oferta>
                 </ng-template>
               </ngb-carousel>
+
             </div>
             
           </div>
@@ -121,15 +123,42 @@
               class="rounded-pill mt-3 text-body-emphasis text-light p-2 d-flex row align-self-start"
             >
               <h2>Recorré menos!</h2>
-              <h3>Te ofrecemos todas las ofertas en un solo lugar</h3>
-              <p class="fs-6 ms-1">
-                <i class="bi bi-caret-right-fill"></i>Hace click en cada
-                comercio para ver la lista completa de ofertas
-              </p>
-              <p class="fs-6 ms-1">
-                <i class="bi bi-caret-right-fill"></i>Seleccioná una lista para
-                compararla con las mejores ofertas dentro de tu radio
-              </p>
+              <!-- <h3> Te ofrecemos todas las ofertas en un solo lugar</h3>
+              <p class="fs-6 ms-1"><i class="bi bi-caret-right-fill"></i>Hace click en cada comercio para ver la lista
+                completa de ofertas</p>
+              <p class="fs-6 ms-1"><i class="bi bi-caret-right-fill"></i>Seleccioná una lista para compararla con las
+                mejores ofertas dentro de tu radio</p> -->
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column" *ngFor="let comercio of aListaComercios; let i = index">
+                        <button class="btn btn-primary mt-2" id="boton{{comercio.nombreComercio}}" (click)="onClickVerListaDeComercio(comercio)" [class.active]="activeButton === i">
+                          <div class="imagen-izquierda">
+                            <img src="../../../../assets/icons/Comercio.svg" alt="Imagen" width="20px" />
+                          </div>
+                          <div class="contenido-derecha text-light">
+                            <h3>{{comercio.nombreComercio}}</h3>
+                            <p class="text-light">Total: $ {{comercio.total}}</p>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-8" *ngIf="isOpenListaSeleccionComercio">
+                      <div *ngFor="let producto of aListaSeleccionComercio; let i = index" data-aos="fade-up" [attr.data-aos-delay]="100"
+                          class="d-flex justify-content-center">
+                              <app-card-oferta class="mb-3" [nombreProducto]="producto.nombreProducto"
+                                [marca]="producto.marca" [precio]="producto.precio"
+                                [nombreComercio]="producto.nombreComercio" [imagen]="producto.imagen">
+                              </app-card-oferta>
+                          
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+
             </div>
             <!-- <div *ngFor="let oferta of aListaOfertas; let i = index" data-aos="fade-up" [attr.data-aos-delay]="100"
               class="d-flex justify-content-center">
@@ -222,13 +251,7 @@
     <div class="col-xl-4">
       <!-- mapa -->
       <div style="padding-top: 40px">
-        <button
-          type="button"
-          class="btn btn-primary btn-lg icono-generar"
-          (click)="actualizarRadio()"
-        >
-          Actualizar Radio
-        </button>
+
         <app-mapa
           [valorRadioElegido]="radioElegido"
           (valorRadioEnviado)="capturarValorRadio($event)"
