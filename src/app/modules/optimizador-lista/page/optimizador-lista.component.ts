@@ -20,7 +20,7 @@ export class OptimizadorListaComponent implements OnInit {
   bResumen = false;
   bEscenarios = true;
   bEstaLogueado = false;
-  aListaOfertas!:Oferta[];
+  aListaOfertas!: Oferta[];
   value = '';
   sVistaProducto: string = 'grid';
   vistaListaMasEconomica = true;
@@ -38,9 +38,8 @@ export class OptimizadorListaComponent implements OnInit {
   longitudUbicacion!: number;
   oCantidadesPorProducto: any;
   aListaProductos!: ProductoCard[];
-  ofertasPrincipales: any[] = [];
-
-
+  ofertasPrincipales: Oferta[] = [];
+  rutaComercios: any = [];
 
   constructor(
     private listaCompraService: OptimizadorListaService,
@@ -92,7 +91,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.isOpenDiv3 = !this.isOpenDiv3;
   }
 
-  obtenerLatLong(publicacion: any) {
+  /*    obtenerLatLong(publicacion: any) {
     if (publicacion.esPrincipal) {
       const comercioPrincipal = {
         ubicacion: {
@@ -108,8 +107,8 @@ export class OptimizadorListaComponent implements OnInit {
         this.ofertasPrincipales.splice(index, 1);
       }
     }
-  }
-  
+  } 
+   */
 
   cambiarAListaMasEconomico() {
     this.vistaListaMasEconomica = true;
@@ -188,42 +187,42 @@ export class OptimizadorListaComponent implements OnInit {
       marcasBebida: [],
       cantidadInvitados: cantidadComensales,
       presupuesto: 0,
-      cantidadProductos: oCantidadesPorProducto
+      cantidadProductos: oCantidadesPorProducto,
     };
-  
+
     this.listaCompraService.obtenerOfertas(lista).subscribe(
       (response: ProductoCard[]) => {
         console.log('Respuesta:', response);
-        this.ofertasPrincipales.push({
-          ubicacion: {
-            lat: parseFloat(latitudUbicacion.toString()),
-            lng: parseFloat(longitudUbicacion.toString()),
-          },
-          nombre: 'Mi ubicación',
-        });
-  
+
         for (const productoCard of response) {
           const ofertas = productoCard.ofertas;
-  
+
           if (ofertas && ofertas.length > 0) {
             const primeraOferta = ofertas[0].oferta;
-            const comercio = {
-              ubicacion: {
-                lat: primeraOferta.latitud,
-                lng: primeraOferta.longitud,
+            const comercio: Oferta = {
+              cantidad: ofertas[0].cantidad,
+              subtotal: ofertas[0].subtotal,
+              oferta: {
+                idPublicacion: primeraOferta.idPublicacion,
+                idTipoProducto: primeraOferta.idTipoProducto,
+                idLocalidad: primeraOferta.idLocalidad,
+                nombreProducto: primeraOferta.nombreProducto,
+                marca: primeraOferta.marca,
+                imagen: primeraOferta.imagen,
+                precio: primeraOferta.precio,
+                nombreComercio: primeraOferta.nombreComercio,
+                latitud: primeraOferta.latitud,
+                longitud: primeraOferta.longitud,
+                localidad: primeraOferta.localidad,
               },
-              nombre: primeraOferta.nombreComercio,
             };
-  
-            this.ofertasPrincipales.push({
-              ...comercio,
-              primeraOferta: primeraOferta // Agregar la información de la primera oferta al objeto comercio
-            });
+
+            this.ofertasPrincipales.push(comercio);
           }
         }
-  
+
         console.log('Comercios:', this.ofertasPrincipales);
-  
+
         this.aListaProductos = response;
       },
       (error) => {
@@ -231,14 +230,60 @@ export class OptimizadorListaComponent implements OnInit {
       }
     );
   }
+
+  agregarPublicacionConfirmada(publicacionConfirmada: Oferta) {
+    console.log('ofertas anteriores:', this.ofertasPrincipales);
+  
+    // Eliminar la publicación anterior si existe
+    const index = this.ofertasPrincipales.findIndex(
+      (oferta) => oferta.oferta.idPublicacion === publicacionConfirmada.oferta.idPublicacion
+    );
+    if (index !== -1) {
+      this.ofertasPrincipales.splice(index, 1);
+    }
+  
+    // Agregar la nueva publicación confirmada
+    this.ofertasPrincipales.push(publicacionConfirmada);
+  
+    console.log('ofertas posteriores:', this.ofertasPrincipales);
+  
+    // Aquí puedes realizar cualquier otra acción necesaria con la publicación confirmada
+  }
+
   
   
   
 
   obtenerRutaMasEconomico() {
-    console.log('comercios principales: ' + this.ofertasPrincipales);
+    this.rutaComercios = [];
+    const latitud = parseFloat(this.latitudUbicacion.toString());
+    const longitud = parseFloat(this.longitudUbicacion.toString());
 
-    this.mapaService.obtenerRuta(this.ofertasPrincipales, this.radioElegido);
+    const ubicacionOrigen = {
+      ubicacion: { lat: latitud, lng: longitud },
+      nombre: 'Mi ubicación',
+    };
+
+    this.rutaComercios.push(ubicacionOrigen);
+    console.log('estas son las ofertas', this.ofertasPrincipales);
+
+    for (const oferta of this.ofertasPrincipales) {
+      const ubicacion = {
+        lat: oferta.oferta.latitud,
+        lng: oferta.oferta.longitud,
+      };
+
+      const comercio = {
+        ubicacion: ubicacion,
+        nombre: oferta.oferta.nombreComercio,
+      };
+
+      this.rutaComercios.push(comercio);
+    }
+
+    console.log('comercios principales:', this.rutaComercios);
+
+    this.mapaService.obtenerRuta(this.rutaComercios, this.radioElegido);
   }
 
   obtenerRutaMenorRecorrido() {
