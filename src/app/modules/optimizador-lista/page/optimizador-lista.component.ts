@@ -38,6 +38,10 @@ export class OptimizadorListaComponent implements OnInit {
   longitudUbicacion!: number;
   oCantidadesPorProducto: any;
   aListaProductos!: ProductoCard[];
+  ofertasPrincipales: any[] = [];
+
+
+
   constructor(
     private listaCompraService: OptimizadorListaService,
     private route: ActivatedRoute,
@@ -88,6 +92,25 @@ export class OptimizadorListaComponent implements OnInit {
     this.isOpenDiv3 = !this.isOpenDiv3;
   }
 
+  obtenerLatLong(publicacion: any) {
+    if (publicacion.esPrincipal) {
+      const comercioPrincipal = {
+        ubicacion: {
+          lat: publicacion.oferta.latitud,
+          lng: publicacion.oferta.longitud
+        },
+        nombre: publicacion.oferta.nombreComercio
+      };
+      this.ofertasPrincipales.push(comercioPrincipal);
+    } else {
+      const index = this.ofertasPrincipales.findIndex(comercio => comercio.nombre === publicacion.oferta.nombreComercio);
+      if (index !== -1) {
+        this.ofertasPrincipales.splice(index, 1);
+      }
+    }
+  }
+  
+
   cambiarAListaMasEconomico() {
     this.vistaListaMasEconomica = true;
     this.vistaListaMenorRecorrido = false;
@@ -134,6 +157,7 @@ export class OptimizadorListaComponent implements OnInit {
   }
 
   actualizarRadio() {
+    this.ofertasPrincipales.splice(0);
     this.obtenerOfertas(
       this.latitudUbicacion,
       this.longitudUbicacion,
@@ -166,11 +190,40 @@ export class OptimizadorListaComponent implements OnInit {
       presupuesto: 0,
       cantidadProductos: oCantidadesPorProducto
     };
-
+  
     this.listaCompraService.obtenerOfertas(lista).subscribe(
-      (response : ProductoCard[]) => {
+      (response: ProductoCard[]) => {
         console.log('Respuesta:', response);
-        // this.aListaOfertas = response;
+        this.ofertasPrincipales.push({
+          ubicacion: {
+            lat: parseFloat(latitudUbicacion.toString()),
+            lng: parseFloat(longitudUbicacion.toString()),
+          },
+          nombre: 'Mi ubicación',
+        });
+  
+        for (const productoCard of response) {
+          const ofertas = productoCard.ofertas;
+  
+          if (ofertas && ofertas.length > 0) {
+            const primeraOferta = ofertas[0].oferta;
+            const comercio = {
+              ubicacion: {
+                lat: primeraOferta.latitud,
+                lng: primeraOferta.longitud,
+              },
+              nombre: primeraOferta.nombreComercio,
+            };
+  
+            this.ofertasPrincipales.push({
+              ...comercio,
+              primeraOferta: primeraOferta // Agregar la información de la primera oferta al objeto comercio
+            });
+          }
+        }
+  
+        console.log('Comercios:', this.ofertasPrincipales);
+  
         this.aListaProductos = response;
       },
       (error) => {
@@ -178,24 +231,14 @@ export class OptimizadorListaComponent implements OnInit {
       }
     );
   }
+  
+  
+  
 
   obtenerRutaMasEconomico() {
-    const comercios = [
-      {
-        ubicacion: { lat: -34.6507, lng: -58.5590233379016 },
-        nombre: 'Comercio 1',
-      },
-      {
-        ubicacion: { lat: -34.65059, lng: -58.559441816 },
-        nombre: 'Comercio 2',
-      },
-      {
-        ubicacion: { lat: -34.6505, lng: -58.5590231222816 },
-        nombre: 'Comercio 3',
-      },
-    ];
+    console.log('comercios principales: ' + this.ofertasPrincipales);
 
-    this.mapaService.obtenerRuta(comercios, this.radioElegido);
+    this.mapaService.obtenerRuta(this.ofertasPrincipales, this.radioElegido);
   }
 
   obtenerRutaMenorRecorrido() {

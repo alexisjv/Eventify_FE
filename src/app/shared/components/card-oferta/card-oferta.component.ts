@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'app-card-oferta',
   templateUrl: './card-oferta.component.html',
-  styleUrls: ['./card-oferta.component.scss']
+  styleUrls: ['./card-oferta.component.scss'],
 })
 export class CardOfertaComponent {
   @Input()
@@ -16,6 +16,6 @@ export class CardOfertaComponent {
   nombreComercio!: string;
   @Input()
   imagen!: string;
-  @Input() i!: number;
-
+  @Input() 
+  i!: number;
 }
