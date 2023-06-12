@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
+// import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,7 +18,7 @@ import { SharedModule } from '@shared/shared.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgxQRCodeModule,
+    // NgxQRCodeModule,
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,

@@ -20,7 +20,7 @@ export class OptimizadorListaComponent implements OnInit {
   bResumen = false;
   bEscenarios = true;
   bEstaLogueado = false;
-  aListaOfertas!:ProductoCard[];
+  aListaOfertas!:Oferta[];
   value = '';
   sVistaProducto: string = 'grid';
   vistaListaMasEconomica = true;
@@ -37,6 +37,7 @@ export class OptimizadorListaComponent implements OnInit {
   latitudUbicacion!: number;
   longitudUbicacion!: number;
   oCantidadesPorProducto: any;
+  aListaProductos!: ProductoCard[];
   constructor(
     private listaCompraService: OptimizadorListaService,
     private route: ActivatedRoute,
@@ -169,7 +170,8 @@ export class OptimizadorListaComponent implements OnInit {
     this.listaCompraService.obtenerOfertas(lista).subscribe(
       (response : ProductoCard[]) => {
         console.log('Respuesta:', response);
-        this.aListaOfertas = response;
+        // this.aListaOfertas = response;
+        this.aListaProductos = response;
       },
       (error) => {
         console.error('Error al obtener las ofertas:', error);
