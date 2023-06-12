@@ -2,31 +2,46 @@
   <div class="row">
     <div class="col-xl-2">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="flexCheckDefault"
+        />
         <label class="form-check-label" for="flexCheckDefault">
           Default checkbox
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked />
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="flexCheckChecked"
+          checked
+        />
         <label class="form-check-label" for="flexCheckChecked">
           Checked checkbox
         </label>
       </div>
     </div>
 
-
-
     <div class="col-xl-6">
       <div class="container">
         <div class="row">
           <ul class="nav nav-tabs d-flex justify-content-around">
-            <li class="nav-item ">
+            <li class="nav-item">
               <div>
-                <button class="btn btn-pestaña-1 card-redondeada" [ngClass]="{ 'active': isOpenDiv1 }"
-                  (click)="toggleDiv1()">
+                <button
+                  class="btn btn-pestaña-1 card-redondeada"
+                  [ngClass]="{ active: isOpenDiv1 }"
+                  (click)="toggleDiv1()"
+                >
                   <div class="imagen-izquierda">
-                    <img src="../../../../assets/icons/precio.svg" alt="Imagen" />
+                    <img
+                      src="../../../../assets/icons/precio.svg"
+                      alt="Imagen"
+                    />
                   </div>
                   <div class="contenido-derecha text-light">
                     <h3>Título</h3>
@@ -36,11 +51,17 @@
               </div>
               <!-- <a class="nav-link active" aria-current="page" href="#">Active</a> -->
             </li>
-            <li class="nav-item ">
-              <div [ngClass]="{ 'active': isOpenDiv2 }">
-                <button class="btn btn-pestaña-2 card-redondeada" (click)="toggleDiv2()">
+            <li class="nav-item">
+              <div [ngClass]="{ active: isOpenDiv2 }">
+                <button
+                  class="btn btn-pestaña-2 card-redondeada"
+                  (click)="toggleDiv2()"
+                >
                   <div class="imagen-izquierda">
-                    <img src="../../../../assets/icons/Comercio.svg" alt="Imagen" />
+                    <img
+                      src="../../../../assets/icons/Comercio.svg"
+                      alt="Imagen"
+                    />
                   </div>
                   <div class="contenido-derecha text-light">
                     <h3>Título</h3>
@@ -52,12 +73,22 @@
           </ul>
         </div>
         <div>
-          <div class="col-12 container-lista" *ngIf="isOpenDiv1" style="background-color:  #952FDB">
-            <div class="rounded-pill mt-3 text-body-emphasis text-light p-2 d-flex row align-self-start ">
+          <div
+            class="col-12 container-lista"
+            *ngIf="isOpenDiv1"
+            style="background-color: #952fdb"
+          >
+            <div
+              class="rounded-pill mt-3 text-body-emphasis text-light p-2 d-flex row align-self-start"
+            >
               <h2>Las mejores ofertas dentro de tu radio</h2>
-              <p class="fs-6 ms-1"><i class="bi bi-caret-right-fill"></i>¿Querés cambiar la marca de tus productos?</p>
-              <p class="fs-6 ms-4">Deslizá con las flechas hasta encontrar la mejor marca para vos.</p>
-
+              <p class="fs-6 ms-1">
+                <i class="bi bi-caret-right-fill"></i>¿Querés cambiar la marca
+                de tus productos?
+              </p>
+              <p class="fs-6 ms-4">
+                Deslizá con las flechas hasta encontrar la mejor marca para vos.
+              </p>
             </div>
             <div *ngFor="let producto of aListaProductos; let i = index" data-aos="fade-up" [attr.data-aos-delay]="100"
               class="d-flex justify-content-center">
@@ -69,15 +100,27 @@
                 </ng-template>
               </ngb-carousel>
               
+
             </div>
           </div>
-          <div class="col-12 container-lista" *ngIf="isOpenDiv2" style="background-color: #D1201B">
-            <div class="rounded-pill mt-3 text-body-emphasis text-light p-2 d-flex row align-self-start ">
+          <div
+            class="col-12 container-lista"
+            *ngIf="isOpenDiv2"
+            style="background-color: #d1201b"
+          >
+            <div
+              class="rounded-pill mt-3 text-body-emphasis text-light p-2 d-flex row align-self-start"
+            >
               <h2>Recorré menos!</h2>
-              <h3> Te ofrecemos todas las ofertas en un solo lugar</h3>
-              <p class="fs-6 ms-1"><i class="bi bi-caret-right-fill"></i>Hace click en cada comercio para ver la lista completa de ofertas</p>
-              <p class="fs-6 ms-1"><i class="bi bi-caret-right-fill"></i>Seleccioná una lista para compararla con las mejores ofertas dentro de tu radio</p>
-
+              <h3>Te ofrecemos todas las ofertas en un solo lugar</h3>
+              <p class="fs-6 ms-1">
+                <i class="bi bi-caret-right-fill"></i>Hace click en cada
+                comercio para ver la lista completa de ofertas
+              </p>
+              <p class="fs-6 ms-1">
+                <i class="bi bi-caret-right-fill"></i>Seleccioná una lista para
+                compararla con las mejores ofertas dentro de tu radio
+              </p>
             </div>
             <!-- <div *ngFor="let oferta of aListaOfertas; let i = index" data-aos="fade-up" [attr.data-aos-delay]="100"
               class="d-flex justify-content-center">
@@ -167,22 +210,29 @@
                             </div>
                           </div> -->
 
-
     <div class="col-xl-4">
       <!-- mapa -->
       <div style="padding-top: 40px">
-        <button type="button" class="btn btn-primary btn-lg icono-generar" (click)="actualizarRadio()"
-          >
+        <button
+          type="button"
+          class="btn btn-primary btn-lg icono-generar"
+          (click)="actualizarRadio()"
+        >
           Actualizar Radio
         </button>
-        <app-mapa [valorRadioElegido]="radioElegido" (valorRadioEnviado)="capturarValorRadio($event)"></app-mapa>
-
-
+        <app-mapa
+          [valorRadioElegido]="radioElegido"
+          (valorRadioEnviado)="capturarValorRadio($event)"
+        ></app-mapa>
       </div>
 
       <div>
-        <button type="button" class="btn btn-primary btn-lg icono-generar" (click)="obtenerResumen()"
-          *ngIf="!bEstaLogueado">
+        <button
+          type="button"
+          class="btn btn-primary btn-lg icono-generar"
+          (click)="obtenerResumen()"
+          *ngIf="!bEstaLogueado"
+        >
           Resumen de lista
         </button>
       </div>
@@ -300,3 +350,4 @@
       </div>
     </div>
   </div> -->
+</div>
