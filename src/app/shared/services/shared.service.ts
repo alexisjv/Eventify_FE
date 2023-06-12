@@ -18,10 +18,8 @@ export class SharedService {
   // Servicios de Mapa 
 
 
-  obtenerRuta(comercios: any[], radio: number) {
-    this.mapa.calcularYMostrarRuta(comercios, radio, (distancia: string) => {
-      console.log(distancia);
-    });
+  obtenerRuta(comercios: any[], radio: number, callback: (distancia: string) => void) {
+    this.mapa.calcularYMostrarRuta(comercios, radio, callback);
   }
 
   enviarValorRadio(valorRadio: number) {
