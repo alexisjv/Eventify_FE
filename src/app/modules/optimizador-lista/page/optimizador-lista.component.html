@@ -44,8 +44,10 @@
                     />
                   </div>
                   <div class="contenido-derecha text-light">
-                    <h3>Título</h3>
-                    <p class="text-light">Subtítulo</p>
+                    <h3>Ofertas</h3>
+                    <p>Comercios a visitar: {{ cantidadComerciosMasEconomico }}</p>
+                    <p>Distancia a recorrer: {{ distanciaMasEconomico }}</p>
+                    <p>Total: ${{ totalMasEconomico }}</p>
                   </div>
                 </button>
               </div>
@@ -90,19 +92,10 @@
                 Deslizá con las flechas hasta encontrar la mejor marca para vos.
               </p>
             </div>
-            <div
-              *ngFor="let producto of aListaProductos; let i = index"
-              data-aos="fade-up"
-              [attr.data-aos-delay]="100"
-              class="d-flex justify-content-center"
-            >
-              <ngb-carousel [interval]="-1" *ngIf="producto.ofertas.length > 0">
-                <ng-template
-                  ngbSlide
-                  let-i="index"
-                  *ngFor="let publicacion of producto.ofertas"
-                >
-                <app-card-oferta
+            <div *ngFor="let producto of aListaProductos; let i = index" data-aos="fade-up" [attr.data-aos-delay]="100" class="d-flex justify-content-center">
+              <ngb-carousel [interval]="-1" *ngIf="producto.ofertas.length > 0" [showNavigationArrows]="producto.showArrows">
+                <ng-template ngbSlide let-j="index" *ngFor="let publicacion of producto.ofertas">
+                  <app-card-oferta
                 [nombreProducto]="publicacion.oferta.nombreProducto"
                 [marca]="publicacion.oferta.marca"
                 [precio]="publicacion.oferta.precio"
@@ -110,12 +103,14 @@
                 [imagen]="publicacion.oferta.imagen"
                 [idProducto]="publicacion.oferta.idPublicacion"
                 [oferta]="publicacion"
-                (publicacionConfirmada)="agregarPublicacionConfirmada($event)"
+                [i]="i"
+                (ofertaSeleccionadaActual)="cambiarMarca($event)"
+
               ></app-card-oferta>
-              
                 </ng-template>
               </ngb-carousel>
             </div>
+            
           </div>
           <div
             class="col-12 container-lista"

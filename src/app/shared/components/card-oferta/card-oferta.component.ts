@@ -22,9 +22,13 @@ export class CardOfertaComponent {
   @Input()
   idProducto!: number;
   @Input() oferta!: Oferta;
-  @Output() publicacionConfirmada = new EventEmitter<Oferta>();
+  @Output() ofertaSeleccionadaActual: EventEmitter<{ oferta: Oferta, index: number }> = new EventEmitter<{ oferta: Oferta, index: number }>();
 
-  confirmarPublicacion() {
-    this.publicacionConfirmada.emit(this.oferta);
+  confirmarCambio(): void {
+    const data = { oferta: this.oferta, index: this.i };
+    this.ofertaSeleccionadaActual.emit(data);
   }
+
+  
+  
 }
