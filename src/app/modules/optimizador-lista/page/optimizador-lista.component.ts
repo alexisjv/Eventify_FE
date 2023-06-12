@@ -12,16 +12,9 @@ import { ProductoCard } from '@core/models/productoCard';
   styleUrls: ['./optimizador-lista.component.scss'],
 })
 export class OptimizadorListaComponent implements OnInit {
-  aListaOfertasMenorRecorrido!: Oferta[];
-  alistaOfertasEconomicos!: Oferta[];
-  aListaOfertaElegida!: Oferta[];
-  aListaLocalidadesSeleccionadas!: string[];
-  sNombreEvento!: string;
   bResumen = false;
   bEscenarios = true;
   bEstaLogueado = false;
-  aListaOfertas!:Oferta[];
-  value = '';
   sVistaProducto: string = 'grid';
   vistaListaMasEconomica = true;
   vistaListaMenorRecorrido = false;
@@ -38,11 +31,22 @@ export class OptimizadorListaComponent implements OnInit {
   longitudUbicacion!: number;
   oCantidadesPorProducto: any;
   aListaProductos!: ProductoCard[];
+
   aListaComercios!: any[];
   aListaSeleccionComercio!:any[];
   isOpenListaSeleccionComercio: boolean = true;
   totalListaDeComercio!: number;
   activeButton = -1;
+
+  ofertasPrincipales: Oferta[] = [];
+  rutaComercios: any = [];
+  ofertaSeleccionadaActual!: Oferta;
+
+  //datos para mostrar en el resumen:
+  totalMasEconomico: number = 0;
+  cantidadComerciosMasEconomico: number = 0;
+  distanciaMasEconomico: string = '0';
+
   constructor(
     private listaCompraService: OptimizadorListaService,
     private route: ActivatedRoute,
@@ -174,6 +178,25 @@ export class OptimizadorListaComponent implements OnInit {
     this.isOpenDiv3 = !this.isOpenDiv3;
   }
 
+  /*    obtenerLatLong(publicacion: any) {
+    if (publicacion.esPrincipal) {
+      const comercioPrincipal = {
+        ubicacion: {
+          lat: publicacion.oferta.latitud,
+          lng: publicacion.oferta.longitud
+        },
+        nombre: publicacion.oferta.nombreComercio
+      };
+      this.ofertasPrincipales.push(comercioPrincipal);
+    } else {
+      const index = this.ofertasPrincipales.findIndex(comercio => comercio.nombre === publicacion.oferta.nombreComercio);
+      if (index !== -1) {
+        this.ofertasPrincipales.splice(index, 1);
+      }
+    }
+  } 
+   */
+
   cambiarAListaMasEconomico() {
     this.vistaListaMasEconomica = true;
     this.vistaListaMenorRecorrido = false;
@@ -220,6 +243,7 @@ export class OptimizadorListaComponent implements OnInit {
   }
 
   actualizarRadio() {
+    this.ofertasPrincipales.splice(0);
     this.obtenerOfertas(
       this.latitudUbicacion,
       this.longitudUbicacion,
@@ -250,14 +274,48 @@ export class OptimizadorListaComponent implements OnInit {
       marcasBebida: [],
       cantidadInvitados: cantidadComensales,
       presupuesto: 0,
-      cantidadProductos: oCantidadesPorProducto
+      cantidadProductos: oCantidadesPorProducto,
     };
 
     this.listaCompraService.obtenerOfertas(lista).subscribe(
-      (response : ProductoCard[]) => {
+      (response: ProductoCard[]) => {
         console.log('Respuesta:', response);
-        // this.aListaOfertas = response;
-        this.aListaProductos = response;
+
+        for (const productoCard of response) {
+          const ofertas = productoCard.ofertas;
+
+          if (ofertas && ofertas.length > 0) {
+            const primeraOferta = ofertas[0].oferta;
+            const oferta: Oferta = {
+              cantidad: ofertas[0].cantidad,
+              subtotal: ofertas[0].subtotal,
+              oferta: {
+                idPublicacion: primeraOferta.idPublicacion,
+                idTipoProducto: primeraOferta.idTipoProducto,
+                idLocalidad: primeraOferta.idLocalidad,
+                nombreProducto: primeraOferta.nombreProducto,
+                marca: primeraOferta.marca,
+                imagen: primeraOferta.imagen,
+                precio: primeraOferta.precio,
+                nombreComercio: primeraOferta.nombreComercio,
+                latitud: primeraOferta.latitud,
+                longitud: primeraOferta.longitud,
+                localidad: primeraOferta.localidad,
+              },
+            };
+
+            this.ofertasPrincipales.push(oferta);
+          }
+        }
+
+        console.log('Comercios:', this.ofertasPrincipales);
+
+        this.aListaProductos = response.map((producto) => ({
+          ...producto,
+          showArrows: false,
+        }));
+        this.actualizarDatos();
+        this.obtenerRutaMasEconomico();
       },
       (error) => {
         console.error('Error al obtener las ofertas:', error);
@@ -265,23 +323,100 @@ export class OptimizadorListaComponent implements OnInit {
     );
   }
 
-  obtenerRutaMasEconomico() {
-    const comercios = [
-      {
-        ubicacion: { lat: -34.6507, lng: -58.5590233379016 },
-        nombre: 'Comercio 1',
-      },
-      {
-        ubicacion: { lat: -34.65059, lng: -58.559441816 },
-        nombre: 'Comercio 2',
-      },
-      {
-        ubicacion: { lat: -34.6505, lng: -58.5590231222816 },
-        nombre: 'Comercio 3',
-      },
-    ];
+  toggleArrows(index: number) {
+    this.aListaProductos[index].showArrows =
+      !this.aListaProductos[index].showArrows;
+  }
 
-    this.mapaService.obtenerRuta(comercios, this.radioElegido);
+  cambiarMarca(data: { oferta: Oferta; index: number }): void {
+    console.log('ofertas anteriores: ', this.ofertasPrincipales);
+    const index = data.index;
+    this.toggleArrows(index);
+
+    // Verificar si la oferta ya existe en ofertasPrincipales
+    const ofertaExistenteIndex = this.ofertasPrincipales.findIndex(
+      (o) => o.oferta.idPublicacion === data.oferta.oferta.idPublicacion
+    );
+
+    if (ofertaExistenteIndex !== -1) {
+      this.ofertaSeleccionadaActual = data.oferta;
+    } else {
+      const ofertaActualIndex = this.ofertasPrincipales.findIndex(
+        (o) =>
+          o.oferta.idPublicacion ===
+          this.ofertaSeleccionadaActual.oferta.idPublicacion
+      );
+      if (ofertaActualIndex !== -1) {
+        this.ofertasPrincipales.splice(ofertaActualIndex, 1);
+      }
+      this.ofertasPrincipales.push(data.oferta);
+      this.obtenerRutaMasEconomico();
+    }
+    const oferta = data.oferta;
+    console.log('Oferta seleccionada:', oferta.oferta.marca);
+
+    console.log('ofertas posteriores: ', this.ofertasPrincipales);
+    this.actualizarDatos();
+    // Realiza acciones adicionales con la oferta y el índice
+  }
+
+  actualizarDatos() {
+    this.calcularTotalMasEconomico();
+    this.calcularCantidadComerciosMasEconomico();
+  }
+
+  calcularTotalMasEconomico() {
+  this.totalMasEconomico = this.ofertasPrincipales.reduce((total, oferta) => {
+    return total + oferta.subtotal;
+  }, 0);
+  
+  // Redondear a 2 decimales
+  this.totalMasEconomico = parseFloat(this.totalMasEconomico.toFixed(2));
+}
+
+calcularCantidadComerciosMasEconomico() {
+  const nombresComercios = new Set<string>();
+
+  this.ofertasPrincipales.forEach(oferta => {
+    nombresComercios.add(oferta.oferta.nombreComercio);
+  });
+
+  this.cantidadComerciosMasEconomico = nombresComercios.size;
+}
+
+  obtenerRutaMasEconomico() {
+    this.rutaComercios = [];
+    const latitud = parseFloat(this.latitudUbicacion.toString());
+    const longitud = parseFloat(this.longitudUbicacion.toString());
+
+    const ubicacionOrigen = {
+      ubicacion: { lat: latitud, lng: longitud },
+      nombre: 'Mi ubicación',
+    };
+
+    this.rutaComercios.push(ubicacionOrigen);
+    console.log('estas son las ofertas', this.ofertasPrincipales);
+
+    for (const oferta of this.ofertasPrincipales) {
+      const ubicacion = {
+        lat: oferta.oferta.latitud,
+        lng: oferta.oferta.longitud,
+      };
+
+      const comercio = {
+        ubicacion: ubicacion,
+        nombre: oferta.oferta.nombreComercio,
+      };
+
+      this.rutaComercios.push(comercio);
+    }
+
+    console.log('comercios principales:', this.rutaComercios);
+
+    this.mapaService.obtenerRuta(this.rutaComercios, this.radioElegido, (distancia: string) => {
+      this.distanciaMasEconomico = distancia;
+    });
+
   }
 
   obtenerRutaMenorRecorrido() {
@@ -300,7 +435,6 @@ export class OptimizadorListaComponent implements OnInit {
       },
     ];
 
-    this.mapaService.obtenerRuta(comercios, this.radioElegido);
   }
 
   onClickVerListaDeComercio (comercio:any){

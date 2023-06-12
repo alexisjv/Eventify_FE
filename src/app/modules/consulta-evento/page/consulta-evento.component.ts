@@ -147,27 +147,55 @@ export class ConsultaEventoComponent {
       .subscribe(
         (listaCompras: ProductoLista[]) => {
           this.aListaDeCompras = [];
-          this.modificarListaConSusUnidades(listaCompras);
+          this.asignarUnidadesOPeso(listaCompras);
           this.bMostrarLoading = false;
           this.obtenerProductosConSusCantidades(listaCompras);
         },
         (error) => console.error(error)
       );
   }
-  modificarListaConSusUnidades(listaCompras: ProductoLista[]) {
+  // modificarListaConSusUnidades(listaCompras: ProductoLista[]) {
+  //   listaCompras.forEach(oProducto => {
+  //     if (!this.tieneUnidades(oProducto)) {
+  //       oProducto.seManejaPorUnidades = false;
+  //       if (this.elPesoEsMayorA1kg(oProducto)) {
+  //         oProducto = this.asignarUnidadesOPeso(oProducto);
+  //       } else {
+  //         oProducto.medida = "grs"
+  //       }
+  //     } else {
+  //       oProducto.seManejaPorUnidades = true;
+  //       oProducto.medida = "unidades"
+  //     }
+  //     this.aListaDeCompras.push(oProducto);
+  //   });
+  // }
+
+  asignarUnidadesOPeso(listaCompras: ProductoLista[]){
     listaCompras.forEach(oProducto => {
-      if (!this.tieneUnidades(oProducto)) {
-        oProducto.seManejaPorUnidades = false;
-        if (this.elPesoEsMayorA1kg(oProducto)) {
-          oProducto = this.asignarUnidadesOPeso(oProducto);
-        } else {
+      if(!this.tieneUnidades(oProducto)){
+      if (oProducto.ingrediente) {
+        if(this.elPesoEsMayorA1kg(oProducto)){
+          oProducto.peso = oProducto.peso / 1000;
+          oProducto.medida = "kgs"
+          this.bMostrarKg = true;
+        }else{
+          
           oProducto.medida = "grs"
+          this.bMostrarKg = true;
         }
+        
       } else {
-        oProducto.seManejaPorUnidades = true;
-        oProducto.medida = "unidades"
+        oProducto.medida = "lts"
+        oProducto.unidades = oProducto.peso / 1000;
+        oProducto.peso = oProducto.peso / 1000;
+        this.bMostrarLt = true;
       }
-      this.aListaDeCompras.push(oProducto);
+    }else{
+      oProducto.seManejaPorUnidades = true;
+      oProducto.medida = "unidades"
+    }
+      this.aListaDeCompras.push(oProducto)
     });
   }
 
@@ -221,19 +249,7 @@ export class ConsultaEventoComponent {
       }
     });
   }
-  asignarUnidadesOPeso(oProducto: ProductoLista): ProductoLista {
-    if (oProducto.ingrediente) {
-      oProducto.peso = oProducto.peso / 1000;
-      oProducto.medida = "kgs"
-      this.bMostrarKg = true;
-    } else {
-      oProducto.medida = "lts"
-      oProducto.unidades = oProducto.peso / 1000;
-      oProducto.peso = oProducto.peso / 1000;
-      this.bMostrarLt = true;
-    }
-    return oProducto;
-  }
+  
   private tieneUnidades(oProducto: ProductoLista) {
     return oProducto.unidades !== 0;
   }
