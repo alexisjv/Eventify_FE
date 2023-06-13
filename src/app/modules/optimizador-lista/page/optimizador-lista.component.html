@@ -75,8 +75,7 @@
           >
             <div
               *ngFor="let producto of aListaProductos; let i = index"
-              data-aos="fade-up"
-              [attr.data-aos-delay]="0"
+              
             >
               <ngb-carousel
                 [interval]="-1"
@@ -90,7 +89,7 @@
                   *ngFor="let publicacion of producto.ofertas"
                 >
                   <div class="picsum-img-wrapper">
-                    <app-card-oferta
+                    <app-card-oferta 
                       class="d-flex justify-content-center"
                       [nombreProducto]="publicacion.oferta.nombreProducto"
                       [marca]="publicacion.oferta.marca"
@@ -184,24 +183,40 @@
       </div>
     </div>
     <div class="col-xl-4">
-      <!-- mapa -->
-      <div style="padding-top: 10px">
-        <!-- Button trigger modal -->
-        <button
-          type="button"
-          class="btn btn-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#modalCompararEscenarios"
-        >
-          Comparar listas
-        </button>
+      <div class="card card-mapa">
+        <div class="row">
+          <div class="col-xl-6">
+            <img
+              src="/assets/images/evento-{{ idEvento }}.jpg"
+              class="img-mapa"
+            />
+          </div>
+          <div class="col-xl-6">
+            <!-- Button trigger modal -->
+            <div>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#modalCompararEscenarios"
+              >
+                Comparar listas
+              </button>
+            </div>
+
+            <div>
+              <button type="button" class="btn btn-info">Guardar Lista</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- mapa -->
         <app-mapa
           [valorRadioElegido]="radioElegido"
           [slider]="false"
           (valorRadioEnviado)="capturarValorRadio($event)"
         ></app-mapa>
       </div>
-
       <div>
         <button
           type="button"
@@ -214,118 +229,10 @@
       </div>
     </div>
   </div>
-  <!-- resumen -->
-  <!-- <div class="container-fluid" *ngIf="resumen">
-    <div class="justify-content-center align-items-center">
-      <div class="card card-optimizar">
-        <div class="card-body p-5">
-          <div class="row">
-            <div class="col-md-12"></div>
-            <div class="row">
-              <h2>Resumen de tu lista para el evento: {{ nombreEvento }}</h2>
-              <div class="linea-titulo-resumen"></div>
-              <div class="col-xl-4 col-md-12">
-                <img src="assets/images/asistente-transparente.png" alt="" height="600px" />
-              </div>
-              <div class="col-xl-4 col-md-12">
-                <div>
-                  <h2>Qué comprar y en donde:</h2>
-                  <br />
-                  <br />
-                </div>
-                <div class="wrapper">
-                  <ol class="c-timeline">
-                    <ng-container
-                      *ngFor="
-                        let offerGroup of groupOffersByCommerceName(
-                          listaOfertaElegida
-                        )
-                      "
-                    >
-                      <li class="c-timeline__item">
-                        <div class="c-timeline__content">
-                          <div class="c-timeline__details">
-                            <h2 class="titulo-linea-tiempo">
-                              {{ offerGroup[0].nombreComercio }}
-                            </h2>
-                            <p class="c-timeline__desc">
-                              {{ offerGroup[0].localidad }}
-                            </p>
-                          </div>
-                          <div class="c-timeline__images col-md-8">
-                            <ng-container
-                              *ngFor="let ofertaSeleccionada of offerGroup"
-                            >
-                              <img
-                                src="{{ ofertaSeleccionada.imagen }}"
-                                class="mx-auto img-stepper"
-                              />
-                            </ng-container>
-                          </div>
-                        </div>
-                      </li>
-                    </ng-container>
-                  </ol>
-                </div>
-              </div>
-              <div class="col-xl-4 col-md-12">
-                <h2>Información:</h2>
-                <div>
-                  <br />
-                  <p>
-                    Escanea el código QR para abrir el GPS
-                  </p>
-                  <ngx-qrcode
-                    [elementType]="elementType"
-                    [value]="value"
-                    cssClass="aclass"
-                    [errorCorrectionLevel]="errorCorrectionLevel"
->
-                  </ngx-qrcode>
-                </div>
- 
-                <div>
-                  <br>
-                  <h2>Datos del trayecto:</h2>
-                  <br />
-                  <p>Distancia a recorrer: {{ distanciaElegida }}</p>
-                  <p>Comercios a visitar: {{ comerciosElegido }}</p>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <button
-                      type="button"
-                      class="btn btn-primary btn-lg icono-generar"
-                      (click)="shareMap()"
-                    >
-                      <img
-                        src="assets/icons/whatsapp.svg"
-                        alt="Icono económico"
-                        width="40"
-                        height="40"
-                        class="icono-boton-compartir"
-                      />
-                      Compartir recorrido
-                    </button>
-                  </div>
-                  <div class="col-md-6">
-                 
-                    <button
-                    type="button"
-                    class="btn btn-primary btn-lg icono-generar"
-                    (click)="elegirOtroEscenario()"
-                  >
-                    Regresar
-                  </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
+
+
+
+
 
   <!-- Modal -->
   <div
@@ -400,7 +307,7 @@
                     </p>
 
                     <p class="texto-comparar">
-                      Comercios: {{ cantidadComerciosMenorRecorrido }}
+                      Comercio: {{ cantidadComerciosMenorRecorrido }}
                     </p>
                     <br />
                     <strong class="comparar-total"

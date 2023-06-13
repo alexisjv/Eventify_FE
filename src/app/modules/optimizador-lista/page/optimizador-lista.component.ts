@@ -55,6 +55,9 @@ export class OptimizadorListaComponent implements OnInit {
   cantidadOfertasMenorRecorrido!: number;
   cantidadComerciosMenorRecorrido!: number;
 
+  listaElegidaMasEconomico: boolean = true;
+  listaElegidaMenorRecorrido: boolean = false;
+
   constructor(
     private listaCompraService: OptimizadorListaService,
     private route: ActivatedRoute,
@@ -145,12 +148,16 @@ export class OptimizadorListaComponent implements OnInit {
   toggleDiv1() {
     this.isOpenDiv1 = true;
     this.isOpenDiv2 = false;
+    this.listaElegidaMasEconomico = true;
+    this.listaElegidaMenorRecorrido = false;
     this.obtenerRutaMasEconomico();
   }
 
   toggleDiv2() {
     this.isOpenDiv1 = false;
     this.isOpenDiv2 = true;
+    this.listaElegidaMasEconomico = false;
+    this.listaElegidaMenorRecorrido = true;
     this.actualizarDatosMenorRecorrido();
     this.obtenerRutaMenorRecorrido();
   }
@@ -465,4 +472,22 @@ export class OptimizadorListaComponent implements OnInit {
     this.isOpenListaSeleccionComercio = true;
     this.activeButton = i;
   }
+
+  groupOffersByCommerceName(offers: Oferta[]): Oferta[][] {
+  const groupedOffers: Oferta[][] = [];
+  
+  offers.forEach((offer) => {
+    const existingGroup = groupedOffers.find((group) => group[0].oferta.nombreComercio === offer.oferta.nombreComercio);
+    
+    if (existingGroup) {
+      existingGroup.push(offer);
+    } else {
+      groupedOffers.push([offer]);
+    }
+  });
+  
+  return groupedOffers;
+}
+
+  
 }
