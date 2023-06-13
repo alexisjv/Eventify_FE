@@ -1,6 +1,5 @@
 <section class="d-flex justify-content-center registro-usuario" *ngIf="mostrarRegistroComun">
 
-
   <div class="card bg-primary w-50 d-flex align-items-center mb-2">
       <article class="card-body mx-auto text-light align-items-center" style="max-width: 400px;">
           <h4 class="card-title mt-3 text-center ">Registrarme</h4>
@@ -12,37 +11,63 @@
       <p class="divider-text">
           <span class="bg-light">OR</span>
       </p> -->
-          <form >
+          <form novalidate (ngSubmit)="onSubmit()" [formGroup]="userForm">
               <div class="form-group input-group ">
-
-                  <input name="fullName" class="form-control"  formControlName="fullName" placeholder="Nombre completo" type="text">
+                <input name="nombre" class="form-control"  formControlName="nombre" placeholder="Ingrese su nombre" type="text">
               </div> <!-- form-group// -->
-              <div class="form-group input-group mt-3">
+              <div class="alert alert-danger mt-1" [hidden]="nombre.valid || nombre.pristine">
+                *El nombre es obligatorio
+              </div>
 
+              <div class="form-group input-group mt-3">
+                <input name="apellido" class="form-control"  formControlName="apellido" placeholder="Ingrese su apellido" type="text">
+              </div>
+              <div class="alert alert-danger mt-1" [hidden]="apellido.valid || apellido.pristine">
+                *El apellido es obligatorio
+              </div>
+
+              <div class="form-group input-group mt-3">
                   <input name="email" class="form-control" formControlName="email" placeholder="Email" type="email">
               </div> <!-- form-group// -->
-              <div class="form-group input-group mt-3">
+              <div class="alert alert-danger mt-1" [hidden]="email.valid || email.untouched">
+                <span *ngIf="email.errors?.['required']">
+                  *El email es obligatorio
+                </span>
 
+                <span *ngIf="email.errors?.['email']">
+                  *Ingresa un email valido
+                </span>
+              </div>
+
+              <div class="form-group input-group mt-3">
                   <input name="password" class="form-control" formControlName="password" placeholder="Crea una contraseña" type="password">
               </div>
+              <div class="alert alert-danger mt-1" [hidden]="password.valid || password.untouched">
+                *La contraseña no tiene el formato solicitado
+              </div>
+
               <div id="passwordHelpBlock" class="text-white-50 form-text">
                   Debe tener entre 8-20 caracteres, contener letras, numeros y un caracter especial.
               </div> <!-- form-group// -->
-              <div class="form-group input-group mt-3">
 
+              <div class="form-group input-group mt-3">
                   <input name="repeatPassword" class="form-control" formControlName="repeatPassword" placeholder="Repetí la contraseña" type="password">
               </div> <!-- form-group// -->
-              <div class="form-group  mt-3 d-flex flex-column align-items-center">
+              <div *ngIf="userForm.hasError('mismatch') && (userForm.dirty || userForm.touched)" class="error-message text-white form-text">
+                  Las contraseñas no coinciden.
+              </div>
 
-                  <button type="submit" class="btn btn-info text-light btn-block"> Registrarme </button>
-                  <button class="btn btn-outline-light btn-block mt-2" (click)="mostrarRegistroDeComercio()">Soy
-                      comercio</button>
+              <div class="form-group  mt-3 d-flex flex-column align-items-center">
+                  <button type="submit" class="btn btn-info text-light btn-block" [disabled]="userForm.invalid"> Registrarme </button>
+                  <button class="btn btn-outline-light btn-block mt-2" (click)="mostrarRegistroDeComercio()">Soy comercio</button>
               </div> <!-- form-group// -->
+
               <p class="text-center mt-3">Ya tenés una cuenta? <a class="text-light text-decoration-none"
                       href="">Iniciar sesión</a> </p>
           </form>
       </article>
   </div>
+
 </section>
 
 
