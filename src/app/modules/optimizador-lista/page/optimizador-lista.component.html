@@ -141,29 +141,7 @@
                                 [marca]="producto.oferta.marca" [precio]="producto.oferta.precio" [cantidad]="producto.cantidad" [subtotal]="producto.subtotal"
                                 [nombreComercio]="producto.oferta.nombreComercio" [imagen]="producto.oferta.imagen">
                               </app-card-comercio>
-                          
-
-
-                  <div class="col-md-8" *ngIf="isOpenListaSeleccionComercio">
-                    <div
-                      *ngFor="
-                        let producto of aListaSeleccionComercio;
-                        let i = index
-                      "
-                      data-aos="fade-up"
-                      [attr.data-aos-delay]="100"
-                      class="d-flex justify-content-center"
-                    >
-                      <app-card-comercio
-                        class="mb-3"
-                        [nombreProducto]="producto.nombreProducto"
-                        [marca]="producto.marca"
-                        [precio]="producto.precio"
-                        [nombreComercio]="producto.nombreComercio"
-                        [imagen]="producto.imagen"
-                      >
-                      </app-card-comercio>
-                    </div>
+                        
                   </div>
                 </div>
               </div>
