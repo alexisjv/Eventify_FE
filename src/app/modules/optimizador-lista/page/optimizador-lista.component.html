@@ -23,9 +23,13 @@
                   <div class="contenido-derecha text-light fs-6">
                     <h3>Mejores precios</h3>
                     <p class="textoEnBoton">
-                      Comercios: {{ cantidadComerciosMasEconomico }} <br />
-                      Distancia a recorrer: {{ distanciaMasEconomico }}<br />
-                      <br />
+                      Ofertas encontradas: {{ cantidadOfertasMasEconomico }}
+                    </p>
+                    <p class="textoEnBoton">
+                      Distancia a recorrer: {{ distanciaMasEconomico }}
+                    </p>
+                    <p class="textoEnBoton">
+                      Comercios: {{ cantidadComerciosMasEconomico }}
                     </p>
                     <strong> Total: ${{ totalMasEconomico }}</strong>
                   </div>
@@ -46,10 +50,14 @@
                   />
                   <div class="contenido-derecha text-light">
                     <h3 class="title">Menor recorrido</h3>
-                    <p class="textoEnBoton">Comercios: {{ cantidadComerciosLista }} <br>
-                      Distancia a recorrer: {{ distanciaComercioLista }}<br>
-                     <br>
-
+                    <p class="textoEnBoton">
+                      Ofertas encontradas: {{ cantidadOfertasMenorRecorrido }}
+                    </p>
+                    <p class="textoEnBoton">
+                      Distancia a recorrer: {{ distanciaMenorRecorrido }}
+                    </p>
+                    <p class="textoEnBoton">
+                      Comercios: {{ cantidadComerciosLista }}
                     </p>
                     <strong class="mt-3">
                       Total: ${{ totalListaDeComercio }}</strong
@@ -62,11 +70,8 @@
         </div>
         <div>
           <div
-
             class="col-12 container-lista scrollable-list bg-primary"
-
             *ngIf="isOpenDiv1"
-            
           >
             <div
               *ngFor="let producto of aListaProductos; let i = index"
@@ -110,38 +115,66 @@
             style="background-color: #f23030"
           >
             <div
-              class="rounded-pill mt-3 text-body-emphasis text-light p-2 d-flex row align-self-start">
+              class="rounded-pill mt-3 text-body-emphasis text-light p-2 d-flex row align-self-start"
+            >
               <!-- <h3> Te ofrecemos todas las ofertas en un solo lugar</h3>
               <p class="fs-6 ms-1"><i class="bi bi-caret-right-fill"></i>Hace click en cada comercio para ver la lista
                 completa de ofertas</p>
               <p class="fs-6 ms-1"><i class="bi bi-caret-right-fill"></i>Seleccioná una lista para compararla con las
                 mejores ofertas dentro de tu radio</p> -->
 
-                <div class="container">
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="d-flex flex-column" *ngFor="let comercio of aListaComercios; let i = index">
-                        <button class="btn btn-primary mt-2" id="boton{{comercio.nombreComercio}}" (click)="onClickVerListaDeComercio(comercio, i)" [class.active]="activeButton === i">
-                          <div >
-                            <img src="../../../../assets/icons/Comercio.svg" alt="Imagen" width="50px" />
-                          </div>
-                          <div class="contenido-derecha text-light">
-                            <h3>{{comercio.nombreComercio}}</h3>
-                            <p class="text-light">Total: $ {{totalListaDeComercio}}</p>
-                          </div>
-                        </button>
-                      </div>
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div
+                      class="d-flex flex-column"
+                      *ngFor="let comercio of aListaComercios; let i = index"
+                    >
+                      <button
+                        class="btn btn-primary mt-2"
+                        id="boton{{ comercio.nombreComercio }}"
+                        (click)="onClickVerListaDeComercio(comercio, i)"
+                        [class.active]="activeButton === i"
+                      >
+                        <div>
+                          <img
+                            src="../../../../assets/icons/Comercio.svg"
+                            alt="Imagen"
+                            width="50px"
+                          />
+                        </div>
+                        <div class="contenido-derecha text-light">
+                          <h3>{{ comercio.nombreComercio }}</h3>
+                          <p class="text-light">
+                            Total: $ {{ totalListaDeComercio }}
+                          </p>
+                        </div>
+                      </button>
                     </div>
-                    
-                    <div class="col-md-8" *ngIf="isOpenListaSeleccionComercio">
-                      <div *ngFor="let producto of aListaSeleccionComercio; let i = index" data-aos="fade-up" [attr.data-aos-delay]="100"
-                          class="d-flex justify-content-center">
-                          
-                              <app-card-comercio class="mb-3" [nombreProducto]="producto.oferta.nombreProducto"
-                                [marca]="producto.oferta.marca" [precio]="producto.oferta.precio" [cantidad]="producto.cantidad" [subtotal]="producto.subtotal"
-                                [nombreComercio]="producto.oferta.nombreComercio" [imagen]="producto.oferta.imagen">
-                              </app-card-comercio>
-                        
+                  </div>
+
+                  <div class="col-md-8" *ngIf="isOpenListaSeleccionComercio">
+                    <div
+                      *ngFor="
+                        let producto of aListaSeleccionComercio;
+                        let i = index
+                      "
+                      data-aos="fade-up"
+                      [attr.data-aos-delay]="100"
+                      class="d-flex justify-content-center"
+                    >
+                      <app-card-comercio
+                        class="mb-3"
+                        [nombreProducto]="producto.oferta.nombreProducto"
+                        [marca]="producto.oferta.marca"
+                        [precio]="producto.oferta.precio"
+                        [cantidad]="producto.cantidad"
+                        [subtotal]="producto.subtotal"
+                        [nombreComercio]="producto.oferta.nombreComercio"
+                        [imagen]="producto.oferta.imagen"
+                      >
+                      </app-card-comercio>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -313,31 +346,90 @@
           ></button>
         </div>
         <div class="modal-body">
-          
           <div class="row">
-            <div class="col-md-6">
-              
-              <div class="image-container">
-                <img src="/assets/images/evento-{{ idEvento }}.jpg" class="img-fluid"/>
+            <div class="col-md-6 text-center">
+              <div class="row">
+                <div class="col-md-6 text-center">
+                  <h1>Mejores precios</h1>
+                  <img
+                    src="../../../../assets/images/comparar-mas-economico.jpg"
+                    class="img-comparar"
+                  />
+                </div>
+                <div
+                  class="col-md-6 text-center d-flex align-items-center justify-content-center"
+                >
+                  <div>
+                    <p class="texto-comparar">
+                      Ofertas encontradas: {{ cantidadOfertasMasEconomico }}
+                    </p>
+
+                    <p class="texto-comparar">
+                      Distancia a recorrer: {{ distanciaMasEconomico }}
+                    </p>
+                    <p class="texto-comparar">
+                      Comercios: {{ cantidadComerciosMasEconomico }}
+                    </p>
+                    <br />
+                    <strong class="comparar-total"
+                      >Total: ${{ totalMasEconomico }}</strong
+                    >
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-md-6">
-              <app-mapa 
-                [valorRadioElegido]="radioElegido"
-                [slider]="false"
-                (valorRadioEnviado)="capturarValorRadio($event)"
-                
-              ></app-mapa>
+            <div class="col-md-6 text-center">
+              <div class="row">
+                <div class="col-md-6 text-center">
+                  <h1>Menor recorrido</h1>
+                  <img
+                    src="../../../../assets/images/comparar-menor-recorrido.jpg"
+                    class="img-comparar"
+                  />
+                </div>
+                <div
+                  class="col-md-6 text-center d-flex align-items-center justify-content-center"
+                >
+                  <div>
+                    <p class="texto-comparar">
+                      Ofertas encontradas: {{ cantidadOfertasMenorRecorrido }}
+                    </p>
+
+                    <p class="texto-comparar">
+                      Distancia a recorrer: {{ distanciaMenorRecorrido }}
+                    </p>
+
+                    <p class="texto-comparar">
+                      Comercios: {{ cantidadComerciosMenorRecorrido }}
+                    </p>
+                    <br />
+                    <strong class="comparar-total"
+                      >Total: ${{ totalListaDeComercio }}</strong
+                    >
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-6 scrollable-list scrollable-list-comparar">
+            <div class="col-md-6 .scrollable-list scrollable-list-comparar">
               <div class="table-responsive">
                 <table
                   class="table tabla-redondeada"
                   data-aos="fade-up"
                   data-aos-delay="100"
                 >
+                  <thead>
+                    <tr class="fila list text-center align-middle">
+                      <th></th>
+                      <th>Producto</th>
+                      <th>Marca</th>
+                      <th>Comercio</th>
+                      <th>Precio</th>
+                      <th>Cantidad</th>
+                      <th>Subtotal</th>
+                    </tr>
+                  </thead>
                   <tbody>
                     <tr
                       class="fila list text-center align-middle"
@@ -360,23 +452,40 @@
                       </td>
                       <td class="align-middle precio-tabla">
                         ${{ oferta.oferta.precio }}
+                      </td>
+                      <td class="align-middle precio-tabla">
+                        {{ oferta.cantidad }}
+                      </td>
+                      <td class="align-middle precio-tabla">
+                        ${{ oferta.subtotal }}
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
-            <div class="col-md-6 scrollable-list scrollable-list-comparar">
+            <div class="col-md-6 .scrollable-list scrollable-list-comparar">
               <div class="table-responsive">
                 <table
                   class="table tabla-redondeada"
                   data-aos="fade-up"
                   data-aos-delay="100"
                 >
+                  <thead>
+                    <tr class="fila list text-center align-middle">
+                      <th></th>
+                      <th>Producto</th>
+                      <th>Marca</th>
+                      <th>Comercio</th>
+                      <th>Precio</th>
+                      <th>Cantidad</th>
+                      <th>Subtotal</th>
+                    </tr>
+                  </thead>
                   <tbody>
                     <tr
                       class="fila list text-center align-middle"
-                      *ngFor="let oferta of listaOfertasElegidasMasEconomico"
+                      *ngFor="let oferta of aListaSeleccionComercio"
                     >
                       <th scope="row">
                         <img
@@ -395,6 +504,12 @@
                       </td>
                       <td class="align-middle precio-tabla">
                         ${{ oferta.oferta.precio }}
+                      </td>
+                      <td class="align-middle precio-tabla">
+                        {{ oferta.cantidad }}
+                      </td>
+                      <td class="align-middle precio-tabla">
+                        ${{ oferta.subtotal }}
                       </td>
                     </tr>
                   </tbody>
@@ -404,7 +519,9 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Guardar lista</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+            Cerrar
+          </button>
         </div>
       </div>
     </div>
