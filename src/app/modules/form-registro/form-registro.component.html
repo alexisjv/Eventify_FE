@@ -1,8 +1,8 @@
 <section class="d-flex justify-content-center registro-usuario" *ngIf="mostrarRegistroComun">
 
-  <div class="card bg-primary w-50 d-flex align-items-center mb-2">
+  <div class="card bg-primary w-50 d-flex align-items-center m-2">
       <article class="card-body mx-auto text-light align-items-center" style="max-width: 400px;">
-          <h4 class="card-title mt-3 text-center ">Registrarme</h4>
+          <h4 class="card-title mt-3 text-center ">Completá tus datos</h4>
           <p class="text-center">Empezá a disfrutar de los beneficios de Eventify</p>
           <!-- <p>
           <a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login via Twitter</a>
@@ -54,7 +54,7 @@
                   <input name="repeatPassword" class="form-control" formControlName="repeatPassword" placeholder="Repetí la contraseña" type="password">
               </div> <!-- form-group// -->
               <div *ngIf="userForm.hasError('mismatch') && (userForm.dirty || userForm.touched)" class="error-message text-white form-text">
-                  Las contraseñas no coinciden.
+                  Las contraseñas no coinciden
               </div>
 
               <div class="form-group  mt-3 d-flex flex-column align-items-center">
@@ -62,8 +62,15 @@
                   <button class="btn btn-outline-light btn-block mt-2" (click)="mostrarRegistroDeComercio()">Soy comercio</button>
               </div> <!-- form-group// -->
 
-              <p class="text-center mt-3">Ya tenés una cuenta? <a class="text-light text-decoration-none"
-                      href="">Iniciar sesión</a> </p>
+              <p class="text-center mt-3"><a class="text-light text-decoration-none"
+                      href="/login">Ya tenés una cuenta? Iniciar sesión</a> </p>
+
+              <div class="alert alert-success" *ngIf="status == 'success'">
+                Te registraste correctamente. <a [routerLink]="['/login']"> Inicia sesion! </a>
+              </div>
+              <div class="alert alert-danger" *ngIf="status == 'error'">
+                El email ingresado ya está siendo utilizado.
+              </div>
           </form>
       </article>
   </div>

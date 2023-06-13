@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { FormRegistroService } from './services/form-registro.service'
 
 function passwordMatchValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
@@ -12,15 +13,19 @@ function passwordMatchValidator(): ValidatorFn {
 @Component({
   selector: 'app-form-registro',
   templateUrl: './form-registro.component.html',
-  styleUrls: ['./form-registro.component.scss']
+  styleUrls: ['./form-registro.component.scss'],
+  providers: [FormRegistroService]
 })
 export class FormRegistroComponent {
   public userForm: FormGroup;
+  public status: string = '';
 
   mostrarRegistroComercio: boolean = false;
   mostrarRegistroComun: boolean = true;
 
-  constructor() {
+  constructor(
+    private _userService: FormRegistroService
+  ) {
     this.userForm = new FormGroup({
       nombre: new FormControl(null, [
         Validators.required,
@@ -39,7 +44,7 @@ export class FormRegistroComponent {
         Validators.required,
         Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/)
       ])
-    }, { validators: passwordMatchValidator() }); // No se invoca la función passwordMatchValidator
+    }, { validators: passwordMatchValidator() });
   }
 
   get nombre(): AbstractControl {
@@ -67,9 +72,44 @@ export class FormRegistroComponent {
     this.mostrarRegistroComercio = true;
   }
 
-  onSubmit(){
-    console.log(this.userForm);
-  }
 
+  onSubmit() {
+    const userRegistrado = {
+      nombre: this.nombre.value,
+      apellido: this.apellido.value,
+      email: this.email.value,
+      password: this.password.value,
+      repeatPassword: this.repeatPassword.value
+    };
+
+    this._userService.registro(userRegistrado)
+      .subscribe(
+        response => {
+          console.log(response);
+          this.status = 'success';
+          this.userForm.reset();
+        },
+        error => {
+          this.status = 'error';
+          console.error(error);
+        }
+      );
+  }
 }
 
+// onSubmit(){
+//   console.log(this.userForm);
+
+//   this._userService.registro(this.userForm).subscribe(
+//     response => {
+//       if (response.userForm && response.userForm._id){
+//         this.status = 'success';
+//         this.userForm.reset();
+//       }
+//         this.status = 'error';
+//     },
+//     error => {
+//       console.log(<any>error)
+//     }
+//   )
+// }
