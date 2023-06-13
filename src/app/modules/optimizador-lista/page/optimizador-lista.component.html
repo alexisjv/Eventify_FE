@@ -252,8 +252,13 @@
       <!-- mapa -->
       <div style="padding-top: 40px">
 
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCompararEscenarios">
+  Comparar listas
+</button>
         <app-mapa
           [valorRadioElegido]="radioElegido"
+          [slider]="false"
           (valorRadioEnviado)="capturarValorRadio($event)"
         ></app-mapa>
       </div>
@@ -382,4 +387,49 @@
       </div>
     </div>
   </div> -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalCompararEscenarios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4"> <div>
+            <table class="table tabla-redondeada" data-aos="fade-up" data-aos-delay="100">
+              <tbody>
+                <tr class="fila list text-center align-middle" *ngFor="let oferta of listaOfertasElegidasMasEconomico">
+                  <th scope="row">
+                    <img [src]="oferta.oferta.imagen" class="card-img-top mx-auto img-producto-tabla" />
+                  </th>
+                  <td class="align-middle">
+                    {{ oferta.oferta.nombreProducto }}
+                  </td>
+                  <td class="align-middle">
+                    {{ oferta.oferta.marca }}
+                  </td>
+                  <td class="align-middle">
+                    {{ oferta.oferta.nombreComercio }}
+                  </td>
+                  <td class="align-middle precio-tabla">
+                    ${{ oferta.oferta.precio }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div></div>
+          <div class="col-md-4"></div>
+          <div class="col-md-4"></div>
+        </div>
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Guardar lista</button>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
