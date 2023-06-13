@@ -192,6 +192,7 @@
                     >Indique el rango de distancia a buscar según su ubicación:</label
                   >
                     <app-mapa *ngIf="bMostrarPreguntaUbicacion"
+                    [slider]="true"
                       (valorRadioEnviado)="capturarValorRadio($event)"
                       (ubicacionActualLatitud)="capturarLatitud($event)"
                       (ubicacionActualLongitud)="capturarLongitud($event)"

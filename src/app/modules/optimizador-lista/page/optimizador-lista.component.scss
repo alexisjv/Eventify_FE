@@ -93,3 +93,40 @@
     /* Agrega aquí cualquier otro estilo personalizado que desees aplicar */
   }
   
+  #modalCompararEscenarios{
+    background-color: #14484D;
+  }
+  .tabla-redondeada {
+    border-radius: 10px;
+  }
+
+  .fila {
+    background-color: #f9f9f9;
+  }
+
+  .list {
+    list-style: none;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .align-middle {
+    vertical-align: middle;
+  }
+
+  .img-producto-tabla {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .precio-tabla {
+    font-weight: bold;
+    color: #ff5c5c;
+  }
+
+ 

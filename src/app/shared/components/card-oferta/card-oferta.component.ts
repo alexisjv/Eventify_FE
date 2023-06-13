@@ -17,6 +17,10 @@ export class CardOfertaComponent {
   nombreComercio!: string;
   @Input()
   imagen!: string;
+  @Input()
+  subtotal!: number;
+  @Input()
+  cantidad!: number;
   @Input() 
   i!: number;
   @Input()
