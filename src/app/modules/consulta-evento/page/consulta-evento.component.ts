@@ -7,6 +7,7 @@ import { ProductoLista } from '@core/models/ProductoLista';
 import { ConsultaEventoService } from '../services/consulta-evento.service';
 import { MapType } from '@angular/compiler';
 import { FormRecord } from '@angular/forms';
+import { SharedService } from '@shared/services/shared.service';
 
 
 @Component({
@@ -53,9 +54,10 @@ export class ConsultaEventoComponent {
   longitudUbicacion!: number;
 
 
-  constructor(private router: Router, private consultaEventoService: ConsultaEventoService) { }
+  constructor(private router: Router, private consultaEventoService: ConsultaEventoService, private mapaService: SharedService) { }
 
   ngOnInit(): void {
+
     this.getListaEventos();
   }
 

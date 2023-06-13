@@ -23,6 +23,8 @@ export class MapaComponent implements OnInit {
   @Output() ubicacionActualLongitud: EventEmitter<number> =
     new EventEmitter<number>();
     @Input() valorRadioElegido!: number;
+    @Input() slider: boolean = true;
+
 
   constructor() {}
 
@@ -42,6 +44,28 @@ export class MapaComponent implements OnInit {
 
     const opcionesMapa = {
       zoom: 12,
+      styles: [
+        {
+          featureType: 'administrative.locality',
+          elementType: 'labels',
+          stylers: [{ visibility: 'on' }] // Muestra etiquetas de localidades
+        },
+        {
+          featureType: 'poi',
+          stylers: [{ visibility: 'off' }] // Oculta puntos de interés
+        },
+        {
+          featureType: 'road',
+          elementType: 'labels',
+          stylers: [{ visibility: 'off' }] // Oculta etiquetas de calles
+        },
+        {
+          featureType: 'road',
+          elementType: 'geometry',
+          stylers: [{ visibility: 'simplified' }] // Simplifica las geometrías de las calles
+        }
+        // Agrega más estilos aquí según tus necesidades
+      ]
     };
 
     this.map = new google.maps.Map(
@@ -271,5 +295,9 @@ export class MapaComponent implements OnInit {
         }
       });
     });
+  }
+
+  mostrarSlider(valor: boolean){
+    this.slider = valor;
   }
 }

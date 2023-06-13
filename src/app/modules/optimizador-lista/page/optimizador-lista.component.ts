@@ -38,10 +38,12 @@ export class OptimizadorListaComponent implements OnInit {
   totalListaDeComercio!: number;
   activeButton = -1;
 
-  ofertasPrincipales: Oferta[] = [];
-  rutaComercios: any = [];
-  ofertaSeleccionadaActual!: Oferta;
+  //Mas economico
 
+  listaOfertasElegidasMasEconomico: Oferta[] = [];
+  rutaComerciosMasEconomico: any = [];
+  ofertaSeleccionadaActual!: Oferta;
+  
   //datos para mostrar en el resumen:
   totalMasEconomico: number = 0;
   cantidadComerciosMasEconomico: number = 0;
@@ -54,7 +56,6 @@ export class OptimizadorListaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     this.aListaComercios = [
       {
         nombreComercio: "Walmart",
@@ -243,7 +244,7 @@ export class OptimizadorListaComponent implements OnInit {
   }
 
   actualizarRadio() {
-    this.ofertasPrincipales.splice(0);
+    this.listaOfertasElegidasMasEconomico.splice(0);
     this.obtenerOfertas(
       this.latitudUbicacion,
       this.longitudUbicacion,
@@ -267,7 +268,8 @@ export class OptimizadorListaComponent implements OnInit {
     const lista: ListaPost = {
       latitudUbicacion: latitudUbicacion,
       longitudUbicacion: longitudUbicacion,
-      distancia: valorRadio,
+      // CAMBIO EL VALOR DE 1000 A 1 PARA EL BACK
+      distancia: (valorRadio / 1000),
       comidas: comidasSeleccionadas,
       bebidas: bebidasSeleccionadas,
       marcasComida: [],
@@ -304,11 +306,11 @@ export class OptimizadorListaComponent implements OnInit {
               },
             };
 
-            this.ofertasPrincipales.push(oferta);
+            this.listaOfertasElegidasMasEconomico.push(oferta);
           }
         }
 
-        console.log('Comercios:', this.ofertasPrincipales);
+        console.log('Comercios:', this.listaOfertasElegidasMasEconomico);
 
         this.aListaProductos = response.map((producto) => ({
           ...producto,
@@ -329,33 +331,33 @@ export class OptimizadorListaComponent implements OnInit {
   }
 
   cambiarMarca(data: { oferta: Oferta; index: number }): void {
-    console.log('ofertas anteriores: ', this.ofertasPrincipales);
+    console.log('ofertas anteriores: ', this.listaOfertasElegidasMasEconomico);
     const index = data.index;
     this.toggleArrows(index);
 
     // Verificar si la oferta ya existe en ofertasPrincipales
-    const ofertaExistenteIndex = this.ofertasPrincipales.findIndex(
+    const ofertaExistenteIndex = this.listaOfertasElegidasMasEconomico.findIndex(
       (o) => o.oferta.idPublicacion === data.oferta.oferta.idPublicacion
     );
 
     if (ofertaExistenteIndex !== -1) {
       this.ofertaSeleccionadaActual = data.oferta;
     } else {
-      const ofertaActualIndex = this.ofertasPrincipales.findIndex(
+      const ofertaActualIndex = this.listaOfertasElegidasMasEconomico.findIndex(
         (o) =>
           o.oferta.idPublicacion ===
           this.ofertaSeleccionadaActual.oferta.idPublicacion
       );
       if (ofertaActualIndex !== -1) {
-        this.ofertasPrincipales.splice(ofertaActualIndex, 1);
+        this.listaOfertasElegidasMasEconomico.splice(ofertaActualIndex, 1);
       }
-      this.ofertasPrincipales.push(data.oferta);
+      this.listaOfertasElegidasMasEconomico.push(data.oferta);
       this.obtenerRutaMasEconomico();
     }
     const oferta = data.oferta;
     console.log('Oferta seleccionada:', oferta.oferta.marca);
 
-    console.log('ofertas posteriores: ', this.ofertasPrincipales);
+    console.log('ofertas posteriores: ', this.listaOfertasElegidasMasEconomico);
     this.actualizarDatos();
     // Realiza acciones adicionales con la oferta y el índice
   }
@@ -366,7 +368,7 @@ export class OptimizadorListaComponent implements OnInit {
   }
 
   calcularTotalMasEconomico() {
-  this.totalMasEconomico = this.ofertasPrincipales.reduce((total, oferta) => {
+  this.totalMasEconomico = this.listaOfertasElegidasMasEconomico.reduce((total, oferta) => {
     return total + oferta.subtotal;
   }, 0);
   
@@ -377,7 +379,7 @@ export class OptimizadorListaComponent implements OnInit {
 calcularCantidadComerciosMasEconomico() {
   const nombresComercios = new Set<string>();
 
-  this.ofertasPrincipales.forEach(oferta => {
+  this.listaOfertasElegidasMasEconomico.forEach(oferta => {
     nombresComercios.add(oferta.oferta.nombreComercio);
   });
 
@@ -385,7 +387,7 @@ calcularCantidadComerciosMasEconomico() {
 }
 
   obtenerRutaMasEconomico() {
-    this.rutaComercios = [];
+    this.rutaComerciosMasEconomico = [];
     const latitud = parseFloat(this.latitudUbicacion.toString());
     const longitud = parseFloat(this.longitudUbicacion.toString());
 
@@ -394,10 +396,10 @@ calcularCantidadComerciosMasEconomico() {
       nombre: 'Mi ubicación',
     };
 
-    this.rutaComercios.push(ubicacionOrigen);
-    console.log('estas son las ofertas', this.ofertasPrincipales);
+    this.rutaComerciosMasEconomico.push(ubicacionOrigen);
+    console.log('estas son las ofertas', this.listaOfertasElegidasMasEconomico);
 
-    for (const oferta of this.ofertasPrincipales) {
+    for (const oferta of this.listaOfertasElegidasMasEconomico) {
       const ubicacion = {
         lat: oferta.oferta.latitud,
         lng: oferta.oferta.longitud,
@@ -408,12 +410,12 @@ calcularCantidadComerciosMasEconomico() {
         nombre: oferta.oferta.nombreComercio,
       };
 
-      this.rutaComercios.push(comercio);
+      this.rutaComerciosMasEconomico.push(comercio);
     }
 
-    console.log('comercios principales:', this.rutaComercios);
+    console.log('comercios principales:', this.rutaComerciosMasEconomico);
 
-    this.mapaService.obtenerRuta(this.rutaComercios, this.radioElegido, (distancia: string) => {
+    this.mapaService.obtenerRuta(this.rutaComerciosMasEconomico, this.radioElegido, (distancia: string) => {
       this.distanciaMasEconomico = distancia;
     });
 
