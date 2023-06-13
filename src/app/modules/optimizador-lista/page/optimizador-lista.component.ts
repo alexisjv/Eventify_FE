@@ -338,6 +338,11 @@ export class OptimizadorListaComponent implements OnInit {
   }
 
   actualizarDatosMasEconomico() {
+    this.calcularTotalMasEconomico();
+    this.calcularCantidadComerciosMasEconomico();
+    this.calcularCantidadDeOfertasMasEconomico();
+  }
+  
   cambiarMarcaNuevo(index: number ){
     this.mostrarBoton = !this.mostrarBoton;
     this.listaOfertasElegidasMasEconomico;
