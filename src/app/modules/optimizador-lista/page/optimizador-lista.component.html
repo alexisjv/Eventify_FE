@@ -1,33 +1,32 @@
 <div class="container-fluid div-optimizador">
   <div class="row">
     <div class="col-xl-3">
+
       <img src="/assets/images/MateoMejorOferta1.gif" width="500px" />
+
     </div>
 
     <div class="col-xl-5">
       <div class="container">
-        <div class="d-flex justify-content-center">
+        <div class="d-flex  justify-content-center">
           <ul class="nav nav-tabs d-flex">
             <li class="nav-item">
               <div class="d-flex flex-column">
-                <button
-                  class="btn btn-pestaña-1 card-redondeada"
-                  [ngClass]="{ active: isOpenDiv1 }"
-                  (click)="toggleDiv1()"
-                >
-                  <img
-                    src="../../../../assets/icons/precio.svg"
-                    alt="Imagen"
-                    class="imagen-izquierda"
-                  />
+                <button class="btn btn-pestaña-1 card-redondeada" [ngClass]="{ active: isOpenDiv1 }"
+                  (click)="toggleDiv1()">
+
+                  <img src="../../../../assets/icons/precio.svg" alt="Imagen" class="imagen-izquierda" />
                   <div class="contenido-derecha text-light fs-6">
+
+
                     <h3>Mejores precios</h3>
-                    <p class="textoEnBoton">
-                      Comercios: {{ cantidadComerciosMasEconomico }} <br />
-                      Distancia a recorrer: {{ distanciaMasEconomico }}<br />
-                      <br />
+                    <p class="textoEnBoton">Comercios: {{ cantidadComerciosMasEconomico }} <br>
+                      Distancia a recorrer: {{ distanciaMasEconomico }}<br>
+                      <br>
                     </p>
                     <strong> Total: ${{ totalMasEconomico }}</strong>
+
+
                   </div>
                 </button>
               </div>
@@ -35,25 +34,15 @@
             </li>
             <li class="nav-item">
               <div [ngClass]="{ active: isOpenDiv2 }">
-                <button
-                  class="btn btn-pestaña-2 card-redondeada"
-                  (click)="toggleDiv2()"
-                >
-                  <img
-                    src="../../../../assets/icons/Comercio.svg"
-                    alt="Imagen"
-                    class="imagen-izquierda"
-                  />
+                <button class="btn btn-pestaña-2 card-redondeada" (click)="toggleDiv2()">
+                  <img src="../../../../assets/icons/Comercio.svg" alt="Imagen" class="imagen-izquierda" />
                   <div class="contenido-derecha text-light">
                     <h3 class="title">Menor recorrido</h3>
                     <p class="textoEnBoton">Comercios: {{ cantidadComerciosLista }} <br>
                       Distancia a recorrer: {{ distanciaComercioLista }}<br>
-                     <br>
-
+                      <br>
                     </p>
-                    <strong class="mt-3">
-                      Total: ${{ totalListaDeComercio }}</strong
-                    >
+                    <strong class="mt-3"> Total: ${{totalListaDeComercio}}</strong>
                   </div>
                 </button>
               </div>
@@ -61,121 +50,188 @@
           </ul>
         </div>
         <div>
-          <div
+          <div class="col-12 container-lista scrollable-list bg-primary" *ngIf="isOpenDiv1">
 
-            class="col-12 container-lista scrollable-list bg-primary"
 
-            *ngIf="isOpenDiv1"
-            
-          >
-            <div
-              *ngFor="let producto of aListaProductos; let i = index"
-              data-aos="fade-up"
-              [attr.data-aos-delay]="0"
-            >
-              <ngb-carousel
-                [interval]="-1"
-                *ngIf="producto.ofertas.length > 0"
-                [showNavigationArrows]="producto.showArrows"
-                [showNavigationIndicators]="false"
-              >
-                <ng-template
-                  ngbSlide
-                  let-j="index"
-                  *ngFor="let publicacion of producto.ofertas"
-                >
+            <div *ngFor="let producto of aListaProductos; let i = index">
+              <button *ngIf="mostrarBoton || i !== carruselSeleccionadoIndex"  type="button" class="ms-1 btn btn-info text-light"
+                (click)="cambiarMarcaNuevo(i)"
+                style="--bs-btn-padding-y: .30rem; --bs-btn-padding-x: .10rem; --bs-btn-font-size: .75rem;">
+                Elegir marca
+              </button>
+              <button *ngIf="!mostrarBoton && i === carruselSeleccionadoIndex" class="btn ms-1"
+                style="--bs-btn-padding-y: .30rem; --bs-btn-padding-x: .10rem; --bs-btn-font-size:22px;">
+                <i class="bi bi-x-circle text-light"></i>
+              </button>
+              <button *ngIf="!mostrarBoton && i === carruselSeleccionadoIndex" class="btn ms-1"
+                style="--bs-btn-padding-y: .30rem; --bs-btn-padding-x: .10rem; --bs-btn-font-size: 22px;">
+                <i class="bi bi-check-circle text-light"></i>
+              </button>
+              <ngb-carousel [interval]="-1" *ngIf="producto.ofertas.length > 0"
+                [showNavigationArrows]="producto.showArrows" [showNavigationIndicators]="false">
+               
+                <ng-template ngbSlide let-j="index" *ngFor="let publicacion of producto.ofertas;">
+
                   <div class="picsum-img-wrapper">
-                    <app-card-oferta
-                      class="d-flex justify-content-center"
-                      [nombreProducto]="publicacion.oferta.nombreProducto"
-                      [marca]="publicacion.oferta.marca"
-                      [precio]="publicacion.oferta.precio"
-                      [nombreComercio]="publicacion.oferta.nombreComercio"
-                      [imagen]="publicacion.oferta.imagen"
-                      [subtotal]="publicacion.subtotal"
-                      [cantidad]="publicacion.cantidad"
-                      [idProducto]="publicacion.oferta.idPublicacion"
-                      [oferta]="publicacion"
-                      [i]="i"
-                      (ofertaSeleccionadaActual)="cambiarMarca($event)"
-                    ></app-card-oferta>
+
+                    <app-card-oferta class="d-flex justify-content-center"
+                      [nombreProducto]="publicacion.oferta.nombreProducto" [marca]="publicacion.oferta.marca"
+                      [precio]="publicacion.oferta.precio" [nombreComercio]="publicacion.oferta.nombreComercio"
+                      [imagen]="publicacion.oferta.imagen" [subtotal]="publicacion.subtotal"
+                      [cantidad]="publicacion.cantidad" [idProducto]="publicacion.oferta.idPublicacion"
+                      [oferta]="publicacion"></app-card-oferta>
                   </div>
                 </ng-template>
               </ngb-carousel>
+
             </div>
+
           </div>
-          <div
-            class="col-12 container-lista"
-            *ngIf="isOpenDiv2"
-            style="background-color: #f23030"
-          >
-            <div
-              class="rounded-pill mt-3 text-body-emphasis text-light p-2 d-flex row align-self-start">
+          <div class="col-12 container-lista" *ngIf="isOpenDiv2" style="background-color: #f23030">
+            <div class="rounded-pill mt-3 text-body-emphasis text-light p-2 d-flex row align-self-start">
               <!-- <h3> Te ofrecemos todas las ofertas en un solo lugar</h3>
               <p class="fs-6 ms-1"><i class="bi bi-caret-right-fill"></i>Hace click en cada comercio para ver la lista
                 completa de ofertas</p>
               <p class="fs-6 ms-1"><i class="bi bi-caret-right-fill"></i>Seleccioná una lista para compararla con las
                 mejores ofertas dentro de tu radio</p> -->
-
-                <div class="container">
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="d-flex flex-column" *ngFor="let comercio of aListaComercios; let i = index">
-                        <button class="btn btn-primary mt-2" id="boton{{comercio.nombreComercio}}" (click)="onClickVerListaDeComercio(comercio, i)" [class.active]="activeButton === i">
-                          <div >
-                            <img src="../../../../assets/icons/Comercio.svg" alt="Imagen" width="50px" />
-                          </div>
-                          <div class="contenido-derecha text-light">
-                            <h3>{{comercio.nombreComercio}}</h3>
-                            <p class="text-light">Total: $ {{totalListaDeComercio}}</p>
-                          </div>
-                        </button>
-                      </div>
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="d-flex flex-column" *ngFor="let comercio of aListaComercios; let i = index">
+                      <button class="btn btn-primary mt-2" id="boton{{comercio.nombreComercio}}"
+                        (click)="onClickVerListaDeComercio(comercio, i)" [class.active]="activeButton === i">
+                        <div>
+                          <img src="../../../../assets/icons/Comercio.svg" alt="Imagen" width="50px" />
+                        </div>
+                        <div class="contenido-derecha text-light">
+                          <h3>{{comercio.nombreComercio}}</h3>
+                          <p class="text-light">Total: $ {{totalListaDeComercio}}</p>
+                        </div>
+                      </button>
                     </div>
-                    
-                    <div class="col-md-8" *ngIf="isOpenListaSeleccionComercio">
-                      <div *ngFor="let producto of aListaSeleccionComercio; let i = index" data-aos="fade-up" [attr.data-aos-delay]="100"
-                          class="d-flex justify-content-center">
-                          
-                              <app-card-comercio class="mb-3" [nombreProducto]="producto.oferta.nombreProducto"
-                                [marca]="producto.oferta.marca" [precio]="producto.oferta.precio" [cantidad]="producto.cantidad" [subtotal]="producto.subtotal"
-                                [nombreComercio]="producto.oferta.nombreComercio" [imagen]="producto.oferta.imagen">
-                              </app-card-comercio>
-                        
+                  </div>
+
+                  <div class="col-md-8" *ngIf="isOpenListaSeleccionComercio">
+                    <div *ngFor="let producto of aListaSeleccionComercio; let i = index" data-aos="fade-up"
+                      [attr.data-aos-delay]="100" class="d-flex justify-content-center">
+
+                      <app-card-comercio class="mb-3" [nombreProducto]="producto.oferta.nombreProducto"
+                        [marca]="producto.oferta.marca" [precio]="producto.oferta.precio" [cantidad]="producto.cantidad"
+                        [subtotal]="producto.subtotal" [nombreComercio]="producto.oferta.nombreComercio"
+                        [imagen]="producto.oferta.imagen">
+                      </app-card-comercio>
+
+
+                    </div>
                   </div>
                 </div>
               </div>
+
+
             </div>
+            <!-- <div *ngFor="let oferta of aListaOfertas; let i = index" data-aos="fade-up" [attr.data-aos-delay]="100"
+              class="d-flex justify-content-center">
+              <app-card-oferta class="mt-3" [nombreProducto]="oferta.nombreProducto" [marca]="oferta.marca" [precio]="oferta.precio"
+                [nombreComercio]="oferta.nombreComercio" [imagen]="oferta.imagen">
+              </app-card-oferta>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+               
+              </div>
+            </div> -->
           </div>
         </div>
       </div>
     </div>
-    <div class="col-xl-4">
+    <!-- Opción de visualización -->
+    <!--  <div class="btn-group mb-3">
+                            <button
+                              class="btn btn-primary"
+                              (click)="cambiarVistaProducto('list')"
+                            >
+                              Lista
+                            </button>
+                            <button
+                              class="btn btn-primary"
+                              (click)="cambiarVistaProducto('grid')"
+                            >
+                              Grid
+                            </button>
+                          </div> -->
+
+    <!-- Cards en forma de lista -->
+    <!--   <div *ngIf="sVistaProducto === 'list'">
+                            <table
+                              class="table tabla-redondeada"
+                              data-aos="fade-up"
+                              data-aos-delay="100"
+                            >
+                              <tbody>
+                                <tr
+                                  class="fila list text-center align-middle"
+                                  *ngFor="let producto of aListaOfertas"
+                                >
+                                  <th scope="row">
+                                    <img
+                                      [src]="producto.imagen"
+                                      class="card-img-top mx-auto"
+                                    />
+                                  </th>
+                                  <td class="align-middle">
+                                    {{ producto.nombreProducto }}
+                                  </td>
+                                  <td class="align-middle">
+                                    {{ producto.marca }}
+                                  </td>
+                                  <td class="align-middle">
+                                    {{ producto.nombreComercio }}
+                                  </td>
+                                  <td class="align-middle price">
+                                    ${{ producto.precio }}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div> -->
+
+    <!-- Cards en forma de grid -->
+    <!--  <div *ngIf="sVistaProducto === 'grid'">
+                            <div class="row">
+                              <div
+                                *ngFor="
+                                  let oferta of aListaOfertas;
+                                  let i = index
+                                "
+                                data-aos="fade-up"
+                                [attr.data-aos-delay]="100"
+                              >
+                                <app-card-oferta
+                                  [nombreProducto]="oferta.nombreProducto"
+                                  [marca]="oferta.marca"
+                                  [precio]="oferta.precio"
+                                  [nombreComercio]="oferta.nombreComercio"
+                                  [imagen]="oferta.imagen"
+                                >
+                                </app-card-oferta>
+                              </div>
+                            </div>
+                          </div> -->
+
+    <div class="col-xl-3">
       <!-- mapa -->
       <div style="padding-top: 10px">
+
         <!-- Button trigger modal -->
-        <button
-          type="button"
-          class="btn btn-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#modalCompararEscenarios"
-        >
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCompararEscenarios">
           Comparar listas
         </button>
-        <app-mapa
-          [valorRadioElegido]="radioElegido"
-          [slider]="false"
-          (valorRadioEnviado)="capturarValorRadio($event)"
-        ></app-mapa>
+        <app-mapa [valorRadioElegido]="radioElegido" [slider]="false"
+          (valorRadioEnviado)="capturarValorRadio($event)"></app-mapa>
       </div>
 
       <div>
-        <button
-          type="button"
-          class="btn btn-primary btn-lg icono-generar"
-          (click)="obtenerResumen()"
-          *ngIf="!bEstaLogueado"
-        >
+        <button type="button" class="btn btn-primary btn-lg icono-generar" (click)="obtenerResumen()"
+          *ngIf="!bEstaLogueado">
           Resumen de lista
         </button>
       </div>
@@ -294,60 +350,25 @@
     </div>
   </div> -->
 
+
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="modalCompararEscenarios"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="modalCompararEscenarios" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          
           <div class="row">
-            <div class="col-md-6">
-              
-              <div class="image-container">
-                <img src="/assets/images/evento-{{ idEvento }}.jpg" class="img-fluid"/>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <app-mapa 
-                [valorRadioElegido]="radioElegido"
-                [slider]="false"
-                (valorRadioEnviado)="capturarValorRadio($event)"
-                
-              ></app-mapa>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 scrollable-list scrollable-list-comparar">
-              <div class="table-responsive">
-                <table
-                  class="table tabla-redondeada"
-                  data-aos="fade-up"
-                  data-aos-delay="100"
-                >
+            <div class="col-md-4">
+              <div>
+                <table class="table tabla-redondeada" data-aos="fade-up" data-aos-delay="100">
                   <tbody>
-                    <tr
-                      class="fila list text-center align-middle"
-                      *ngFor="let oferta of listaOfertasElegidasMasEconomico"
-                    >
+                    <tr class="fila list text-center align-middle"
+                      *ngFor="let oferta of listaOfertasElegidasMasEconomico">
                       <th scope="row">
-                        <img
-                          [src]="oferta.oferta.imagen"
-                          class="card-img-top mx-auto img-producto-tabla"
-                        />
+                        <img [src]="oferta.oferta.imagen" class="card-img-top mx-auto img-producto-tabla" />
                       </th>
                       <td class="align-middle">
                         {{ oferta.oferta.nombreProducto }}
@@ -366,42 +387,10 @@
                 </table>
               </div>
             </div>
-            <div class="col-md-6 scrollable-list scrollable-list-comparar">
-              <div class="table-responsive">
-                <table
-                  class="table tabla-redondeada"
-                  data-aos="fade-up"
-                  data-aos-delay="100"
-                >
-                  <tbody>
-                    <tr
-                      class="fila list text-center align-middle"
-                      *ngFor="let oferta of listaOfertasElegidasMasEconomico"
-                    >
-                      <th scope="row">
-                        <img
-                          [src]="oferta.oferta.imagen"
-                          class="card-img-top mx-auto img-producto-tabla"
-                        />
-                      </th>
-                      <td class="align-middle">
-                        {{ oferta.oferta.nombreProducto }}
-                      </td>
-                      <td class="align-middle">
-                        {{ oferta.oferta.marca }}
-                      </td>
-                      <td class="align-middle">
-                        {{ oferta.oferta.nombreComercio }}
-                      </td>
-                      <td class="align-middle precio-tabla">
-                        ${{ oferta.oferta.precio }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4"></div>
           </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary">Guardar lista</button>

@@ -1,17 +1,63 @@
-<div class="card dark card-oferta">
-  <img src="{{ imagen }}" class="card-img-top ms-1" alt="">
-  <div class="card-body">
+<!-- <div class="card" >
+<div class="dark card-oferta">
+ 
+  <div class="card-header d-flex justify-content-between ">
+    
+    <h5 class="card-subtitle mt-2 fw-bold text-body-tertiary">{{ nombreProducto }} x{{cantidad}} u.</h5>
+      <ng-container>
+        <button class="btn btn-info text-light boton-cambiar btn-sm" (click)="confirmarCambio()">Editar</button>
+      </ng-container>
+
+  </div>
+  <div class="card-body d-flex justify-content-around">
+    <img src="{{ imagen }}" class="card-img-top ms-1" alt="">
     <div class="text-section">
-      <h5 class="card-title fw-bold">{{ nombreProducto }}</h5>
+      
       <p class="card-text">{{ marca }}</p>
       <p class="card-text">{{ nombreComercio }}</p>
-      
-      <ng-container>
-        <button class="btn w-auto btn-info text-light boton-cambiar" (click)="confirmarCambio()"><svg xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><style>svg{fill:#ffffff}</style><path d="M0 168v-16c0-13.255 10.745-24 24-24h360V80c0-21.367 25.899-32.042 40.971-16.971l80 80c9.372 9.373 9.372 24.569 0 33.941l-80 80C409.956 271.982 384 261.456 384 240v-48H24c-13.255 0-24-10.745-24-24zm488 152H128v-48c0-21.314-25.862-32.08-40.971-16.971l-80 80c-9.372 9.373-9.372 24.569 0 33.941l80 80C102.057 463.997 128 453.437 128 432v-48h360c13.255 0 24-10.745 24-24v-16c0-13.255-10.745-24-24-24z"/></svg></button>
-      </ng-container>
+      <p class="card-text ">{{subtotal}} x {{cantidad}} u.</p>
+      <p class="card-text">{{precio}} x 1u.</p>
     </div>
-    <div class="cta-section">
-      <div>$ {{ precio }}</div>
-    </div>
+    
+   
+    
   </div>
 </div>
+</div> -->
+
+<div class="card" >
+  <div class="dark card-oferta">
+   
+    <div class="card-header d-flex justify-content-between ">
+      
+      <h5 class="card-subtitle mt-2 fw-bold text-body-tertiary">
+        {{ nombreProducto }} x {{precio}} 1u.</h5>
+          
+  <div>
+    <!-- <button *ngIf="mostrarBoton!=true"  class="btn ms-1" 
+        style="--bs-btn-padding-y: .30rem; --bs-btn-padding-x: .10rem; --bs-btn-font-size:22px;">
+        <i class="bi bi-x-circle-fill text-danger"></i>
+</button>
+    <button *ngIf="mostrarBoton!=true" class="btn ms-1" 
+    style="--bs-btn-padding-y: .30rem; --bs-btn-padding-x: .10rem; --bs-btn-font-size: 22px;">
+    <i class="bi bi-check-circle-fill text-success"></i>
+</button> -->
+
+  </div>
+  
+  
+    </div>
+    <div class="card-body d-flex justify-content-around">
+      <img src="{{imagen}}" class="card-img-top" alt="">
+      <div class="d-flex flex-column me-5">
+        
+        <h5 class="card-title">{{ marca }}</h5>
+        <p class="card-text">{{nombreComercio}}</p>
+        <p class="card-text ">{{subtotal}} x {{cantidad}}</p>
+      </div>
+      
+     
+      
+    </div>
+  </div>
+  </div>

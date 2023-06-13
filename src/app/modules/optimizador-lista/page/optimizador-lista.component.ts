@@ -1,10 +1,11 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, ViewChild } from '@angular/core';
 import { Oferta } from 'src/app/core/models/oferta';
 import { OptimizadorListaService } from '../services/optimizador-lista.service';
 import { ListaPost } from '@core/models/listaPost';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from '@shared/services/shared.service';
 import { ProductoCard } from '@core/models/productoCard';
+import { CardOfertaComponent } from '@shared/components/card-oferta/card-oferta.component';
 
 @Component({
   selector: 'app-optimizador-lista',
@@ -12,6 +13,7 @@ import { ProductoCard } from '@core/models/productoCard';
   styleUrls: ['./optimizador-lista.component.scss'],
 })
 export class OptimizadorListaComponent implements OnInit {
+  @ViewChild(CardOfertaComponent) appCardOfertaComponent!: CardOfertaComponent;
   bResumen = false;
   bEscenarios = true;
   bEstaLogueado = false;
@@ -50,6 +52,9 @@ export class OptimizadorListaComponent implements OnInit {
   distanciaMasEconomico: string = '0';
   cantidadComerciosLista: any;
   distanciaComercioLista: any;
+  mostrarBoton: boolean = true;
+  index:any;
+  carruselSeleccionadoIndex: number = 0; 
 
 
   constructor(
@@ -337,6 +342,14 @@ export class OptimizadorListaComponent implements OnInit {
     console.log('ofertas posteriores: ', this.listaOfertasElegidasMasEconomico);
     this.actualizarDatos();
     // Realiza acciones adicionales con la oferta y el índice
+  }
+
+  cambiarMarcaNuevo(index: number ){
+    this.mostrarBoton = !this.mostrarBoton;
+    this.listaOfertasElegidasMasEconomico;
+    // const index = data.index;
+    this.toggleArrows(index);
+
   }
 
   actualizarDatos() {
