@@ -31,6 +31,7 @@ export class OptimizadorListaComponent implements OnInit {
   longitudUbicacion!: number;
   oCantidadesPorProducto: any;
   aListaProductos!: ProductoCard[];
+	images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
 
   aListaComercios!: any[];
   aListaSeleccionComercio!:any[];

@@ -1,6 +1,6 @@
 <div class="container-fluid div-optimizador">
   <div class="row">
-    <div class="col-xl-2">
+    <div class="col-xl-3">
       <div class="form-check">
         <input
           class="form-check-input"
@@ -26,7 +26,7 @@
       </div>
     </div>
 
-    <div class="col-xl-6">
+    <div class="col-xl-5">
       <div class="container">
         <div class="row">
           <ul class="nav nav-tabs d-flex justify-content-around">
@@ -93,21 +93,28 @@
                 Deslizá con las flechas hasta encontrar la mejor marca para vos.
               </p>
             </div>
-           <div *ngFor="let producto of aListaProductos; let i = index" data-aos="fade-up" [attr.data-aos-delay]="100" class="d-flex justify-content-center">
-              <ngb-carousel [interval]="-1" *ngIf="producto.ofertas.length > 0" [showNavigationArrows]="producto.showArrows">
+           <div *ngFor="let producto of aListaProductos; let i = index" data-aos="fade-up" [attr.data-aos-delay]="0" >
+              <ngb-carousel [interval]="-1" *ngIf="producto.ofertas.length > 0" [showNavigationArrows]="producto.showArrows" 	[showNavigationIndicators]="false"
+                >
                 <ng-template ngbSlide let-j="index" *ngFor="let publicacion of producto.ofertas">
-                  <app-card-oferta
-                [nombreProducto]="publicacion.oferta.nombreProducto"
-                [marca]="publicacion.oferta.marca"
-                [precio]="publicacion.oferta.precio"
-                [nombreComercio]="publicacion.oferta.nombreComercio"
-                [imagen]="publicacion.oferta.imagen"
-                [idProducto]="publicacion.oferta.idPublicacion"
-                [oferta]="publicacion"
-                [i]="i"
-                (ofertaSeleccionadaActual)="cambiarMarca($event)"
+               
+                  <div class="picsum-img-wrapper">
 
-              ></app-card-oferta>
+                    <app-card-oferta class="d-flex justify-content-center"
+                    [nombreProducto]="publicacion.oferta.nombreProducto"
+                    [marca]="publicacion.oferta.marca"
+                    [precio]="publicacion.oferta.precio"
+                    [nombreComercio]="publicacion.oferta.nombreComercio"
+                    [imagen]="publicacion.oferta.imagen"
+                    [subtotal]="publicacion.subtotal"
+                    [cantidad]="publicacion.cantidad"
+                    [idProducto]="publicacion.oferta.idPublicacion"
+                    [oferta]="publicacion"
+                    [i]="i"
+                    (ofertaSeleccionadaActual)="cambiarMarca($event)"
+    
+                  ></app-card-oferta>
+                  </div>
                 </ng-template>
               </ngb-carousel>
 
