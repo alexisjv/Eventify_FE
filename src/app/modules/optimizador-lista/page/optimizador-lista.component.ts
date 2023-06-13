@@ -36,7 +36,7 @@ export class OptimizadorListaComponent implements OnInit {
   aListaComercios!: any[];
   aListaSeleccionComercio!:any[];
   isOpenListaSeleccionComercio: boolean = true;
-  totalListaDeComercio!: number;
+  totalListaDeComercio=0;
   activeButton = 0;
 
   //Mas economico
@@ -49,6 +49,8 @@ export class OptimizadorListaComponent implements OnInit {
   totalMasEconomico: number = 0;
   cantidadComerciosMasEconomico: number = 0;
   distanciaMasEconomico: string = '0';
+  cantidadComerciosLista: any;
+  distanciaComercioLista: any;
 
   constructor(
     private listaCompraService: OptimizadorListaService,
@@ -57,84 +59,10 @@ export class OptimizadorListaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.aListaComercios = [
-      {
-        nombreComercio: "Walmart",
-        total: 2500,
-        listaOfertas:[{
-            "idPublicacion": 1,
-            "idTipoProducto": 2,
-            "tipoProducto": "Fernet",
-            "nombreProducto": "Branca",
-            "marca": "Branca",
-            "imagen": "https://d2r9epyceweg5n.cloudfront.net/stores/001/151/835/products/77908950004301-80602de5b61cff11bb15890782195412-640-0.jpg",
-            "precio": 0,
-            "peso": 0,
-            "unidades": 0,
-            "nombreComercio": "Walmart",
-            "localidad": "Localidad",
-            "idLocalidad": 2,
-            "latitud": 2,
-            "longitud": 2
-          },
-          {
-            "idPublicacion": 2,
-            "idTipoProducto": 2,
-            "tipoProducto": "prodcuto2",
-            "marca": "producto",
-            "imagen": "https://d2r9epyceweg5n.cloudfront.net/stores/001/151/835/products/77908950004301-80602de5b61cff11bb15890782195412-640-0.jpg",
-            "precio": 0,
-            "peso": 0,
-            "unidades": 0,
-            "nombreComercio": "Walmart",
-            "localidad": "localid",
-            "idLocalidad": 2,
-            "latitud": 2,
-            "longitud": 2
-          },
-        ]
-      },
-      {
-        nombreComercio: "Dia",
-        total:3000,
-        listaOfertas:[{
-            "idPublicacion": 1,
-            "idTipoProducto": 2,
-            "tipoProducto": "Fernet",
-            "nombreProducto": "Branca",
-            "marca": "Branca",
-            "imagen": "https://d2r9epyceweg5n.cloudfront.net/stores/001/151/835/products/77908950004301-80602de5b61cff11bb15890782195412-640-0.jpg",
-            "precio": 0,
-            "peso": 0,
-            "unidades": 0,
-            "nombreComercio": "Dia",
-            "localidad": "Localidad",
-            "idLocalidad": 2,
-            "latitud": 2,
-            "longitud": 2
-          },
-          {
-            "idPublicacion": 2,
-            "idTipoProducto": 2,
-            "tipoProducto": "prodcuto2",
-            "marca": "producto",
-            "imagen": "https://d2r9epyceweg5n.cloudfront.net/stores/001/151/835/products/77908950004301-80602de5b61cff11bb15890782195412-640-0.jpg",
-            "precio": 0,
-            "peso": 0,
-            "unidades": 0,
-            "nombreComercio": "Dia",
-            "localidad": "localid",
-            "idLocalidad": 2,
-            "latitud": 2,
-            "longitud": 2
-          },
-        ]
-      }
+    this.aListaComercios =[];
+    this.aListaSeleccionComercio=[];
      
-    ]
-
-    this.aListaSeleccionComercio = this.aListaComercios[0].listaOfertas;
-    this.totalListaDeComercio = this.aListaComercios[0].total;
+    // this.totalListaDeComercio = this.aListaComercios[0].total;
     
     
     this.route.queryParams.subscribe((params) => {
@@ -161,8 +89,54 @@ export class OptimizadorListaComponent implements OnInit {
         this.radioElegido,
         this.oCantidadesPorProducto
       );
+      this.obtenerOfertasPorComercio(
+        this.latitudUbicacion,
+        this.longitudUbicacion,
+        this.cantidadComensales,
+        this.comidasSeleccionadas,
+        this.bebidasSeleccionadas,
+        this.radioElegido,
+        this.oCantidadesPorProducto
+      );
+
     });
+   
   }
+  obtenerOfertasPorComercio(latitudUbicacion: number, longitudUbicacion: number, 
+    cantidadComensales: number, comidasSeleccionadas: number[], 
+    bebidasSeleccionadas: number[], radioElegido: number, oCantidadesPorProducto: any) {
+    const lista: ListaPost = {
+      latitudUbicacion: latitudUbicacion,
+      longitudUbicacion: longitudUbicacion,
+      // CAMBIO EL VALOR DE 1000 A 1 PARA EL BACK
+      distancia: (radioElegido / 1000),
+      comidas: comidasSeleccionadas,
+      bebidas: bebidasSeleccionadas,
+      marcasComida: [],
+      marcasBebida: [],
+      cantidadInvitados: cantidadComensales,
+      presupuesto: 0,
+      cantidadProductos: oCantidadesPorProducto,
+    };
+
+    this.listaCompraService.obtenerOfertasPorComercio(lista).subscribe(
+      (response: ProductoCard[]) => {
+        response.forEach(oElement => {
+          this.aListaComercios.push(oElement);
+        });
+        this.aListaSeleccionComercio = this.aListaComercios[0].ofertas;
+        this.calcularTotalListaComercio();
+        this.cantidadComerciosLista = this.aListaComercios.length;
+        this.distanciaComercioLista = this.aListaComercios[0].distancia;
+
+    });
+    
+    
+  }
+  
+  
+
+
 
   toggleDiv1() {
     this.isOpenDiv1 = true;
@@ -375,7 +349,15 @@ export class OptimizadorListaComponent implements OnInit {
   
   // Redondear a 2 decimales
   this.totalMasEconomico = parseFloat(this.totalMasEconomico.toFixed(2));
-}
+  }
+
+  calcularTotalListaComercio(){   
+    this.aListaSeleccionComercio.forEach(oElement => {
+      this.totalListaDeComercio += oElement.subtotal;
+    });
+    this.totalListaDeComercio = parseFloat(this.totalListaDeComercio.toFixed(2));
+
+  }
 
 calcularCantidadComerciosMasEconomico() {
   const nombresComercios = new Set<string>();
@@ -441,10 +423,10 @@ calcularCantidadComerciosMasEconomico() {
   }
 
   onClickVerListaDeComercio (comercio:any, i:number){
-    this.aListaSeleccionComercio = comercio.listaOfertas;
+    this.aListaSeleccionComercio = comercio.ofertas;
     this.isOpenListaSeleccionComercio = true;
-    this.totalListaDeComercio = comercio.total;
     this.activeButton = i;
-    
+    this.distanciaComercioLista = comercio.distancia;
+
   }
 }
