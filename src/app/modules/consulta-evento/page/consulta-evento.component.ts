@@ -52,6 +52,7 @@ export class ConsultaEventoComponent {
   valorRadio!: number;
   latitudUbicacion!: number;
   longitudUbicacion!: number;
+  idEvento!: number;
 
 
   constructor(private router: Router, private consultaEventoService: ConsultaEventoService, private mapaService: SharedService) { }
@@ -80,6 +81,7 @@ export class ConsultaEventoComponent {
   }
 
   mostrarTiposDeComida(idEvento: number) {
+    this.idEvento = idEvento;
     this.oSelecciones.idEventoSeleccionado = idEvento;
     this.getTiposDeComidas(idEvento);
 
@@ -237,7 +239,8 @@ export class ConsultaEventoComponent {
       radio: this.valorRadio,
       latitud: this.latitudUbicacion,
       longitud: this.longitudUbicacion,
-      cantidadProductos:JSON.stringify(oCantidadesPorProducto, null, 2)
+      cantidadProductos:JSON.stringify(oCantidadesPorProducto, null, 2),
+      idEvento: this.idEvento
     };
 
     this.router.navigate(['optimizador-lista'], { queryParams });

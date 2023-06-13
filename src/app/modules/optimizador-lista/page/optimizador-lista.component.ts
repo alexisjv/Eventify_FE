@@ -31,14 +31,13 @@ export class OptimizadorListaComponent implements OnInit {
   longitudUbicacion!: number;
   oCantidadesPorProducto: any;
   aListaProductos!: ProductoCard[];
-	images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
 
   aListaComercios!: any[];
   aListaSeleccionComercio!:any[];
   isOpenListaSeleccionComercio: boolean = true;
   totalListaDeComercio!: number;
   activeButton = 0;
-
+  idEvento!: number;
   //Mas economico
 
   listaOfertasElegidasMasEconomico: Oferta[] = [];
@@ -146,12 +145,14 @@ export class OptimizadorListaComponent implements OnInit {
       this.longitudUbicacion = params['longitud'];
       this.radioElegido = params['radio'];
       this.oCantidadesPorProducto = JSON.parse(params['cantidadProductos']);
+      this.idEvento = params['idEvento'];
       console.log(this.cantidadComensales);
       console.log(this.comidasSeleccionadas);
       console.log(this.bebidasSeleccionadas);
       console.log(this.latitudUbicacion);
       console.log(this.longitudUbicacion);
       console.log(this.radioElegido);
+      console.log(this.idEvento);
 
       this.obtenerOfertas(
         this.latitudUbicacion,
