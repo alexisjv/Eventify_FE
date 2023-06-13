@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '@shared/components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { FormRegistroComponent } from './components/form-registro/form-registro.component';
+import { FormRegistroComponent } from '../modules/form-registro/form-registro.component';
 import { MapaComponent } from './components/mapa/mapa.component';
 import { FormsModule } from '@angular/forms';
 import { DireccionAutocompletadoComponent } from './components/direccion-autocompletado/direccion-autocompletado.component';
@@ -17,7 +17,6 @@ import { CardComercioComponent } from './components/card-comercio/card-comercio.
   declarations: [
         HeaderComponent,
         FooterComponent,
-        FormRegistroComponent,
         MapaComponent,
         DireccionAutocompletadoComponent,
         CardOfertaComponent,
@@ -31,10 +30,10 @@ import { CardComercioComponent } from './components/card-comercio/card-comercio.
   exports: [
     HeaderComponent,
     FooterComponent,
-    FormRegistroComponent,
     MapaComponent,
     DireccionAutocompletadoComponent,
-    CardOfertaComponent
+    CardOfertaComponent,
+    CardComercioComponent
     
 
   ],
