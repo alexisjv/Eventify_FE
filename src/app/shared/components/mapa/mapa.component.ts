@@ -44,6 +44,11 @@ export class MapaComponent implements OnInit {
 
     const opcionesMapa = {
       zoom: 12,
+      
+      streetViewControl: false, // Desactivar Street View
+      mapTypeControl: false, // Desactivar cambio de tipo de mapa
+      rotateControl: false, // Desactivar control de rotación
+      fullscreenControl: true, // Desactivar control de pantalla completa
       styles: [
         {
           featureType: 'administrative.locality',

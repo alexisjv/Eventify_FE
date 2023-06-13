@@ -21,7 +21,10 @@ export class HomeLandingComponent implements OnInit, OnDestroy {
 
     if (headerElemento) {
       this.renderer.removeStyle(headerElemento, 'position');
-
+      const logoElemento = document.querySelector('#logo');
+      if (logoElemento) {
+        this.renderer.addClass(logoElemento, 'imagotipo');
+      }
     }
   }
 

@@ -50,6 +50,7 @@ export class OptimizadorListaComponent implements OnInit {
   cantidadComerciosMasEconomico: number = 0;
   distanciaMasEconomico: string = '0';
 
+
   constructor(
     private listaCompraService: OptimizadorListaService,
     private route: ActivatedRoute,
@@ -447,4 +448,5 @@ calcularCantidadComerciosMasEconomico() {
     this.activeButton = i;
     
   }
+
 }
