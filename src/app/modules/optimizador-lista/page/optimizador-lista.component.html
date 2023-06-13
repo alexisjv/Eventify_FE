@@ -46,10 +46,10 @@
                   />
                   <div class="contenido-derecha text-light">
                     <h3 class="title">Menor recorrido</h3>
-                    <p class="textoEnBoton">
-                      Comercios: {{ cantidadComerciosMasEconomico }} <br />
-                      Distancia a recorrer: {{ distanciaMasEconomico }}<br />
-                      <br />
+                    <p class="textoEnBoton">Comercios: {{ cantidadComerciosLista }} <br>
+                      Distancia a recorrer: {{ distanciaComercioLista }}<br>
+                     <br>
+
                     </p>
                     <strong class="mt-3">
                       Total: ${{ totalListaDeComercio }}</strong
@@ -62,9 +62,11 @@
         </div>
         <div>
           <div
-            class="col-12 container-lista scrollable-list"
+
+            class="col-12 container-lista scrollable-list bg-primary"
+
             *ngIf="isOpenDiv1"
-            style="background-color: #952fdb"
+            
           >
             <div
               *ngFor="let producto of aListaProductos; let i = index"
@@ -105,46 +107,42 @@
           <div
             class="col-12 container-lista"
             *ngIf="isOpenDiv2"
-            style="background-color: #d1201b"
+            style="background-color: #f23030"
           >
             <div
-              class="rounded-pill mt-3 text-body-emphasis text-light p-2 d-flex row align-self-start"
-            >
-              <h2>Recorré menos!</h2>
+              class="rounded-pill mt-3 text-body-emphasis text-light p-2 d-flex row align-self-start">
               <!-- <h3> Te ofrecemos todas las ofertas en un solo lugar</h3>
               <p class="fs-6 ms-1"><i class="bi bi-caret-right-fill"></i>Hace click en cada comercio para ver la lista
                 completa de ofertas</p>
               <p class="fs-6 ms-1"><i class="bi bi-caret-right-fill"></i>Seleccioná una lista para compararla con las
                 mejores ofertas dentro de tu radio</p> -->
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-4">
-                    <div
-                      class="d-flex flex-column"
-                      *ngFor="let comercio of aListaComercios; let i = index"
-                    >
-                      <button
-                        class="btn btn-primary mt-2"
-                        id="boton{{ comercio.nombreComercio }}"
-                        (click)="onClickVerListaDeComercio(comercio, i)"
-                        [class.active]="activeButton === i"
-                      >
-                        <div class="imagen-izquierda">
-                          <img
-                            src="../../../../assets/icons/Comercio.svg"
-                            alt="Imagen"
-                            width="20px"
-                          />
-                        </div>
-                        <div class="contenido-derecha text-light">
-                          <h3>{{ comercio.nombreComercio }}</h3>
-                          <p class="text-light">
-                            Total: $ {{ comercio.total }}
-                          </p>
-                        </div>
-                      </button>
+
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column" *ngFor="let comercio of aListaComercios; let i = index">
+                        <button class="btn btn-primary mt-2" id="boton{{comercio.nombreComercio}}" (click)="onClickVerListaDeComercio(comercio, i)" [class.active]="activeButton === i">
+                          <div >
+                            <img src="../../../../assets/icons/Comercio.svg" alt="Imagen" width="50px" />
+                          </div>
+                          <div class="contenido-derecha text-light">
+                            <h3>{{comercio.nombreComercio}}</h3>
+                            <p class="text-light">Total: $ {{totalListaDeComercio}}</p>
+                          </div>
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                    
+                    <div class="col-md-8" *ngIf="isOpenListaSeleccionComercio">
+                      <div *ngFor="let producto of aListaSeleccionComercio; let i = index" data-aos="fade-up" [attr.data-aos-delay]="100"
+                          class="d-flex justify-content-center">
+                          
+                              <app-card-comercio class="mb-3" [nombreProducto]="producto.oferta.nombreProducto"
+                                [marca]="producto.oferta.marca" [precio]="producto.oferta.precio" [cantidad]="producto.cantidad" [subtotal]="producto.subtotal"
+                                [nombreComercio]="producto.oferta.nombreComercio" [imagen]="producto.oferta.imagen">
+                              </app-card-comercio>
+                          
+
 
                   <div class="col-md-8" *ngIf="isOpenListaSeleccionComercio">
                     <div
