@@ -21,6 +21,10 @@ export class CardComercioComponent {
   i!: number;
   @Input()
   idProducto!: number;
+  @Input()
+  subtotal!: number;
+  @Input()
+  cantidad!: number;
   @Input() oferta!: Oferta;
   @Output() ofertaSeleccionadaActual: EventEmitter<{ oferta: Oferta, index: number }> = new EventEmitter<{ oferta: Oferta, index: number }>();
 

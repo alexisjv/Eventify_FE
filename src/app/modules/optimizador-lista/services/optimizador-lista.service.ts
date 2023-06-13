@@ -20,6 +20,11 @@ import { API_URL } from '@core/config/url';
       respuesta.subscribe((data) => console.log('la lista de compra es la siguiente: ', data));
       return respuesta;
     }
+
+    obtenerOfertasPorComercio(filtro: ListaPost): Observable<any> {
+      const respuesta = this.http.post<Oferta>(API_URL + 'Oferta/recorrerMenos', filtro);
+      return respuesta;
+    }
     
   
 }
