@@ -71,12 +71,5 @@ export class FormRegistroComponent {
     console.log(this.userForm);
   }
 
-  get passwordErrorMessage(): string {
-    if (this.userForm.hasError('required')) {
-      return 'La contraseña es requerida.';
-    }
-    return 'La contraseña debe tener entre 8-20 caracteres, contener letras, números y al menos un carácter especial.';
-  }
-
 }
 
