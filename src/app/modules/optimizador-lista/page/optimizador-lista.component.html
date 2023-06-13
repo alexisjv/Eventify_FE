@@ -62,9 +62,9 @@
         </div>
         <div>
           <div
-            class="col-12 container-lista scrollable-list "
+            class="col-12 container-lista scrollable-list bg-primary"
             *ngIf="isOpenDiv1"
-            style="background-color: #952fdb"
+            
           >
 
           
@@ -99,7 +99,7 @@
           <div
             class="col-12 container-lista"
             *ngIf="isOpenDiv2"
-            style="background-color: #d1201b"
+            style="background-color: #f23030"
           >
             <div
               class="rounded-pill mt-3 text-body-emphasis text-light p-2 d-flex row align-self-start">
@@ -113,8 +113,8 @@
                     <div class="col-md-4">
                       <div class="d-flex flex-column" *ngFor="let comercio of aListaComercios; let i = index">
                         <button class="btn btn-primary mt-2" id="boton{{comercio.nombreComercio}}" (click)="onClickVerListaDeComercio(comercio, i)" [class.active]="activeButton === i">
-                          <div class="imagen-izquierda">
-                            <img src="../../../../assets/icons/Comercio.svg" alt="Imagen" width="20px" />
+                          <div >
+                            <img src="../../../../assets/icons/Comercio.svg" alt="Imagen" width="50px" />
                           </div>
                           <div class="contenido-derecha text-light">
                             <h3>{{comercio.nombreComercio}}</h3>
