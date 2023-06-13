@@ -1,0 +1,103 @@
+<section class="d-flex justify-content-center registro-usuario" *ngIf="mostrarRegistroComun">
+
+
+  <div class="card bg-primary w-50 d-flex align-items-center mb-2">
+      <article class="card-body mx-auto text-light align-items-center" style="max-width: 400px;">
+          <h4 class="card-title mt-3 text-center ">Registrarme</h4>
+          <p class="text-center">Empezá a disfrutar de los beneficios de Eventify</p>
+          <!-- <p>
+          <a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login via Twitter</a>
+          <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook</a>
+      </p>
+      <p class="divider-text">
+          <span class="bg-light">OR</span>
+      </p> -->
+          <form >
+              <div class="form-group input-group ">
+
+                  <input name="fullName" class="form-control"  formControlName="fullName" placeholder="Nombre completo" type="text">
+              </div> <!-- form-group// -->
+              <div class="form-group input-group mt-3">
+
+                  <input name="email" class="form-control" formControlName="email" placeholder="Email" type="email">
+              </div> <!-- form-group// -->
+              <div class="form-group input-group mt-3">
+
+                  <input name="password" class="form-control" formControlName="password" placeholder="Crea una contraseña" type="password">
+              </div>
+              <div id="passwordHelpBlock" class="text-white-50 form-text">
+                  Debe tener entre 8-20 caracteres, contener letras, numeros y un caracter especial.
+              </div> <!-- form-group// -->
+              <div class="form-group input-group mt-3">
+
+                  <input name="repeatPassword" class="form-control" formControlName="repeatPassword" placeholder="Repetí la contraseña" type="password">
+              </div> <!-- form-group// -->
+              <div class="form-group  mt-3 d-flex flex-column align-items-center">
+
+                  <button type="submit" class="btn btn-info text-light btn-block"> Registrarme </button>
+                  <button class="btn btn-outline-light btn-block mt-2" (click)="mostrarRegistroDeComercio()">Soy
+                      comercio</button>
+              </div> <!-- form-group// -->
+              <p class="text-center mt-3">Ya tenés una cuenta? <a class="text-light text-decoration-none"
+                      href="">Iniciar sesión</a> </p>
+          </form>
+      </article>
+  </div>
+</section>
+
+
+<section class="d-flex justify-content-center registro-comercio" *ngIf="mostrarRegistroComercio">
+
+
+  <div class="card bg-primary w-50 d-flex align-items-center mb-2">
+      <article class="card-body mx-auto text-light" style="max-width: 400px;">
+          <h4 class="card-title mt-3 text-center ">Registrarme</h4>
+          <p class="text-center">Empezá a publicar tus ofertas y aumentar tus ventas</p>
+          <!-- <p>
+              <a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login via Twitter</a>
+              <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook</a>
+          </p>
+          <p class="divider-text">
+              <span class="bg-light">OR</span>
+          </p> -->
+          <form>
+              <div class="form-group input-group ">
+                  <input name="" class="form-control" placeholder="Nombre completo" type="text">
+              </div> <!-- form-group// -->
+
+              <div class="form-group input-group  mt-3">
+                  <input name="" class="form-control" placeholder="Nombre del comercio" type="text">
+              </div> <!-- form-group// -->
+              <div class="form-group input-group  mt-3">
+                  <input name="" class="form-control" mask="00-00-00" placeholder="CUIT" type="text">
+              </div> <!-- form-group// -->
+              <div class="form-group input-group  mt-3 ">
+                  <!-- <app-direccion-autocompletado></app-direccion-autocompletado> -->
+              </div>
+              <div class="form-group input-group mt-3">
+                  <input name="" class="form-control" placeholder="Email" type="email">
+              </div> <!-- form-group// -->
+
+              <div class="form-group input-group mt-3">
+
+                  <input class="form-control" placeholder="Creá una contraseña" type="password">
+              </div>
+              <div id="passwordHelpBlock" class="text-white-50 form-text">
+                  Debe tener entre 8-20 caracteres, contener letras, numeros y un caracter especial.
+              </div> <!-- form-group// -->
+              <div class="form-group input-group mt-3">
+
+                  <input class="form-control" placeholder="Repetí la contraseña" type="password">
+              </div> <!-- form-group// -->
+              <div class="form-group mt-3 d-flex justify-content-center">
+
+                  <button type="submit" class="btn btn-info text-light btn-block">Registrarme</button>
+
+              </div>
+              <!-- form-group// -->
+              <p class="text-center mt-3">Ya tenés una cuenta? <a class="text-light text-decoration-none"
+                      href="">Iniciar sesión</a> </p>
+          </form>
+      </article>
+  </div>
+</section>

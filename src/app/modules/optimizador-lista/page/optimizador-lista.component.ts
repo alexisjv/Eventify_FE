@@ -37,7 +37,7 @@ export class OptimizadorListaComponent implements OnInit {
   aListaSeleccionComercio!:any[];
   isOpenListaSeleccionComercio: boolean = true;
   totalListaDeComercio!: number;
-  activeButton = -1;
+  activeButton = 0;
 
   //Mas economico
 
@@ -440,10 +440,11 @@ calcularCantidadComerciosMasEconomico() {
 
   }
 
-  onClickVerListaDeComercio (comercio:any){
+  onClickVerListaDeComercio (comercio:any, i:number){
     this.aListaSeleccionComercio = comercio.listaOfertas;
     this.isOpenListaSeleccionComercio = true;
     this.totalListaDeComercio = comercio.total;
+    this.activeButton = i;
     
   }
 }

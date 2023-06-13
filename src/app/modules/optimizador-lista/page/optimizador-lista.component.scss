@@ -1,11 +1,17 @@
 .div-optimizador{
-  padding-top: 50px;
+ margin-top: 2px;
 }
 .btn-pestaña-1{
   background-color: #952FDB !important;
+  width: 23em !important;
+  max-height: 8em;
+  min-height: 8em;
 }
 .btn-pestaña-2{
   background-color: #D1201B !important;
+  width: 23em !important;
+  max-height: 8em;
+  min-height: 8em;
 }
 .container-lista{
   border-radius: 10px !important;
@@ -26,7 +32,10 @@
 .escenario-menor-recorrido {
   margin-bottom: 20px;
 }
-
+.textoEnBoton{
+  font-size: 15px;
+  margin: 0;
+}
 .card-redondeada {
   display: flex;
   align-items: center;
@@ -35,10 +44,17 @@
   width: 250px;
   padding: 10px;
 }
-
-.imagen-izquierda img {
-  width: 80px;
-  height: 80px;
+nav-tabs{
+  display: flex;
+  justify-content: center !important;
+}
+typography h3 {
+  font-size: 15px;
+  margin:0 0 0px; 
+}
+.imagen-izquierda {
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: cover;
   margin-right: 10px;
@@ -53,10 +69,7 @@
   margin-bottom: 5px;
 }
 
-.contenido-derecha p {
-  font-size: 16px;
- 
-}
+
 
 .form-range-container {
   position: relative;
@@ -91,6 +104,13 @@
   #carrousel .carousel-control-next {
     background-color: red;
     /* Agrega aquí cualquier otro estilo personalizado que desees aplicar */
+  }
+  .scrollable-list {
+    height: 100%;
+  }
+  .scrollable-content {
+    max-height: 500px;
+    overflow-y: auto;
   }
   
   #modalCompararEscenarios{
