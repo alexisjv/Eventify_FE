@@ -8,6 +8,12 @@ import { PageLoginComponent } from '@modules/page-login/page-login.component';
 
 const routes: Routes = [
   {
+    path: '', //TODO (Public) Login, Register, Forgot...
+    component: HomeLandingComponent,
+    loadChildren: () => import('@modules/home-landing/home-landing.module').then(m => m.HomeLandingModule),
+
+  },
+  {
     path: 'consulta-evento',
     component: ConsultaEventoComponent,
     loadChildren: () => import('@modules/consulta-evento/consulta-evento.module').then(m => m.ConsultaEventoModule)
