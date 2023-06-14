@@ -33,7 +33,7 @@ export class OptimizadorListaComponent implements OnInit {
   longitudUbicacion!: number;
   oCantidadesPorProducto: any;
   aListaProductos!: ProductoCard[];
-
+  urlRecorrido: string = "";
   aListaComercios!: any[];
   aListaSeleccionComercio!: any[];
   isOpenListaSeleccionComercio: boolean = true;
@@ -528,5 +528,18 @@ ordenarListas(){
   console.log('lista recorrido: ', this.aListaSeleccionComercio)
 }
 
-  
+generarResumen() {
+  this.mapaService.obtenerLinkGps()
+    .then((urlRecorrido) => {
+      this.urlRecorrido = urlRecorrido;
+      // Realizar acciones adicionales con la URL del recorrido
+    })
+    .catch((error) => {
+      console.error('Error al obtener el enlace de GPS:', error);
+      // Realizar acciones en caso de error
+    });
 }
+
+
+}
+

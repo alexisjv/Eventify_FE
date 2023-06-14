@@ -215,7 +215,7 @@
         <button (click)="ordenarListas()" type="button" class="btn btn-primary boton-resumen" data-bs-toggle="modal" data-bs-target="#modalCompararEscenarios">
           Comparar Listas
         </button>
-        <button type="button" class="btn btn-primary boton-resumen">
+        <button type="button" class="btn btn-primary boton-resumen" (click)="generarResumen()">
           Guardar Lista
         </button>
       </div>
@@ -228,6 +228,9 @@
           [slider]="false"
           (valorRadioEnviado)="capturarValorRadio($event)"
         ></app-mapa>
+
+        <qrcode [qrdata]="urlRecorrido"></qrcode>
+
       </div>
     </div>
   </div>

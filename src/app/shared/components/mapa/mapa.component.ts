@@ -235,7 +235,7 @@ export class MapaComponent implements OnInit {
     console.log(destino);
   }
 
-  compartirMapa() {
+/*   compartirMapa() {
     const enlaceMapa = this.generarEnlaceMapa();
     const mensajeWhatsApp = `¡Hola! Aquí está la mejor ruta para llegar a mi destino: ${enlaceMapa}`;
 
@@ -245,27 +245,49 @@ export class MapaComponent implements OnInit {
     window.open(enlaceWhatsAppWeb, '_blank');
 
     window.open(enlaceMapa);
+  } */
+
+  
+
+  obtenerEnlaceGPS(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const origen = this.aComercios[0].ubicacion;
+      const destino = this.aComercios[this.aComercios.length - 1].ubicacion;
+      const puntosIntermedios = this.aComercios
+        .slice(1, this.aComercios.length - 1)
+        .map((punto) => {
+          return {
+            location: punto.ubicacion,
+            stopover: true,
+          };
+        });
+  
+      const solicitudRuta = {
+        origin: origen,
+        destination: destino,
+        waypoints: puntosIntermedios,
+        optimizeWaypoints: true,
+        travelMode: 'DRIVING',
+      };
+  
+      this.calcularRuta(solicitudRuta)
+        .then((respuesta) => {
+          const enlaceMapa = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
+            origen.lat + ',' + origen.lng
+          )}&destination=${encodeURIComponent(
+            destino.lat + ',' + destino.lng
+          )}&waypoints=${respuesta.routes[0].waypoint_order
+            .map((index) => encodeURIComponent(puntosIntermedios[index].location.lat + ',' + puntosIntermedios[index].location.lng))
+            .join('%7C')}&dirflg=d`;
+          resolve(enlaceMapa);
+        })
+        .catch((error) => {
+          reject('No se pudo calcular la ruta. Error: ' + error);
+        });
+    });
   }
-
-  obtenerEnlaceGPS(): string {
-    return this.generarEnlaceMapa();
-  }
-
-  generarEnlaceMapa(): string {
-    const origen = this.aComercios[0].ubicacion;
-    const destino = this.aComercios[this.aComercios.length - 1].ubicacion;
-    const puntosIntermedios = this.aComercios
-      .slice(1, this.aComercios.length - 1)
-      .map((punto) => encodeURIComponent(punto.ubicacion));
-
-    const enlaceMapa = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
-      origen
-    )}&destination=${encodeURIComponent(
-      destino
-    )}&waypoints=${puntosIntermedios.join('%7C')}&dirflg=d`;
-
-    return enlaceMapa;
-  }
+  
+  
 
   calcularDistancia(origen: any, destino: any): Promise<string> {
     return new Promise((resolve, reject) => {
