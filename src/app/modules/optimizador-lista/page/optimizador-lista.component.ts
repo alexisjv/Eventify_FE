@@ -64,6 +64,8 @@ export class OptimizadorListaComponent implements OnInit {
   listaElegidaMasEconomico: boolean = true;
   listaElegidaMenorRecorrido: boolean = false;
 
+  imagenLista!: string;
+
   constructor(
     private listaCompraService: OptimizadorListaService,
     private route: ActivatedRoute,
@@ -75,7 +77,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.aListaSeleccionComercio = [];
 
     // this.totalListaDeComercio = this.aListaComercios[0].total;
-
+    this.imagenLista = "mateoMejorOferta"
     this.route.queryParams.subscribe((params) => {
       this.cantidadComensales = params['cantidadComensales'];
       this.comidasSeleccionadas = JSON.parse(params['comidas']);
@@ -157,6 +159,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.listaElegidaMasEconomico = true;
     this.listaElegidaMenorRecorrido = false;
     this.obtenerRutaMasEconomico();
+    this.imagenLista="mateoMejorOferta"
   }
 
   toggleDiv2() {
@@ -166,6 +169,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.listaElegidaMenorRecorrido = true;
     this.actualizarDatosMenorRecorrido();
     this.obtenerRutaMenorRecorrido();
+    this.imagenLista="mateoMejorRecorrido"
   }
 
   toggleDiv3() {
