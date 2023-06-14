@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="col-xl-8 col-md-12 fondo">
-      <div class="card card-formulario bg-primary">
+      <div class="card card-formulario bg-secondary">
         <div>
           <!-- titulo -->
           <div
@@ -41,7 +41,7 @@
                       >
                         <img
                           [src]="'assets/icons/' + evento.nombre + '.svg'"
-                          alt="Icono"
+                          
                           class="icon-img"
                         />
                       </button>
@@ -227,7 +227,9 @@
                 <h2>Tu lista de compras:</h2>
                 <div class="linea-titulo"></div>
               </div>
-
+              <div>
+              <p class="text-light  fs-6 text-center">*Las cantidades son aproximadas</p>
+            </div>
               <div class="text-center" *ngIf="bMostrarLoading">
                 <div class="spinner-border" role="status">
                   <span class="visually-hidden">Loading...</span>

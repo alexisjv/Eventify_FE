@@ -1,14 +1,19 @@
-<div class="card dark card-oferta">
-    <img src="{{ imagen }}" class="card-img-top ms-1" alt="">
-    <div class="card-body">
-      <div class="text-section">
-        <h5 class="card-title fw-bold">{{ nombreProducto }} x {{cantidad}}</h5>
-        <p class="card-text">{{ marca }}</p>
-        <p class="card-text">{{ nombreComercio }}</p>
-        <div>$ {{ subtotal }} x {{cantidad}}u.</div>
+
+
+<div class="card">
+  <div class="dark card-oferta">
+    <div class="card-header d-flex justify-content-between">
+      <h5 class="card-subtitle mt-2 fw-bold text-body-tertiary">{{ nombreProducto }}</h5>
+    </div>
+    <div class="d-flex">
+      <div class="card-body">
+        <img src="{{imagen}}" class="card-img-top" alt="">
+        <div class="d-flex flex-column div-texto">
+          <p class="card-text">{{ marca }}</p>
+          <p class="card-text">{{nombreComercio}}</p>
+          <p class="card-text ">${{precio}} x u | <span style="color: rgb(2, 53, 0); font-size: 22px;">${{subtotal}} x {{cantidad}}u</span></p>
+        </div>
       </div>
-      <div class="cta-section">
-        <div>$ {{ precio }} x 1u.</div>
       </div>
     </div>
   </div>
