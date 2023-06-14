@@ -94,9 +94,9 @@ padding-top: 50px;
   border-radius: 50px;
   transition: 0.5s;
   margin: 10px;
-  border: 2px solid #ff8153;
+  border: 2px solid #ff6336;
   color: #fff;
-  background: #ff8153;
+  background: #ff6336;
 }
 
 .btn-get-started:hover {
@@ -105,8 +105,8 @@ padding-top: 50px;
 }
 
 .arma-tu-lista{
-  background: #ff8153;
-  border: 2px solid #ff8153;
+  background: #ff6336;
+  border: 2px solid #ff6336;
   font-size: 17px;
   padding: 15px 35px;
 }
@@ -254,11 +254,11 @@ padding-top: 50px;
     flex-direction: column;
     text-align: center;
     border-radius: 50%;
-    border: 2px solid #ff8153;
+    border: 2px solid #ff6336;
   }
   
   #about .about-container .icon-box .icon i {
-    color: #ff8153;
+    color: #ff6336;
     font-size: 24px;
     line-height: 0;
   }
@@ -356,11 +356,11 @@ padding-top: 50px;
   }
   
   #services .box:hover .icon i {
-    color: #ff8153;
+    color: #ff6336;
   }
   
   #services .box:hover .icon a {
-    color: #ff8153;
+    color: #ff6336;
   }
   
   #services .title {
@@ -551,11 +551,11 @@ padding-top: 50px;
     height: 12px;
     background-color: #fff;
     opacity: 1;
-    border: 1px solid #ff8153;
+    border: 1px solid #ff6336;
   }
   
   .portfolio-details .portfolio-details-slider .swiper-pagination .swiper-pagination-bullet-active {
-    background-color: #ff8153;
+    background-color: #ff6336;
   }
   
   .portfolio-details .portfolio-info {
@@ -638,7 +638,7 @@ padding-top: 50px;
   }
   
   #team .member .social a:hover {
-    color: #ff8153;
+    color: #ff6336;
   }
   
   #team .member .social i {
@@ -664,7 +664,7 @@ padding-top: 50px;
   
   #contact .info i {
     font-size: 32px;
-    color: #ff8153;
+    color: #ff6336;
     float: left;
     line-height: 0;
   }
@@ -704,7 +704,7 @@ padding-top: 50px;
   }
   
   #contact .social-links a:hover {
-    background: #ff8153;
+    background: #ff6336;
     color: #fff;
   }
   
@@ -724,7 +724,7 @@ padding-top: 50px;
   #contact .php-email-form .sent-message {
     display: none;
     color: #fff;
-    background: #ff8153;
+    background: #ff6336;
     text-align: center;
     padding: 15px;
     font-weight: 600;
@@ -744,7 +744,7 @@ padding-top: 50px;
     width: 24px;
     height: 24px;
     margin: 0 10px -6px 0;
-    border: 3px solid #ff8153;
+    border: 3px solid #ff6336;
     border-top-color: #eee;
     animation: animate-loading 1s linear infinite;
   }
@@ -758,11 +758,11 @@ padding-top: 50px;
   
   #contact .php-email-form input::focus,
   #contact .php-email-form textarea::focus {
-    background-color: #ff8153;
+    background-color: #ff6336;
   }
   
   #contact .php-email-form button[type=submit] {
-    background: #ff8153;
+    background: #ff6336;
     border: 0;
     padding: 10px 24px;
     color: #fff;
@@ -770,7 +770,7 @@ padding-top: 50px;
   }
   
   #contact .php-email-form button[type=submit]:hover {
-    background: #ff8153;
+    background: #ff6336;
   }
   
   @keyframes animate-loading {
