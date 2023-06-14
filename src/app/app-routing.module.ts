@@ -22,6 +22,18 @@ const routes: Routes = [
     path: 'optimizador-lista',
     component: OptimizadorListaComponent,
     loadChildren: () => import('@modules/optimizador-lista/optimizador-lista.module').then(m => m.OptimizadorListaModule)
+
+  },
+  {
+    path: 'form-registro',
+    component: HomeLandingComponent,
+    loadChildren: () => import('@modules/home-landing/home-landing.module').then(m => m.HomeLandingModule),
+    
+  },
+  {
+    path: 'login',
+    component: HomeLandingComponent,
+    loadChildren: () => import('@modules/home-landing/home-landing.module').then(m => m.HomeLandingModule),
   }
   
 
