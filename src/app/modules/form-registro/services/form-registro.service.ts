@@ -8,7 +8,6 @@ import { API_URL } from '@core/config/url';
   providedIn: 'root'
 })
 export class FormRegistroService {
-  public hola: string = '';
 
   constructor(private http: HttpClient) { }
 
