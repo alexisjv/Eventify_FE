@@ -27,12 +27,14 @@ const routes: Routes = [
   },
   {
     path: 'form-registro',
-    component: FormRegistroComponent,
+    component: HomeLandingComponent,
+    loadChildren: () => import('@modules/home-landing/home-landing.module').then(m => m.HomeLandingModule),
     
   },
   {
     path: 'login',
-    component: PageLoginComponent,
+    component: HomeLandingComponent,
+    loadChildren: () => import('@modules/home-landing/home-landing.module').then(m => m.HomeLandingModule),
     
   }
   
