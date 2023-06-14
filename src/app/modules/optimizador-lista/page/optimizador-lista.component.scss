@@ -171,6 +171,10 @@ typography h3 {
 #modalCompararEscenarios {
   background-color: #14484d;
 }
+
+#modalResumen {
+  background-color: #14484d;
+}
 .tabla-redondeada {
   border-radius: 10px;
   background-color: #f9f9f9;
@@ -356,4 +360,12 @@ time {
 }
 .escenarioMenorRecorrido {
   border-radius: 15px !important;
+}
+
+.img-evento{
+  width: 500px;
+}
+
+.qr{
+  padding-top: 30px;
 }

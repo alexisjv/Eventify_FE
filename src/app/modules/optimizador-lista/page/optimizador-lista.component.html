@@ -215,7 +215,7 @@
         <button (click)="ordenarListas()" type="button" class="btn btn-primary boton-resumen" data-bs-toggle="modal" data-bs-target="#modalCompararEscenarios">
           Comparar Listas
         </button>
-        <button type="button" class="btn btn-primary boton-resumen" (click)="generarResumen()">
+        <button type="button" class="btn btn-primary boton-resumen" (click)="generarResumen()" data-bs-toggle="modal" data-bs-target="#modalResumen">
           Guardar Lista
         </button>
       </div>
@@ -229,7 +229,6 @@
           (valorRadioEnviado)="capturarValorRadio($event)"
         ></app-mapa>
 
-        <qrcode [qrdata]="urlRecorrido"></qrcode>
 
       </div>
     </div>
@@ -432,6 +431,253 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
           Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Resumen-->
+<div
+  class="modal fade"
+  id="modalResumen"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6 text-center">
+              <h1>Evento:</h1>
+              <img
+                src="../../../../assets/images/evento-{{idEvento}}.jpg"
+                class="img-evento"
+              />
+          </div>
+          
+          <div class="col-md-6 text-center d-flex justify-content-center align-items-center">
+           
+            <div class="row" *ngIf="listaElegidaMasEconomico">
+              <div class="col-md-6 text-center">
+                <h1>Mejores precios</h1>
+                <img
+                  src="../../../../assets/images/comparar-mas-economico2.jpg"
+                  class="img-comparar"
+                />
+              </div>
+              <div
+                class="col-md-6 text-center d-flex align-items-center justify-content-center"
+              >
+                <div>
+                  <p class="texto-comparar">
+                    Ofertas encontradas: {{ cantidadOfertasMasEconomico }}
+                  </p>
+
+                  <p class="texto-comparar">
+                    Distancia a recorrer: {{ distanciaMasEconomico }}
+                  </p>
+                  <p class="texto-comparar">
+                    Comercios: {{ cantidadComerciosMasEconomico }}
+                  </p>
+                  <br />
+                  <strong class="comparar-total"
+                    >Total: ${{ totalMasEconomico }}</strong
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="listaElegidaMenorRecorrido">
+              <div class="col-md-6 text-center">
+                <h1>Menor recorrido</h1>
+                <img
+                  src="../../../../assets/images/comparar-menor-recorrido.jpg"
+                  class="img-comparar"
+                />
+              </div>
+              <div
+                class="col-md-6 text-center d-flex align-items-center justify-content-center"
+              >
+                <div>
+                  <p class="texto-comparar">
+                    Ofertas encontradas: {{ cantidadOfertasMenorRecorrido }}
+                  </p>
+
+                  <p class="texto-comparar">
+                    Distancia a recorrer: {{ distanciaMenorRecorrido }}
+                  </p>
+
+                  <p class="texto-comparar">
+                    Comercio: {{ cantidadComerciosMenorRecorrido }}
+                  </p>
+                  <br />
+                  <strong class="comparar-total"
+                    >Total: ${{ totalListaDeComercio }}</strong
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          
+          <div class="col-md-6 text-center">
+            <h1 class="qr">Escaneá el recorrido y abrilo en el GPS:</h1>
+            <qrcode [qrdata]="urlRecorrido"></qrcode>
+            <button
+                      type="button"
+                      class="btn btn-primary btn-lg icono-generar"
+                      *ngIf="listaElegidaMasEconomico"
+                      (click)="compartirLista(listaOfertasElegidasMasEconomico)"
+                    >
+                      <img
+                        src="assets/icons/whatsapp.svg"
+                        alt="Icono económico"
+                        width="40"
+                        height="40"
+                        class="icono-boton-compartir"
+                      />
+                      Compartir Lista
+                    </button>
+                    <button
+                    type="button"
+                    class="btn btn-primary btn-lg icono-generar"
+                    *ngIf="listaElegidaMenorRecorrido"
+                    (click)="compartirLista(aListaSeleccionComercio)"
+                  >
+                    <img
+                      src="assets/icons/whatsapp.svg"
+                      alt="Icono económico"
+                      width="40"
+                      height="40"
+                      class="icono-boton-compartir"
+                    />
+                    Compartir Lista
+                  </button>
+
+        </div>
+          <div class="col-md-6 .scrollable-list scrollable-list-comparar">
+            <div class="table-responsive">
+              <table
+                class="table tabla-redondeada"
+                data-aos="fade-up"
+                data-aos-delay="100"
+                *ngIf="listaElegidaMenorRecorrido"
+              >
+                <thead>
+                  <tr class="fila list text-center align-middle">
+                    <th></th>
+                    <th>Producto</th>
+                    <th>Marca</th>
+                    <th>Comercio</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    class="fila list text-center align-middle"
+                    *ngFor="let oferta of aListaSeleccionComercio"
+                  >
+                    <th scope="row">
+                      <img
+                        [src]="oferta.oferta.imagen"
+                        class="card-img-top mx-auto img-producto-tabla"
+                      />
+                    </th>
+                    <td class="align-middle">
+                      {{ oferta.oferta.nombreProducto }}
+                    </td>
+                    <td class="align-middle">
+                      {{ oferta.oferta.marca }}
+                    </td>
+                    <td class="align-middle">
+                      {{ oferta.oferta.nombreComercio }}
+                    </td>
+                    <td class="align-middle precio-tabla">
+                      ${{ oferta.oferta.precio }}
+                    </td>
+                    <td class="align-middle precio-tabla">
+                      {{ oferta.cantidad }}
+                    </td>
+                    <td class="align-middle precio-tabla">
+                      ${{ oferta.subtotal }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table
+              class="table tabla-redondeada"
+              data-aos="fade-up"
+              data-aos-delay="100"
+              *ngIf="listaElegidaMasEconomico"
+            >
+              <thead>
+                <tr class="fila list text-center align-middle">
+                  <th></th>
+                  <th>Producto</th>
+                  <th>Marca</th>
+                  <th>Comercio</th>
+                  <th>Precio</th>
+                  <th>Cantidad</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  class="fila list text-center align-middle"
+                  *ngFor="let oferta of listaOfertasElegidasMasEconomico"
+                >
+                  <th scope="row">
+                    <img
+                      [src]="oferta.oferta.imagen"
+                      class="card-img-top mx-auto img-producto-tabla"
+                    />
+                  </th>
+                  <td class="align-middle">
+                    {{ oferta.oferta.nombreProducto }}
+                  </td>
+                  <td class="align-middle">
+                    {{ oferta.oferta.marca }}
+                  </td>
+                  <td class="align-middle">
+                    {{ oferta.oferta.nombreComercio }}
+                  </td>
+                  <td class="align-middle precio-tabla">
+                    ${{ oferta.oferta.precio }}
+                  </td>
+                  <td class="align-middle precio-tabla">
+                    {{ oferta.cantidad }}
+                  </td>
+                  <td class="align-middle precio-tabla">
+                    ${{ oferta.subtotal }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          Cerrar
+        </button>
+        <button *ngIf="listaElegidaMasEconomico" class="btn btn-info" style="color: white;" (click)="guardarLista(listaOfertasElegidasMasEconomico)">
+          Guardar Lista
+        </button>
+        <button *ngIf="listaElegidaMenorRecorrido" class="btn btn-info" style="color: white;" (click)="guardarLista(aListaSeleccionComercio)">
+          Guardar Lista
         </button>
       </div>
     </div>
