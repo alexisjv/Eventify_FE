@@ -53,6 +53,8 @@ export class ConsultaEventoComponent {
   latitudUbicacion!: number;
   longitudUbicacion!: number;
   idEvento!: number;
+  aListaDeComprasParaPost!: ProductoLista[];
+  aListaDeComprasParaMostrar!: ProductoLista[];
 
 
   constructor(private router: Router, private consultaEventoService: ConsultaEventoService, private mapaService: SharedService) { }
@@ -150,10 +152,11 @@ export class ConsultaEventoComponent {
     this.consultaEventoService.getListadeCompras(this.oSelecciones.nCantidadComensales, oSelecciones)
       .subscribe(
         (listaCompras: ProductoLista[]) => {
+          this.aListaDeComprasParaPost = listaCompras;
           this.aListaDeCompras = [];
           this.asignarUnidadesOPeso(listaCompras);
           this.bMostrarLoading = false;
-          this.obtenerProductosConSusCantidades(listaCompras);
+         
         },
         (error) => console.error(error)
       );
@@ -201,6 +204,7 @@ export class ConsultaEventoComponent {
     }
       this.aListaDeCompras.push(oProducto)
     });
+    this.obtenerProductosConSusCantidades(this.aListaDeCompras);
   }
 
   capturarValorRadio(valorRadio: number) {
@@ -231,6 +235,9 @@ export class ConsultaEventoComponent {
   }
 
   verOfertas() {
+    this.oMapCantidadesProductos= new Map<string, number>;
+    this.obtenerProductosConSusCantidadesParaPost(this.aListaDeComprasParaPost);
+    
     const oCantidadesPorProducto = Object.fromEntries(this.oMapCantidadesProductos);
     const queryParams = {
       cantidadComensales: this.oSelecciones.nCantidadComensales,
@@ -245,6 +252,20 @@ export class ConsultaEventoComponent {
 
     this.router.navigate(['optimizador-lista'], { queryParams });
   }
+  obtenerProductosConSusCantidadesParaPost(aListaDeComprasParaPost: ProductoLista[]) {
+    aListaDeComprasParaPost.forEach(oProducto => {
+      if(oProducto.medida === "unidades"){
+        this.oMapCantidadesProductos.set(oProducto.nombre , oProducto.unidades);
+      }else{
+          if(oProducto.medida === "kgs" || oProducto.medida === "lts" ){
+            this.oMapCantidadesProductos.set(oProducto.nombre ,oProducto.peso*1000);
+          }else{
+            this.oMapCantidadesProductos.set(oProducto.nombre ,oProducto.peso);
+          }
+      }
+    });
+  }
+
   obtenerProductosConSusCantidades(listaCompras: ProductoLista[]) {
     listaCompras.forEach(oProducto => {
       if(this.tieneUnidades(oProducto)){
@@ -254,10 +275,12 @@ export class ConsultaEventoComponent {
       }
     });
   }
+
   
   private tieneUnidades(oProducto: ProductoLista) {
     return oProducto.unidades !== 0;
   }
+
   private elPesoEsMayorA1kg(oProducto: ProductoLista) {
     return oProducto.peso > 1000;
   }

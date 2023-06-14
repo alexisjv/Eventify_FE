@@ -1,37 +1,66 @@
+h1,h2, h3,h4,h5,h6, p{
+  font-family: "Poppins", sans-serif !important;
+}
 
 .card {
-    flex-direction: row;
-    max-width: 30em;
-    background-color: white;
-    color: black;
-    box-shadow: 0 7px 7px rgba(0, 0, 0, 0.18);
-    margin-bottom: 15px;
-    border-radius: 10px;
-  }
-  .card img {
-    max-width: 25%;
-    margin: auto;
-    padding: 0.5em;
-    border-radius: 0.7em;
-  }
-  .card-body {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 10px;
-  }
-  .text-section {
-    max-width: 60%;
-  }
-  .cta-section {
-    max-width: 40%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: space-between;
-  }
-  .cta-section .btn {
-    padding: 0.2em 0.5em;
-    font-size: 1em;
-    color: black;
-  }
+  max-width: 30em;
+  background-color: white;
+  color: black;
+  box-shadow: 0 7px 7px rgba(0, 0, 0, 0.18);
+  margin-bottom: 15px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  min-width: 450px; /* Ajusta este valor según tus necesidades */
+}
+.card img {
+ 
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+.card-body {
+  display: flex;
+  flex-direction: row;
+}
+.text-section {
+  max-width: 60%;
+}
+.cta-section {
+  max-width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.cta-section .btn {
+  padding: 0.2em 0.5em;
+  font-size: 1em;
+  color: black;
+}
+.card-subtitle{
+  font-size: 15px;
+  color: black !important;
+}
+.card-header{
+  background-color: #ffffff !important;
+}
+.card-title{
+ font-size: 20px;
+}
+
+.card-text{
+  font-size: 16px;
+}
+
+.boton-cambiar{
+  height: 40px;
+  width: 40px;
+}
+.div-texto{
+  padding-left: 20px;
+}
+
+.div-boton{
+  padding: 15px;
+}

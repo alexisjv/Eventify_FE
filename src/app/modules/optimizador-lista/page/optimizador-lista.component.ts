@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SharedService } from '@shared/services/shared.service';
 import { ProductoCard } from '@core/models/productoCard';
 import { CardOfertaComponent } from '@shared/components/card-oferta/card-oferta.component';
+import { ProductoLista } from '@core/models/ProductoLista';
 
 @Component({
   selector: 'app-optimizador-lista',
@@ -76,7 +77,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.aListaComercios = [];
     this.aListaSeleccionComercio = [];
 
-    // this.totalListaDeComercio = this.aListaComercios[0].total;
+   
     this.imagenLista = "mateoMejorOferta"
     this.route.queryParams.subscribe((params) => {
       this.cantidadComensales = params['cantidadComensales'];
@@ -143,10 +144,12 @@ export class OptimizadorListaComponent implements OnInit {
       .obtenerOfertasPorComercio(lista)
       .subscribe((response: ProductoCard[]) => {
         response.forEach((oElement) => {
+          var listaOfertas = oElement.ofertas;
+          oElement.total = this.calcularTotalListaComercio(oElement.ofertas);
           this.aListaComercios.push(oElement);
         });
         this.aListaSeleccionComercio = this.aListaComercios[0].ofertas;
-        this.calcularTotalListaComercio();
+        this.totalListaDeComercio = this.aListaComercios[0].total;
         this.cantidadComerciosLista = this.aListaComercios.length;
       });
 
@@ -386,12 +389,14 @@ export class OptimizadorListaComponent implements OnInit {
     this.totalMasEconomico = parseFloat(this.totalMasEconomico.toFixed(2));
   }
 
-  calcularTotalListaComercio() {
-    this.aListaSeleccionComercio.forEach((oElement) => {
-      this.totalListaDeComercio += oElement.subtotal;
+  calcularTotalListaComercio(aListaComercio: any[]) : any {
+    let totalListaDeComercio=0;
+    aListaComercio.forEach((oElement) => {
+      totalListaDeComercio += oElement.subtotal;
     });
-    this.totalListaDeComercio = parseFloat(
-      this.totalListaDeComercio.toFixed(2)
+
+    return totalListaDeComercio = parseFloat(
+      totalListaDeComercio.toFixed(2)
     );
   }
 
@@ -495,6 +500,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.aListaSeleccionComercio = comercio.ofertas;
     this.isOpenListaSeleccionComercio = true;
     this.activeButton = i;
+    this.totalListaDeComercio = this.calcularTotalListaComercio(comercio.ofertas);
   }
 
   groupOffersByCommerceName(offers: Oferta[]): Oferta[][] {
