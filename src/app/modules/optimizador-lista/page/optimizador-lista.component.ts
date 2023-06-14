@@ -502,6 +502,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.isOpenListaSeleccionComercio = true;
     this.activeButton = i;
     this.totalListaDeComercio = this.calcularTotalListaComercio(comercio.ofertas);
+    this.obtenerRutaMenorRecorrido();
   }
 
   groupOffersByCommerceName(offers: Oferta[]): Oferta[][] {
