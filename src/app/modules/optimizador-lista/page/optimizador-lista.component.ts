@@ -513,5 +513,20 @@ export class OptimizadorListaComponent implements OnInit {
   return groupedOffers;
 }
 
+ordenarListas(){
+  this.listaOfertasElegidasMasEconomico.sort((a, b) => {
+    // Ordenar por idTipoProducto ascendente
+    return a.oferta.idTipoProducto - b.oferta.idTipoProducto;
+  });
+
+  this.aListaSeleccionComercio.sort((a, b) => {
+    // Ordenar por idTipoProducto ascendente
+    return a.oferta.idTipoProducto - b.oferta.idTipoProducto;
+  });
+
+  console.log('lista economica: ', this.listaOfertasElegidasMasEconomico)
+  console.log('lista recorrido: ', this.aListaSeleccionComercio)
+}
+
   
 }
