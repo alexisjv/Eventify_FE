@@ -568,6 +568,17 @@ export class OptimizadorListaComponent implements OnInit {
     window.open(enlaceWhatsAppWeb, '_blank');
   }
 
+  async abrirMapaRecorrido() {
+    try {
+      const enlaceMapa = await this.mapaService.obtenerLinkGps();
+      window.open(enlaceMapa, '_blank');
+    } catch (error) {
+      console.error('Error al obtener el enlace de GPS:', error);
+      // Manejar el error de obtener la URL del mapa de recorrido
+    }
+  }
+  
+
   guardarLista(lista){
     
   }
