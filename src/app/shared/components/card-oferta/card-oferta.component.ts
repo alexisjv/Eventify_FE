@@ -27,16 +27,10 @@ export class CardOfertaComponent {
   idProducto!: number;
   @Input() oferta!: Oferta;
   @Output() ofertaSeleccionadaActual: EventEmitter<{ oferta: Oferta, index: number }> = new EventEmitter<{ oferta: Oferta, index: number }>();
-  @Input()
-  mostrarBoton=true;
-
 
   confirmarCambio(): void {
     const data = { oferta: this.oferta, index: this.i };
     this.ofertaSeleccionadaActual.emit(data);
-  }
-  public setMostrarBoton(valor: boolean): void {
-    this.mostrarBoton = valor;
   }
 
   
