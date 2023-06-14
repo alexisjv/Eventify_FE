@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SharedService } from '@shared/services/shared.service';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { QRCodeModule } from 'angularx-qrcode';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   imports: [
     SharedModule,
+    QRCodeModule,
     // NgxQRCodeModule,
     OptimizarListaRoutingModule,
     CommonModule,

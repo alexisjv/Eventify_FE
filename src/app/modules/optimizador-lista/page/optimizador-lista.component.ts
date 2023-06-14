@@ -34,7 +34,7 @@ export class OptimizadorListaComponent implements OnInit {
   longitudUbicacion!: number;
   oCantidadesPorProducto: any;
   aListaProductos!: ProductoCard[];
-
+  urlRecorrido: string = '';
   aListaComercios!: any[];
   aListaSeleccionComercio!: any[];
   isOpenListaSeleccionComercio: boolean = true;
@@ -53,8 +53,8 @@ export class OptimizadorListaComponent implements OnInit {
   cantidadComerciosLista: any;
   distanciaComercioLista: any;
   mostrarBoton: boolean = true;
-  index:any;
-  carruselSeleccionadoIndex: number = 0; 
+  index: any;
+  carruselSeleccionadoIndex: number = 0;
 
   //Menor recorrido
   rutaComerciosMenorRecorrido!: any[];
@@ -77,8 +77,10 @@ export class OptimizadorListaComponent implements OnInit {
     this.aListaComercios = [];
     this.aListaSeleccionComercio = [];
 
+
    
     this.imagenLista = "mateoMejorOferta"
+
     this.route.queryParams.subscribe((params) => {
       this.cantidadComensales = params['cantidadComensales'];
       this.comidasSeleccionadas = JSON.parse(params['comidas']);
@@ -116,7 +118,7 @@ export class OptimizadorListaComponent implements OnInit {
       );
     });
   }
-  
+
   obtenerOfertasPorComercio(
     latitudUbicacion: number,
     longitudUbicacion: number,
@@ -153,7 +155,7 @@ export class OptimizadorListaComponent implements OnInit {
         this.cantidadComerciosLista = this.aListaComercios.length;
       });
 
-      this.actualizarDatosMenorRecorrido();
+    this.actualizarDatosMenorRecorrido();
   }
 
   toggleDiv1() {
@@ -162,7 +164,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.listaElegidaMasEconomico = true;
     this.listaElegidaMenorRecorrido = false;
     this.obtenerRutaMasEconomico();
-    this.imagenLista="mateoMejorOferta"
+    this.imagenLista = 'mateoMejorOferta';
   }
 
   toggleDiv2() {
@@ -172,7 +174,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.listaElegidaMenorRecorrido = true;
     this.actualizarDatosMenorRecorrido();
     this.obtenerRutaMenorRecorrido();
-    this.imagenLista="mateoMejorRecorrido"
+    this.imagenLista = 'mateoMejorRecorrido';
   }
 
   toggleDiv3() {
@@ -349,13 +351,12 @@ export class OptimizadorListaComponent implements OnInit {
     this.calcularCantidadComerciosMasEconomico();
     this.calcularCantidadDeOfertasMasEconomico();
   }
-  
-  cambiarMarcaNuevo(index: number ){
+
+  cambiarMarcaNuevo(index: number) {
     this.mostrarBoton = !this.mostrarBoton;
     this.listaOfertasElegidasMasEconomico;
     // const index = data.index;
     this.toggleArrows(index);
-
   }
 
   actualizarDatos() {
@@ -373,7 +374,7 @@ export class OptimizadorListaComponent implements OnInit {
       this.listaOfertasElegidasMasEconomico.length;
   }
 
-  calcularCantidadDeOfertasMenorRecorrido(){
+  calcularCantidadDeOfertasMenorRecorrido() {
     this.cantidadOfertasMenorRecorrido = this.aListaSeleccionComercio.length;
   }
 
@@ -410,7 +411,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.cantidadComerciosMasEconomico = nombresComercios.size;
   }
 
-  calcularCantidadComerciosMenorRecorrido(){
+  calcularCantidadComerciosMenorRecorrido() {
     const nombresComercios = new Set<string>();
 
     this.aListaSeleccionComercio.forEach((oferta) => {
@@ -504,35 +505,89 @@ export class OptimizadorListaComponent implements OnInit {
   }
 
   groupOffersByCommerceName(offers: Oferta[]): Oferta[][] {
-  const groupedOffers: Oferta[][] = [];
-  
-  offers.forEach((offer) => {
-    const existingGroup = groupedOffers.find((group) => group[0].oferta.nombreComercio === offer.oferta.nombreComercio);
-    
-    if (existingGroup) {
-      existingGroup.push(offer);
-    } else {
-      groupedOffers.push([offer]);
+    const groupedOffers: Oferta[][] = [];
+
+    offers.forEach((offer) => {
+      const existingGroup = groupedOffers.find(
+        (group) =>
+          group[0].oferta.nombreComercio === offer.oferta.nombreComercio
+      );
+
+      if (existingGroup) {
+        existingGroup.push(offer);
+      } else {
+        groupedOffers.push([offer]);
+      }
+    });
+
+    return groupedOffers;
+  }
+
+  ordenarListas() {
+    this.listaOfertasElegidasMasEconomico.sort((a, b) => {
+      // Ordenar por idTipoProducto ascendente
+      return a.oferta.idTipoProducto - b.oferta.idTipoProducto;
+    });
+
+    this.aListaSeleccionComercio.sort((a, b) => {
+      // Ordenar por idTipoProducto ascendente
+      return a.oferta.idTipoProducto - b.oferta.idTipoProducto;
+    });
+
+    console.log('lista economica: ', this.listaOfertasElegidasMasEconomico);
+    console.log('lista recorrido: ', this.aListaSeleccionComercio);
+  }
+
+  generarResumen() {
+    this.mapaService
+      .obtenerLinkGps()
+      .then((urlRecorrido) => {
+        this.urlRecorrido = urlRecorrido;
+        // Realizar acciones adicionales con la URL del recorrido
+      })
+      .catch((error) => {
+        console.error('Error al obtener el enlace de GPS:', error);
+        // Realizar acciones en caso de error
+      });
+  }
+
+  compartirLista(lista: any) {
+    const mensajeOfertas = lista
+      .map((oferta) => {
+        return `
+        Comercio: ${oferta.oferta.nombreComercio}
+        Localidad: ${oferta.oferta.localidad}
+        Producto: ${oferta.oferta.nombreProducto}
+        Marca: ${oferta.oferta.marca}
+        Precio unitario: $${oferta.oferta.precio}
+        Unidades: ${oferta.cantidad}
+        Subtotal: $${oferta.subtotal}
+        --------------------------
+    `;
+      })
+      .join('');
+
+    const mensajeWhatsApp = `¡Hola! Acá tenés tu lista de compras ♥ :
+  ${mensajeOfertas}`;
+
+    const enlaceWhatsAppWeb = `https://web.whatsapp.com/send?text=${encodeURIComponent(
+      mensajeWhatsApp
+    )}`;
+    window.open(enlaceWhatsAppWeb, '_blank');
+  }
+
+  async abrirMapaRecorrido() {
+    try {
+      const enlaceMapa = await this.mapaService.obtenerLinkGps();
+      window.open(enlaceMapa, '_blank');
+    } catch (error) {
+      console.error('Error al obtener el enlace de GPS:', error);
+      // Manejar el error de obtener la URL del mapa de recorrido
     }
-  });
+  }
   
-  return groupedOffers;
-}
 
-ordenarListas(){
-  this.listaOfertasElegidasMasEconomico.sort((a, b) => {
-    // Ordenar por idTipoProducto ascendente
-    return a.oferta.idTipoProducto - b.oferta.idTipoProducto;
-  });
-
-  this.aListaSeleccionComercio.sort((a, b) => {
-    // Ordenar por idTipoProducto ascendente
-    return a.oferta.idTipoProducto - b.oferta.idTipoProducto;
-  });
-
-  console.log('lista economica: ', this.listaOfertasElegidasMasEconomico)
-  console.log('lista recorrido: ', this.aListaSeleccionComercio)
-}
-
-  
+  guardarLista(lista){
+    
+  }
 }
