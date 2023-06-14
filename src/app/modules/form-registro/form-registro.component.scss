@@ -1,25 +1,34 @@
-.buttonnregistro {
+
+
+.buttonnregistro{
   background-color: #025373 !important;
   color: white;
 }
-
-.botonAtras {
+.botonAtras{
   border-color: #025373 !important;
   color: #025373 !important;
   background-color: white;
 }
-
-.modalRegistroCliente {
+.modalRegistroCliente{
   background-color: #04bfbf;
   border-radius: 5%;
 }
-
-.modalRegistroComercio {
+.modalRegistroComercio{
   background-color: #04bfbf;
   padding: 5%;
   border-radius: 5%;
 }
-
-.formComercio {
+.formComercio{
   border-radius: 5%;
-}/*# sourceMappingURL=form-registro.component.css.map */
+}
+.error-message {
+
+}
+
+input {
+border-radius: 30px;
+}
+
+.borde {
+border-radius: 30px;
+}

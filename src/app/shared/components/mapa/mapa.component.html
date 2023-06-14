@@ -1,14 +1,14 @@
-<div class="form-range-container">
+<div class="form-range-container" *ngIf="slider">
   <input
     type="range"
     class="form-range"
     min="1"
     max="20"
-    [(ngModel)]="nValorRadio"
+    [(ngModel)]="nValorRadioEnPantalla"
     (input)="actualizarValorRadio($event)"
   />
-  <span class="range-value" [style.left.%]="valorRadioAPorcentaje(nValorRadio)">
-    {{ nValorRadio }} Km
+  <span class="range-value" [style.left.%]="valorRadioAPorcentaje(nValorRadioEnPantalla)">
+    {{ nValorRadioEnPantalla }} Km
   </span>
 </div>
 <div id="map" class="mapa"></div>

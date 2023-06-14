@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { SharedService } from '@shared/services/shared.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 declare var google: any;
 
@@ -13,21 +12,65 @@ export class MapaComponent implements OnInit {
   directionsRenderer: any;
   aComercios: any[] = [];
   ubicacionActual: any;
-  nValorRadio: number = 5;
+  nValorRadio: number = 5000;
+  nValorRadioEnPantalla: number = 5;
+  nValorRadioElegido!: number;
   circulo: any;
+  @Output() valorRadioEnviado: EventEmitter<number> =
+    new EventEmitter<number>();
+  @Output() ubicacionActualLatitud: EventEmitter<number> =
+    new EventEmitter<number>();
+  @Output() ubicacionActualLongitud: EventEmitter<number> =
+    new EventEmitter<number>();
+    @Input() valorRadioElegido!: number;
+    @Input() slider: boolean = true;
 
-  constructor(private mapaService: SharedService) {}
+
+  constructor() {}
 
   ngOnInit() {
-    this.obtenerUbicacionActual();
-    this.inicializarMapa();
+    if(this.valorRadioElegido != undefined ){
+      this.nValorRadioEnPantalla = this.valorRadioElegido / 1000;
+    }
+      this.inicializarMapa(this.valorRadioElegido);
   }
 
-  inicializarMapa() {
+  multipliarValorRadio() {
+    this.nValorRadioEnPantalla = this.valorRadioElegido / 1000;
+  }
+
+  inicializarMapa(valorRadioElegido: number) {
     this.directionsRenderer = new google.maps.DirectionsRenderer();
 
     const opcionesMapa = {
       zoom: 12,
+      
+      streetViewControl: false, // Desactivar Street View
+      mapTypeControl: false, // Desactivar cambio de tipo de mapa
+      rotateControl: false, // Desactivar control de rotación
+      fullscreenControl: true, // Desactivar control de pantalla completa
+      styles: [
+        {
+          featureType: 'administrative.locality',
+          elementType: 'labels',
+          stylers: [{ visibility: 'on' }] // Muestra etiquetas de localidades
+        },
+        {
+          featureType: 'poi',
+          stylers: [{ visibility: 'off' }] // Oculta puntos de interés
+        },
+        {
+          featureType: 'road',
+          elementType: 'labels',
+          stylers: [{ visibility: 'off' }] // Oculta etiquetas de calles
+        },
+        {
+          featureType: 'road',
+          elementType: 'geometry',
+          stylers: [{ visibility: 'simplified' }] // Simplifica las geometrías de las calles
+        }
+        // Agrega más estilos aquí según tus necesidades
+      ]
     };
 
     this.map = new google.maps.Map(
@@ -35,15 +78,35 @@ export class MapaComponent implements OnInit {
       opcionesMapa
     );
     this.directionsRenderer.setMap(this.map);
-    this.obtenerUbicacionActual();
+    this.obtenerUbicacionActual(valorRadioElegido);
   }
 
-  obtenerUbicacionActual() {
-    this.mapaService.obtenerUbicacionActual()
+  obtenerUbicacionActual(valorRadioElegido: number): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (posicion) => {
+            const ubicacionActual = {
+              lat: posicion.coords.latitude,
+              lng: posicion.coords.longitude,
+            };
+            resolve(ubicacionActual);
+          },
+          (error) => {
+            reject('Error al obtener la ubicación: ' + error);
+          }
+        );
+      } else {
+        reject('La geolocalización no es soportada por el navegador.');
+      }
+    })
       .then((ubicacionActual) => {
         this.ubicacionActual = ubicacionActual;
         this.centrarMapa();
-        this.agregarMarcadorRadio();
+        this.agregarMarcadorRadio(valorRadioElegido);
+        this.agregarMarcaUbicacionActual();
+        this.ubicacionActualLatitud.emit(this.ubicacionActual.lat);
+        this.ubicacionActualLongitud.emit(this.ubicacionActual.lng);
       })
       .catch((error) => {
         console.error('Error al obtener la ubicación:', error);
@@ -51,9 +114,15 @@ export class MapaComponent implements OnInit {
   }
 
   actualizarValorRadio(evento: any) {
-    this.nValorRadio = evento.target.value;
-    console.log(this.nValorRadio);
-    this.agregarMarcadorRadio();
+    this.nValorRadioElegido = evento.target.value * 1000;
+    this.agregarMarcadorRadio(this.nValorRadioElegido);
+    this.valorRadioEnviado.emit(this.nValorRadioElegido);
+  }
+
+  setValorRadio(valorRadio: number){
+    this.nValorRadioElegido = valorRadio;
+    this.inicializarMapa(this.nValorRadioElegido)
+
   }
 
   valorRadioAPorcentaje(valor: number): number {
@@ -66,18 +135,32 @@ export class MapaComponent implements OnInit {
     }
   }
 
-  agregarMarcadorRadio() {
+  agregarMarcaUbicacionActual() {
+    const marcador = new google.maps.Marker({
+      position: this.ubicacionActual,
+      map: this.map,
+      title: 'Mi ubicación',
+    });
+  }
+
+  agregarMarcadorRadio(valorRadioElegido: any) {
     if (this.circulo) {
       this.circulo.setMap(null);
     }
+    
+     let dibujoCirculo = 5000;
+
+     if (valorRadioElegido != undefined) {
+      dibujoCirculo = parseInt(valorRadioElegido, 10); // Convertir a número entero
+    }
+
+    console.log('El tipo de dato es:' + typeof valorRadioElegido)
 
     const marcador = new google.maps.Marker({
       position: this.ubicacionActual,
       map: this.map,
       title: 'Mi ubicación',
     });
-
-    const radioMetros = this.nValorRadio * 1000;
 
     this.circulo = new google.maps.Circle({
       strokeColor: '#FF8153',
@@ -87,7 +170,7 @@ export class MapaComponent implements OnInit {
       fillOpacity: 0.35,
       map: this.map,
       center: this.ubicacionActual,
-      radius: radioMetros,
+      radius: dibujoCirculo,
     });
   }
 
@@ -109,7 +192,10 @@ export class MapaComponent implements OnInit {
     });
   }
 
-  calcularYMostrarRuta(comercios: any[], callback: (distancia: string) => void) {
+  calcularYMostrarRuta(
+    comercios: any[], radio: number,
+    callback: (distancia: string) => void
+  ) {
     this.aComercios = comercios;
     const origen = this.aComercios[0].ubicacion;
     const destino = this.aComercios[this.aComercios.length - 1].ubicacion;
@@ -122,7 +208,7 @@ export class MapaComponent implements OnInit {
         };
       });
 
-    this.inicializarMapa();
+    this.inicializarMapa(radio);
 
     const solicitudRuta = {
       origin: origen,
@@ -132,10 +218,10 @@ export class MapaComponent implements OnInit {
       travelMode: 'DRIVING',
     };
 
-    this.mapaService.calcularRuta(solicitudRuta)
+    this.calcularRuta(solicitudRuta)
       .then((respuesta) => {
         this.directionsRenderer.setDirections(respuesta);
-        return this.mapaService.calcularDistancia(origen, destino);
+        return this.calcularDistancia(origen, destino);
       })
       .then((distancia) => {
         console.log('Distancia del recorrido:', distancia);
@@ -149,7 +235,7 @@ export class MapaComponent implements OnInit {
     console.log(destino);
   }
 
-  compartirMapa() {
+/*   compartirMapa() {
     const enlaceMapa = this.generarEnlaceMapa();
     const mensajeWhatsApp = `¡Hola! Aquí está la mejor ruta para llegar a mi destino: ${enlaceMapa}`;
 
@@ -159,25 +245,86 @@ export class MapaComponent implements OnInit {
     window.open(enlaceWhatsAppWeb, '_blank');
 
     window.open(enlaceMapa);
+  } */
+
+  
+
+  obtenerEnlaceGPS(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const origen = this.aComercios[0].ubicacion;
+      const destino = this.aComercios[this.aComercios.length - 1].ubicacion;
+      const puntosIntermedios = this.aComercios
+        .slice(1, this.aComercios.length - 1)
+        .map((punto) => {
+          return {
+            location: punto.ubicacion,
+            stopover: true,
+          };
+        });
+  
+      const solicitudRuta = {
+        origin: origen,
+        destination: destino,
+        waypoints: puntosIntermedios,
+        optimizeWaypoints: true,
+        travelMode: 'DRIVING',
+      };
+  
+      this.calcularRuta(solicitudRuta)
+        .then((respuesta) => {
+          const enlaceMapa = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
+            origen.lat + ',' + origen.lng
+          )}&destination=${encodeURIComponent(
+            destino.lat + ',' + destino.lng
+          )}&waypoints=${respuesta.routes[0].waypoint_order
+            .map((index) => encodeURIComponent(puntosIntermedios[index].location.lat + ',' + puntosIntermedios[index].location.lng))
+            .join('%7C')}&dirflg=d`;
+          resolve(enlaceMapa);
+        })
+        .catch((error) => {
+          reject('No se pudo calcular la ruta. Error: ' + error);
+        });
+    });
+  }
+  
+  
+
+  calcularDistancia(origen: any, destino: any): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const servicioDistancia = new google.maps.DistanceMatrixService();
+      servicioDistancia.getDistanceMatrix(
+        {
+          origins: [origen],
+          destinations: [destino],
+          travelMode: 'DRIVING',
+          unitSystem: google.maps.UnitSystem.METRIC,
+        },
+        (respuesta, estado) => {
+          if (estado === 'OK') {
+            const distancia = respuesta.rows[0].elements[0].distance.text;
+            resolve(distancia);
+          } else {
+            reject('No se pudo calcular la distancia. Error: ' + estado);
+          }
+        }
+      );
+    });
   }
 
-  obtenerEnlaceGPS(): string {
-    return this.generarEnlaceMapa();
+  calcularRuta(solicitudRuta: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const directionsService = new google.maps.DirectionsService();
+      directionsService.route(solicitudRuta, (respuesta, estado) => {
+        if (estado === 'OK') {
+          resolve(respuesta);
+        } else {
+          reject('No se pudo calcular la ruta. Error: ' + estado);
+        }
+      });
+    });
   }
 
-  generarEnlaceMapa(): string {
-    const origen = this.aComercios[0].ubicacion;
-    const destino = this.aComercios[this.aComercios.length - 1].ubicacion;
-    const puntosIntermedios = this.aComercios
-      .slice(1, this.aComercios.length - 1)
-      .map((punto) => encodeURIComponent(punto.ubicacion));
-
-    const enlaceMapa = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
-      origen
-    )}&destination=${encodeURIComponent(
-      destino
-    )}&waypoints=${puntosIntermedios.join('%7C')}&dirflg=d`;
-
-    return enlaceMapa;
+  mostrarSlider(valor: boolean){
+    this.slider = valor;
   }
 }

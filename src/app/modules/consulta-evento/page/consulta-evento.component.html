@@ -6,10 +6,13 @@
       </div>
     </div>
     <div class="col-xl-8 col-md-12 fondo">
-      <div class="card card-formulario bg-primary">
+      <div class="card card-formulario bg-secondary">
         <div>
           <!-- titulo -->
-          <div class="card-body card-producto" *ngIf="bMostrarQueCompraQueresRealizar">
+          <div
+            class="card-body card-producto"
+            *ngIf="bMostrarQueCompraQueresRealizar"
+          >
             <div class="row">
               <div class="col-md-12">
                 <div class="titulo-formulario">
@@ -17,110 +20,253 @@
                   <div class="linea-titulo"></div>
                 </div>
                 <!-- ¿Que tipo de evento? -->
-                <div class="form-group d-flex flex-column align-items-center justify-content-center"
-                  *ngIf="bMostrarPreguntaQueTipoDeEvento">
-                  <label class="form-label align-self-start">Selecciona un evento:</label>
+                <div
+                  class="form-group d-flex flex-column align-items-center justify-content-center"
+                  *ngIf="bMostrarPreguntaQueTipoDeEvento"
+                >
+                  <label class="form-label align-self-start"
+                    >Selecciona un evento:</label
+                  >
                   <div class="row flex-nowrap">
-                    <div class="w-auto p-3 d-flex flex-column align-items-center justify-content-center mt-3"
-                      *ngFor="let evento of aListaEventos">
-
-                      <button class="icon-circle mr-3" id="botonCercano" data-bs-toggle="tooltip"
-                        [title]="evento.nombre" (click)="mostrarTiposDeComida(evento.id)">
-                        <img [src]="'assets/icons/' + evento.nombre + '.svg'" alt="Icono" class="icon-img" />
+                    <div
+                      class="w-auto p-3 d-flex flex-column align-items-center justify-content-center mt-3"
+                      *ngFor="let evento of aListaEventos"
+                    >
+                      <button
+                        class="icon-circle mr-3"
+                        id="botonCercano"
+                        data-bs-toggle="tooltip"
+                        [title]="evento.nombre"
+                        (click)="mostrarTiposDeComida(evento.id)"
+                      >
+                        <img
+                          [src]="'assets/icons/' + evento.nombre + '.svg'"
+                          
+                          class="icon-img"
+                        />
                       </button>
-                      <span class="text-light text-center text-wrap mt-2">{{evento.nombre}}</span>
-
+                      <span class="text-light text-center text-wrap mt-2">{{
+                        evento.nombre
+                      }}</span>
                     </div>
                   </div>
                 </div>
                 <!-- ¿Que tipo de comidas? -->
-                <div class="form-group d-flex flex-column align-items-center justify-content-center"
-                  *ngIf="bMostrarPreguntaQueTipoDeComida">
-                  <label class="form-label align-self-start">¿Que tipo de comidas querés ofrecer?:</label>
+                <div
+                  class="form-group d-flex flex-column align-items-center justify-content-center"
+                  *ngIf="bMostrarPreguntaQueTipoDeComida"
+                >
+                  <label class="form-label align-self-start"
+                    >¿Que tipo de comidas querés ofrecer?:</label
+                  >
                   <div class="row">
-                    <div class="w-auto p-3 d-flex flex-column align-items-center justify-content-center mt-3"
-                      *ngFor="let comida of aTiposDeComidas">
-                      <input type="checkbox" class="btn-check" autocomplete="off" value="{{comida.id}}">
-                      <label class="btn " for="btn-check">
-                        <button id="btn-check{{comida.id}}"  class="icon-circle mr-3 align-items-center buttonSelects" data-bs-toggle="button"
-                        [title]="comida.nombre" (click)="onSeleccionComida(comida.id)">
-                        
-                        <img [src]="'assets/icons/' + comida.nombre + '.svg'" alt="Icono" class="icon-img" />
-                       
-                      </button>
+                    <div
+                      class="w-auto p-3 d-flex flex-column align-items-center justify-content-center mt-3"
+                      *ngFor="let comida of aTiposDeComidas"
+                    >
+                      <input
+                        type="checkbox"
+                        class="btn-check"
+                        autocomplete="off"
+                        value="{{ comida.id }}"
+                      />
+                      <label class="btn" for="btn-check">
+                        <button
+                          id="btn-check{{ comida.id }}"
+                          class="icon-circle mr-3 align-items-center buttonSelects"
+                          data-bs-toggle="button"
+                          [title]="comida.nombre"
+                          (click)="onSeleccionComida(comida.id)"
+                        >
+                          <img
+                            [src]="'assets/icons/' + comida.nombre + '.svg'"
+                            alt="Icono"
+                            class="icon-img"
+                          />
+                        </button>
                       </label>
-                      
-                      <span class="text-light text-center text-wrap mt-2">{{comida.nombre}}</span>
-                    </div>
 
+                      <span class="text-light text-center text-wrap mt-2">{{
+                        comida.nombre
+                      }}</span>
+                    </div>
                   </div>
-                  <button type="button" class="btn w-auto btn-info text-light" (click)="mostrarTiposDeBebida()">Confirmar</button>
+                  <button
+                    type="button"
+                    class="btn w-auto btn-info text-light"
+                    (click)="mostrarTiposDeBebida()"
+                  >
+                    Confirmar
+                  </button>
                 </div>
                 <!-- Que tipo de bebidas? -->
-                <div class="form-group d-flex flex-column align-items-center justify-content-center" *ngIf="bMostrarPreguntaQueTipoDeBebida">
-                  <label class="form-label align-self-start">¿Que tipo de bebidas querés ofrecer?:</label>
+                <div
+                  class="form-group d-flex flex-column align-items-center justify-content-center"
+                  *ngIf="bMostrarPreguntaQueTipoDeBebida"
+                >
+                  <label class="form-label align-self-start"
+                    >¿Que tipo de bebidas querés ofrecer?:</label
+                  >
                   <div class="row">
-                    <div class="w-auto p-3 d-flex flex-column align-items-center justify-content-center mt-3"
-                    *ngFor="let bebida of aTiposDeBebidas">
-                      <button  class="icon-circle mr-3" id="btn-checkBebida{{bebida.id}}" 
-                        data-bs-toggle="tooltip" [title]="bebida.tipoBebida" data-bs-placement="top"
-                        (click)="onSeleccionBebida(bebida.id)">
-                        <img [src]="'assets/icons/' + bebida.tipoBebida + '.svg'" alt="Icono" class="icon-img" />
+                    <div
+                      class="w-auto p-3 d-flex flex-column align-items-center justify-content-center mt-3"
+                      *ngFor="let bebida of aTiposDeBebidas"
+                    >
+                      <button
+                        class="icon-circle mr-3"
+                        id="btn-checkBebida{{ bebida.id }}"
+                        data-bs-toggle="tooltip"
+                        [title]="bebida.tipoBebida"
+                        data-bs-placement="top"
+                        (click)="onSeleccionBebida(bebida.id)"
+                      >
+                        <img
+                          [src]="'assets/icons/' + bebida.tipoBebida + '.svg'"
+                          alt="Icono"
+                          class="icon-img"
+                        />
                       </button>
-                      <span class="text-light text-center text-wrap mt-2">{{bebida.tipoBebida}}</span>
+                      <span class="text-light text-center text-wrap mt-2">{{
+                        bebida.tipoBebida
+                      }}</span>
                     </div>
                   </div>
-                  <button type="button" class="btn w-auto btn-info text-light" (click)="mostrarPreguntaCantidadPersonas()">Confirmar</button>
+                  <button
+                    type="button"
+                    class="btn w-auto btn-info text-light"
+                    (click)="mostrarPreguntaCantidadPersonas()"
+                  >
+                    Confirmar
+                  </button>
                 </div>
                 <!-- Eleccion de las 3 zonas -->
-                <div class="form-group justify-content-center align-content-center" *ngIf="bMostrarPreguntaCantidadComensales">
-                  <label class="form-label" >Indique la cantidad de comensales</label>
-                 
-                  
-                    <div class="form-group w-auto p-3 d-flex flex-column align-items-center justify-content-center mt-3" style="width:100px;">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"  class="bi bi-people-fill" style="fill: #ffffff;" viewBox="0 0 16 16">
-                        <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
-                      </svg>
-                      <input type="number" class="form-control w-25" [(ngModel)]="oSelecciones.nCantidadComensales" value="10" id="number" min="0" oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');" required>
+                <div
+                  class="form-group justify-content-center align-content-center"
+                  *ngIf="bMostrarPreguntaCantidadComensales"
+                >
+                  <label class="form-label"
+                    >Indique la cantidad de comensales</label
+                  >
 
+                  <div
+                    class="form-group w-auto p-3 d-flex flex-column align-items-center justify-content-center mt-3"
+                    style="width: 100px"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="40"
+                      height="40"
+                      class="bi bi-people-fill"
+                      style="fill: #ffffff"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
+                      />
+                    </svg>
+                    <input
+                      type="number"
+                      class="form-control w-25"
+                      [(ngModel)]="oSelecciones.nCantidadComensales"
+                      value="10"
+                      id="number"
+                      min="0"
+                      oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"
+                      required
+                    />
+                    <br>
+                  <button
+                  type="button"
+                  class="btn w-auto btn-info text-light"
+                  (click)="mostrarMapaRadio()"
+                >
+                  Confirmar
+                </button>
                   </div>
                 </div>
-                <div class="row" *ngIf="bMostrarPreguntaCantidadComensales">
+                <div
+                  class="form-group justify-content-center align-content-center"
+                  *ngIf="bMostrarPreguntaUbicacion"
+                >
+                  <label class="form-label labelMapa"
+                    >Indique el rango de distancia a buscar según su ubicación:</label
+                  >
+                    <app-mapa *ngIf="bMostrarPreguntaUbicacion"
+                    [slider]="true"
+                      (valorRadioEnviado)="capturarValorRadio($event)"
+                      (ubicacionActualLatitud)="capturarLatitud($event)"
+                      (ubicacionActualLongitud)="capturarLongitud($event)"
+                    ></app-mapa>
+                </div>
+                <div class="row" *ngIf="bMostrarPreguntaUbicacion">
                   <div class="btn-container d-flex justify-content-center mt-3">
-                    <button type="button" class="btn icono-generar" (click)="consultar()">
+                    <button
+                      type="button"
+                      class="btn icono-generar"
+                      (click)="consultar()"
+                    >
                       Consultar lista
                     </button>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
           <div class="row" *ngIf="bMostrarListaDeProductos">
             <div class="d-flex flex-column justify-content-center">
-              <div class="titulo-formulario d-flex flex-column justify-content-center">
+              <div
+                class="titulo-formulario d-flex flex-column justify-content-center"
+              >
                 <div class="icon-circle">
-                  <img [src]="'assets/icons/CanastaCompras.svg'" alt="Icono" class="icon-canasta" />
+                  <img
+                    [src]="'assets/icons/CanastaCompras.svg'"
+                    alt="Icono"
+                    class="icon-canasta"
+                  />
                 </div>
                 <h2>Tu lista de compras:</h2>
                 <div class="linea-titulo"></div>
               </div>
-
+              <div>
+              <p class="text-light  fs-6 text-center">*Las cantidades son aproximadas</p>
+            </div>
               <div class="text-center" *ngIf="bMostrarLoading">
                 <div class="spinner-border" role="status">
                   <span class="visually-hidden">Loading...</span>
                 </div>
               </div>
-
+              <div class="w-auto scrollable-list">
               <ul class="list-group list-group-dark w-50 p-3 mx-auto">
-                <li class="list-group-item d-flex justify-content-between align-items-center"
-                  *ngFor="let productoLista of aListaDeCompras">
+                <li
+                  class="list-group-item d-flex justify-content-between align-items-center"
+                  *ngFor="let productoLista of aListaDeCompras"
+                >
                   <p class="fs-6">{{ productoLista.nombre }}</p>
-                  <span class="badge badge-primary rounded-pill" style="color: white">{{productoLista.unidades}} unidades</span>
+                  <span
+                    class="badge  rounded-pill"
+                    style="color: white; font-size: 15px; background-color: rgb(209, 95, 13); padding: 10px;"
+                    *ngIf="productoLista.seManejaPorUnidades"
+                  >
+                    {{ productoLista.unidades }} {{ productoLista.medida }}
+                  </span>
+                  <span
+                    class="badge badge-primary rounded-pill"
+                    style="color: white; font-size: 15px; background-color: rgb(209, 95, 13); padding: 10px;"
+                    *ngIf="!productoLista.seManejaPorUnidades"
+                  >
+                    {{ productoLista.peso }} {{ productoLista.medida }}
+                  </span>
                 </li>
               </ul>
-              <div class="btn-container d-flex justify-content-center mt-3 mb-3">
-                <button type="button" class="btn icono-generar" (click)="verOfertas()">
+            </div>
+              <div
+                class="btn-container d-flex justify-content-center mt-3 mb-3"
+              >
+                <button
+                  type="button"
+                  class="btn icono-generar"
+                  (click)="verOfertas()"
+                >
                   Ver ofertas
                 </button>
               </div>
@@ -130,3 +276,4 @@
       </div>
     </div>
   </div>
+</div>

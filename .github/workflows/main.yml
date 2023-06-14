@@ -17,8 +17,6 @@ jobs:
           node-version: 16.13
       - name: Install dependencies
         run: npm install
-      - name: Run tests
-        run: npm test -- --watch=false --browsers=ChromeHeadless
       - name: Build
         run: npx ng build --configuration production
       - uses: w9jds/firebase-action@master

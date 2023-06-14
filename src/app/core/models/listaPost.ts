@@ -8,4 +8,5 @@ export interface ListaPost {
   marcasBebida: string[];
   cantidadInvitados: number;
   presupuesto: number;
+  cantidadProductos:{};
 }

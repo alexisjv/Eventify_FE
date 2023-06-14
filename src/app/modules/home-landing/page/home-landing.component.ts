@@ -21,7 +21,6 @@ export class HomeLandingComponent implements OnInit, OnDestroy {
 
     if (headerElemento) {
       this.renderer.removeStyle(headerElemento, 'position');
-
     }
   }
 
