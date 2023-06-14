@@ -10,6 +10,10 @@ declare var google: any;
 })
 
 export class SharedService {
+  
+  obtenerLinkGps(): Promise<string> {
+    return this.mapa.obtenerEnlaceGPS();
+  }
 
 
   constructor(private http: HttpClient, private mapa: MapaComponent) {}
