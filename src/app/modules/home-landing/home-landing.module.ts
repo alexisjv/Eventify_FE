@@ -5,6 +5,7 @@ import { SharedModule } from '@shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormRegistroComponent } from '@modules/form-registro/form-registro.component';
 import { RouterModule } from '@angular/router';
+import { HomeLandingRoutingModule } from './home-landing-routing.module';
 
 
 
@@ -20,7 +21,8 @@ import { RouterModule } from '@angular/router';
     SharedModule,
     ReactiveFormsModule,
     CommonModule,
-    RouterModule
+    RouterModule,
+    HomeLandingRoutingModule
   ]
 })
 export class HomeLandingModule { }
