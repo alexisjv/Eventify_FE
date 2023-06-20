@@ -21,8 +21,7 @@ import { HomeLandingRoutingModule } from './home-landing-routing.module';
     SharedModule,
     ReactiveFormsModule,
     CommonModule,
-    RouterModule,
-    HomeLandingRoutingModule
+    RouterModule
   ]
 })
 export class HomeLandingModule { }
