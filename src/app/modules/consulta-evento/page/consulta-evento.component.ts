@@ -27,7 +27,7 @@ export class ConsultaEventoComponent {
       idEventoSeleccionado: 0,
       aComidasSeleccionadas: [],
       aBebidasSeleccionadas: [],
-      nCantidadComensales: 0
+      nCantidadComensales: 2
     };
   aListaEventos!: Evento[];
   bMostrarOpcionSeleccionada: boolean = false;
@@ -39,7 +39,7 @@ export class ConsultaEventoComponent {
   bMostrarPreguntaCantidadComensales: boolean = false;
   bMostrarPreguntaUbicacion: boolean = false;
   bMostrarListaDeProductos: boolean = false;
-  sImg: string = 'assets/images/asistente.png';
+  sImg: string = 'assets/images/asistente.svg';
   bMostrarQueCompraQueresRealizar: boolean = true;
   aListaDeCompras!: ProductoLista[];
   bMostrarLoading: boolean = false;
@@ -56,13 +56,22 @@ export class ConsultaEventoComponent {
   aListaDeComprasParaPost!: ProductoLista[];
   aListaDeComprasParaMostrar!: ProductoLista[];
 
+  //se agrega la clase active con estas variables
+  isActiveEvento= true;
+  isActiveComida=false;
+  isActiveBebida=false;
+  isActiveInvitados=false;
+  isActivePreguntaUbicacion=false;
+  isButtonDisabledContinuar= true;
 
   constructor(private router: Router, private consultaEventoService: ConsultaEventoService, private mapaService: SharedService) { }
 
   ngOnInit(): void {
 
     this.getListaEventos();
+ 
   }
+
 
   getListaEventos() {
     this.consultaEventoService.getListaEventos().subscribe(
@@ -96,17 +105,25 @@ export class ConsultaEventoComponent {
 
     this.bMostrarPreguntaQueTipoDeEvento = false;
     this.bMostrarPreguntaQueTipoDeComida = true;
+    this.isActiveComida=true;
+
+
   }
 
   onSeleccionComida(idComida) {
     this.cButton = document.getElementById("btn-check" + idComida);
-    if (this.cButton.style.backgroundColor === "rgb(242, 48, 48)") {
-      this.cButton.style.backgroundColor = 'rgb(64, 64, 64)';
+    if (this.cButton.style.backgroundColor === "rgb(224, 82, 5)") {
+      this.cButton.style.backgroundColor = 'rgb(19, 113, 176)';
       var index = this.oSelecciones.aComidasSeleccionadas.indexOf(idComida);
       this.oSelecciones.aComidasSeleccionadas.splice(index, 1);
+      if(this.oSelecciones.aComidasSeleccionadas.length === 0){
+        this.deshabilitarBotonContinuar();
+      }
+
     } else {
-      this.cButton.style.backgroundColor = "rgb(242, 48, 48)"
+      this.cButton.style.backgroundColor = "rgb(224, 82, 5)"
       this.oSelecciones.aComidasSeleccionadas.push(idComida);
+      this.habilitarBotonContinuar();
     }
   }
 
@@ -125,23 +142,31 @@ export class ConsultaEventoComponent {
     this.getTiposDeBebidas();
     this.bMostrarPreguntaQueTipoDeComida = false;
     this.bMostrarPreguntaQueTipoDeBebida = true;
+    this.isActiveBebida=true;
+    this.deshabilitarBotonContinuar();
   }
 
   onSeleccionBebida(idBebida) {
     this.cButton = document.getElementById("btn-checkBebida" + idBebida);
-    if (this.cButton.style.backgroundColor === "rgb(242, 48, 48)") {
-      this.cButton.style.backgroundColor = 'rgb(64, 64, 64)';
+    if (this.cButton.style.backgroundColor === "rgb(224, 82, 5)") {
+      this.cButton.style.backgroundColor = 'rgb(19, 113, 176)';
       var index = this.oSelecciones.aBebidasSeleccionadas.indexOf(idBebida);
       this.oSelecciones.aBebidasSeleccionadas.splice(index, 1);
+      if(this.oSelecciones.aBebidasSeleccionadas.length === 0 ){
+        this.deshabilitarBotonContinuar();
+      }
     } else {
-      this.cButton.style.backgroundColor = "rgb(242, 48, 48)"
+      this.cButton.style.backgroundColor = "rgb(224, 82, 5)"
       this.oSelecciones.aBebidasSeleccionadas.push(idBebida);
+      this.habilitarBotonContinuar();
     }
   }
 
   mostrarPreguntaCantidadPersonas() {
     this.bMostrarPreguntaQueTipoDeBebida = false;
     this.bMostrarPreguntaCantidadComensales = true;
+    this.isActiveInvitados= true;
+   
   }
 
   getListadoDeCompras() {
@@ -161,22 +186,7 @@ export class ConsultaEventoComponent {
         (error) => console.error(error)
       );
   }
-  // modificarListaConSusUnidades(listaCompras: ProductoLista[]) {
-  //   listaCompras.forEach(oProducto => {
-  //     if (!this.tieneUnidades(oProducto)) {
-  //       oProducto.seManejaPorUnidades = false;
-  //       if (this.elPesoEsMayorA1kg(oProducto)) {
-  //         oProducto = this.asignarUnidadesOPeso(oProducto);
-  //       } else {
-  //         oProducto.medida = "grs"
-  //       }
-  //     } else {
-  //       oProducto.seManejaPorUnidades = true;
-  //       oProducto.medida = "unidades"
-  //     }
-  //     this.aListaDeCompras.push(oProducto);
-  //   });
-  // }
+
 
   asignarUnidadesOPeso(listaCompras: ProductoLista[]){
     listaCompras.forEach(oProducto => {
@@ -223,6 +233,7 @@ export class ConsultaEventoComponent {
   mostrarMapaRadio(){
     this.bMostrarPreguntaCantidadComensales = false;
     this.bMostrarPreguntaUbicacion = true;
+    this.isActivePreguntaUbicacion=true;
   }
   
   consultar(): void {
@@ -276,7 +287,41 @@ export class ConsultaEventoComponent {
     });
   }
 
-  
+  volverAEvento(){
+    this.sImg = 'assets/images/asistente.svg';
+    this.oSelecciones.idEventoSeleccionado= 0;
+    this.oSelecciones.aComidasSeleccionadas=[];
+    this.bMostrarPreguntaQueTipoDeComida=false;
+    this.bMostrarPreguntaQueTipoDeEvento = true;
+    this.isActiveComida=false;
+  }
+  volverATipoDeComida(){
+    this.oSelecciones.aBebidasSeleccionadas=[];
+    this.bMostrarPreguntaQueTipoDeBebida=false;
+    this.bMostrarPreguntaQueTipoDeComida=true;
+    this.isActiveBebida=false;
+  }
+  volverATipoBebida(){
+    this.oSelecciones.nCantidadComensales=0;
+    this.bMostrarPreguntaQueTipoDeBebida=true;
+    this.bMostrarPreguntaCantidadComensales=false;
+    this.isActiveInvitados=false;
+  }
+  volverAPregCantidadComensales(){
+    this.bMostrarPreguntaUbicacion=false;
+    this.bMostrarPreguntaCantidadComensales=true;
+    this.isActivePreguntaUbicacion=false;
+  }
+
+
+  private habilitarBotonContinuar(){
+    this.isButtonDisabledContinuar = false;
+  }
+
+  private deshabilitarBotonContinuar() {
+    this.isButtonDisabledContinuar = true;
+  }
+
   private tieneUnidades(oProducto: ProductoLista) {
     return oProducto.unidades !== 0;
   }
@@ -284,7 +329,6 @@ export class ConsultaEventoComponent {
   private elPesoEsMayorA1kg(oProducto: ProductoLista) {
     return oProducto.peso > 1000;
   }
-
 
 }
 
