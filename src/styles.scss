@@ -9,6 +9,10 @@ $info:           #e05205dc !default;
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+.btn-outline-info :hover{
+  color: #ffff !important;
+}
+
 body {
     background: #fff;
     color: #666666;
