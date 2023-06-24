@@ -5,6 +5,8 @@ import { FormRegistroComponent } from '@modules/form-registro/form-registro.comp
 import { HomeLandingComponent } from '@modules/home-landing/page/home-landing.component';
 import { OptimizadorListaComponent } from '@modules/optimizador-lista/page/optimizador-lista.component';
 import { PageLoginComponent } from '@modules/page-login/page-login.component';
+import { PerfilComercioComponent } from '@modules/perfil-comercio/perfil-comercio.component';
+import { PerfilUsuarioComponent } from '@modules/perfil-usuario/perfil-usuario.component';
 
 
 
@@ -35,7 +37,19 @@ const routes: Routes = [
   {
     path: 'login',
     component: PageLoginComponent,
-  }
+  },
+  {
+    path: 'perfil-usuario',
+    component: PerfilUsuarioComponent,
+    loadChildren: () => import('@modules/perfil-usuario/perfil-usuario.module').then(m => m.PerfilUsuarioModule)
+
+  },
+  {
+    path: 'perfil-comercio',
+    component: PerfilComercioComponent,
+    loadChildren: () => import('@modules/perfil-comercio/perfil-comercio.module').then(m => m.PerfilComercioModule)
+
+  },
   
 
   ];

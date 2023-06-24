@@ -8,6 +8,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@shared/shared.module';
+import { PerfilUsuarioComponent } from './modules/perfil-usuario/perfil-usuario.component';
+import { PerfilComercioComponent } from '@modules/perfil-comercio/perfil-comercio.component';
 
 
 

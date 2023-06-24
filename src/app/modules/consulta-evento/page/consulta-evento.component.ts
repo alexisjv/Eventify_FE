@@ -49,7 +49,7 @@ export class ConsultaEventoComponent {
 
   bMostrarKg: boolean = false;
   bMostrarLt: boolean = false;
-  valorRadio!: number;
+  valorRadio: number = 5000;
   latitudUbicacion!: number;
   longitudUbicacion!: number;
   idEvento!: number;

@@ -1,6 +1,7 @@
 $primary:       #1371B0 !default;
 $secondary:     #019494e9!default;
 $info:           #e05205dc !default;
+$danger: #d61710e9 !default;
 
 
 @import 'bootstrap/scss/bootstrap';
@@ -11,6 +12,27 @@ $info:           #e05205dc !default;
 --------------------------------------------------------------*/
 .btn-outline-info :hover{
   color: #ffff !important;
+}
+
+.btn-info {
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 50px;
+  transition: 0.5s;
+  border: 2px solid #ff6336;
+  color: #fff;
+  background: #ff6336;
+}
+
+.btn-info:hover {
+  background: none;
+  border: 2px solid #fff;
+  color: #fff;
 }
 
 body {
@@ -49,6 +71,11 @@ body {
     margin: 0 0 20px 0;
     padding: 0;
   }
+
+  h1{
+    font-size: 20px;
+  }
+  
   
   /*--------------------------------------------------------------
   # Back to top button
