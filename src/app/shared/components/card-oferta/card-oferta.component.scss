@@ -12,6 +12,10 @@ body {
     min-height: 100vh;
 }
 
+h5{
+  font-size: 15px;
+}
+
 .card-oferta {
     max-width: 300px;
   max-height: 130px;
@@ -29,4 +33,13 @@ body {
     height: 70px;
     object-fit: cover;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .boton-cambiar{
+    margin: 5px;
+  }
+
+  .precio{
+    font-size: 25px;
+    margin-right: 20px;
   }
