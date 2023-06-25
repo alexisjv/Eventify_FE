@@ -1085,3 +1085,27 @@
     align-items: center; /* Centra los elementos verticalmente dentro del contenedor */
 }
 
+.tabla-redondeada {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+.fila {
+  background-color: #f9f9f9;
+}
+
+.img-producto-tabla {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+#modalDetalleListado {
+  background-color: #14484d;
+}
+
+.precio-tabla {
+  font-weight: bold;
+  color: #146d13;
+}

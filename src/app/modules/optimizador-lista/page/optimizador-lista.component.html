@@ -188,11 +188,11 @@
 
       <!-- mapa -->
       <div>
-        <!--  <app-mapa
+        <app-mapa
           [valorRadioElegido]="radioElegido"
           [slider]="false"
           (valorRadioEnviado)="capturarValorRadio($event)"
-        ></app-mapa> -->
+        ></app-mapa>
       </div>
     </div>
   </div>
@@ -680,7 +680,8 @@
           *ngIf="listaElegidaMasEconomico"
           class="btn btn-info"
           style="color: white"
-          (click)="guardarLista(listaOfertasElegidasMasEconomico)"
+          data-bs-dismiss="modal"
+          (click)="guardarLista(listaOfertasElegidasMasEconomico, distanciaMasEconomico)"
         >
           Guardar Lista
         </button>
@@ -688,7 +689,8 @@
           *ngIf="listaElegidaMenorRecorrido"
           class="btn btn-info"
           style="color: white"
-          (click)="guardarLista(aListaSeleccionComercio)"
+          data-bs-dismiss="modal"
+          (click)="guardarLista(aListaSeleccionComercio, distanciaMenorRecorrido)"
         >
           Guardar Lista
         </button>
