@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { PerfilUsuarioComponent } from './perfil-usuario.component';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -14,7 +15,8 @@ import { PerfilUsuarioComponent } from './perfil-usuario.component';
   ],
   imports: [
     SharedModule,
-    RouterModule
+    RouterModule,
+    CommonModule
   ]
 })
 export class PerfilUsuarioModule { }
