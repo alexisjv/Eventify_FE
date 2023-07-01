@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { FormRegistroComponent } from './form-registro.component';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 @NgModule({
   declarations: [FormRegistroComponent],
@@ -13,7 +14,7 @@ import { FormRegistroComponent } from './form-registro.component';
     CommonModule,
     FormsModule,
     SharedModule,
-    RouterModule,
+    RouterModule
   ],
 })
 export class FormRegistroModule {}

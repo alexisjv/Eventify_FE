@@ -1,5 +1,17 @@
 
-
+.contenedor{
+  min-height: 100vh !important;
+  background-image: url('/assets/images/patron.jpg');
+  background-position: top center;
+  background-size: contain;
+  background-repeat: repeat;
+  position: relative;
+}
+.card{
+  margin-top: 5%;
+  height: auto !important;
+  border-radius: 5%;
+}
 .buttonnregistro{
   background-color: #025373 !important;
   color: white;
@@ -21,9 +33,7 @@
 .formComercio{
   border-radius: 5%;
 }
-.error-message {
 
-}
 
 input {
 border-radius: 30px;

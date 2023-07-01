@@ -15,7 +15,7 @@ export class FormRegistroService {
     let params = JSON.stringify(userRegistrado);
     let headers = new HttpHeaders({'Content-Type': 'application/json'});
 
-    return this.http.post(API_URL + 'registro', params, {headers: headers})
+    return this.http.post(API_URL + 'Usuario/registro', params, {headers: headers})
       .pipe(
         map(res => res)
       );

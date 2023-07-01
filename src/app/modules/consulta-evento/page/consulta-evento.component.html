@@ -1,10 +1,10 @@
 <!-- MultiStep Form -->
 
 <div class="container-fluid d-flex contenedor-general justify-content-center" id="grad1">
-    <div class="col-md-3 mateo d-flex justify-content-end d-none d-md-block">
+    <div class="col-md-2 mateo d-flex justify-content-end d-none d-md-block ms-3">
     <img  src="{{ sImg }}" alt="" height="600px" />
     </div>
-    <div class="col-md-9 col-xs-12 col-sm-6 d-flex justify-content-center">
+    <div class="col-md-8 col-xs-12 col-sm-6 d-flex justify-content-center">
         <div class="col-12 col-sm-9 col-md-12 col-lg-6 text-center p-3 mt-4 mb-2">
             
             <div class="card px-0 pt-4 pb-0 mt-3 h-50 shadow "*ngIf="bMostrarQueCompraQueresRealizar">
@@ -49,7 +49,7 @@
 
 
                                 <label class="form-label">¿Que tipo de comidas querés ofrecer?</label>
-                                <div class="row">
+                                <div class="row d-flex justify-content-center">
                                     <div class="w-auto p-3 d-flex flex-column align-items-center justify-content-center mt-3"
                                         *ngFor="let comida of aTiposDeComidas">
                                         <input type="checkbox" class="btn-check" autocomplete="off"
@@ -164,18 +164,18 @@
 
             </div>
             <!-- Lista de productos -->
-            <div class="card px-0 pt-4 pb-0 mt-3 h-50" *ngIf="bMostrarListaDeProductos">
+            <div class="card px-0 pt-4 pb-0 mt-3" *ngIf="bMostrarListaDeProductos">
                 <div class="row">
                     <div class="d-flex flex-column justify-content-center">
                         <div class="titulo-formulario d-flex flex-column justify-content-center">
                             <div class="icon-circle">
                                 <img [src]="'assets/icons/CanastaCompras.svg'" alt="Icono" class="icon-canasta" />
                             </div>
-                            <h2>Tu lista de compras:</h2>
+                            <h3><strong>Tu lista de compras:</strong> </h3>
                             <div class="linea-titulo"></div>
                         </div>
                         <div>
-                            <p class="text-light  fs-6 text-center">*Las cantidades son aproximadas</p>
+                            <p class=" fs-6 text-center">*Las cantidades son aproximadas</p>
                         </div>
                         <div class="text-center" *ngIf="bMostrarLoading">
                             <div class="spinner-border" role="status">
@@ -183,17 +183,17 @@
                             </div>
                         </div>
                         <div class="w-auto scrollable-list">
-                            <ul class="list-group list-group-dark w-50 p-3 mx-auto">
-                                <li class="list-group-item d-flex justify-content-between align-items-center"
+                            <ul class="list-group list-group-dark  p-3 mx-auto">
+                                <li class="list-group-item d-flex justify-content-between p-2 align-items-center"
                                     *ngFor="let productoLista of aListaDeCompras">
                                     <p class="fs-6">{{ productoLista.nombre }}</p>
                                     <span class="badge  rounded-pill"
-                                        style="color: white; font-size: 10px; background-color: rgb(209, 95, 13); padding: 10px;"
+                                        style="color: white; font-size: 15px; background-color: rgb(209, 95, 13); padding: 10px;"
                                         *ngIf="productoLista.seManejaPorUnidades">
                                         {{ productoLista.unidades }} {{ productoLista.medida }}
                                     </span>
                                     <span class="badge badge-primary rounded-pill"
-                                        style="color: white; font-size: 10px; background-color: rgb(209, 95, 13); padding: 10px;"
+                                        style="color: white; font-size: 15px; background-color: rgb(209, 95, 13); padding: 10px;"
                                         *ngIf="!productoLista.seManejaPorUnidades">
                                         {{ productoLista.peso }} {{ productoLista.medida }}
                                     </span>
@@ -201,7 +201,7 @@
                             </ul>
                         </div>
                         <div class="btn-container d-flex justify-content-center mt-3 mb-3">
-                            <button type="button" class="btn icono-generar" (click)="verOfertas()">
+                            <button type="button" class="btn w-auto btn-info text-light ms-3 p-2" (click)="verOfertas()">
                                 Ver ofertas
                             </button>
                         </div>

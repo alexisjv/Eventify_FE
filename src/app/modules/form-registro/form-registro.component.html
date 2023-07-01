@@ -1,7 +1,7 @@
-<section class="d-flex justify-content-center registro-usuario" *ngIf="mostrarRegistroComun">
+<section class="d-flex justify-content-center registro-usuario contenedor align-items-center" *ngIf="mostrarRegistroComun">
 
-  <div class="card bg-primary w-50 d-flex align-items-center m-4 borde">
-      <article class="card-body mx-auto text-light align-items-center" style="max-width: 500px;">
+  <div class="card col-md-5 col-sm-8 d-flex align-items-center m-4 borde">
+      <article class="card-body mx-auto align-items-center" style="max-width: 500px;">
         <h1 class="text-center mt-2 font-weight-bold"><strong>Disfrutá de los beneficios de Eventify</strong></h1>
           <h4 class="card-title mt-3 text-center ">Completá tus datos</h4>
           <!-- <p>
@@ -11,7 +11,7 @@
       <p class="divider-text">
           <span class="bg-light">OR</span>
       </p> -->
-          <form novalidate (ngSubmit)="onSubmit()" [formGroup]="userForm">
+          <form novalidate (ngSubmit)="onSubmitUser()" [formGroup]="userForm">
               <div class="form-group input-group ">
                 <input name="nombre" class="form-control"  formControlName="nombre" placeholder="Ingrese su nombre" type="text">
               </div> <!-- form-group// -->
@@ -47,24 +47,24 @@
                 *La contraseña no tiene el formato solicitado
               </div>
 
-              <div id="passwordHelpBlock" class="text-white-50 form-text">
+              <div id="passwordHelpBlock" class=" form-text">
                   Mínimo de 8 caracteres, 1 letra, 1 número, 1 carácter especial.
               </div> <!-- form-group// -->
 
               <div class="form-group input-group mt-3">
                   <input name="repeatPassword" class="form-control" formControlName="repeatPassword" placeholder="Repetí la contraseña" type="password">
               </div> <!-- form-group// -->
-              <div *ngIf="userForm.hasError('mismatch') && (userForm.dirty || userForm.touched)" class="error-message text-white form-text">
+              <div *ngIf="userForm.hasError('mismatch') && (userForm.dirty || userForm.touched)" class="error-message form-text">
                   Las contraseñas no coinciden
               </div>
 
               <div class="form-group  mt-3 d-flex flex-column align-items-center">
                   <button type="submit" class="btn btn-info text-light btn-block w-50 h-50 borde" [disabled]="userForm.invalid"> Registrarme </button>
-                  <button class="btn btn-outline-light btn-block mt-2 w-50 h-50 borde" (click)="mostrarRegistroDeComercio()">Soy comercio</button>
+                  <button class="btn btn-outline-info btn-block mt-2 w-50 h-50 borde" (click)="mostrarRegistroDeComercio()">Soy comercio</button>
               </div> <!-- form-group// -->
 
-              <p class="text-center mt-5"><a class="text-light text-decoration-none"
-                      href="/login">Ya tenés una cuenta? Iniciar sesión</a> </p>
+              <p class="text-center mt-3">Ya tenés una cuenta? <a class="text-decoration-none"
+                href="login">Iniciar sesión</a> </p>
 
               <div class="alert alert-success" *ngIf="status == 'success'">
            <!--      Te registraste correctamente. <a [routerLink]="['/login']"> Inicia sesion! </a> -->
@@ -79,58 +79,80 @@
 </section>
 
 
-<section class="d-flex justify-content-center registro-comercio" *ngIf="mostrarRegistroComercio">
+<section class="d-flex  justify-content-center registro-comercio contenedor align-items-center" *ngIf="mostrarRegistroComercio">
+  <div class="card col-md-5 col-sm-8 d-flex align-items-center mb-2">
+    <article class="card-body mx-auto p-3" style="max-width: 500px;">
+      <h1 class="text-center mt-2 font-weight-bold"><strong>Publicá tus ofertas y aumentá tus ventas</strong></h1>
 
+      <form novalidate [formGroup]="comercioForm" (ngSubmit)="onSubmitComercio()">
+        <div class="form-group input-group">
+          <input name="nombreCompleto" class="form-control" formControlName="nombreCompleto" placeholder="Nombre completo" type="text">
+        </div>
+        <div class="alert alert-danger mt-1" [hidden]="nombreCompleto.valid || nombreCompleto.pristine">
+          *El nombre es obligatorio
+        </div>
 
-  <div class="card bg-primary w-50 d-flex align-items-center mb-2">
-      <article class="card-body mx-auto text-light" style="max-width: 400px;">
-          <h4 class="card-title mt-3 text-center ">Registrarme</h4>
-          <p class="text-center">Empezá a publicar tus ofertas y aumentar tus ventas</p>
-          <!-- <p>
-              <a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login via Twitter</a>
-              <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook</a>
-          </p>
-          <p class="divider-text">
-              <span class="bg-light">OR</span>
-          </p> -->
-          <form>
-              <div class="form-group input-group ">
-                  <input name="" class="form-control" placeholder="Nombre completo" type="text">
-              </div> <!-- form-group// -->
+        <div class="form-group input-group mt-3">
+          <input name="nombreComercio" class="form-control" formControlName="nombreComercio" placeholder="Nombre del comercio" type="text">
+        </div>
+        <div class="alert alert-danger mt-1" [hidden]="nombreComercio.valid || nombreComercio.pristine">
+          *El nombre del comercio es obligatorio
+        </div>
+        <div class="form-group input-group mt-3">
+          <input name="cuit" class="form-control" formControlName="cuit" placeholder="CUIT" type="text" mask="00-00-00">
+        </div>
+        <div class="alert alert-danger mt-1" [hidden]="cuit.valid || cuit.pristine">
+          *El cuit es obligatorio
+        </div>
 
-              <div class="form-group input-group  mt-3">
-                  <input name="" class="form-control" placeholder="Nombre del comercio" type="text">
-              </div> <!-- form-group// -->
-              <div class="form-group input-group  mt-3">
-                  <input name="" class="form-control" mask="00-00-00" placeholder="CUIT" type="text">
-              </div> <!-- form-group// -->
-              <div class="form-group input-group  mt-3 ">
-                  <!-- <app-direccion-autocompletado></app-direccion-autocompletado> -->
-              </div>
-              <div class="form-group input-group mt-3">
-                  <input name="" class="form-control" placeholder="Email" type="email">
-              </div> <!-- form-group// -->
+        <div class="form-group input-group mt-3">
+          <input name="direccion" class=" direccion" formControlName="direccion" id="direccion" placeholder="Dirección" ngModel #searchInput type="text">
+        </div>
+       
+        <div class="alert alert-danger mt-1" [hidden]="direccion.valid || direccion.pristine">
+          *La direccion es obligatoria
+        </div>
 
-              <div class="form-group input-group mt-3">
+        <div class="form-group input-group mt-3">
+          <input name="emailComercio" class="form-control" formControlName="emailComercio" placeholder="Email" type="email">
+        </div>
+        <div class="alert alert-danger mt-1" [hidden]="emailComercio.valid || emailComercio.untouched">
+          <span *ngIf="emailComercio.errors?.['required']">
+            *El email es obligatorio
+          </span>
 
-                  <input class="form-control" placeholder="Creá una contraseña" type="password">
-              </div>
-              <div id="passwordHelpBlock" class="text-white-50 form-text">
-                  Debe tener entre 8-20 caracteres, contener letras, numeros y un caracter especial.
-              </div> <!-- form-group// -->
-              <div class="form-group input-group mt-3">
+          <span *ngIf="emailComercio.errors?.['email']">
+            *Ingresa un email valido
+          </span>
+        </div>
 
-                  <input class="form-control" placeholder="Repetí la contraseña" type="password">
-              </div> <!-- form-group// -->
-              <div class="form-group mt-3 d-flex justify-content-center">
+        <div class="form-group input-group mt-3">
+          <input name="passwordComercio" class="form-control" formControlName="passwordComercio" placeholder="Creá una contraseña" type="password">
+        </div>
 
-                  <button type="submit" class="btn btn-info text-light btn-block">Registrarme</button>
+        <div id="passwordHelpBlock" class="form-text">
+          Mínimo de 8 caracteres, 1 letra, 1 número, 1 carácter especial.
+        </div>
+        <div class="alert alert-danger mt-1" [hidden]="passwordComercio.valid || passwordComercio.untouched">
+          *La contraseña no tiene el formato solicitado
+        </div>
 
-              </div>
-              <!-- form-group// -->
-              <p class="text-center mt-3">Ya tenés una cuenta? <a class="text-light text-decoration-none"
-                      href="">Iniciar sesión</a> </p>
-          </form>
-      </article>
+        <div class="form-group input-group mt-3">
+          <input name="repeatPasswordComercio" class="form-control" formControlName="repeatPasswordComercio" placeholder="Repetí la contraseña" type="password">
+        </div>
+
+        <div *ngIf="comercioForm.hasError('mismatch') && (comercioForm.dirty || comercioForm.touched)" class="error-message form-text">
+          Las contraseñas no coinciden
+        </div>
+
+        <div class="form-group mt-3 d-flex justify-content-center">
+          <button type="submit" class="btn btn-info text-light btn-block borde" [disabled]="comercioForm.invalid">Registrarme</button>
+        </div>
+
+        <p class="text-center mt-3">Ya tenés una cuenta? <a class="text-decoration-none" href="login">Iniciar sesión</a></p>
+      </form>
+      
+    </article>
   </div>
 </section>
+
