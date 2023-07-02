@@ -19,10 +19,6 @@
     padding-left: 15px;
   }
 
-  h1{
-    font-size: 45px;
-  }
-
   
   
   @media (min-width: 1200px) {
@@ -1200,6 +1196,10 @@ p {
   margin-bottom: .5rem;
 }
 
+.table-responsive{
+  padding-top: 30px;
+}
+
 .table thead th,
 .jsgrid .jsgrid-table thead th {
   border-top: 0;
@@ -1228,5 +1228,35 @@ p {
   transition: transform 0.3s ease-in-out;
 }
 
+.img-evento{
+  width: 350px;
+  padding-bottom: 20px;
+}
+
+.scrollable-list {
+  max-height: 750px;
+  overflow-y: auto;
+  padding: 10px;
+  border-radius: 5px;
+}
+.scrollable-list-comparar {
+  max-height: 500px;
+  overflow-y: auto;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+h1 {
+  font-size: 40px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+.comparar-total{
+  font-size: 25px;
+  color: #14484d;
+}
 
 
