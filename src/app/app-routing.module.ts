@@ -37,6 +37,8 @@ const routes: Routes = [
   {
     path: 'login',
     component: PageLoginComponent,
+    loadChildren: () => import('@modules/page-login/page-login.module').then(m => m.PageLoginModule)
+
   },
   {
     path: 'perfil-usuario',
@@ -50,6 +52,7 @@ const routes: Routes = [
     loadChildren: () => import('@modules/perfil-comercio/perfil-comercio.module').then(m => m.PerfilComercioModule)
 
   },
+
   
 
   ];

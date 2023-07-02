@@ -1,0 +1,19 @@
+.contenedor{
+    min-height: 100vh !important;
+    background-image: url('/assets/images/patron.jpg');
+    background-position: top center;
+    background-size: contain;
+    background-repeat: repeat;
+    position: relative;
+  }
+.card{
+    // width: 60% !important;
+   
+    border-radius: 5%;
+}
+.contenedor-card{
+    margin-top: 10%;
+}
+.borde {
+    border-radius: 30px;
+    }

@@ -7,15 +7,16 @@ import { API_URL } from '@core/config/url';
 @Injectable({
   providedIn: 'root'
 })
-export class FormRegistroService {
+export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  registro(userRegistrado): Observable<any> {
-    let params = JSON.stringify(userRegistrado);
+  login(email: string , password: string): Observable<any> {
+    let params = JSON.stringify({email: email,
+    clave: password});
     let headers = new HttpHeaders({'Content-Type': 'application/json'});
 
-    return this.http.post(API_URL + 'Usuario/registro', params, {headers: headers})
+    return this.http.post(API_URL + 'Usuario/inicioSesion', params, {headers: headers})
       .pipe(
         map(res => res)
       );

@@ -133,9 +133,10 @@ select.list-dt {
 select.list-dt:focus {
   border-bottom: 2px solid #1371B0;
 }
-// .mateo{
-//   margin-top: 5% !important;
-// }
+.mateo{
+  margin-top: 2% !important;
+  margin-left: 5% !important;
+}
 /*The background card*/
 .card {
   margin-top: 10% !important;
@@ -540,6 +541,9 @@ padding-bottom: 50px;
   .imagen-evento{
     width: 250px;
     
+  }
+  .btn-outline-info :hover{
+    color: #ffff !important;
   }
   // .preguntaUbicacion{
   //   height: 700px;

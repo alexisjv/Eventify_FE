@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
 import { RouterModule } from '@angular/router';
-import { FormRegistroComponent } from './form-registro.component';
+
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { PageLoginComponent } from './page-login.component';
 
 @NgModule({
-  declarations: [FormRegistroComponent],
+  declarations: [PageLoginComponent],
   imports: [
     ReactiveFormsModule,
     CommonModule,
@@ -17,4 +18,4 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     RouterModule
   ],
 })
-export class FormRegistroModule {}
+export class PageLoginModule {}
