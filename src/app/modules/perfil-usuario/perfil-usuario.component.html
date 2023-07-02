@@ -32,17 +32,14 @@
           <div class="col-lg-3 order-lg-2">
             <div class="card-profile-image">
               <a href="#">
-                <img src="./assets/images/perfil.jpg" class="rounded-circle" />
+                <img 
+                src="./assets/images/perfil.jpg" class="rounded-circle" />
               </a>
             </div>
           </div>
         </div>
         <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-          <div class="d-flex justify-content-between">
-            <a href="#" class="btn btn-sm btn-primary float-right"
-              >Editar Perfil</a
-            >
-          </div>
+         
         </div>
         <div class="card-body pt-0 pt-md-4">
           <div class="row">
@@ -56,20 +53,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="text-center">
-            <div class="h5 font-weight-300">
-              <i class="ni location_pin mr-2"></i>Lomas del Mirador
-            </div>
-            <div class="h5 mt-4">
-              <i class="ni business_briefcase-24 mr-2"></i>Belgrano 2165
-            </div>
-            <div>
-              <i class="ni education_hat mr-2"></i>Horarios: Lunes a sábado de
-              09:00 a 20:00
-            </div>
-            <hr class="my-4" />
-            <a href="#">Ver más</a>
           </div>
         </div>
       </div>
@@ -86,7 +69,13 @@
         <div class="card-body">
             <div class="card" style="width: 18rem;" *ngFor="let listado of listasGuardadas">
               
-              <img src="./assets/images/evento-1.jpg" class="card-img-top" alt="...">
+              <img 
+              *ngIf="listado.evento === 'Cumpleaños'"
+              src="./assets/images/evento-1.jpg" class="card-img-top" alt="...">
+
+              <img 
+              *ngIf="listado.evento === 'Parrillada con amigos'"
+              src="./assets/images/evento-2.jpg" class="card-img-top" alt="...">
               <div class="lista">
                 
               <h5 class="card-title">{{ listado.evento }}</h5>
@@ -155,47 +144,38 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-6 text-center">
-            <h1>Evento: {{detalleLista.evento}}</h1>
+            <h3>{{detalleLista.evento}}</h3>
             <img
-              src="../../../../assets/images/evento-{{ detalleLista.evento}}.jpg"
+            *ngIf="detalleLista.evento === 'Cumpleaños'"
+              src="./assets/images/evento-1.jpg"
               class="img-evento"
             />
-          </div>
+            <img
+            *ngIf="detalleLista.evento === 'Parrillada con amigos'"
+              src="./assets/images/evento-2.jpg"
+              class="img-evento"
+            />
 
-          <div
-            class="col-md-6 text-center d-flex justify-content-center align-items-center"
-          >
-            <div class="row">
-              <div class="col-md-6 text-center">
-              </div>
-              <div
-                class="col-md-6 text-center d-flex align-items-center justify-content-center"
+            <div>
+              <h3 class="texto-comparar">
+                Ofertas encontradas: {{ detalleLista.cantidadOfertas }}
+              </h3>
+
+              <h3 class="texto-comparar">
+                Distancia a recorrer: {{ detalleLista.distanciaARecorrer}} Km.
+              </h3>
+              <strong class="comparar-total"
+                >Total: ${{ detalleLista.totalListado }}</strong
               >
-                <div>
-                  <p class="texto-comparar">
-                    Ofertas encontradas: {{ detalleLista.cantidadOfertas }}
-                  </p>
-
-                  <p class="texto-comparar">
-                    Distancia a recorrer: 
-                  </p>
-                  <p class="texto-comparar">
-                    Comercios: 
-                  </p>
-                  <br />
-                  <strong class="comparar-total"
-                    >Total: ${{ detalleLista.totalListado }}</strong
-                  >
-                </div>
-              </div>
             </div>
           </div>
-        </div>
-         <div class="row">
+
+          
+            
            <div class="col-md-6 text-center">
-            <h1 class="qr">Escaneá el recorrido y abrilo en el GPS:</h1>
+            <h3 class="qr">Escaneá el recorrido y abrilo en el GPS:</h3>
             <qrcode [qrdata]="detalleLista.urlRecorrido"></qrcode>
-            <h1 class="qr">O abrilo desde tu celular:</h1>
+            <h3 class="qr">O abrilo desde tu celular:</h3>
 
             <button
               type="button"
@@ -243,6 +223,8 @@
               Compartir Lista
             </button>
           </div>
+        </div>
+         <div class="row">
           <div class="col-md-12 .scrollable-list scrollable-list-comparar">
             <div class="table-responsive">
               <table

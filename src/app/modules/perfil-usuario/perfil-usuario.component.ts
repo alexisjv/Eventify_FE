@@ -10,7 +10,7 @@ import { ListaDetalle } from '@core/models/listaDetalle';
 })
 export class PerfilUsuarioComponent implements OnInit{
 
-  listasGuardadas!: ListaGuardada[];
+  listasGuardadas: ListaGuardada[] = [];
   detalleLista!: ListaDetalle;
   
   constructor(
@@ -51,10 +51,11 @@ export class PerfilUsuarioComponent implements OnInit{
     }
   }
 
-  compartirLista(lista: any) {
-    this.detalleLista.mensajeOfertas = lista
-      .map((oferta) => {
-        return `
+  compartirLista(lista: ListaDetalle) {
+    let mensajeOfertas = '';
+  
+    for (const oferta of lista.ofertas) {
+      mensajeOfertas += `
         Comercio: ${oferta.oferta.nombreComercio}
         Localidad: ${oferta.oferta.localidad}
         Producto: ${oferta.oferta.nombreProducto}
@@ -63,18 +64,18 @@ export class PerfilUsuarioComponent implements OnInit{
         Unidades: ${oferta.cantidad}
         Subtotal: $${oferta.subtotal}
         --------------------------
-    `;
-      })
-      .join('');
-
+      `;
+    }
+  
     const mensajeWhatsApp = `¡Hola! Acá tenés tu lista de compras ♥ :
-  ${this.detalleLista.mensajeOfertas}`;
-
+      ${mensajeOfertas}`;
+  
     const enlaceWhatsAppWeb = `https://web.whatsapp.com/send?text=${encodeURIComponent(
       mensajeWhatsApp
     )}`;
     window.open(enlaceWhatsAppWeb, '_blank');
   }
+  
 
 
 }

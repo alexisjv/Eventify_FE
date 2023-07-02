@@ -13,4 +13,5 @@ export interface ListaDetalle {
     fechaCreacion: string;
     urlRecorrido: string;
     mensajeOfertas: string;
+    distanciaARecorrer: number;
   }
