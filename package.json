@@ -27,6 +27,7 @@
     "@srexi/purecounterjs": "^1.5.0",
     "@techiediaries/ngx-qrcode": "^9.1.0",
     "angularx-qrcode": "^16.0.0",
+    "aws-amplify": "^5.3.3",
     "bootstrap": "^5.2.3",
     "jquery": "^3.7.0",
     "ngx-google-places-autocomplete": "^2.0.5",

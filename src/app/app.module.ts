@@ -24,8 +24,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     HttpClientModule,
     BrowserAnimationsModule,
     SharedModule,
-    FormsModule,
-   
+    FormsModule
    
   ],
   

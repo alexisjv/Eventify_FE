@@ -9,6 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { DireccionAutocompletadoComponent } from './components/direccion-autocompletado/direccion-autocompletado.component';
 import { CardOfertaComponent } from './components/card-oferta/card-oferta.component';
 import { CardComercioComponent } from './components/card-comercio/card-comercio.component';
+import { Amplify } from 'aws-amplify';
+import { EventService } from './services/event.service';
 
 
 
@@ -25,7 +27,8 @@ import { CardComercioComponent } from './components/card-comercio/card-comercio.
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+   
   ],
   exports: [
     HeaderComponent,
@@ -38,7 +41,8 @@ import { CardComercioComponent } from './components/card-comercio/card-comercio.
 
   ],
   providers: [
-    MapaComponent
+    MapaComponent,
+    EventService
   ]
 })
 export class SharedModule { }

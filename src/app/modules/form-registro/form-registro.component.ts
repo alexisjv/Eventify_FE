@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, NgControl, ValidatorFn, Validators } from '@angular/forms';
 import { FormRegistroService } from './services/form-registro.service'
 import { NgForm } from '@angular/forms';
+import { CognitoService, IUser } from 'src/app/shared/services/cognito.service';
 
 
 declare var google: any;
@@ -25,27 +26,31 @@ function passwordMatchValidatorComercio(): ValidatorFn {
   templateUrl: './form-registro.component.html',
   styleUrls: ['./form-registro.component.scss'],
   providers: [FormRegistroService],
-  template:`
+  template: `
   <div class="form-group input-group mt-3">
     <input name="direccion" class=" direccion" formControlName="direccion" id="direccion" placeholder="Dirección" ngModel #searchInput type="text">
   </div>`
 })
 export class FormRegistroComponent {
- 
+
   public userForm: FormGroup;
+  code !: string;
   public status: string = '';
+  public statusCode: string ='';
   public comercioForm: FormGroup;
   mostrarRegistroComercio: boolean = false;
   mostrarRegistroComun: boolean = true;
-  searchText: string ='';
+  searchText: string = '';
   lat!: number;
   lng!: number;
   address!: string;
   @ViewChild('searchInput', { static: true, read: ElementRef }) searchInput!: ElementRef;
-  
+  user!: IUser;
+  usernameAConfirmar!: string;
+
 
   constructor(
-    private _userService: FormRegistroService
+    private _userService: FormRegistroService, private cognitoService: CognitoService
   ) {
     this.comercioForm = new FormGroup({
       nombreCompleto: new FormControl(null, [
@@ -63,7 +68,7 @@ export class FormRegistroComponent {
       ]),
       cuit: new FormControl(null, [
         Validators.required,
-        
+
       ]),
       repeatPasswordComercio: new FormControl(null, [
         Validators.required,
@@ -83,6 +88,11 @@ export class FormRegistroComponent {
         Validators.required,
         Validators.maxLength(30)
       ]),
+      username: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(20),
+        Validators.pattern('^[a-z0-9_-]{8,15}$')
+      ]),
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [
         Validators.required,
@@ -93,13 +103,13 @@ export class FormRegistroComponent {
         Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/)
       ])
     }, { validators: passwordMatchValidator() });
-    
+
   }
-  
-  
+
+
   // ngAfterViewInit() {
   //   window.onload = () => {
-      
+
   //     const autocomplete = new google.maps.places.Autocomplete(this.searchInput.nativeElement);
 
   //     autocomplete.addListener('place_changed', () => {
@@ -119,31 +129,77 @@ export class FormRegistroComponent {
   //     });
   //   };
   // }
- 
+
 
   onSubmitUser() {
-    const userRegistrado = {
-      nombre: this.nombre.value,
-      apellido: this.apellido.value,
-      email: this.email.value,
-      password: this.password.value,
-      repeatPassword: this.repeatPassword.value
+    this.registroEnServicio() 
+    this.registroEnCognito();  
+  }
+
+  onSubmitVerificationCode(){
+    let email = this.usernameAConfirmar;
+    let code = this.code;
+    this.cognitoService.confirmSignUp(email, code).then(() => {
+      this.statusCode = "success"
+      console.log("exito");
+    }).catch((error) => {
+      console.log(error);
+      this.statusCode = "error"
+    });
+  }
+
+  private registroEnServicio(){
+    const userARegistrar = {
+      "nombre": this.nombre.value,
+      "apellido": this.apellido.value,
+      "email": this.email.value,
+      "clave": this.password.value,
+      "claveAComparar": this.repeatPassword.value,
+      "rol": "Usuario"
     };
 
-    this._userService.registro(userRegistrado)
+    
+
+    this._userService.registro(userARegistrar)
       .subscribe(
         response => {
           console.log(response);
-          this.status = 'success';
-          this.userForm.reset();
         },
         error => {
-          this.status = 'error';
+          
           console.error(error);
+      
+          this.usernameAConfirmar="";
         }
-      );
+      );   
   }
-  onSubmitComercio(){
+
+  private registroEnCognito() {
+    this.user = {
+      password: this.password.value,
+      code: '',
+      rol: 1,
+      username: this.username.value,
+      'attributes': {
+        'email': this.email.value,
+        'name': this.nombre.value,
+      }
+    };
+    this.usernameAConfirmar = this.user.username;
+    this.cognitoService.signUp(this.user)
+      .then(() => {
+        console.log("exito");
+        this.status = 'success';
+        this.userForm.reset();
+      }).catch((error) => {
+        console.log(error);
+        this.status = 'error';
+        this.usernameAConfirmar = '';
+      });
+      
+  }
+
+  onSubmitComercio() {
     const userARegistrar = {
       nombreCompleto: this.nombreCompleto.value,
       nombreComercio: this.nombreComercio.value,
@@ -158,6 +214,7 @@ export class FormRegistroComponent {
           console.log(response);
           this.status = 'success';
           this.comercioForm.reset();
+
         },
         error => {
           this.status = 'error';
@@ -166,8 +223,8 @@ export class FormRegistroComponent {
       );
   }
 
-  mostrarRegistroDeComercio(){
-    this.mostrarRegistroComun= false;
+  mostrarRegistroDeComercio() {
+    this.mostrarRegistroComun = false;
     this.mostrarRegistroComercio = true;
   }
 
@@ -189,6 +246,9 @@ export class FormRegistroComponent {
 
   get repeatPassword(): AbstractControl {
     return this.userForm.get('repeatPassword') as FormControl;
+  }
+  get username(): AbstractControl {
+    return this.userForm.get('username') as FormControl;
   }
 
   //Datos de comercio
