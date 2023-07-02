@@ -25,6 +25,17 @@ import { API_URL } from '@core/config/url';
       const respuesta = this.http.post<Oferta>(API_URL + 'Oferta/recorrerMenos', filtro);
       return respuesta;
     }
+
+    guardarLista(body: any) {
+      this.http.post(API_URL + 'listadoOfertas/guardarListado', body).subscribe(
+        (response) => {
+          console.log('La petición se realizó correctamente.', response);
+        },
+        (error) => {
+          console.error('Error al realizar la petición:', error);
+        }
+      );
+    }
     
   
 }

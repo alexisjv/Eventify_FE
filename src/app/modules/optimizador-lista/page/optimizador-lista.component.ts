@@ -2,7 +2,7 @@ import { Component, OnInit, Output, ViewChild } from '@angular/core';
 import { Oferta } from 'src/app/core/models/oferta';
 import { OptimizadorListaService } from '../services/optimizador-lista.service';
 import { ListaPost } from '@core/models/listaPost';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '@shared/services/shared.service';
 import { ProductoCard } from '@core/models/productoCard';
 import { CardOfertaComponent } from '@shared/components/card-oferta/card-oferta.component';
@@ -70,10 +70,13 @@ export class OptimizadorListaComponent implements OnInit {
   divContenidoListaMenorRecorrido = false;
   divContenidoListaMasEconomico = true;
 
+  mensajeOfertas!: string;
+
 
   constructor(
     private listaCompraService: OptimizadorListaService,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
     private mapaService: SharedService
   ) {}
 
@@ -85,7 +88,7 @@ export class OptimizadorListaComponent implements OnInit {
    
     this.imagenLista = "mateoMejorOferta"
 
-    this.route.queryParams.subscribe((params) => {
+    this.activatedRoute.queryParams.subscribe((params) => {
       this.cantidadComensales = params['cantidadComensales'];
       this.comidasSeleccionadas = JSON.parse(params['comidas']);
       this.bebidasSeleccionadas = JSON.parse(params['bebidas']);
@@ -462,7 +465,7 @@ export class OptimizadorListaComponent implements OnInit {
   }
 
   compartirLista(lista: any) {
-    const mensajeOfertas = lista
+    this.mensajeOfertas = lista
       .map((oferta) => {
         return `
         Comercio: ${oferta.oferta.nombreComercio}
@@ -478,7 +481,7 @@ export class OptimizadorListaComponent implements OnInit {
       .join('');
 
     const mensajeWhatsApp = `¡Hola! Acá tenés tu lista de compras ♥ :
-  ${mensajeOfertas}`;
+  ${this.mensajeOfertas}`;
 
     const enlaceWhatsAppWeb = `https://web.whatsapp.com/send?text=${encodeURIComponent(
       mensajeWhatsApp
@@ -489,6 +492,7 @@ export class OptimizadorListaComponent implements OnInit {
   async abrirMapaRecorrido() {
     try {
       const enlaceMapa = await this.mapaService.obtenerLinkGps();
+
       window.open(enlaceMapa, '_blank');
     } catch (error) {
       console.error('Error al obtener el enlace de GPS:', error);
@@ -497,9 +501,31 @@ export class OptimizadorListaComponent implements OnInit {
   }
   
 
-  guardarLista(lista){
+  guardarLista(lista: Oferta[], distancia: string) {
+    const body = {
+      idUsuario: 1,
+      idEvento: this.idEvento,
+      idBebidas: this.bebidasSeleccionadas,
+      idComidas: this.comidasSeleccionadas,
+      cantidadOfertas: lista.length,
+      total: 0,
+      urlRecorrido: this.urlRecorrido,
+      mensajeOfertas:this.mensajeOfertas,
+      distanciaARecorrer: distancia,
+      ofertas: lista.map((oferta) => ({
+        nombreProducto: oferta.oferta.nombreProducto,
+        idPublicacion: oferta.oferta.idPublicacion,
+        precio: oferta.oferta.precio,
+        cantidad: oferta.cantidad,
+        subtotal: oferta.subtotal
+      }))
+    };
+  
+    this.listaCompraService.guardarLista(body);
     
+    this.router.navigate(['perfil-usuario']);
   }
+  
 
 
 
