@@ -5,7 +5,7 @@ import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
   styleUrls: ['./home-landing.component.scss']
 })
 export class HomeLandingComponent implements OnInit, OnDestroy {
-
+  public currentUser;
   constructor(private renderer: Renderer2) {}
 
   ngOnInit() {
@@ -14,6 +14,14 @@ export class HomeLandingComponent implements OnInit, OnDestroy {
   if (headerElemento) {
     this.renderer.setStyle(headerElemento, 'position', 'fixed');
   }
+    this.obtenerUsuarioActual();
+  }
+
+  private obtenerUsuarioActual() {
+    let user = sessionStorage.getItem("currentUser");
+    if (user !== null) {
+      this.currentUser = JSON.parse(user);
+    }
   }
 
   ngOnDestroy() {

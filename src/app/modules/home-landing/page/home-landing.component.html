@@ -5,6 +5,7 @@
     <img src="assets/images/logotipo-blanco.png" alt="" width="300px" />
     <!-- <h1>Eventify</h1> -->
     <h2>Tu asistente de compras para eventos: las mejores ofertas cerca tuyo.</h2>
+    <h2 *ngIf="currentUser" >Bienvenido/a {{currentUser.usuario}}</h2>
     <a routerLink="/consulta-evento" class="btn-info boton-comenzar">Comenzar</a>
   </div>
 </section>
