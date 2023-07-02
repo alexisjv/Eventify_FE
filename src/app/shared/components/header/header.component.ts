@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
     this.cognitoService.signOut()
     .then(() => {
       // La sesión se cerró correctamente
-      sessionStorage.removeItem('email');
+      sessionStorage.removeItem('currentUser');
       this.reloadPage();
     })
     .catch((error) => {

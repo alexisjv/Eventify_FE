@@ -11,6 +11,7 @@ import { CardOfertaComponent } from './components/card-oferta/card-oferta.compon
 import { CardComercioComponent } from './components/card-comercio/card-comercio.component';
 import { Amplify } from 'aws-amplify';
 import { EventService } from './services/event.service';
+import { CognitoService } from './services/cognito.service';
 
 
 
@@ -42,7 +43,8 @@ import { EventService } from './services/event.service';
   ],
   providers: [
     MapaComponent,
-    EventService
+    EventService,
+    CognitoService
   ]
 })
 export class SharedModule { }

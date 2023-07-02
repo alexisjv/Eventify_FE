@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { PageLoginComponent } from './page-login.component';
 
+
 @NgModule({
   declarations: [PageLoginComponent],
   imports: [

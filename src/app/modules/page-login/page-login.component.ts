@@ -8,8 +8,7 @@ import { EventService } from '@shared/services/event.service';
 @Component({
   selector: 'app-login',
   templateUrl: './page-login.component.html',
-  styleUrls: ['./page-login.component.scss'],
-  providers: [LoginService],
+  styleUrls: ['./page-login.component.scss']
 })
 export class PageLoginComponent {
   public userLogin: FormGroup;
@@ -31,11 +30,10 @@ export class PageLoginComponent {
   onLogin() {
 
     this.currentUser = this.email.value;
-    // this.getUserInfo(this.email.value, this.password.value);
+    this.getUserInfo(this.email.value, this.password.value);
     this.cognitoService.signIn(this.email.value, this.password.value).then(() => {
       this.status = 'success';
       this.userLogin.reset();
-      sessionStorage.setItem("email", this.currentUser);
       this.eventService.emitEvent('loginSuccess');
       this.router.navigate(['/'])
 
@@ -49,7 +47,7 @@ export class PageLoginComponent {
   getUserInfo(email: string, password: string) {
     this._loginService.login(email, password).subscribe(
       response => {
-        console.log(response);
+        sessionStorage.setItem("currentUser", JSON.stringify(response, null, 2));
       },
       error => {
         console.error(error);
