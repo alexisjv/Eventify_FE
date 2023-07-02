@@ -130,19 +130,12 @@
       <h1 class="text-center mt-2 font-weight-bold"><strong>Publicá tus ofertas y aumentá tus ventas</strong></h1>
 
       <form novalidate [formGroup]="comercioForm" (ngSubmit)="onSubmitComercio()">
-        <div class="form-group input-group">
-          <input name="nombreCompleto" class="form-control" formControlName="nombreCompleto"
-            placeholder="Nombre completo" type="text">
-        </div>
-        <div class="alert alert-danger mt-1" [hidden]="nombreCompleto.valid || nombreCompleto.pristine">
-          *El nombre es obligatorio
-        </div>
 
         <div class="form-group input-group mt-3">
-          <input name="nombreComercio" class="form-control" formControlName="nombreComercio"
-            placeholder="Nombre del comercio" type="text">
+          <input name="razonSocial" class="form-control" formControlName="razonSocial"
+            placeholder="Razón Social" type="text">
         </div>
-        <div class="alert alert-danger mt-1" [hidden]="nombreComercio.valid || nombreComercio.pristine">
+        <div class="alert alert-danger mt-1" [hidden]="razonSocial.valid || razonSocial.pristine">
           *El nombre del comercio es obligatorio
         </div>
         <div class="form-group input-group mt-3">
@@ -152,10 +145,8 @@
           *El cuit es obligatorio
         </div>
 
-        <div class="form-group input-group mt-3">
-          <input name="direccion" class=" direccion" formControlName="direccion" id="direccion" placeholder="Dirección"
-            ngModel #searchInput type="text">
-        </div>
+            <app-direccion-autocompletado (setAddress)="getAddress($event)" ></app-direccion-autocompletado >
+        
 
         <div class="alert alert-danger mt-1" [hidden]="direccion.valid || direccion.pristine">
           *La direccion es obligatoria

@@ -20,4 +20,14 @@ export class FormRegistroService {
         map(res => res)
       );
   }
+
+  registroComercio(comercioRegistrado): Observable<any> {
+    let params = JSON.stringify(comercioRegistrado);
+    let headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+    return this.http.post(API_URL + 'comercio/registro', params, {headers: headers})
+      .pipe(
+        map(res => res)
+      );
+  }
 }

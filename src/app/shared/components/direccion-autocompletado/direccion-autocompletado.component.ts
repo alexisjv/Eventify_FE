@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, Input, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
 
 declare var google: any;
 
@@ -7,35 +7,40 @@ declare var google: any;
   templateUrl: './direccion-autocompletado.component.html',
   styleUrls: ['./direccion-autocompletado.component.scss']
 })
-export class DireccionAutocompletadoComponent {
-  @ViewChild('searchInput', { static: false })
-  searchInput!: ElementRef;
-  searchText: string = '';
-  lat!: number;
-  lng!: number;
-  address!: string;
+export class DireccionAutocompletadoComponent implements OnInit, AfterViewInit{
+  @Input()
+  adressType!: string;
+  @Output() setAddress: EventEmitter<any> = new EventEmitter();
+  @ViewChild('addresstext') addresstext: any;
 
-  constructor() { }
+  autocompleteInput!: string;
+  queryWait!: boolean;
+
+  constructor() {
+  }
+
+  ngOnInit() {
+  }
 
   ngAfterViewInit() {
-    window.onload = () => {
-      const autocomplete = new google.maps.places.Autocomplete(this.searchInput.nativeElement);
-
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        if (place.geometry && place.geometry.location) {
-          const lat = place.geometry.location.lat();
-          const lng = place.geometry.location.lng();
-          const address = place.formatted_address;
-
-          console.log('Latitud:', lat);
-          console.log('Longitud:', lng);
-          console.log('Dirección:', address);
-          this.lat = place.geometry.location.lat();
-          this.lng = place.geometry.location.lng();
-          this.address = place.formatted_address ?? 'Dirección no disponible';
-        }
-      });
-    };
+      this.getPlaceAutocomplete();
   }
+
+  private getPlaceAutocomplete() {
+      const autocomplete = new google.maps.places.Autocomplete(this.addresstext.nativeElement,
+          {
+              componentRestrictions: { country: 'AR' },
+              types: [this.adressType] 
+          });
+      google.maps.event.addListener(autocomplete, 'place_changed', () => {
+          const place = autocomplete.getPlace();
+          this.invokeEvent(place);
+      });
+  }
+
+  invokeEvent(place: Object) {
+      this.setAddress.emit(place);
+      console.log("el lugar es: ", place)
+  }
+
 }

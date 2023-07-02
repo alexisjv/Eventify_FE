@@ -38,7 +38,8 @@ export class HeaderComponent implements OnInit, OnDestroy{
     .then(() => {
       // La sesión se cerró correctamente
       sessionStorage.removeItem('currentUser');
-      this.reloadPage();
+      this.router.navigate(['']);
+
     })
     .catch((error) => {
       // Ocurrió un error al cerrar la sesión
