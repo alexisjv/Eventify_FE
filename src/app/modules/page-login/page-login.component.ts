@@ -31,7 +31,7 @@ export class PageLoginComponent {
   onLogin() {
 
     this.currentUser = this.email.value;
-    this.getUserInfo(this.email.value, this.password.value);
+    // this.getUserInfo(this.email.value, this.password.value);
     this.cognitoService.signIn(this.email.value, this.password.value).then(() => {
       this.status = 'success';
       this.userLogin.reset();
