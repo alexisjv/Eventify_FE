@@ -41,5 +41,40 @@ export class PerfilUsuarioComponent implements OnInit{
     );
   }
 
+  async abrirMapaRecorrido() {
+    try {
+      const enlaceMapa = this.detalleLista.urlRecorrido
+
+      window.open(enlaceMapa, '_blank');
+    } catch (error) {
+      console.error('Error al obtener el enlace de GPS:', error);
+    }
+  }
+
+  compartirLista(lista: any) {
+    this.detalleLista.mensajeOfertas = lista
+      .map((oferta) => {
+        return `
+        Comercio: ${oferta.oferta.nombreComercio}
+        Localidad: ${oferta.oferta.localidad}
+        Producto: ${oferta.oferta.nombreProducto}
+        Marca: ${oferta.oferta.marca}
+        Precio unitario: $${oferta.oferta.precio}
+        Unidades: ${oferta.cantidad}
+        Subtotal: $${oferta.subtotal}
+        --------------------------
+    `;
+      })
+      .join('');
+
+    const mensajeWhatsApp = `¡Hola! Acá tenés tu lista de compras ♥ :
+  ${this.detalleLista.mensajeOfertas}`;
+
+    const enlaceWhatsAppWeb = `https://web.whatsapp.com/send?text=${encodeURIComponent(
+      mensajeWhatsApp
+    )}`;
+    window.open(enlaceWhatsAppWeb, '_blank');
+  }
+
 
 }

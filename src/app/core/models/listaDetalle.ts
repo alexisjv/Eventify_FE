@@ -11,4 +11,6 @@ export interface ListaDetalle {
     ofertas: Oferta[];
     totalListado: number;
     fechaCreacion: string;
+    urlRecorrido: string;
+    mensajeOfertas: string;
   }
