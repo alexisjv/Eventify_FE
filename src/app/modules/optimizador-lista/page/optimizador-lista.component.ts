@@ -170,6 +170,8 @@ export class OptimizadorListaComponent implements OnInit {
     this.isOpenDiv2 = false;
     this.listaElegidaMasEconomico = true;
     this.listaElegidaMenorRecorrido = false;
+    this.actualizarDatosMasEconomico();
+
     this.obtenerRutaMasEconomico();
     this.imagenLista = 'mateoMejorOferta';
   }
@@ -336,6 +338,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.calcularTotalMasEconomico();
     this.calcularCantidadComerciosMasEconomico();
     this.calcularCantidadDeOfertasMasEconomico();
+    this.guardarMensajeOfertas(this.listaOfertasElegidasMasEconomico);
   }
 
   cambiarMarcaNuevo(index: number) {
@@ -353,6 +356,7 @@ export class OptimizadorListaComponent implements OnInit {
   actualizarDatosMenorRecorrido() {
     this.calcularCantidadComerciosMenorRecorrido();
     this.calcularCantidadDeOfertasMenorRecorrido();
+    this.guardarMensajeOfertas(this.aListaSeleccionComercio);
   }
 
   calcularCantidadDeOfertasMasEconomico() {
@@ -464,22 +468,24 @@ export class OptimizadorListaComponent implements OnInit {
       });
   }
 
-  compartirLista(lista: any) {
+  guardarMensajeOfertas(lista: any){
     this.mensajeOfertas = lista
-      .map((oferta) => {
-        return `
-        Comercio: ${oferta.oferta.nombreComercio}
-        Localidad: ${oferta.oferta.localidad}
-        Producto: ${oferta.oferta.nombreProducto}
-        Marca: ${oferta.oferta.marca}
-        Precio unitario: $${oferta.oferta.precio}
-        Unidades: ${oferta.cantidad}
-        Subtotal: $${oferta.subtotal}
-        --------------------------
-    `;
-      })
-      .join('');
+    .map((oferta) => {
+      return `
+      Comercio: ${oferta.oferta.nombreComercio}
+      Localidad: ${oferta.oferta.localidad}
+      Producto: ${oferta.oferta.nombreProducto}
+      Marca: ${oferta.oferta.marca}
+      Precio unitario: $${oferta.oferta.precio}
+      Unidades: ${oferta.cantidad}
+      Subtotal: $${oferta.subtotal}
+      --------------------------
+  `;
+    })
+    .join('');
+  }
 
+  compartirLista() {
     const mensajeWhatsApp = `¡Hola! Acá tenés tu lista de compras ♥ :
   ${this.mensajeOfertas}`;
 
@@ -511,7 +517,7 @@ export class OptimizadorListaComponent implements OnInit {
       total: 0,
       urlRecorrido: this.urlRecorrido,
       mensajeOfertas:this.mensajeOfertas,
-      distanciaARecorrer: distancia,
+      distanciaARecorrer: parseFloat(distancia),
       ofertas: lista.map((oferta) => ({
         nombreProducto: oferta.oferta.nombreProducto,
         idPublicacion: oferta.oferta.idPublicacion,

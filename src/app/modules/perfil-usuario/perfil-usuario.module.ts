@@ -3,6 +3,7 @@ import { SharedModule } from '@shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { PerfilUsuarioComponent } from './perfil-usuario.component';
 import { CommonModule } from '@angular/common';
+import { QRCodeModule } from 'angularx-qrcode';
 
 
 
@@ -16,7 +17,8 @@ import { CommonModule } from '@angular/common';
   imports: [
     SharedModule,
     RouterModule,
-    CommonModule
+    CommonModule,
+    QRCodeModule
   ]
 })
 export class PerfilUsuarioModule { }
