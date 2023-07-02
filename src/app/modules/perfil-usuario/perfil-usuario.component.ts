@@ -6,19 +6,27 @@ import { ListaDetalle } from '@core/models/listaDetalle';
 @Component({
   selector: 'app-perfil-usuario',
   templateUrl: './perfil-usuario.component.html',
-  styleUrls: ['./perfil-usuario.component.scss']
+  styleUrls: ['./perfil-usuario.component.scss'],
 })
-export class PerfilUsuarioComponent implements OnInit{
-
+export class PerfilUsuarioComponent implements OnInit {
   listasGuardadas: ListaGuardada[] = [];
   detalleLista!: ListaDetalle;
-  
-  constructor(
-    private perfilService: PerfilUsuarioService
-  ) {}
+  currentUser!: any;
+
+  constructor(private perfilService: PerfilUsuarioService) {}
 
   ngOnInit(): void {
-    this.obtenerListasGuardadas(1);
+    this.obtenerUsuarioActual();
+
+    this.obtenerListasGuardadas(this.currentUser.id);
+    console.log("el usuario es: ", this.currentUser);
+  }
+
+  private obtenerUsuarioActual() {
+    let user = sessionStorage.getItem('currentUser');
+    if (user !== null) {
+      this.currentUser = JSON.parse(user);
+    }
   }
 
   obtenerListasGuardadas(idUsuario: number) {
@@ -31,7 +39,7 @@ export class PerfilUsuarioComponent implements OnInit{
     );
   }
 
-  verDetalleLista(idListado, idUsuario){
+  verDetalleLista(idListado, idUsuario) {
     this.perfilService.verDetalleLista(idListado, idUsuario).subscribe(
       (detalleLista: ListaDetalle) => {
         this.detalleLista = detalleLista;
@@ -43,7 +51,7 @@ export class PerfilUsuarioComponent implements OnInit{
 
   async abrirMapaRecorrido() {
     try {
-      const enlaceMapa = this.detalleLista.urlRecorrido
+      const enlaceMapa = this.detalleLista.urlRecorrido;
 
       window.open(enlaceMapa, '_blank');
     } catch (error) {
@@ -53,7 +61,7 @@ export class PerfilUsuarioComponent implements OnInit{
 
   compartirLista(lista: ListaDetalle) {
     let mensajeOfertas = '';
-  
+
     for (const oferta of lista.ofertas) {
       mensajeOfertas += `
         Comercio: ${oferta.oferta.nombreComercio}
@@ -66,16 +74,13 @@ export class PerfilUsuarioComponent implements OnInit{
         --------------------------
       `;
     }
-  
+
     const mensajeWhatsApp = `¡Hola! Acá tenés tu lista de compras ♥ :
       ${mensajeOfertas}`;
-  
+
     const enlaceWhatsAppWeb = `https://web.whatsapp.com/send?text=${encodeURIComponent(
       mensajeWhatsApp
     )}`;
     window.open(enlaceWhatsAppWeb, '_blank');
   }
-  
-
-
 }

@@ -71,7 +71,7 @@ export class OptimizadorListaComponent implements OnInit {
   divContenidoListaMasEconomico = true;
 
   mensajeOfertas!: string;
-
+  currentUser!: any;
 
   constructor(
     private listaCompraService: OptimizadorListaService,
@@ -508,8 +508,14 @@ export class OptimizadorListaComponent implements OnInit {
   
 
   guardarLista(lista: Oferta[], distancia: string) {
+
+    let user = sessionStorage.getItem('currentUser');
+    if (user !== null) {
+      this.currentUser = JSON.parse(user);
+    }
+
     const body = {
-      idUsuario: 1,
+      idUsuario: this.currentUser.id,
       idEvento: this.idEvento,
       idBebidas: this.bebidasSeleccionadas,
       idComidas: this.comidasSeleccionadas,

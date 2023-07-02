@@ -26,10 +26,6 @@ function passwordMatchValidatorComercio(): ValidatorFn {
   templateUrl: './form-registro.component.html',
   styleUrls: ['./form-registro.component.scss'],
   providers: [FormRegistroService],
-  template: `
-  <div class="form-group input-group mt-3">
-    <input name="direccion" class=" direccion" formControlName="direccion" id="direccion" placeholder="Dirección" ngModel #searchInput type="text">
-  </div>`
 })
 export class FormRegistroComponent {
 
@@ -43,6 +39,7 @@ export class FormRegistroComponent {
   searchText: string = '';
   lat!: number;
   lng!: number;
+  localidad!: string;
   address!: string;
   @ViewChild('searchInput', { static: true, read: ElementRef }) searchInput!: ElementRef;
   user!: IUser;
@@ -50,14 +47,10 @@ export class FormRegistroComponent {
 
 
   constructor(
-    private _userService: FormRegistroService, private cognitoService: CognitoService
+    private _registroService: FormRegistroService, private cognitoService: CognitoService
   ) {
     this.comercioForm = new FormGroup({
-      nombreCompleto: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(30)
-      ]),
-      nombreComercio: new FormControl(null, [
+      razonSocial: new FormControl(null, [
         Validators.required,
         Validators.maxLength(30)
       ]),
@@ -74,7 +67,7 @@ export class FormRegistroComponent {
         Validators.required,
         Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/)
       ]),
-      direccion: new FormControl(null, [
+      direccion: new FormControl(this.address, [
         Validators.required
       ])
     }, { validators: passwordMatchValidatorComercio() });
@@ -107,29 +100,6 @@ export class FormRegistroComponent {
   }
 
 
-  // ngAfterViewInit() {
-  //   window.onload = () => {
-
-  //     const autocomplete = new google.maps.places.Autocomplete(this.searchInput.nativeElement);
-
-  //     autocomplete.addListener('place_changed', () => {
-  //       const place = autocomplete.getPlace();
-  //       if (place.geometry && place.geometry.location) {
-  //         const lat = place.geometry.location.lat();
-  //         const lng = place.geometry.location.lng();
-  //         const address = place.formatted_address;
-
-  //         console.log('Latitud:', lat);
-  //         console.log('Longitud:', lng);
-  //         console.log('Dirección:', address);
-  //         this.lat = place.geometry.location.lat();
-  //         this.lng = place.geometry.location.lng();
-  //         this.address = place.formatted_address ?? 'Dirección no disponible';
-  //       }
-  //     });
-  //   };
-  // }
-
 
   onSubmitUser() {
     this.registroEnServicio() 
@@ -160,7 +130,7 @@ export class FormRegistroComponent {
 
     
 
-    this._userService.registro(userARegistrar)
+    this._registroService.registro(userARegistrar)
       .subscribe(
         response => {
           console.log(response);
@@ -200,15 +170,23 @@ export class FormRegistroComponent {
   }
 
   onSubmitComercio() {
-    const userARegistrar = {
-      nombreCompleto: this.nombreCompleto.value,
-      nombreComercio: this.nombreComercio.value,
-      email: this.email.value,
-      password: this.password.value,
-      repeatPassword: this.repeatPassword.value
+    const comercioARegistrar = {
+      razonSocial: this.razonSocial.value,
+      cuit: this.cuit.value,
+      direccion: this.direccion.value,
+      localidad: this.localidad,
+      latitud: this.lat,
+      longitud: this.lng,
+      email: this.emailComercio.value,
+      clave: this.passwordComercio.value,
+      claveAComparar: this.repeatPasswordComercio.value,
+      imagen: 'asdasdasd',
+      rol: "Comercio",
     };
-
-    this._userService.registro(userARegistrar)
+    
+    console.log(comercioARegistrar);
+    
+    this._registroService.registroComercio(comercioARegistrar)
       .subscribe(
         response => {
           console.log(response);
@@ -261,13 +239,10 @@ export class FormRegistroComponent {
   }
 
   get repeatPasswordComercio(): AbstractControl {
-    return this.comercioForm.get('repeatPassword') as FormControl;
+    return this.comercioForm.get('repeatPasswordComercio') as FormControl;
   }
-  get nombreCompleto(): AbstractControl {
-    return this.comercioForm.get('nombreCompleto') as FormControl;
-  }
-  get nombreComercio(): AbstractControl {
-    return this.comercioForm.get('nombreComercio') as FormControl;
+  get razonSocial(): AbstractControl {
+    return this.comercioForm.get('razonSocial') as FormControl;
   }
 
   get cuit(): AbstractControl {
@@ -278,22 +253,14 @@ export class FormRegistroComponent {
   }
 
 
+  getAddress(place: object) {
+    this.direccion.setValue(place['name']);
+    this.lat = place['geometry']['location'].lat();
+    this.lng = place['geometry']['location'].lng();
+    this.localidad = place['address_components'][2]['long_name'];
 }
 
+  
+  
+}
 
-// onSubmit(){
-//   console.log(this.userForm);
-
-//   this._userService.registro(this.userForm).subscribe(
-//     response => {
-//       if (response.userForm && response.userForm._id){
-//         this.status = 'success';
-//         this.userForm.reset();
-//       }
-//         this.status = 'error';
-//     },
-//     error => {
-//       console.log(<any>error)
-//     }
-//   )
-// }
