@@ -30,6 +30,8 @@ function passwordMatchValidatorComercio(): ValidatorFn {
 export class FormRegistroComponent {
 
   public userForm: FormGroup;
+  cuitControl: FormControl = new FormControl();
+
   code !: string;
   public status: string = '';
   public statusCode: string ='';
@@ -44,24 +46,25 @@ export class FormRegistroComponent {
   @ViewChild('searchInput', { static: true, read: ElementRef }) searchInput!: ElementRef;
   user!: IUser;
   usernameAConfirmar!: string;
+  cuitValido: boolean = false;
+  cuit!: string;
+  razonSocial!: string;
+  bMostrarLoading: boolean = false;
 
 
   constructor(
     private _registroService: FormRegistroService, private cognitoService: CognitoService
   ) {
     this.comercioForm = new FormGroup({
-      razonSocial: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(30)
-      ]),
       emailComercio: new FormControl(null, [Validators.required, Validators.email]),
+      usernameComercio: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(20),
+        Validators.pattern('^[a-z0-9_-]{8,15}$')
+      ]),
       passwordComercio: new FormControl(null, [
         Validators.required,
         Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/)
-      ]),
-      cuit: new FormControl(null, [
-        Validators.required,
-
       ]),
       repeatPasswordComercio: new FormControl(null, [
         Validators.required,
@@ -118,6 +121,19 @@ export class FormRegistroComponent {
     });
   }
 
+  onSubmitVerificationCodeComercio(){
+    let email = this.usernameAConfirmar;
+    let code = this.code;
+    this.cognitoService.confirmSignUp(email, code).then(() => {
+      this.statusCode = "success"
+      console.log("exito");
+      this.registroComercioEnServicio();
+    }).catch((error) => {
+      console.log(error);
+      this.statusCode = "error"
+    });
+  }
+
   private registroEnServicio(){
     const userARegistrar = {
       "nombre": this.nombre.value,
@@ -152,7 +168,63 @@ export class FormRegistroComponent {
       username: this.username.value,
       'attributes': {
         'email': this.email.value,
-        'name': this.nombre.value,
+        'name': this.nombre.value
+      }
+    };
+    this.usernameAConfirmar = this.user.username;
+    this.cognitoService.signUp(this.user)
+      .then(() => {
+        console.log("exito");
+        this.status = 'success';
+        this.userForm.reset();
+      }).catch((error) => {
+        console.log(error);
+        this.status = 'error';
+        this.usernameAConfirmar = '';
+      });
+      
+  }
+
+  private registroComercioEnServicio(){
+    const comercioARegistrar = {
+      razonSocial: this.razonSocial,
+      cuit: this.cuit,
+      direccion: this.direccion.value,
+      localidad: this.localidad,
+      latitud: this.lat,
+      longitud: this.lng,
+      email: this.emailComercio.value,
+      clave: this.passwordComercio.value,
+      claveAComparar: this.repeatPasswordComercio.value,
+      imagen: 'asdasdasd',
+      rol: "Comercio",
+    };
+
+    console.log(comercioARegistrar);
+    
+    this._registroService.registroComercio(comercioARegistrar)
+      .subscribe(
+        response => {
+          console.log(response);
+          this.status = 'success';
+          this.comercioForm.reset();
+        },
+        error => {
+          this.status = 'error';
+          console.error(error);
+        }
+      );
+  }
+
+  private registroComercioEnCognito() {
+    this.user = {
+      password: this.passwordComercio.value,
+      code: '',
+      rol: 2,
+      username: this.usernameComercio.value,
+      'attributes': {
+        'email': this.emailComercio.value,
+        'name': this.razonSocial
       }
     };
     this.usernameAConfirmar = this.user.username;
@@ -170,35 +242,9 @@ export class FormRegistroComponent {
   }
 
   onSubmitComercio() {
-    const comercioARegistrar = {
-      razonSocial: this.razonSocial.value,
-      cuit: this.cuit.value,
-      direccion: this.direccion.value,
-      localidad: this.localidad,
-      latitud: this.lat,
-      longitud: this.lng,
-      email: this.emailComercio.value,
-      clave: this.passwordComercio.value,
-      claveAComparar: this.repeatPasswordComercio.value,
-      imagen: 'asdasdasd',
-      rol: "Comercio",
-    };
-    
-    console.log(comercioARegistrar);
-    
-    this._registroService.registroComercio(comercioARegistrar)
-      .subscribe(
-        response => {
-          console.log(response);
-          this.status = 'success';
-          this.comercioForm.reset();
 
-        },
-        error => {
-          this.status = 'error';
-          console.error(error);
-        }
-      );
+    this.registroComercioEnCognito();
+    
   }
 
   mostrarRegistroDeComercio() {
@@ -241,15 +287,12 @@ export class FormRegistroComponent {
   get repeatPasswordComercio(): AbstractControl {
     return this.comercioForm.get('repeatPasswordComercio') as FormControl;
   }
-  get razonSocial(): AbstractControl {
-    return this.comercioForm.get('razonSocial') as FormControl;
-  }
 
-  get cuit(): AbstractControl {
-    return this.comercioForm.get('cuit') as FormControl;
-  }
   get direccion(): AbstractControl {
     return this.comercioForm.get('direccion') as FormControl;
+  }
+  get usernameComercio(): AbstractControl {
+    return this.comercioForm.get('usernameComercio') as FormControl;
   }
 
 
@@ -260,6 +303,27 @@ export class FormRegistroComponent {
     this.localidad = place['address_components'][2]['long_name'];
 }
 
+verificarCuit() {
+  this.bMostrarLoading = true;
+  this._registroService.verificarCuit(this.cuit).subscribe(
+    (respuesta: any) => {
+      this.cuitValido = true;
+      const mensaje = respuesta.message;
+      const inicioRazonSocial = mensaje.indexOf(":") + 14;
+      this.razonSocial = mensaje.substr(inicioRazonSocial);
+      console.log(this.razonSocial);
+    },
+    (error) => {
+      this.cuitValido = false;
+      this.bMostrarLoading = false;
+      console.log(error.message);
+    }
+  );
+}
+
+guardarCuit(event: any) {
+  this.cuit = event.target.value;
+}
   
   
 }
