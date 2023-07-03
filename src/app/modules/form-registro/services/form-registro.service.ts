@@ -30,4 +30,8 @@ export class FormRegistroService {
         map(res => res)
       );
   }
+
+   verificarCuit(cuit: string): Observable<any> {
+    return this.http.get(API_URL + `verificadorComercio/verificarComercio?cuit=${cuit}`);
+  } 
 }

@@ -1,10 +1,20 @@
-<section class="d-flex justify-content-center registro-usuario contenedor align-items-center"
-  *ngIf="mostrarRegistroComun">
 
+<!-- Pantalla registro usuario
+ -->
+<section
+  class="d-flex justify-content-center registro-usuario contenedor align-items-center"
+  *ngIf="mostrarRegistroComun"
+>
   <div class="card col-md-5 col-sm-8 d-flex align-items-center m-4 borde">
-    <article class="card-body mx-auto align-items-center" style="max-width: 500px;" *ngIf="status !== 'success'">
-      <h1 class="text-center mt-2 font-weight-bold"><strong>Disfrutá de los beneficios de Eventify</strong></h1>
-      <h4 class="card-title mt-3 text-center ">Completá tus datos</h4>
+    <article
+      class="card-body mx-auto align-items-center"
+      style="max-width: 500px"
+      *ngIf="status !== 'success'"
+    >
+      <h1 class="text-center mt-2 font-weight-bold">
+        <strong>Disfrutá de los beneficios de Eventify</strong>
+      </h1>
+      <h4 class="card-title mt-3 text-center">Completá tus datos</h4>
       <!-- <p>
           <a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login via Twitter</a>
           <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook</a>
@@ -13,33 +23,68 @@
           <span class="bg-light">OR</span>
       </p> -->
       <form novalidate (ngSubmit)="onSubmitUser()" [formGroup]="userForm">
-        <div class="form-group input-group ">
-          <input name="nombre" class="form-control" formControlName="nombre" placeholder="Ingrese su nombre"
-            type="text">
-        </div> <!-- form-group// -->
-        <div class="alert alert-danger mt-1" [hidden]="nombre.valid || nombre.pristine">
+        <div class="form-group input-group">
+          <input
+            name="nombre"
+            class="form-control"
+            formControlName="nombre"
+            placeholder="Ingrese su nombre"
+            type="text"
+          />
+        </div>
+        <!-- form-group// -->
+        <div
+          class="alert alert-danger mt-1"
+          [hidden]="nombre.valid || nombre.pristine"
+        >
           *El nombre es obligatorio
         </div>
 
         <div class="form-group input-group mt-3">
-          <input name="apellido" class="form-control" formControlName="apellido" placeholder="Ingrese su apellido"
-            type="text">
+          <input
+            name="apellido"
+            class="form-control"
+            formControlName="apellido"
+            placeholder="Ingrese su apellido"
+            type="text"
+          />
         </div>
-        <div class="alert alert-danger mt-1" [hidden]="apellido.valid || apellido.pristine">
+        <div
+          class="alert alert-danger mt-1"
+          [hidden]="apellido.valid || apellido.pristine"
+        >
           *El apellido es obligatorio
         </div>
         <div class="form-group input-group mt-3">
-          <input name="username" class="form-control" formControlName="username" placeholder="Ingrese un nombre de usuario"
-            type="text">
+          <input
+            name="username"
+            class="form-control"
+            formControlName="username"
+            placeholder="Ingrese un nombre de usuario"
+            type="text"
+          />
         </div>
-        <div class="alert alert-danger mt-1" [hidden]="username.valid || username.pristine">
+        <div
+          class="alert alert-danger mt-1"
+          [hidden]="username.valid || username.pristine"
+        >
           *El nombre de usuario es obligatorio
         </div>
 
         <div class="form-group input-group mt-3">
-          <input name="email" class="form-control" formControlName="email" placeholder="Email" type="email">
-        </div> <!-- form-group// -->
-        <div class="alert alert-danger mt-1" [hidden]="email.valid || email.untouched">
+          <input
+            name="email"
+            class="form-control"
+            formControlName="email"
+            placeholder="Email"
+            type="email"
+          />
+        </div>
+        <!-- form-group// -->
+        <div
+          class="alert alert-danger mt-1"
+          [hidden]="email.valid || email.untouched"
+        >
           <span *ngIf="email.errors?.['required']">
             *El email es obligatorio
           </span>
@@ -50,113 +95,281 @@
         </div>
 
         <div class="form-group input-group mt-3">
-          <input name="password" class="form-control" formControlName="password" placeholder="Crea una contraseña"
-            type="password" tooltip="Debe tener entre 8-20 caracteres, contener letras, números y un carácter especial."
-            tooltipPlacement="right">
+          <input
+            name="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="Crea una contraseña"
+            type="password"
+            tooltip="Debe tener entre 8-20 caracteres, contener letras, números y un carácter especial."
+            tooltipPlacement="right"
+          />
         </div>
 
-        <div class="alert alert-danger mt-1" [hidden]="password.valid || password.untouched">
+        <div
+          class="alert alert-danger mt-1"
+          [hidden]="password.valid || password.untouched"
+        >
           *La contraseña no tiene el formato solicitado
         </div>
 
-        <div id="passwordHelpBlock" class=" form-text">
+        <div id="passwordHelpBlock" class="form-text">
           Mínimo de 8 caracteres, 1 letra, 1 número, 1 carácter especial.
-        </div> <!-- form-group// -->
+        </div>
+        <!-- form-group// -->
 
         <div class="form-group input-group mt-3">
-          <input name="repeatPassword" class="form-control" formControlName="repeatPassword"
-            placeholder="Repetí la contraseña" type="password">
-        </div> <!-- form-group// -->
-        <div *ngIf="userForm.hasError('mismatch') && (userForm.dirty || userForm.touched)"
-          class="error-message form-text">
+          <input
+            name="repeatPassword"
+            class="form-control"
+            formControlName="repeatPassword"
+            placeholder="Repetí la contraseña"
+            type="password"
+          />
+        </div>
+        <!-- form-group// -->
+        <div
+          *ngIf="
+            userForm.hasError('mismatch') &&
+            (userForm.dirty || userForm.touched)
+          "
+          class="error-message form-text"
+        >
           Las contraseñas no coinciden
         </div>
 
-        <div class="form-group  mt-3 d-flex flex-column align-items-center">
-          <button type="submit" class="btn btn-info text-light btn-block w-50 h-50 borde" [disabled]="userForm.invalid">
-            Registrarme </button>
-          <button class="btn btn-outline-info btn-block mt-2 w-50 h-50 borde" (click)="mostrarRegistroDeComercio()">Soy
-            comercio</button>
-        </div> <!-- form-group// -->
+        <div class="form-group mt-3 d-flex flex-column align-items-center">
+          <button
+            type="submit"
+            class="btn btn-info text-light btn-block w-50 h-50 borde"
+            [disabled]="userForm.invalid"
+          >
+            Registrarme
+          </button>
+          <button
+            class="btn btn-outline-info btn-block mt-2 w-50 h-50 borde"
+            (click)="mostrarRegistroDeComercio()"
+          >
+            Soy comercio
+          </button>
+        </div>
+        <!-- form-group// -->
 
-        <p class="text-center mt-3">Ya tenés una cuenta? <a class="text-decoration-none" href="login">Iniciar sesión</a>
+        <p class="text-center mt-3">
+          Ya tenés una cuenta?
+          <a class="text-decoration-none" href="login">Iniciar sesión</a>
         </p>
 
         <div class="alert alert-danger" *ngIf="status == 'error'">
           No se ha podido completar el registo. Intente nuevamente.
         </div>
       </form>
-
-
     </article>
     <!-- status == 'true' -->
-    <article class="card-body mx-auto align-items-center" style="max-width: 500px;" *ngIf="status == 'success'">
-      <h1 class="text-center mt-2 font-weight-bold"><strong>Registro exitoso</strong></h1>
-      <div class="alert alert-success d-flex flex-column justify-content-center align-items-center" *ngIf="statusCode !== 'success'" role="alert">
+    <article
+      class="card-body mx-auto align-items-center"
+      style="max-width: 500px"
+      *ngIf="status == 'success'"
+    >
+      <h1 class="text-center mt-2 font-weight-bold">
+        <strong>Registro exitoso</strong>
+      </h1>
+      <div
+        class="alert alert-success d-flex flex-column justify-content-center align-items-center"
+        *ngIf="statusCode !== 'success'"
+        role="alert"
+      >
         <i class="bi bi-envelope icon-email"></i>
-        <p class="text-center">Te enviamos un código de confirmación a tu correo para verificar tu cuenta</p>
-        <form class="d-flex justify-content-center flex-column" (ngSubmit)="onSubmitVerificationCode">
-        <div class="form-group input-group justify-content-center">
-          <input type="text" name="code" [(ngModel)]="code" placeholder="Ingrese el código de verificación" >
+        <p class="text-center">
+          Te enviamos un código de confirmación a tu correo para verificar tu
+          cuenta
+        </p>
+        <form
+          class="d-flex justify-content-center flex-column"
+          (ngSubmit)="(onSubmitVerificationCode)"
+        >
+          <div class="form-group input-group justify-content-center">
+            <input
+              type="text"
+              name="code"
+              [(ngModel)]="code"
+              placeholder="Ingrese el código de verificación"
+            />
+          </div>
+          <button
+            type="submit"
+            (click)="onSubmitVerificationCode()"
+            class="btn btn-info text-light btn-block mt-3 borde"
+          >
+            Confirmar código
+          </button>
+        </form>
+        <div>
+          <p class="text-center mt-3">
+            No te llegó el email?
+            <a class="text-decoration-none" href="">Hacé click aquí</a>
+          </p>
         </div>
-        <button type="submit" (click)="onSubmitVerificationCode()" class="btn btn-info text-light btn-block mt-3 borde" >
-          Confirmar código </button>
-      </form>
-      <div>
-        <p class="text-center mt-3">No te llegó el email? <a class="text-decoration-none" href="">Hacé click aquí</a>
       </div>
-      </div>
-      
-      <div class="alert alert-success" *ngIf="statusCode == 'success'" >
-        <p class="text-center mt-3">Tu correo electronico se confirmó exitosamente</p>
+
+      <div class="alert alert-success" *ngIf="statusCode == 'success'">
+        <p class="text-center mt-3">
+          Tu correo electronico se confirmó exitosamente
+        </p>
         <a class="text-decoration-none" href="login">Iniciar sesión</a>
       </div>
-      <div class="alert alert-danger" *ngIf="statusCode == 'error'" >
-        <p class="text-center mt-3">Tu correo electronico no se pudo verificar. Vuelve a realizar el registro </p>
+      <div class="alert alert-danger" *ngIf="statusCode == 'error'">
+        <p class="text-center mt-3">
+          Tu correo electronico no se pudo verificar. Vuelve a realizar el
+          registro
+        </p>
         <a class="text-decoration-none" href="form-registro">Registrarme</a>
       </div>
     </article>
   </div>
   <!--  -->
-
-
 </section>
 
+<!-- Pantalla de ingreso de cuit
+ -->
 
-<section class="d-flex  justify-content-center registro-comercio contenedor align-items-center"
-  *ngIf="mostrarRegistroComercio">
+<section
+  class="d-flex justify-content-center registro-comercio contenedor align-items-center"
+  *ngIf="!cuitValido && !bMostrarLoading"
+>
   <div class="card col-md-5 col-sm-8 d-flex align-items-center mb-2">
-    <article class="card-body mx-auto p-3" style="max-width: 500px;">
-      <h1 class="text-center mt-2 font-weight-bold"><strong>Publicá tus ofertas y aumentá tus ventas</strong></h1>
+    <article class="card-body mx-auto p-3" style="max-width: 500px">
+      <h1 class="text-center mt-2 font-weight-bold">
+        <strong>Publicá tus ofertas y aumentá tus ventas</strong>
+      </h1>
 
-      <form novalidate [formGroup]="comercioForm" (ngSubmit)="onSubmitComercio()">
+      <div class="form-group input-group mt-3">
+        <input
+          name="cuit"
+          class="form-control"
+          formControlName="cuit"
+          placeholder="CUIT"
+          type="text"
+          mask="00-00-00"
+          (input)="guardarCuit($event)"
+        />
+      </div>
+      <div id="passwordHelpBlock" class="form-text">
+        Sólo el número, sin guiones.
+      </div>
+
+      <div
+        class="form-group mt-3 d-flex justify-content-center"
+        *ngIf="!cuitValido"
+      >
+        <button
+          class="btn btn-info text-light btn-block borde"
+          (click)="verificarCuit()"
+        >
+          Verificar
+        </button>
+      </div>
+
+      <p class="text-center mt-3">
+        Ya tenés una cuenta?
+        <a class="text-decoration-none" href="login">Iniciar sesión</a>
+      </p>
+    </article>
+  </div>
+</section>
+
+<!-- Pantalla de consultando cuit... 
+ -->
+<section
+  class="d-flex justify-content-center registro-comercio contenedor align-items-center"
+  *ngIf="!cuitValido && bMostrarLoading"
+>
+  <div class="card col-md-5 col-sm-8 d-flex align-items-center mb-2">
+    <article class="card-body mx-auto p-3" style="max-width: 500px">
+      <h1 class="text-center mt-2 font-weight-bold">
+        <strong
+          >Estamos validando el cuit. Esto puede tardar unos segundos</strong
+        >
+      </h1>
+
+      <div class="text-center">
+        <img src="https://www.cuitonline.com/images/logo-home.png" alt="" />
+      </div>
+
+      <div class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- Pantalla registro comercio
+ -->
+<section
+  class="d-flex justify-content-center registro-comercio contenedor align-items-center"
+  *ngIf="mostrarRegistroComercio && cuitValido"
+>
+  <div class="card col-md-5 col-sm-8 d-flex align-items-center mb-2">
+    <article class="card-body mx-auto p-3" style="max-width: 500px" *ngIf="status === ''">
+      <h1 class="text-center mt-2 font-weight-bold">
+        <strong>Publicá tus ofertas y aumentá tus ventas</strong>
+      </h1>
+
+      <form
+        novalidate
+        [formGroup]="comercioForm"
+        (ngSubmit)="onSubmitComercio()"
+      >
+        <div class="form-group input-group mt-3">
+          <input
+            placeholder="{{ razonSocial }}"
+            class="form-control"
+            [disabled]="true"
+          />
+        </div>
 
         <div class="form-group input-group mt-3">
-          <input name="razonSocial" class="form-control" formControlName="razonSocial"
-            placeholder="Razón Social" type="text">
+          <input
+            name="usernameComercio"
+            class="form-control"
+            formControlName="usernameComercio"
+            placeholder="Ingrese un nombre de usuario"
+            type="text"
+          />
         </div>
-        <div class="alert alert-danger mt-1" [hidden]="razonSocial.valid || razonSocial.pristine">
-          *El nombre del comercio es obligatorio
-        </div>
-        <div class="form-group input-group mt-3">
-          <input name="cuit" class="form-control" formControlName="cuit" placeholder="CUIT" type="text" mask="00-00-00">
-        </div>
-        <div class="alert alert-danger mt-1" [hidden]="cuit.valid || cuit.pristine">
-          *El cuit es obligatorio
+        <div
+          class="alert alert-danger mt-1"
+          [hidden]="usernameComercio.valid || usernameComercio.pristine"
+        >
+          *El usuario de comercio es obligatorio
         </div>
 
-            <app-direccion-autocompletado (setAddress)="getAddress($event)" ></app-direccion-autocompletado >
-        
+        <app-direccion-autocompletado
+          (setAddress)="getAddress($event)"
+        ></app-direccion-autocompletado>
 
-        <div class="alert alert-danger mt-1" [hidden]="direccion.valid || direccion.pristine">
+        <div
+          class="alert alert-danger mt-1"
+          [hidden]="direccion.valid || direccion.pristine"
+        >
           *La direccion es obligatoria
         </div>
 
         <div class="form-group input-group mt-3">
-          <input name="emailComercio" class="form-control" formControlName="emailComercio" placeholder="Email"
-            type="email">
+          <input
+            name="emailComercio"
+            class="form-control"
+            formControlName="emailComercio"
+            placeholder="Email"
+            type="email"
+          />
         </div>
-        <div class="alert alert-danger mt-1" [hidden]="emailComercio.valid || emailComercio.untouched">
+        <div
+          class="alert alert-danger mt-1"
+          [hidden]="emailComercio.valid || emailComercio.untouched"
+        >
           <span *ngIf="emailComercio.errors?.['required']">
             *El email es obligatorio
           </span>
@@ -167,36 +380,149 @@
         </div>
 
         <div class="form-group input-group mt-3">
-          <input name="passwordComercio" class="form-control" formControlName="passwordComercio"
-            placeholder="Creá una contraseña" type="password">
+          <input
+            name="passwordComercio"
+            class="form-control"
+            formControlName="passwordComercio"
+            placeholder="Creá una contraseña"
+            type="password"
+          />
         </div>
 
         <div id="passwordHelpBlock" class="form-text">
           Mínimo de 8 caracteres, 1 letra, 1 número, 1 carácter especial.
         </div>
-        <div class="alert alert-danger mt-1" [hidden]="passwordComercio.valid || passwordComercio.untouched">
+        <div
+          class="alert alert-danger mt-1"
+          [hidden]="passwordComercio.valid || passwordComercio.untouched"
+        >
           *La contraseña no tiene el formato solicitado
         </div>
 
         <div class="form-group input-group mt-3">
-          <input name="repeatPasswordComercio" class="form-control" formControlName="repeatPasswordComercio"
-            placeholder="Repetí la contraseña" type="password">
+          <input
+            name="repeatPasswordComercio"
+            class="form-control"
+            formControlName="repeatPasswordComercio"
+            placeholder="Repetí la contraseña"
+            type="password"
+          />
         </div>
 
-        <div *ngIf="comercioForm.hasError('mismatch') && (comercioForm.dirty || comercioForm.touched)"
-          class="error-message form-text">
+        <div
+          *ngIf="
+            comercioForm.hasError('mismatch') &&
+            (comercioForm.dirty || comercioForm.touched)
+          "
+          class="error-message form-text"
+        >
           Las contraseñas no coinciden
         </div>
 
         <div class="form-group mt-3 d-flex justify-content-center">
-          <button type="submit" class="btn btn-info text-light btn-block borde"
-            [disabled]="comercioForm.invalid">Registrarme</button>
+          <button
+            type="submit"
+            class="btn btn-info text-light btn-block borde"
+            [disabled]="comercioForm.invalid"
+          >
+            Registrarme
+          </button>
         </div>
 
-        <p class="text-center mt-3">Ya tenés una cuenta? <a class="text-decoration-none" href="login">Iniciar sesión</a>
+        <p class="text-center mt-3">
+          Ya tenés una cuenta?
+          <a class="text-decoration-none" href="login">Iniciar sesión</a>
         </p>
       </form>
+    </article>
+    <!-- status == 'true' -->
+    <article
+      class="card-body mx-auto align-items-center"
+      style="max-width: 500px"
+      *ngIf="status == 'success'"
+    >
+      <h1 class="text-center mt-2 font-weight-bold">
+        <strong>Registro exitoso</strong>
+      </h1>
+      <div
+        class="alert alert-success d-flex flex-column justify-content-center align-items-center"
+        *ngIf="statusCode !== 'success'"
+        role="alert"
+      >
+        <i class="bi bi-envelope icon-email"></i>
+        <p class="text-center">
+          Te enviamos un código de confirmación a tu correo para verificar tu
+          cuenta
+        </p>
+        <form
+          class="d-flex justify-content-center flex-column"
+          (ngSubmit)="(onSubmitVerificationCode)"
+        >
+          <div class="form-group input-group justify-content-center">
+            <input
+              type="text"
+              name="code"
+              [(ngModel)]="code"
+              placeholder="Ingrese el código de verificación"
+            />
+          </div>
+          <button
+            type="submit"
+            (click)="onSubmitVerificationCodeComercio()"
+            class="btn btn-info text-light btn-block mt-3 borde"
+            *ngIf="mostrarRegistroComercio"
+          >
+            Confirmar código
+          </button>
 
+          <button
+          type="submit"
+          (click)="onSubmitVerificationCode()"
+          class="btn btn-info text-light btn-block mt-3 borde"
+          *ngIf="!mostrarRegistroComercio"
+        >
+          Confirmar código
+        </button>
+        </form>
+        <div>
+          <p class="text-center mt-3">
+            No te llegó el email?
+            <a class="text-decoration-none" href="">Hacé click aquí</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="alert alert-success" *ngIf="statusCode == 'success'">
+        <p class="text-center mt-3">
+          Tu correo electronico se confirmó exitosamente
+        </p>
+        <a class="text-decoration-none" href="login">Iniciar sesión</a>
+      </div>
+      <div class="alert alert-danger" *ngIf="statusCode == 'error'">
+        <p class="text-center mt-3">
+          Tu correo electronico no se pudo verificar. Vuelve a realizar el
+          registro
+        </p>
+        <a class="text-decoration-none" href="form-registro">Registrarme</a>
+      </div>
+    </article>
+
+    <article
+      class="card-body mx-auto align-items-center"
+      style="max-width: 500px"
+      *ngIf="status == 'error'"
+    >
+      <h1 class="text-center mt-2 font-weight-bold">
+        <strong>Registro fallido</strong>
+      </h1>
+
+      <div class="alert alert-danger">
+        <p class="text-center mt-3">
+          Tu correo electronico no se pudo verificar. Vuelve a realizar el
+          registro
+        </p>
+        <a class="text-decoration-none" href="form-registro">Volver</a>
+      </div>
     </article>
   </div>
 </section>

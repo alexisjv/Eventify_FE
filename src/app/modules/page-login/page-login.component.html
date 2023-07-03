@@ -1,21 +1,12 @@
 
-<section class="col-12 container-fluid contenedor d-flex justify-content-center align-items-center">
+<section class="col-12 container-fluid contenedor d-flex justify-content-center align-items-center"  *ngIf="mostrarLoginComun">
 
     
     <div class="col-md-5 col-sm-8 card  align-items-center d-flex mb-2 shadow">
         <div class="d-flex flex-column align-items-center contenedor-card justify-content-center" >
         <img type="svg" src="../../../assets/images/logo1.svg" width="300px" class="mt-4 ">
         <article class="card-body mx-auto text-light align-items-center" style="max-width: 400px;">
-            
-            <!-- <p class="text-center">Creá tu lista de compras con las mejores ofertas cerca tuyo</p> -->
-           <!-- <p>
-                <a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login via Twitter</a>
-                <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook</a>
-            </p>
-            <p class="divider-text">
-                <span class="bg-light">OR</span>
-            </p>  -->
-            <form novalidate (ngSubmit)="onLogin()" [formGroup]="userLogin">
+            <form novalidate (ngSubmit)="onLogin(1)" [formGroup]="userLogin">
                 <div class="alert alert-danger mt-1" *ngIf="status === 'error'">
                    Email y/o contraseña inválidos
                 </div>
@@ -39,7 +30,55 @@
             <div class="form-group  mt-3 d-flex flex-column align-items-center">
                 
                 <button type="submit" class="btn btn-info text-light btn-block borde"> Iniciar sesión  </button>
+                <button
+            class="btn btn-outline-info btn-block mt-2 w-50 h-50 borde"
+            (click)="mostrarLoginDeComercio()"
+          >
+            Soy comercio
+          </button>
+            </div> 
+            <p class="text-center text-dark mt-3">No tenes una cuenta? <a class="text-decoration-none" href="form-registro">Registrate</a> </p>                                                                 
+        </form>
+        </article>
+        </div> 
+    </div>
+    </section>
+
+    <section class="col-12 container-fluid contenedor d-flex justify-content-center align-items-center"  *ngIf="mostrarLoginComercio">
+    <div class="col-md-5 col-sm-8 card  align-items-center d-flex mb-2 shadow">
+        <div class="d-flex flex-column align-items-center contenedor-card justify-content-center" >
+        <img type="svg" src="../../../assets/images/logo1.svg" width="300px" class="mt-4 ">
+        <article class="card-body mx-auto text-light align-items-center" style="max-width: 400px;">
+            <form novalidate (ngSubmit)="onLogin(2)" [formGroup]="userLogin">
+                <div class="alert alert-danger mt-1" *ngIf="status === 'error'">
+                   Email y/o contraseña inválidos
+                </div>
+            <div class="form-group input-group mt-3">
+               
+                <input name="email" class="form-control" name="email" formControlName="email" placeholder="Email" type="email">
+            </div> 
+            <div class="alert alert-danger mt-1" [hidden]="email.valid || email.pristine">
+                El email es requerido para iniciar sesión
+            </div>
+            <div class="form-group input-group mt-3">
                 
+                <input class="form-control" name="password" formControlName="password" placeholder="Contraseña" type="password">
+            </div>
+            <div class="alert alert-danger mt-1" [hidden]="password.valid || password.pristine">
+                La contraseña es requerida para iniciar sesión
+            </div>
+
+            
+                                            
+            <div class="form-group  mt-3 d-flex flex-column align-items-center">
+                
+                <button type="submit" class="btn btn-info text-light btn-block borde"> Iniciar sesión  </button>
+                <button
+            class="btn btn-outline-info btn-block mt-2 w-50 h-50 borde"
+            (click)="mostrarLoginDeUsuario()"
+          >
+            Soy Usuario
+          </button>
             </div> 
             <p class="text-center text-dark mt-3">No tenes una cuenta? <a class="text-decoration-none" href="form-registro">Registrate</a> </p>                                                                 
         </form>

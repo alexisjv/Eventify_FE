@@ -13,6 +13,8 @@ import { EventService } from '@shared/services/event.service';
 export class PageLoginComponent {
   public userLogin: FormGroup;
   public currentUser!: string;
+  mostrarLoginComercio: boolean = false;
+  mostrarLoginComun: boolean = true;
 
 
   public status = "";
@@ -27,12 +29,14 @@ export class PageLoginComponent {
     });
   }
 
-  onLogin() {
+  onLogin(rol: number) {
 
     this.currentUser = this.email.value;
-    this.getUserInfo(this.email.value, this.password.value);
+    this.getUserInfo(this.email.value, this.password.value, rol);
     this.cognitoService.signIn(this.email.value, this.password.value).then(() => {
       this.status = 'success';
+      
+    console.log('los datos de la sesion son: ' , sessionStorage)
       this.userLogin.reset();
       this.eventService.emitEvent('loginSuccess');
       this.router.navigate(['/'])
@@ -44,8 +48,13 @@ export class PageLoginComponent {
     });
 
   }
-  getUserInfo(email: string, password: string) {
-    this._loginService.login(email, password).subscribe(
+
+  onLoginComercio(){
+
+  }
+
+  getUserInfo(email: string, password: string, rol: number) {
+    this._loginService.login(email, password, rol).subscribe(
       response => {
         sessionStorage.setItem("currentUser", JSON.stringify(response, null, 2));
       },
@@ -60,5 +69,16 @@ export class PageLoginComponent {
   }
   get password(): AbstractControl {
     return this.userLogin.get('password') as FormControl;
+  }
+
+  mostrarLoginDeComercio(){
+    this.mostrarLoginComun = false;
+    this.mostrarLoginComercio = true;
+  }
+
+  mostrarLoginDeUsuario(){
+    
+    this.mostrarLoginComun = true;
+    this.mostrarLoginComercio = false;
   }
 }
