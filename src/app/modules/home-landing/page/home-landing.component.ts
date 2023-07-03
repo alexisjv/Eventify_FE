@@ -18,7 +18,7 @@ export class HomeLandingComponent implements OnInit, OnDestroy {
   }
 
   private obtenerUsuarioActual() {
-    let user = sessionStorage.getItem("currentUser");
+    let user = localStorage.getItem("currentUser");
     if (user !== null) {
       this.currentUser = JSON.parse(user);
     }
