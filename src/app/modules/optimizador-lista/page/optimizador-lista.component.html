@@ -208,28 +208,34 @@
         </ul>
       </div>
       
+<div *ngIf="currentUser">
+<!-- Button trigger modal -->
+<div class="d-flex justify-content-center align-items-center">
+  <button (click)="ordenarListas()" type="button" class="btn btn-primary boton-resumen" data-bs-toggle="modal" data-bs-target="#modalCompararEscenarios">
+    Comparar Listas
+  </button>
+  <button type="button" class="btn btn-primary boton-resumen" (click)="generarResumen()" data-bs-toggle="modal" data-bs-target="#modalResumen">
+    Guardar Lista
+  </button>
+</div>
 
-      <!-- Button trigger modal -->
-      <div class="d-flex justify-content-center align-items-center">
-        <button (click)="ordenarListas()" type="button" class="btn btn-primary boton-resumen" data-bs-toggle="modal" data-bs-target="#modalCompararEscenarios">
-          Comparar Listas
-        </button>
-        <button type="button" class="btn btn-primary boton-resumen" (click)="generarResumen()" data-bs-toggle="modal" data-bs-target="#modalResumen">
-          Guardar Lista
-        </button>
-      </div>
-      
-
-      <!-- mapa -->
-      <div>
-        <app-mapa
-          [valorRadioElegido]="radioElegido"
-          [slider]="false"
-          (valorRadioEnviado)="capturarValorRadio($event)"
-        ></app-mapa>
+<!-- mapa -->
+<div>
+  <app-mapa
+    [valorRadioElegido]="radioElegido"
+    [slider]="false"
+    (valorRadioEnviado)="capturarValorRadio($event)"
+  ></app-mapa>
+</div>
+</div>
 
 
-      </div>
+
+<div *ngIf="!currentUser" style="background-color: red;">
+  Inicia sesión para ver recorrido y resumen de datos
+  </div>
+<a class="btn btn-info" routerLink="/login" [queryParams]="{estadoConsulta: true }">Iniciá sesión</a>
+
     </div>
   </div>
 </div>

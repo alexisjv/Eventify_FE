@@ -81,6 +81,13 @@ export class OptimizadorListaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+    let user = localStorage.getItem('currentUser');
+    if (user !== null) {
+      this.currentUser = JSON.parse(user);
+    }
+
+
     this.aListaComercios = [];
     this.aListaSeleccionComercio = [];
 
@@ -509,7 +516,7 @@ export class OptimizadorListaComponent implements OnInit {
 
   guardarLista(lista: Oferta[], distancia: string) {
 
-    let user = sessionStorage.getItem('currentUser');
+    let user = localStorage.getItem('currentUser');
     if (user !== null) {
       this.currentUser = JSON.parse(user);
     }
@@ -623,5 +630,9 @@ export class OptimizadorListaComponent implements OnInit {
   mostrarContenidoMenorRecorrdio(){
     this.divContenidoListaMasEconomico = false;
     this.divContenidoListaMenorRecorrido = true;
+  }
+
+  getCurrentUrl(): string {
+    return window.location.href;
   }
 }

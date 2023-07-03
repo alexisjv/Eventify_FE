@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class HeaderComponent implements OnInit, OnDestroy{
   sessionAuthenticated = "noauth";
-  rolUsuario!: string;
+  rolUsuario: string = '';
   private eventSubscription!: Subscription;
 
   constructor(private cognitoService : CognitoService, 
@@ -24,15 +24,19 @@ export class HeaderComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    if(sessionStorage.length !== 0){
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser !== null) {
       this.sessionAuthenticated = "auth";
-      console.log('el rol usuario es: ', this.rolUsuario)
+      this.rolUsuario = JSON.parse(currentUser).rol;
     }
     this.eventSubscription = this.eventService.getEvent().subscribe((event: string) => {
       if (event === 'loginSuccess') {
         // Lógica para actualizar el encabezado después del inicio de sesión
-        this.sessionAuthenticated = "auth";
-        this.rolUsuario = JSON.parse(sessionStorage['currentUser']).rol;
+        const storedUser = localStorage.getItem('currentUser');
+        if (storedUser !== null) {
+          this.sessionAuthenticated = "auth";
+          this.rolUsuario = JSON.parse(storedUser).rol;
+        }
       }
     });
   }
@@ -41,17 +45,15 @@ export class HeaderComponent implements OnInit, OnDestroy{
     this.cognitoService.signOut()
     .then(() => {
       // La sesión se cerró correctamente
-      sessionStorage.removeItem('currentUser');
+      localStorage.removeItem('currentUser');
       this.sessionAuthenticated = "noauth";
       this.rolUsuario = '';
       this.router.navigate(['']);
-
     })
     .catch((error) => {
       // Ocurrió un error al cerrar la sesión
       console.error('Error al cerrar sesión:', error);
     });
-    
   }
   
   reloadPage() {

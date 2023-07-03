@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { LoginService } from './services/login.service';
 import { CognitoService } from '@shared/services/cognito.service';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, NgControl, ValidatorFn, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '@shared/services/event.service';
 
 @Component({
@@ -15,14 +15,19 @@ export class PageLoginComponent {
   public currentUser!: string;
   mostrarLoginComercio: boolean = false;
   mostrarLoginComun: boolean = true;
-
+  estadoConsulta: boolean = false;
 
   public status = "";
 
   constructor(
     private _loginService: LoginService, private cognitoService:
-      CognitoService, private router: Router, private eventService: EventService
+      CognitoService, private router: Router, private eventService: EventService, private route: ActivatedRoute
   ) {
+
+    this.route.queryParams.subscribe(params => {
+      this.estadoConsulta = params['estadoConsulta'];
+    });
+
     this.userLogin = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required])
@@ -36,10 +41,16 @@ export class PageLoginComponent {
     this.cognitoService.signIn(this.email.value, this.password.value).then(() => {
       this.status = 'success';
       
-    console.log('los datos de la sesion son: ' , sessionStorage)
+    console.log('los datos de la sesion son: ' , localStorage)
       this.userLogin.reset();
       this.eventService.emitEvent('loginSuccess');
-      this.router.navigate(['/'])
+
+      if(this.estadoConsulta){
+        window.history.back();
+      }
+      else{
+        this.router.navigate(['/'])
+      }
 
     }).catch((error) => {
       this.status = 'error';
@@ -56,7 +67,7 @@ export class PageLoginComponent {
   getUserInfo(email: string, password: string, rol: number) {
     this._loginService.login(email, password, rol).subscribe(
       response => {
-        sessionStorage.setItem("currentUser", JSON.stringify(response, null, 2));
+        localStorage.setItem("currentUser", JSON.stringify(response, null, 2));
       },
       error => {
         console.error(error);
