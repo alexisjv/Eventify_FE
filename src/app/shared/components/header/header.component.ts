@@ -26,13 +26,13 @@ export class HeaderComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     if(sessionStorage.length !== 0){
       this.sessionAuthenticated = "auth";
-      this.rolUsuario = JSON.parse(sessionStorage['currentUser']).rol;
       console.log('el rol usuario es: ', this.rolUsuario)
     }
     this.eventSubscription = this.eventService.getEvent().subscribe((event: string) => {
       if (event === 'loginSuccess') {
         // Lógica para actualizar el encabezado después del inicio de sesión
         this.sessionAuthenticated = "auth";
+        this.rolUsuario = JSON.parse(sessionStorage['currentUser']).rol;
       }
     });
   }
@@ -42,6 +42,8 @@ export class HeaderComponent implements OnInit, OnDestroy{
     .then(() => {
       // La sesión se cerró correctamente
       sessionStorage.removeItem('currentUser');
+      this.sessionAuthenticated = "noauth";
+      this.rolUsuario = '';
       this.router.navigate(['']);
 
     })
