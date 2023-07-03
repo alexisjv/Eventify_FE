@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class HeaderComponent implements OnInit, OnDestroy{
   sessionAuthenticated = "noauth";
+  rolUsuario!: string;
   private eventSubscription!: Subscription;
 
   constructor(private cognitoService : CognitoService, 
@@ -21,9 +22,12 @@ export class HeaderComponent implements OnInit, OnDestroy{
   ngOnDestroy(): void {
     this.eventSubscription.unsubscribe();
   }
+
   ngOnInit(): void {
     if(sessionStorage.length !== 0){
       this.sessionAuthenticated = "auth";
+      this.rolUsuario = JSON.parse(sessionStorage['currentUser']).rol;
+      console.log('el rol usuario es: ', this.rolUsuario)
     }
     this.eventSubscription = this.eventService.getEvent().subscribe((event: string) => {
       if (event === 'loginSuccess') {

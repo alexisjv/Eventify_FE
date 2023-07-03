@@ -11,14 +11,24 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  login(email: string , password: string): Observable<any> {
+  login(email: string , password: string, rol: number): Observable<any> {
     let params = JSON.stringify({email: email,
     clave: password});
     let headers = new HttpHeaders({'Content-Type': 'application/json'});
 
-    return this.http.post(API_URL + 'Usuario/inicioSesion', params, {headers: headers})
+    if(rol == 1){
+
+      return this.http.post(API_URL + 'Usuario/inicioSesion', params, {headers: headers})
       .pipe(
         map(res => res)
       );
+    }
+    else{
+
+      return this.http.post(API_URL + 'comercio/inicioSesion', params, {headers: headers})
+      .pipe(
+        map(res => res)
+      );
+    }
   }
 }

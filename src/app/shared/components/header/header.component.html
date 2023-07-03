@@ -12,7 +12,8 @@
         <li><a class="nav-link scrollto" href="#team">Sobre nosotros</a></li>
         <li><a class="nav-link scrollto" routerLink="consulta-evento">Armá tu lista</a></li>
 
-        <li *ngIf="sessionAuthenticated === 'auth'"><a class="nav-link scrollto" href="perfil-usuario">Mi perfil</a></li>
+        <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario == 'Usuario'"><a class="nav-link scrollto" href="perfil-usuario">Mi perfil</a></li>
+        <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario == 'Comercio'"><a class="nav-link scrollto" href="perfil-comercio">Mi perfil</a></li>
         <li *ngIf="sessionAuthenticated === 'auth'"><a class="nav-link scrollto" data-bs-toggle="modal" data-bs-target="#cerrarSesion" href="login">Cerrar sesión</a></li>
         <li *ngIf="sessionAuthenticated !== 'auth'"><a class="nav-link scrollto" href="login">Iniciar sesión</a></li>
         <li *ngIf="sessionAuthenticated !== 'auth'"><a class="nav-link scrollto" href="form-registro">Registrarse</a></li>
