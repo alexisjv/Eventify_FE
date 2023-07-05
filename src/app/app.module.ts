@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-// import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { AppComponent } from './app.component';
 import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -8,10 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@shared/shared.module';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
-import { PerfilUsuarioComponent } from './modules/perfil-usuario/perfil-usuario.component';
-import { PerfilComercioComponent } from '@modules/perfil-comercio/perfil-comercio.component';
-
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -21,12 +17,20 @@ import { PerfilComercioComponent } from '@modules/perfil-comercio/perfil-comerci
   imports: [
     BrowserModule,
     AppRoutingModule,
-    // NgxQRCodeModule,
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    ToastrModule.forRoot(
+      {
+        timeOut: 3000,
+        progressBar: true,
+        progressAnimation: 'increasing',
+        preventDuplicates: true,
+        positionClass: 'toast-bottom-right',
+      }
+    )
    
   ],
   

@@ -19,7 +19,6 @@ export class PerfilUsuarioComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.obtenerUsuarioActual();
     this.obtenerListasGuardadas(this.currentUser.id);
-    console.log("el usuario es: ", this.currentUser);
   }
 
   ngAfterViewInit(): void {
@@ -42,7 +41,6 @@ export class PerfilUsuarioComponent implements OnInit, AfterViewInit {
     this.perfilService.obtenerListasDelUsuario(idUsuario).subscribe(
       (listasGuardadas: ListaGuardada[]) => {
         this.listasGuardadas = listasGuardadas;
-        console.log(listasGuardadas);
       },
       (error) => console.error(error)
     );
@@ -53,7 +51,6 @@ export class PerfilUsuarioComponent implements OnInit, AfterViewInit {
     this.perfilService.verDetalleLista(idListado, idUsuario).subscribe(
       (detalleLista: ListaDetalle) => {
         this.detalleLista = detalleLista;
-        console.log(detalleLista);
       },
       (error) => console.error(error)
     );

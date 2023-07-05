@@ -48,14 +48,6 @@ export class CognitoService {
       Auth.currentSession();
     });
   }
-
-  //  public signIn(email:string, password: string) {
-  //   try {
-  //     const user = await Auth.signIn(email, password);
-  //   } catch (error) {
-  //     console.log('error signing in', error);
-  //   }
-  //  } 
     
   public createUserCognito(){
 

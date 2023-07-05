@@ -7,6 +7,8 @@ import { SharedService } from '@shared/services/shared.service';
 import { ProductoCard } from '@core/models/productoCard';
 import { CardOfertaComponent } from '@shared/components/card-oferta/card-oferta.component';
 import { ProductoLista } from '@core/models/ProductoLista';
+import { ToastrService } from 'ngx-toastr';
+import { timeout } from 'rxjs';
 
 @Component({
   selector: 'app-optimizador-lista',
@@ -77,7 +79,8 @@ export class OptimizadorListaComponent implements OnInit {
     private listaCompraService: OptimizadorListaService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private mapaService: SharedService
+    private mapaService: SharedService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -85,6 +88,10 @@ export class OptimizadorListaComponent implements OnInit {
     let user = localStorage.getItem('currentUser');
     if (user !== null) {
       this.currentUser = JSON.parse(user);
+    }
+
+    if(!this.currentUser){
+      this.toastr.warning("Podrá visualizar el recorrido del mapa, comparar y guardar sus listas","Inicie sesión");
     }
 
 
@@ -104,13 +111,6 @@ export class OptimizadorListaComponent implements OnInit {
       this.radioElegido = params['radio'];
       this.oCantidadesPorProducto = JSON.parse(params['cantidadProductos']);
       this.idEvento = params['idEvento'];
-      console.log(this.cantidadComensales);
-      console.log(this.comidasSeleccionadas);
-      console.log(this.bebidasSeleccionadas);
-      console.log(this.latitudUbicacion);
-      console.log(this.longitudUbicacion);
-      console.log(this.radioElegido);
-      console.log(this.idEvento);
 
       this.obtenerOfertas(
         this.latitudUbicacion,
@@ -178,9 +178,9 @@ export class OptimizadorListaComponent implements OnInit {
     this.listaElegidaMasEconomico = true;
     this.listaElegidaMenorRecorrido = false;
     this.actualizarDatosMasEconomico();
-
     this.obtenerRutaMasEconomico();
     this.imagenLista = 'mateoMejorOferta';
+    this.toastr.info("Ha cambiado a lista más económica","Lista seleccionada")
   }
 
   toggleDiv2() {
@@ -191,6 +191,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.actualizarDatosMenorRecorrido();
     this.obtenerRutaMenorRecorrido();
     this.imagenLista = 'mateoMejorRecorrido';
+    this.toastr.info("Ha cambiado a lista menor recorrido", "Lista seleccionada")
   }
 
   toggleDiv3() {
@@ -218,7 +219,6 @@ export class OptimizadorListaComponent implements OnInit {
 
   capturarValorRadio(valorRadio: number) {
     this.radioElegido = valorRadio;
-    console.log('Valor del rango:', valorRadio);
   }
 
   actualizarRadio() {
@@ -259,7 +259,6 @@ export class OptimizadorListaComponent implements OnInit {
 
     this.listaCompraService.obtenerOfertas(lista).subscribe(
       (response: ProductoCard[]) => {
-        console.log('Respuesta:', response);
 
         for (const productoCard of response) {
           const ofertas = productoCard.ofertas;
@@ -288,7 +287,6 @@ export class OptimizadorListaComponent implements OnInit {
           }
         }
 
-        console.log('Comercios:', this.listaOfertasElegidasMasEconomico);
 
         this.aListaProductos = response.map((producto) => ({
           ...producto,
@@ -309,7 +307,6 @@ export class OptimizadorListaComponent implements OnInit {
   }
 
   cambiarMarca(data: { oferta: Oferta; index: number }): void {
-    console.log('ofertas anteriores: ', this.listaOfertasElegidasMasEconomico);
     const index = data.index;
     this.toggleArrows(index);
 
@@ -334,9 +331,6 @@ export class OptimizadorListaComponent implements OnInit {
       this.obtenerRutaMasEconomico();
     }
     const oferta = data.oferta;
-    console.log('Oferta seleccionada:', oferta.oferta.marca);
-
-    console.log('ofertas posteriores: ', this.listaOfertasElegidasMasEconomico);
     this.actualizarDatosMasEconomico();
     // Realiza acciones adicionales con la oferta y el índice
   }
@@ -458,8 +452,6 @@ export class OptimizadorListaComponent implements OnInit {
       return a.oferta.idTipoProducto - b.oferta.idTipoProducto;
     });
 
-    console.log('lista economica: ', this.listaOfertasElegidasMasEconomico);
-    console.log('lista recorrido: ', this.aListaSeleccionComercio);
   }
 
   generarResumen() {
@@ -543,6 +535,8 @@ export class OptimizadorListaComponent implements OnInit {
     this.listaCompraService.guardarLista(body);
     
     this.router.navigate(['perfil-usuario']);
+    this.toastr.success("Puedes visualizar el detalle de tu lista en tu perfil","Lista guardada")
+
   }
   
 
@@ -556,7 +550,6 @@ export class OptimizadorListaComponent implements OnInit {
     };
   
     rutaComercios.push(ubicacionOrigen);
-    console.log('estas son las ofertas', distanciaVariable);
   
     for (const oferta of distanciaVariable) {
       const ubicacion = {
@@ -572,7 +565,6 @@ export class OptimizadorListaComponent implements OnInit {
       rutaComercios.push(comercio);
     }
   
-    console.log('comercios principales:', rutaComercios);
   
     this.mapaService.obtenerRuta(rutaComercios, this.radioElegido, (distancia) => {
       distanciaCallback(distancia);
