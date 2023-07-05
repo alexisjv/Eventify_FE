@@ -6,8 +6,8 @@
     <div class="container-fluid d-flex align-items-center">
       <div class="row">
         <div class="col-lg-7 col-md-10 titulo">
-          <h1 class="display-2 text-white">Supermercado Dia</h1>
-          <p class="text-white mt-0 mb-5">Si pagás más es porque querés</p>
+          <h1 class="display-2 text-white">{{nombreComercio}}</h1>
+          <p class="text-white mt-0 mb-5">Administrá tus ofertas</p>
           <button type="button" class="btn-info" >
           Publicar Oferta
         </button>        </div>
@@ -22,15 +22,14 @@
           <div class="row justify-content-center">
             <div class="col-lg-3 order-lg-2">
               <div class="card-profile-image">
-                <a href="#">
-                  <img src="./assets/images/dia.jpg" class="rounded-circle">
-                </a>
+                  <img src="./assets/images/perfil-comercio.jpg" class="rounded-circle">
+                
               </div>
             </div>
           </div>
           <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
             <div class="d-flex justify-content-between">
-              <a href="#" class="btn btn-sm btn-primary float-right">Editar Perfil</a>
+              <!-- <a href="#" class="btn btn-sm btn-primary float-right">Editar Perfil</a> -->
             </div>
           </div>
           <div class="card-body pt-0 pt-md-4">
@@ -38,28 +37,24 @@
               <div class="col">
                 <div class="card-profile-stats d-flex justify-content-center mt-md-5">
                   <div>
-                    <span class="heading">9</span>
+                    <span class="heading">{{ofertasPublicadas.length}}</span>
                     <span class="description">Ofertas</span>
-                  </div>
-                  <div>
-                    <span class="heading">89</span>
-                    <span class="description">Reseñas</span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="text-center">
               <div class="h5 font-weight-300">
-                <i class="ni location_pin mr-2"></i>Lomas del Mirador
+                <i class="ni location_pin mr-2"></i>
               </div>
-              <div class="h5 mt-4">
+            <!--   <div class="h5 mt-4">
                 <i class="ni business_briefcase-24 mr-2"></i>Belgrano 2165
               </div>
               <div>
                 <i class="ni education_hat mr-2"></i>Horarios: Lunes a sábado de 09:00 a 20:00
               </div>
               <hr class="my-4">
-              <a href="#">Ver más</a>
+              <a href="#">Ver más</a> -->
             </div>
           </div>
         </div>
@@ -74,70 +69,24 @@
             </div>
           </div>
           <div class="card-body">
-            <app-card-oferta [nombreProducto]="'Aceite Natura 1.5L'"
-            [marca]="'Natura'"
-            [precio]="470"
-            [nombreComercio]="'Nombre del comercio'"
-            [imagen]="'./assets/images/aceite.jpg'"
-            [idProducto]="123456789">
-</app-card-oferta>
-<app-card-oferta [nombreProducto]="'Aceite Natura 1.5L'"
-[marca]="'Natura'"
-[precio]="470"
-[nombreComercio]="'Nombre del comercio'"
-[imagen]="'./assets/images/aceite.jpg'"
-[idProducto]="123456789">
-</app-card-oferta>
-<app-card-oferta [nombreProducto]="'Aceite Natura 1.5L'"
-[marca]="'Natura'"
-[precio]="470"
-[nombreComercio]="'Nombre del comercio'"
-[imagen]="'./assets/images/aceite.jpg'"
-[idProducto]="123456789">
-</app-card-oferta>
-<app-card-oferta [nombreProducto]="'Aceite Natura 1.5L'"
-[marca]="'Natura'"
-[precio]="470"
-[nombreComercio]="'Nombre del comercio'"
-[imagen]="'./assets/images/aceite.jpg'"
-[idProducto]="123456789">
-</app-card-oferta>
-<app-card-oferta [nombreProducto]="'Aceite Natura 1.5L'"
-[marca]="'Natura'"
-[precio]="470"
-[nombreComercio]="'Nombre del comercio'"
-[imagen]="'./assets/images/aceite.jpg'"
-[idProducto]="123456789">
-</app-card-oferta>
-<app-card-oferta [nombreProducto]="'Aceite Natura 1.5L'"
-[marca]="'Natura'"
-[precio]="470"
-[nombreComercio]="'Nombre del comercio'"
-[imagen]="'./assets/images/aceite.jpg'"
-[idProducto]="123456789">
-</app-card-oferta>
-<app-card-oferta [nombreProducto]="'Aceite Natura 1.5L'"
-[marca]="'Natura'"
-[precio]="470"
-[nombreComercio]="'Nombre del comercio'"
-[imagen]="'./assets/images/aceite.jpg'"
-[idProducto]="123456789">
-</app-card-oferta>
-<app-card-oferta [nombreProducto]="'Aceite Natura 1.5L'"
-[marca]="'Natura'"
-[precio]="470"
-[nombreComercio]="'Nombre del comercio'"
-[imagen]="'./assets/images/aceite.jpg'"
-[idProducto]="123456789">
-</app-card-oferta>
-<app-card-oferta [nombreProducto]="'Aceite Natura 1.5L'"
-[marca]="'Natura'"
-[precio]="470"
-[nombreComercio]="'Nombre del comercio'"
-[imagen]="'./assets/images/aceite.jpg'"
-[idProducto]="123456789">
-</app-card-oferta>
+            <div class="row justify-content-center">
+              <div class="col-md-6" *ngFor="let oferta of ofertasPublicadas">
+                <div class="text-center">
+                  <div class="d-inline-block">
+                    <app-card-oferta
+                      [nombreProducto]="oferta.nombre"
+                      [precio]="oferta.precio"
+                      [imagen]="oferta.imagen"
+                      [fechaFin]="oferta.fechaFin"
+                      [rol]="2"
+                    ></app-card-oferta>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+          
+          
         </div>
       </div>
     </div>

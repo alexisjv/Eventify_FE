@@ -13,8 +13,6 @@ import { EventService } from '@shared/services/event.service';
 export class PageLoginComponent {
   public userLogin: FormGroup;
   public currentUser!: string;
-  mostrarLoginComercio: boolean = false;
-  mostrarLoginComun: boolean = true;
   estadoConsulta: boolean = false;
 
   public status = "";
@@ -30,18 +28,20 @@ export class PageLoginComponent {
 
     this.userLogin = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, [Validators.required])
+      password: new FormControl(null, [Validators.required]),
+      role: new FormControl('1')
     });
+    
   }
 
-  onLogin(rol: number) {
-
+  onLogin() {
     this.currentUser = this.email.value;
+    const rol = this.role.value;
     this.getUserInfo(this.email.value, this.password.value, rol);
     this.cognitoService.signIn(this.email.value, this.password.value).then(() => {
       this.status = 'success';
       
-    console.log('los datos de la sesion son: ' , localStorage)
+      console.log('los datos de la sesion son: ', localStorage)
       this.userLogin.reset();
       this.eventService.emitEvent('loginSuccess');
 
@@ -49,7 +49,7 @@ export class PageLoginComponent {
         window.history.back();
       }
       else{
-        this.router.navigate(['/'])
+        this.router.navigate(['/']);
       }
 
     }).catch((error) => {
@@ -57,7 +57,6 @@ export class PageLoginComponent {
       this.userLogin.reset();
       this.currentUser = "";
     });
-
   }
 
   onLoginComercio(){
@@ -81,15 +80,7 @@ export class PageLoginComponent {
   get password(): AbstractControl {
     return this.userLogin.get('password') as FormControl;
   }
-
-  mostrarLoginDeComercio(){
-    this.mostrarLoginComun = false;
-    this.mostrarLoginComercio = true;
-  }
-
-  mostrarLoginDeUsuario(){
-    
-    this.mostrarLoginComun = true;
-    this.mostrarLoginComercio = false;
+  get role(): AbstractControl {
+    return this.userLogin.get('role') as FormControl;
   }
 }
