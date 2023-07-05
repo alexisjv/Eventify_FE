@@ -219,7 +219,6 @@ export class ConsultaEventoComponent {
 
   capturarValorRadio(valorRadio: number) {
     this.valorRadio = valorRadio;
-    console.log('Valor del rango:', valorRadio);
   }
   
   capturarLatitud(latitud: number) {

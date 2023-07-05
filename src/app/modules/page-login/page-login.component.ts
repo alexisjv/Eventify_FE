@@ -4,6 +4,7 @@ import { CognitoService } from '@shared/services/cognito.service';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, NgControl, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '@shared/services/event.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,7 @@ export class PageLoginComponent {
 
   constructor(
     private _loginService: LoginService, private cognitoService:
-      CognitoService, private router: Router, private eventService: EventService, private route: ActivatedRoute
+      CognitoService, private router: Router, private eventService: EventService, private route: ActivatedRoute, private toastr: ToastrService
   ) {
 
     this.route.queryParams.subscribe(params => {
@@ -40,10 +41,10 @@ export class PageLoginComponent {
     this.getUserInfo(this.email.value, this.password.value, rol);
     this.cognitoService.signIn(this.email.value, this.password.value).then(() => {
       this.status = 'success';
-      
-      console.log('los datos de la sesion son: ', localStorage)
       this.userLogin.reset();
       this.eventService.emitEvent('loginSuccess');
+
+      this.toastr.success("Bienvenido/a: Acceda a las funcionalidades exclusivas","Sesión inciada");
 
       if(this.estadoConsulta){
         window.history.back();
