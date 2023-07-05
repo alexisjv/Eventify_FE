@@ -1077,10 +1077,10 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     grid-gap: 10px;
-    justify-items: center; /* Centra los elementos horizontalmente dentro de cada columna */
-    align-items: center; /* Centra los elementos verticalmente dentro del contenedor */
-}
-
+    justify-items: center;
+    align-items: center;
+  }
+  
 .tabla-redondeada {
   background-color: #f9f9f9;
   border-radius: 10px;

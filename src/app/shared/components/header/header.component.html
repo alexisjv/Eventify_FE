@@ -10,11 +10,11 @@
       <ul>
         <li><a class="nav-link scrollto active" routerLink="">Inicio</a></li>
         <!-- <li><a class="nav-link scrollto" routerLink="#team">Sobre nosotros</a></li> -->
-        <li><a class="nav-link scrollto" routerLink="consulta-evento">Armá tu lista</a></li>
+        <li *ngIf="rolUsuario == 'Usuario'"><a class="nav-link scrollto" routerLink="consulta-evento">Armá tu lista</a></li>
 
         <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario == 'Usuario'"><a class="nav-link scrollto" routerLink="perfil-usuario">Mi perfil</a></li>
         <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario == 'Comercio'"><a class="nav-link scrollto" routerLink="perfil-comercio">Mi perfil</a></li>
-        <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario != '' "><a class="nav-link scrollto" data-bs-toggle="modal" data-bs-target="#cerrarSesion">Cerrar sesión</a></li>
+        <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario != '' "><a class="nav-link scrollto btn" data-bs-toggle="modal" data-bs-target="#cerrarSesion" >Cerrar sesión</a></li>
         <li *ngIf="sessionAuthenticated !== 'auth' && rolUsuario == '' "><a class="nav-link scrollto" routerLink="login">Iniciar sesión</a></li>
         <li *ngIf="sessionAuthenticated !== 'auth' && rolUsuario == '' "><a class="nav-link scrollto" routerLink="form-registro">Registrarse</a></li>
         
