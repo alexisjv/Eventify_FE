@@ -15,9 +15,23 @@ export class FormRegistroService {
     let params = JSON.stringify(userRegistrado);
     let headers = new HttpHeaders({'Content-Type': 'application/json'});
 
-    return this.http.post(API_URL + 'registro', params, {headers: headers})
+    return this.http.post(API_URL + 'Usuario/registro', params, {headers: headers})
       .pipe(
         map(res => res)
       );
   }
+
+  registroComercio(comercioRegistrado): Observable<any> {
+    let params = JSON.stringify(comercioRegistrado);
+    let headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+    return this.http.post(API_URL + 'comercio/registro', params, {headers: headers})
+      .pipe(
+        map(res => res)
+      );
+  }
+
+   verificarCuit(cuit: string): Observable<any> {
+    return this.http.get(API_URL + `verificadorComercio/verificarComercio?cuit=${cuit}`);
+  } 
 }

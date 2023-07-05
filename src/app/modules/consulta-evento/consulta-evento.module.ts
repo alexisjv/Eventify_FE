@@ -1,23 +1,19 @@
-
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ConsultaEventoComponent } from './page/consulta-evento.component';
-import { ConsultaRoutingModule } from './consulta-evento-routing.module';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
-
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [
-    ConsultaEventoComponent
-    
-  ],
+  declarations: [ConsultaEventoComponent],
   imports: [
-    ConsultaRoutingModule,
-  ReactiveFormsModule,
-CommonModule,
-FormsModule,
-SharedModule  ]
+    ReactiveFormsModule,
+    CommonModule,
+    FormsModule,
+    SharedModule,
+    RouterModule,
+  ],
 })
-export class ConsultaEventoModule { }
+export class ConsultaEventoModule {}

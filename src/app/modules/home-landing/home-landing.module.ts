@@ -13,8 +13,7 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
-    HomeLandingComponent,
-    FormRegistroComponent
+    HomeLandingComponent
   ],
   imports: [
     SharedModule,

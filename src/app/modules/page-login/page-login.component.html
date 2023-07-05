@@ -1,39 +1,47 @@
+<section class="col-12 container-fluid contenedor d-flex justify-content-center align-items-center">
+    <div class="col-md-5 col-sm-8 card align-items-center d-flex mb-2 shadow">
+        <div class="d-flex flex-column align-items-center contenedor-card justify-content-center">
+            <img type="svg" src="../../../assets/images/logo1.svg" width="300px" class="mt-4">
+            <article class="card-body mx-auto text-light align-items-center" style="max-width: 400px;">
+                <form novalidate (ngSubmit)="onLogin()" [formGroup]="userLogin">
+                    <div class="alert alert-danger mt-1" *ngIf="status === 'error'">
+                        Email y/o contraseña inválidos
+                    </div>
+                    <div class="form-group input-group mt-3">
+                        <input name="email" class="form-control" formControlName="email" placeholder="Email" type="email">
+                    </div>
+                    <div class="alert alert-danger mt-1" [hidden]="email.valid || email.pristine">
+                        El email es requerido para iniciar sesión
+                    </div>
+                    <div class="form-group input-group mt-3">
+                        <input class="form-control" formControlName="password" placeholder="Contraseña" type="password">
+                    </div>
+                    <div class="alert alert-danger mt-1" [hidden]="password.valid || password.pristine">
+                        La contraseña es requerida para iniciar sesión
+                    </div>
 
-<section class="d-flex justify-content-center align-items-center">
+                    <div class="form-group mt-3 d-flex justify-content-between align-items-center">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="role" id="radioUsuario" value="1" formControlName="role" >
+                            <label class="form-check-label text-dark" for="radioUsuario">
+                                Soy usuario
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="role" id="radioComercio" value="2" formControlName="role">
+                            <label class="form-check-label text-dark" for="radioComercio">
+                                Soy comercio
+                            </label>
+                        </div>
+                    </div>
 
-    
-    <div class="card bg-primary w-50 d-flex align-items-center mb-2 ">
-        <img type="svg" src="../../../assets/images/logo.png" class="mt-2">
-        <article class="card-body mx-auto text-light align-items-center" style="max-width: 400px;">
-            
-            <!-- <p class="text-center">Creá tu lista de compras con las mejores ofertas cerca tuyo</p> -->
-           <!-- <p>
-                <a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login via Twitter</a>
-                <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook</a>
-            </p>
-            <p class="divider-text">
-                <span class="bg-light">OR</span>
-            </p>  -->
-            <form>
-            <div class="form-group input-group mt-3">
-               
-                <input name="" class="form-control" placeholder="Email" type="email">
-            </div> 
-            <div class="form-group input-group mt-3">
-                
-                <input class="form-control" placeholder="Crea una contraseña" type="password">
-            </div>
-            <div id="passwordHelpBlock" class="text-white-50 form-text">
-                Debe tener entre 8-20 caracteres, contener letras, numeros y un caracter especial.
-              </div>                                     
-            <div class="form-group  mt-3 d-flex flex-column align-items-center">
-                
-                <button type="submit" class="btn btn-primary text-light btn-block"> Registrarme  </button>
-                
-            </div> 
-            <p class="text-center mt-3">Olvidaste la contraseña? <a class="text-light text-decoration-none" href="">Recuperar contraseña</a> </p>                                                                 
-        </form>
-        </article>
-        </div> 
-    </section>
-   
+                    <div class="form-group mt-3 d-flex flex-column align-items-center">
+                        <button type="submit" class="btn btn-info text-light btn-block borde"> Iniciar sesión </button>
+                    </div>
+                    <p class="text-center text-dark mt-3">No tienes una cuenta? <a class="text-decoration-none"
+                            href="form-registro">Regístrate</a> </p>
+                </form>
+            </article>
+        </div>
+    </div>
+</section>
