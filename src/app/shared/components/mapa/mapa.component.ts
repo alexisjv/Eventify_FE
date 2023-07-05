@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 declare var google: any;
 
@@ -26,7 +27,7 @@ export class MapaComponent implements OnInit {
     @Input() slider: boolean = true;
 
 
-  constructor() {}
+  constructor(private toastr: ToastrService) {}
 
   ngOnInit() {
     if(this.valorRadioElegido != undefined ){
@@ -91,9 +92,11 @@ export class MapaComponent implements OnInit {
               lng: posicion.coords.longitude,
             };
             resolve(ubicacionActual);
+            this.toastr.success("Usaremos tu ubicación para obtener las ofertas cercanas","Ubicación activada");
           },
           (error) => {
             reject('Error al obtener la ubicación: ' + error);
+            this.toastr.error("Necesitamos su ubicación para obtener las ofertas cercanas","Error de ubicación");
           }
         );
       } else {
@@ -154,7 +157,6 @@ export class MapaComponent implements OnInit {
       dibujoCirculo = parseInt(valorRadioElegido, 10); // Convertir a número entero
     }
 
-    console.log('El tipo de dato es:' + typeof valorRadioElegido)
 
     const marcador = new google.maps.Marker({
       position: this.ubicacionActual,
@@ -224,30 +226,13 @@ export class MapaComponent implements OnInit {
         return this.calcularDistancia(origen, destino);
       })
       .then((distancia) => {
-        console.log('Distancia del recorrido:', distancia);
         callback(distancia);
       })
       .catch((error) => {
         console.error('No se pudo calcular la distancia. Error:', error);
       });
 
-    console.log(this.aComercios);
-    console.log(destino);
   }
-
-/*   compartirMapa() {
-    const enlaceMapa = this.generarEnlaceMapa();
-    const mensajeWhatsApp = `¡Hola! Aquí está la mejor ruta para llegar a mi destino: ${enlaceMapa}`;
-
-    const enlaceWhatsAppWeb = `https://web.whatsapp.com/send?text=${encodeURIComponent(
-      mensajeWhatsApp
-    )}`;
-    window.open(enlaceWhatsAppWeb, '_blank');
-
-    window.open(enlaceMapa);
-  } */
-
-  
 
   obtenerEnlaceGPS(): Promise<string> {
     return new Promise((resolve, reject) => {

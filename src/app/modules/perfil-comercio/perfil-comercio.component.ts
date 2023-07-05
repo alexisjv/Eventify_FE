@@ -19,7 +19,6 @@ constructor(private perfilService: PerfilComercioService) {}
 ngOnInit(): void {
   this.obtenerUsuarioActual();
   this.obtenerOfertasPublicadas(this.comercioLogueado.id);
-  console.log("el comercio es: ", this.comercioLogueado);
 }
 
 private obtenerUsuarioActual() {
@@ -34,7 +33,6 @@ obtenerOfertasPublicadas(idComercio: number) {
   this.perfilService.obtenerOfertasDelComercio(idComercio).subscribe(
     (ofertasPublicadas: OfertaPublicada[]) => {
       this.ofertasPublicadas = ofertasPublicadas;
-      console.log(ofertasPublicadas);
     },
     (error) => console.error(error)
   );

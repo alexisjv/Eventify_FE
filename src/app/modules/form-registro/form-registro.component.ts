@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, NgControl, Valida
 import { FormRegistroService } from './services/form-registro.service'
 import { NgForm } from '@angular/forms';
 import { CognitoService, IUser } from 'src/app/shared/services/cognito.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 declare var google: any;
@@ -53,7 +54,7 @@ export class FormRegistroComponent {
 
 
   constructor(
-    private _registroService: FormRegistroService, private cognitoService: CognitoService
+    private _registroService: FormRegistroService, private cognitoService: CognitoService, private toastr: ToastrService
   ) {
     this.comercioForm = new FormGroup({
       emailComercio: new FormControl(null, [Validators.required, Validators.email]),
@@ -200,7 +201,6 @@ export class FormRegistroComponent {
       rol: "Comercio",
     };
 
-    console.log(comercioARegistrar);
     
     this._registroService.registroComercio(comercioARegistrar)
       .subscribe(
@@ -311,12 +311,18 @@ verificarCuit() {
       const mensaje = respuesta.message;
       const inicioRazonSocial = mensaje.indexOf(":") + 14;
       this.razonSocial = mensaje.substr(inicioRazonSocial);
-      console.log(this.razonSocial);
+      this.toastr.success("El CUIT ingresado corresponde a un comercio verificado por el Registro Nacional de Sociedades","Cuit válido", {
+        timeOut: 5000
+      });
+
     },
     (error) => {
       this.cuitValido = false;
       this.bMostrarLoading = false;
       console.log(error.message);
+      this.toastr.error("El CUIT ingresado no corresponde a un comercio válido por el Registro Nacional de Sociedades","Cuit inválido", {
+        timeOut: 5000
+      });
     }
   );
 }

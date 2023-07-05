@@ -40,7 +40,6 @@ export class DireccionAutocompletadoComponent implements OnInit, AfterViewInit{
 
   invokeEvent(place: Object) {
       this.setAddress.emit(place);
-      console.log("el lugar es: ", place)
   }
 
 }

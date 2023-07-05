@@ -28,7 +28,6 @@ export class SharedService {
 
   enviarValorRadio(valorRadio: number) {
     this.mapa.setValorRadio(valorRadio);
-    console.log('valor nuevo del radio:' + valorRadio)
   }
 
   
