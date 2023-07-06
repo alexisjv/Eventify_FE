@@ -2,9 +2,10 @@
 <section id="hero">
   <div class="hero-container" data-aos="zoom-in" data-aos-delay="100">
     <img src="assets/images/isotipo-blanco.png" alt="" class="isotipo" />
-    <img src="assets/images/logotipo-blanco.png" alt="" width="300px" />
+    <img src="assets/images/logotipo-blanco.png" alt="" class="logotipo" />
     <!-- <h1>Eventify</h1> -->
-    <h2>Tu asistente de compras para eventos: las mejores ofertas cerca tuyo.</h2>
+    <h2>Tu asistente de compras para eventos: <br>
+      las mejores ofertas cerca tuyo.</h2>
     <h2 *ngIf="currentUser" >Bienvenido/a {{currentUser.usuario}}</h2>
     <a routerLink="/consulta-evento" class="btn-info boton-comenzar">Comenzar</a>
   </div>
@@ -42,7 +43,7 @@
             </p>
             <br />
           </div>
-          <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
+          <div class="icon-box div-boton-armar" data-aos="fade-up" data-aos-delay="300">
             <a routerLink="/consulta-evento" class="btn-info arma-tu-lista"
               >Armá tu lista</a
             >
@@ -53,7 +54,7 @@
           data-aos="fade-left"
           data-aos-delay="100"
         >
-          <img src="assets/images/asistente-virtual.png" alt="" />
+          <img src="assets/images/asistente-virtual.png" alt="" class="mateo"/>
         </div>
       </div>
     </div>
@@ -120,16 +121,16 @@
     <div class="container" data-aos="fade-up">
       <div class="row about-container">
         <div class="col-lg-12">
-          <h2 class="title">¡Personalizá y guardá tus listas al instante!</h2>
+          <h3 class="section-title">¡Personalizá y guardá tus listas al instante!</h3>
           <div data-aos="fade-up" data-aos-delay="100">
             <div class="icon"></div>
-            <p class="description" style="font-size: 25px !important;">
+            <p class="section-description" style="text-align: center;">
               Nuestro algoritmo de recomendaciones se irá ajustando para dar recomendaciones más precisas.
             </p>
           </div>
         </div>
         <div class="col-lg-12" style="display: flex; justify-content: center;" data-aos="fade-left" data-aos-delay="100">
-          <img src="assets/images/lista-compra.jpg" alt="" />
+          <img src="assets/images/lista-compra.jpg" alt="" class="lista-compra"/>
         </div>
         
       </div>
@@ -284,7 +285,7 @@
             <img
               src="assets/images/registrar-logo.png"
               alt=""
-              class="logo-seccion-comercio"
+              class="logo-registro-comercio"
             />
             <h1>Registrate</h1>
             <p>
@@ -298,7 +299,7 @@
             <img
               src="assets/images/verificar-logo.png"
               alt=""
-              class="logo-seccion-comercio"
+              class="logo-registro-comercio"
             />
             <h1>Analizaremos</h1>
             <p>
@@ -311,7 +312,7 @@
             <img
               src="assets/images/publicar-logo.png"
               alt=""
-              class="logo-seccion-comercio"
+              class="logo-registro-comercio"
             />
             <h1>Publicá tus ofertas</h1>
             <p>Una vez que estés habilitado, ya podrás publicar tus ofertas</p>
@@ -321,6 +322,7 @@
 
       <div class="row justify-content-center">
         <div class="col-lg-4 col-md-6 text-center" data-aos="zoom-in">
+          <br>
           <a routerLink="/form-registro" class="btn-info arma-tu-lista"
             >Quiero publicar</a
           >
@@ -334,11 +336,11 @@
     <div class="container" data-aos="fade-up">
       <div class="row about-container">
         <div class="col-lg-6 content order-lg-1 order-2">
-          <h2 class="title">Obtené mayor visibilidad</h2>
+          <h3 class="section-title">Obtené mayor visibilidad</h3>
 
           <div data-aos="fade-up" data-aos-delay="100">
             <div class="icon"></div>
-            <p class="description" style="font-size: 25px !important;">
+            <p class="section-description" >
               Apoyamos a los comercios locales publicando
               sus ofertas en nuestra plataforma.
               Haz que tus clientes cercanos se enteren de
@@ -357,7 +359,7 @@
           data-aos="fade-left"
           data-aos-delay="100"
         >
-          <img src="assets/images/potencia-comercio.png" alt="" />
+          <img src="assets/images/potencia-comercio.png" alt="" class="logo-seccion-comercio"/>
         </div>
       </div>
     </div>

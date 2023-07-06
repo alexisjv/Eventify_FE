@@ -22,7 +22,7 @@ ngOnInit(): void {
 }
 
 private obtenerUsuarioActual() {
-  let user = localStorage.getItem('currentUser');
+  let user = sessionStorage.getItem('currentUser');
   if (user !== null) {
     this.comercioLogueado = JSON.parse(user);
     this.nombreComercio = this.comercioLogueado.usuario;

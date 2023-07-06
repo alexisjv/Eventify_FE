@@ -67,7 +67,7 @@ export class PageLoginComponent {
   getUserInfo(email: string, password: string, rol: number) {
     this._loginService.login(email, password, rol).subscribe(
       response => {
-        localStorage.setItem("currentUser", JSON.stringify(response, null, 2));
+        sessionStorage.setItem("currentUser", JSON.stringify(response, null, 2));
       },
       error => {
         console.error(error);

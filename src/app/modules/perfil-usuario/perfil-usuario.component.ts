@@ -31,7 +31,7 @@ export class PerfilUsuarioComponent implements OnInit, AfterViewInit {
   
 
   private obtenerUsuarioActual() {
-    let user = localStorage.getItem('currentUser');
+    let user = sessionStorage.getItem('currentUser');
     if (user !== null) {
       this.currentUser = JSON.parse(user);
     }

@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    const currentUser = localStorage.getItem('currentUser');
+    const currentUser = sessionStorage.getItem('currentUser');
     if (currentUser !== null) {
       this.sessionAuthenticated = "auth";
       this.rolUsuario = JSON.parse(currentUser).rol;
@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
     this.eventSubscription = this.eventService.getEvent().subscribe((event: string) => {
       if (event === 'loginSuccess') {
         // Lógica para actualizar el encabezado después del inicio de sesión
-        const storedUser = localStorage.getItem('currentUser');
+        const storedUser = sessionStorage.getItem('currentUser');
         if (storedUser !== null) {
           this.sessionAuthenticated = "auth";
           this.rolUsuario = JSON.parse(storedUser).rol;
@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
     this.cognitoService.signOut()
     .then(() => {
       // La sesión se cerró correctamente
-      localStorage.removeItem('currentUser');
+      sessionStorage.removeItem('currentUser');
       this.sessionAuthenticated = "noauth";
       this.rolUsuario = '';
       this.router.navigate(['']);
