@@ -56,6 +56,7 @@ export class FormRegistroComponent {
   constructor(
     private _registroService: FormRegistroService, private cognitoService: CognitoService, private toastr: ToastrService
   ) {
+    
     this.comercioForm = new FormGroup({
       emailComercio: new FormControl(null, [Validators.required, Validators.email]),
       usernameComercio: new FormControl(null, [
@@ -106,8 +107,7 @@ export class FormRegistroComponent {
 
 
   onSubmitUser() {
-    this.registroEnServicio() 
-    this.registroEnCognito();  
+    this.registroEnServicio();
   }
 
   onSubmitVerificationCode(){
@@ -149,8 +149,13 @@ export class FormRegistroComponent {
 
     this._registroService.registro(userARegistrar)
       .subscribe(
-        response => {
+        async response => {
+          if(response.message === "Registro: El email ingresado ya se encuentra asociado a una cuenta"){
+            this.status = "emailYaExiste"
+          }else{
+          await this.registroEnCognito();
           console.log(response);
+          }
         },
         error => {
           
@@ -204,14 +209,19 @@ export class FormRegistroComponent {
     
     this._registroService.registroComercio(comercioARegistrar)
       .subscribe(
-        response => {
+        async response => {
+          if(response.message === "Registro: El email o CUIT ingresado ya se encuentra registrado"){
+            this.status = "emailYaExiste"
+          }else{
+          await this.registroComercioEnCognito();
           console.log(response);
           this.status = 'success';
           this.comercioForm.reset();
+          }
+         
         },
         error => {
-          this.status = 'error';
-          console.error(error);
+          this.status = 'errorRegistroComercio';
         }
       );
   }
@@ -242,8 +252,8 @@ export class FormRegistroComponent {
   }
 
   onSubmitComercio() {
-
-    this.registroComercioEnCognito();
+    this.registroComercioEnServicio();
+   
     
   }
 
