@@ -22,7 +22,6 @@
   
   .titulo {
     padding-left: 60px;
-    text-align: left !important;
   }
   
   
@@ -51,6 +50,15 @@
       order: 2;
     }
     
+  }
+
+  @media (max-width: 768px) {
+    .titulo{
+      text-align: center;
+      justify-content: center;
+      padding: 10px;
+    }
+
   }
 
   
@@ -769,13 +777,5 @@ h3 {
 .comparar-total{
   font-size: 25px;
   color: #14484d;
-}
-
-.lista-seleccionada {
-  background-color: yellow;
-}
-
-.lista-desactivada{
-  background-color: red;
 }
 
