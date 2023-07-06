@@ -10,9 +10,7 @@ $danger: #d61710e9 !default;
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
-.btn-outline-info :hover{
-  color: #ffff !important;
-}
+
 
 .btn-info {
   font-family: "Poppins", sans-serif;
@@ -27,6 +25,21 @@ $danger: #d61710e9 !default;
   border: 2px solid #ff6336;
   color: #fff;
   background: #ff6336;
+}
+
+.btn-primary {
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 50px;
+  transition: 0.5s;
+  border: 2px solid #1371B0;
+  color: #fff;
+  background: #1371B0;
 }
 
 .btn-outline-info{

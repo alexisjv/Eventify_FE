@@ -618,10 +618,22 @@ export class OptimizadorListaComponent implements OnInit {
   mostrarContenidoMasEconomico(){
     this.divContenidoListaMasEconomico = true;
     this.divContenidoListaMenorRecorrido = false;
+    this.listaElegidaMasEconomico = true;
+    this.listaElegidaMenorRecorrido = false;
+    this.actualizarDatosMasEconomico();
+    this.obtenerRutaMasEconomico();
+    this.imagenLista = 'mateoMejorOferta';
+    this.toastr.info("Ha cambiado a lista más económica","Lista seleccionada")
   }
   mostrarContenidoMenorRecorrdio(){
     this.divContenidoListaMasEconomico = false;
     this.divContenidoListaMenorRecorrido = true;
+    this.listaElegidaMasEconomico = false;
+    this.listaElegidaMenorRecorrido = true;
+    this.actualizarDatosMenorRecorrido();
+    this.obtenerRutaMenorRecorrido();
+    this.imagenLista = 'mateoMejorRecorrido';
+    this.toastr.info("Ha cambiado a lista menor recorrido", "Lista seleccionada")
   }
 
   getCurrentUrl(): string {
