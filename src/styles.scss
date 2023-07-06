@@ -29,6 +29,10 @@ $danger: #d61710e9 !default;
   background: #ff6336;
 }
 
+.btn-outline-info{
+  border-radius: 50px;
+}
+
 .btn-info:hover {
   background: none;
   border: 2px solid #fff;
@@ -72,7 +76,7 @@ body {
   }
 
   h1{
-    font-size: 20px;
+    font-size: 18px;
   }
   
   

@@ -85,7 +85,7 @@ export class OptimizadorListaComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let user = localStorage.getItem('currentUser');
+    let user = sessionStorage.getItem('currentUser');
     if (user !== null) {
       this.currentUser = JSON.parse(user);
     }
@@ -508,7 +508,7 @@ export class OptimizadorListaComponent implements OnInit {
 
   guardarLista(lista: Oferta[], distancia: string) {
 
-    let user = localStorage.getItem('currentUser');
+    let user = sessionStorage.getItem('currentUser');
     if (user !== null) {
       this.currentUser = JSON.parse(user);
     }
