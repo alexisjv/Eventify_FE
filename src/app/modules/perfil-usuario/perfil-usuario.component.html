@@ -173,7 +173,7 @@
             
            <div class="col-md-6 text-center">
             <h3 class="qr">Escaneá el recorrido y abrilo en el GPS:</h3>
-            <qrcode [qrdata]="detalleLista.urlRecorrido"></qrcode>
+            <qrcode [qrdata]="detalleLista.urlRecorrido" [width]="200"></qrcode>
             <h3 class="qr">O abrilo desde tu celular:</h3>
 
             <button
@@ -223,6 +223,7 @@
             </button>
           </div>
         </div>
+
          <div class="row">
           <div class="col-md-12 .scrollable-list scrollable-list-comparar">
             <div class="table-responsive">

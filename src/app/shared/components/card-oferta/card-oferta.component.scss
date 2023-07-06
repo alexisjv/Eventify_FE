@@ -63,3 +63,60 @@ h1,h2, h3,h4,h5,h6, p{
 .div-boton{
   padding: 15px;
 }
+
+@media (max-width: 768px) {
+  .card {
+    max-width: 300px;
+    margin-bottom: 20px;
+    min-width: 300px; 
+
+  }
+
+  .card img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .card-body {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .text-section {
+    max-width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .cta-section {
+    max-width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cta-section .btn {
+    margin-top: 10px;
+  }
+
+  .card-subtitle {
+    font-size: 13px;
+  }
+
+  .card-title {
+    font-size: 18px;
+  }
+
+  .card-text {
+    font-size: 14px;
+  }
+
+  .div-texto {
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .div-boton {
+    padding: 0;
+    margin-top: 10px;
+  }
+}
