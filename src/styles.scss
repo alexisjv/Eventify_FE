@@ -14,8 +14,6 @@ $danger: #d61710e9 !default;
 
 .btn-info {
   font-family: "Poppins", sans-serif;
-  text-transform: uppercase;
-  font-weight: 500;
   font-size: 14px;
   letter-spacing: 1px;
   display: inline-block;
@@ -29,7 +27,6 @@ $danger: #d61710e9 !default;
 
 .btn-primary {
   font-family: "Poppins", sans-serif;
-  text-transform: uppercase;
   font-weight: 500;
   font-size: 14px;
   letter-spacing: 1px;
@@ -43,11 +40,17 @@ $danger: #d61710e9 !default;
 }
 
 .btn-outline-info{
+  font-family: "Poppins", sans-serif;
+  border-radius: 50px;
+}
+.btn-outline-info:hover{
+  font-family: "Poppins", sans-serif;
+  color: #fff;
   border-radius: 50px;
 }
 
 .btn-info:hover {
-  background: none;
+  
   border: 2px solid #fff;
   color: #fff;
 }
