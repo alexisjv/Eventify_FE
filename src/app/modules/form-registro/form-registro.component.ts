@@ -128,7 +128,6 @@ export class FormRegistroComponent {
     this.cognitoService.confirmSignUp(email, code).then(() => {
       this.statusCode = "success"
       console.log("exito");
-      this.registroComercioEnServicio();
     }).catch((error) => {
       console.log(error);
       this.statusCode = "error"
