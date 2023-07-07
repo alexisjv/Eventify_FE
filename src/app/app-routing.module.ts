@@ -8,6 +8,8 @@ import { PageLoginComponent } from '@modules/page-login/page-login.component';
 import { PerfilComercioComponent } from '@modules/perfil-comercio/perfil-comercio.component';
 import { PerfilUsuarioComponent } from '@modules/perfil-usuario/perfil-usuario.component';
 import { Ruta } from '@core/enums/Ruta.enum';
+import { UsuarioGuard } from '@core/guards/usuario.guard';
+import { ComercioGuard } from '@core/guards/comercio.guard';
 
 
 const routes: Routes = [
@@ -20,13 +22,14 @@ const routes: Routes = [
   {
     path: Ruta.ConsultaEvento,
     component: ConsultaEventoComponent,
-    loadChildren: () => import('@modules/consulta-evento/consulta-evento.module').then(m => m.ConsultaEventoModule)
+    loadChildren: () => import('@modules/consulta-evento/consulta-evento.module').then(m => m.ConsultaEventoModule),
+    canActivate: [UsuarioGuard]
   },
   {
     path: Ruta.OptimizadorLista,
     component: OptimizadorListaComponent,
-    loadChildren: () => import('@modules/optimizador-lista/optimizador-lista.module').then(m => m.OptimizadorListaModule)
-
+    loadChildren: () => import('@modules/optimizador-lista/optimizador-lista.module').then(m => m.OptimizadorListaModule),
+    canActivate: [UsuarioGuard]
   },
   {
     path: Ruta.FormRegistro,
@@ -43,13 +46,14 @@ const routes: Routes = [
   {
     path: Ruta.PerfilUsuario,
     component: PerfilUsuarioComponent,
-    loadChildren: () => import('@modules/perfil-usuario/perfil-usuario.module').then(m => m.PerfilUsuarioModule)
-
+    loadChildren: () => import('@modules/perfil-usuario/perfil-usuario.module').then(m => m.PerfilUsuarioModule),
+    canActivate: [UsuarioGuard]
   },
   {
     path: Ruta.PerfilComercio,
     component: PerfilComercioComponent,
-    loadChildren: () => import('@modules/perfil-comercio/perfil-comercio.module').then(m => m.PerfilComercioModule)
+    loadChildren: () => import('@modules/perfil-comercio/perfil-comercio.module').then(m => m.PerfilComercioModule),
+    canActivate: [ComercioGuard]
 
   },
 
