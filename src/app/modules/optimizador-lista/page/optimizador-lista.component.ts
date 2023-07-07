@@ -241,7 +241,7 @@ export class OptimizadorListaComponent implements OnInit {
     comidasSeleccionadas: number[],
     bebidasSeleccionadas: number[],
     valorRadio: number,
-    oCantidadesPorProducto: {}
+    oCantidadesPorProducto: any
   ) {
     const lista: ListaPost = {
       latitudUbicacion: latitudUbicacion,
@@ -294,6 +294,7 @@ export class OptimizadorListaComponent implements OnInit {
         }));
         this.actualizarDatosMasEconomico();
         this.obtenerRutaMasEconomico();
+        console.log(this.listaOfertasElegidasMasEconomico)
       },
       (error) => {
         console.error('Error al obtener las ofertas:', error);
