@@ -8,6 +8,11 @@ import { ConsultaEventoService } from '../services/consulta-evento.service';
 import { MapType } from '@angular/compiler';
 import { FormRecord } from '@angular/forms';
 import { SharedService } from '@shared/services/shared.service';
+import { PersonajeEvento } from '@core/enums/PersonajeEvento.enum';
+import { EventoTipo } from '@core/enums/Evento.enum';
+import { Medida } from '@core/enums/Medida.enum';
+import { Color } from '@core/enums/Color.enum';
+import { Ruta } from '@core/enums/Ruta.enum';
 
 
 @Component({
@@ -39,7 +44,7 @@ export class ConsultaEventoComponent {
   bMostrarPreguntaCantidadComensales: boolean = false;
   bMostrarPreguntaUbicacion: boolean = false;
   bMostrarListaDeProductos: boolean = false;
-  sImg: string = 'assets/images/asistente.svg';
+  sImg: string = PersonajeEvento.Inicio;
   bMostrarQueCompraQueresRealizar: boolean = true;
   aListaDeCompras!: ProductoLista[];
   bMostrarLoading: boolean = false;
@@ -96,11 +101,11 @@ export class ConsultaEventoComponent {
     this.oSelecciones.idEventoSeleccionado = idEvento;
     this.getTiposDeComidas(idEvento);
 
-    if (idEvento === 1) {
-      this.sImg = 'assets/images/asistente-cumpleaños.gif';
+    if (idEvento === EventoTipo.Cumpleaños) {
+      this.sImg = PersonajeEvento.Cumpleaños;
     }
-    if (idEvento === 2) {
-      this.sImg = 'assets/images/asistente-parrilla.gif';
+    if (idEvento === EventoTipo.Parrilla) {
+      this.sImg = PersonajeEvento.Parrilla;
     }
 
     this.bMostrarPreguntaQueTipoDeEvento = false;
@@ -112,8 +117,8 @@ export class ConsultaEventoComponent {
 
   onSeleccionComida(idComida) {
     this.cButton = document.getElementById("btn-check" + idComida);
-    if (this.cButton.style.backgroundColor === "rgb(224, 82, 5)") {
-      this.cButton.style.backgroundColor = 'rgb(19, 113, 176)';
+    if (this.cButton.style.backgroundColor === Color.naranja) {
+      this.cButton.style.backgroundColor = Color.azul;
       var index = this.oSelecciones.aComidasSeleccionadas.indexOf(idComida);
       this.oSelecciones.aComidasSeleccionadas.splice(index, 1);
       if(this.oSelecciones.aComidasSeleccionadas.length === 0){
@@ -121,7 +126,7 @@ export class ConsultaEventoComponent {
       }
 
     } else {
-      this.cButton.style.backgroundColor = "rgb(224, 82, 5)"
+      this.cButton.style.backgroundColor = Color.naranja;
       this.oSelecciones.aComidasSeleccionadas.push(idComida);
       this.habilitarBotonContinuar();
     }
@@ -148,15 +153,15 @@ export class ConsultaEventoComponent {
 
   onSeleccionBebida(idBebida) {
     this.cButton = document.getElementById("btn-checkBebida" + idBebida);
-    if (this.cButton.style.backgroundColor === "rgb(224, 82, 5)") {
-      this.cButton.style.backgroundColor = 'rgb(19, 113, 176)';
+    if (this.cButton.style.backgroundColor === Color.naranja) {
+      this.cButton.style.backgroundColor = Color.azul;
       var index = this.oSelecciones.aBebidasSeleccionadas.indexOf(idBebida);
       this.oSelecciones.aBebidasSeleccionadas.splice(index, 1);
       if(this.oSelecciones.aBebidasSeleccionadas.length === 0 ){
         this.deshabilitarBotonContinuar();
       }
     } else {
-      this.cButton.style.backgroundColor = "rgb(224, 82, 5)"
+      this.cButton.style.backgroundColor =Color.naranja;
       this.oSelecciones.aBebidasSeleccionadas.push(idBebida);
       this.habilitarBotonContinuar();
     }
@@ -194,23 +199,23 @@ export class ConsultaEventoComponent {
       if (oProducto.ingrediente) {
         if(this.elPesoEsMayorA1kg(oProducto)){
           oProducto.peso = oProducto.peso / 1000;
-          oProducto.medida = "kgs"
+          oProducto.medida = Medida.Kilos;
           this.bMostrarKg = true;
         }else{
           
-          oProducto.medida = "grs"
+          oProducto.medida = Medida.Gramos;
           this.bMostrarKg = true;
         }
         
       } else {
-        oProducto.medida = "lts"
+        oProducto.medida = Medida.Litros;
         oProducto.unidades = oProducto.peso / 1000;
         oProducto.peso = oProducto.peso / 1000;
         this.bMostrarLt = true;
       }
     }else{
       oProducto.seManejaPorUnidades = true;
-      oProducto.medida = "unidades"
+      oProducto.medida = Medida.Unidades
     }
       this.aListaDeCompras.push(oProducto)
     });
@@ -260,14 +265,14 @@ export class ConsultaEventoComponent {
       idEvento: this.idEvento
     };
 
-    this.router.navigate(['optimizador-lista'], { queryParams });
+    this.router.navigate([Ruta.OptimizadorLista], { queryParams });
   }
   obtenerProductosConSusCantidadesParaPost(aListaDeComprasParaPost: ProductoLista[]) {
     aListaDeComprasParaPost.forEach(oProducto => {
-      if(oProducto.medida === "unidades"){
+      if(oProducto.medida === Medida.Unidades){
         this.oMapCantidadesProductos.set(oProducto.nombre , oProducto.unidades);
       }else{
-          if(oProducto.medida === "kgs" || oProducto.medida === "lts" ){
+          if(oProducto.medida === Medida.Kilos || oProducto.medida === Medida.Litros ){
             this.oMapCantidadesProductos.set(oProducto.nombre ,oProducto.peso*1000);
           }else{
             this.oMapCantidadesProductos.set(oProducto.nombre ,oProducto.peso);
@@ -287,7 +292,7 @@ export class ConsultaEventoComponent {
   }
 
   volverAEvento(){
-    this.sImg = 'assets/images/asistente.svg';
+    this.sImg = PersonajeEvento.Inicio;
     this.oSelecciones.idEventoSeleccionado= 0;
     this.oSelecciones.aComidasSeleccionadas=[];
     this.bMostrarPreguntaQueTipoDeComida=false;
