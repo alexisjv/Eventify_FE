@@ -18,10 +18,10 @@ $danger: #d61710e9 !default;
   font-family: "Poppins", sans-serif;
   text-transform: uppercase;
   font-weight: 500;
-  font-size: 13px;
+  font-size: 10px;
   letter-spacing: 1px;
   display: inline-block;
-  padding: 8px 18px;
+  padding: 6px 16px;
   border-radius: 50px;
   transition: 0.5s;
   border: 2px solid #ff6336;
@@ -33,10 +33,10 @@ $danger: #d61710e9 !default;
   font-family: "Poppins", sans-serif;
   text-transform: uppercase;
   font-weight: 500;
-  font-size: 13px;
+  font-size: 10px;
   letter-spacing: 1px;
   display: inline-block;
-  padding: 8px 18px;
+  padding: 6px 16px;
   border-radius: 50px;
   transition: 0.5s;
   border: 2px solid #1371B0;
@@ -91,42 +91,9 @@ body {
   }
 
   h1{
-    font-size: 18px;
+    font-size: 15px;
   }
   
-  
-  /*--------------------------------------------------------------
-  # Back to top button
-  --------------------------------------------------------------*/
-  .back-to-top {
-    position: fixed;
-    visibility: hidden;
-    opacity: 0;
-    right: 15px;
-    bottom: 15px;
-    z-index: 996;
-    background: #ff8153;
-    width: 40px;
-    height: 40px;
-    border-radius: 4px;
-    transition: all 0.4s;
-  }
-  
-  .back-to-top i {
-    font-size: 28px;
-    color: #fff;
-    line-height: 0;
-  }
-  
-  .back-to-top:hover {
-    background: #ff8153;
-    color: #fff;
-  }
-  
-  .back-to-top.active {
-    visibility: visible;
-    opacity: 1;
-  }
   
   /*--------------------------------------------------------------
   # Disable AOS delay on mobile
