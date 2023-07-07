@@ -54,10 +54,17 @@ $danger: #d61710e9 !default;
   color: #fff;
 }
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body {
     background: #fff;
     color: #666666;
     font-family: "Open Sans", sans-serif;
+    
+  margin-bottom: 100px;
   }
   
   a {

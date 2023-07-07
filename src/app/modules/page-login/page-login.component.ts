@@ -44,7 +44,7 @@ export class PageLoginComponent {
       this.userLogin.reset();
       this.eventService.emitEvent('loginSuccess');
 
-      this.toastr.success("Bienvenido/a: Acceda a las funcionalidades exclusivas","Sesión inciada");
+      this.toastr.success("Bienvenido","Sesión inciada");
 
       if(this.estadoConsulta){
         window.history.back();
