@@ -7,10 +7,10 @@
     <div class="col-md-8 col-xs-12 col-sm-6 d-flex justify-content-center">
         <div class="col-12 col-sm-9 col-md-12 col-lg-6 text-center p-3 mt-4 mb-2">
             
-            <div class="card px-0 pt-4 pb-0 mt-3 h-50 shadow "*ngIf="bMostrarQueCompraQueresRealizar">
-                <h3><strong>¿Que compra querés realizar?</strong></h3>
+            <div class="card px-0 pt-4 pb-0 mt-3 shadow"*ngIf="bMostrarQueCompraQueresRealizar">
+                <h3 class="textQueCompra"><strong>¿Que compra querés realizar?</strong></h3>
 
-                <div class="row">
+                <div class="row contenedorPaddingMobile">
                     <div class="col-md-12 mx-0">
                         <form id="msform">
                             <!-- progressbar -->
@@ -187,13 +187,13 @@
                                 <li class="list-group-item d-flex justify-content-between p-2 align-items-center"
                                     *ngFor="let productoLista of aListaDeCompras">
                                     <p class="fs-6">{{ productoLista.nombre }}</p>
-                                    <span class="badge  rounded-pill"
-                                        style="color: white; font-size: 15px; background-color: rgb(209, 95, 13); padding: 10px;"
+                                    <span class="badge  rounded-pill ms-3"
+                                        style="color: white; font-size: 10px; background-color: rgb(209, 95, 13); padding: 10px;"
                                         *ngIf="productoLista.seManejaPorUnidades">
                                         {{ productoLista.unidades }} {{ productoLista.medida }}
                                     </span>
-                                    <span class="badge badge-primary rounded-pill"
-                                        style="color: white; font-size: 15px; background-color: rgb(209, 95, 13); padding: 10px;"
+                                    <span class="badge badge-primary rounded-pill ms-3"
+                                        style="color: white; font-size: 10px; background-color: rgb(209, 95, 13); padding: 10px;"
                                         *ngIf="!productoLista.seManejaPorUnidades">
                                         {{ productoLista.peso }} {{ productoLista.medida }}
                                     </span>
