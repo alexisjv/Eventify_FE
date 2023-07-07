@@ -5,7 +5,7 @@
   class="d-flex justify-content-center registro-usuario contenedor align-items-center"
   *ngIf="mostrarRegistroComun"
 >
-  <div class="card col-md-5 col-sm-8 d-flex align-items-center m-4 borde">
+  <div class="card col-md-5 col-sm-8 d-flex align-items-center m-4 borde" data-aos="zoom-in">
     <article
       class="card-body mx-auto align-items-center"
       style="max-width: 500px"
@@ -155,7 +155,7 @@
         </div>
         <!-- form-group// -->
 
-        <p class="text-center mt-3">
+        <p class="text-center fs-6 mt-3">
           Ya tenés una cuenta?
           <a class="text-decoration-none" href="login">Iniciar sesión</a>
         </p>
@@ -206,7 +206,7 @@
           </button>
         </form>
         <div>
-          <p class="text-center mt-3">
+          <p class="text-center fs-6 mt-3">
             No te llegó el email?
             <a class="text-decoration-none" href="">Hacé click aquí</a>
           </p>
@@ -257,29 +257,14 @@
   class="d-flex justify-content-center registro-comercio contenedor align-items-center"
   *ngIf="!cuitValido && !bMostrarLoading && !mostrarRegistroComun"
 >
-  <div class="card col-md-5 col-sm-8 d-flex align-items-center mb-2">
+  <div class="card col-md-5 col-sm-8 d-flex align-items-center mb-2" data-aos="zoom-in">
     <article class="card-body mx-auto p-3" style="max-width: 500px">
       <h1 class="text-center mt-2 font-weight-bold">
         <strong>Publicá tus ofertas y aumentá tus ventas</strong>
       </h1>
-      <button class="btn btn-link text-info text-center" data-bs-toggle="modal" data-bs-target="#cuitInfoModal">¿Por qué te pedimos el CUIT?</button>
-      <div class="modal fade" id="cuitInfoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">¿Por qué te pedimos el CUIT?</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <p>Por una cuestión de seguridad, primero debemos validar mediante CUIT
-                que tu comercio se encuentra registrado ante el Registro Nacional de Sociedades Argentinas</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-info" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <p class="text-black-50 text-info-cuit">Por una cuestión de seguridad, primero debemos validar mediante CUIT
+        que tu comercio se encuentra registrado ante el Registro Nacional de Sociedades Argentinas</p>
+      
     
       <div class="form-group input-group mt-3">
         <input
@@ -306,7 +291,7 @@
         </button>
       </div>
 
-      <p class="text-center mt-3">
+      <p class="text-center fs-6 mt-3">
         Ya tenés una cuenta?
         <a class="text-decoration-none" href="login">Iniciar sesión</a>
       </p>
@@ -320,7 +305,7 @@
   class="d-flex justify-content-center registro-comercio contenedor align-items-center"
   *ngIf="!cuitValido && bMostrarLoading"
 >
-  <div class="card col-md-5 col-sm-8 d-flex align-items-center mb-2">
+  <div class="card col-md-5 col-sm-8 d-flex align-items-center mb-2" data-aos="zoom-in">
     <article class="card-body mx-auto p-3" style="max-width: 500px">
       <h1 class="text-center mt-2 font-weight-bold wrap">
         <strong>Estamos validando el cuit</strong>
@@ -348,7 +333,7 @@
   class="d-flex justify-content-center registro-comercio contenedor align-items-center"
   *ngIf="mostrarRegistroComercio && cuitValido"
 >
-  <div class="card col-md-5 col-sm-8 d-flex align-items-center mb-2">
+  <div class="card col-md-5 col-sm-8 d-flex align-items-center mb-2" data-aos="zoom-in">
     <article class="card-body mx-auto p-3" style="max-width: 500px" *ngIf="status === ''">
       <h1 class="text-center mt-2 font-weight-bold">
         <strong>Publicá tus ofertas y aumentá tus ventas</strong>
@@ -466,7 +451,7 @@
           </button>
         </div>
 
-        <p class="text-center mt-3">
+        <p class="text-center fs-6 mt-3">
           Ya tenés una cuenta?
           <a class="text-decoration-none" href="login">Iniciar sesión</a>
         </p>
@@ -598,4 +583,5 @@
     </article>
     
   </div>
+
 </section>

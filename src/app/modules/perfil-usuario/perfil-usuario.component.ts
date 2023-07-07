@@ -11,7 +11,7 @@ import { ListaDetalle } from '@core/models/listaDetalle';
 export class PerfilUsuarioComponent implements OnInit, AfterViewInit {
   listasGuardadas: ListaGuardada[] = [];
   detalleLista!: ListaDetalle;
-  currentUser!: any;
+  currentUser: any = {};
   modalDetalle: boolean = false;
 
   constructor(private perfilService: PerfilUsuarioService) {}

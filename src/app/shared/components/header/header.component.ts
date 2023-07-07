@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
       sessionStorage.removeItem('currentUser');
       this.sessionAuthenticated = "noauth";
       this.rolUsuario = '';
-      this.router.navigate(['']);
+      this.reloadPage();
     })
     .catch((error) => {
       // Ocurrió un error al cerrar la sesión

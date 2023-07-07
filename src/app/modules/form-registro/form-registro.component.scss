@@ -6,11 +6,15 @@
   background-size: contain;
   background-repeat: repeat;
   position: relative;
+  
 }
 .card{
-  margin-top: 5%;
+  margin-top: 3%;
+  margin: 3%;
   height: auto !important;
-  border-radius: 5%;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+
 }
 .buttonnregistro{
   background-color: #025373 !important;
@@ -23,15 +27,15 @@
 }
 .modalRegistroCliente{
   background-color: #04bfbf;
-  border-radius: 5%;
+  border-radius: 15px;
 }
 .modalRegistroComercio{
   background-color: #04bfbf;
   padding: 5%;
-  border-radius: 5%;
+  border-radius: 15px;
 }
 .formComercio{
-  border-radius: 5%;
+  border-radius: 15px;
 }
 
 
@@ -40,8 +44,11 @@ border-radius: 30px;
 }
 
 .borde {
-border-radius: 30px;
+border-radius: 15px;
 }
 .icon-email{
  font-size: 50px !important;
+}
+.text-info-cuit{
+  font-size: 15px;
 }

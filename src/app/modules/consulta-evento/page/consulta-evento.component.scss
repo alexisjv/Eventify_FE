@@ -544,6 +544,7 @@ padding-bottom: 50px;
   }
   .btn-outline-info :hover{
     color: #ffff !important;
+    font-family: "Poppins", sans-serif;
   }
   // .preguntaUbicacion{
   //   height: 700px;
@@ -557,5 +558,12 @@ padding-bottom: 50px;
     }
     .mateo{
       display: none;
+    }
+    .contenedorPaddingMobile{
+    padding-left: 5%;
+    padding-right: 5%;
+    }
+    .textQueCompra{
+      padding: 5%;
     }
   }

@@ -15,7 +15,7 @@ html, body {
 }
 
 #footer {
-  background: #343b40;
+  background: rgba(52, 59, 64, 0.9);
   padding: 30px 0;
   color: #fff;
   font-size: 14px;
@@ -38,4 +38,11 @@ html, body {
   text-align: center;
   font-size: 13px;
   color: #ccc;
+}
+
+#footer {
+  position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
 }

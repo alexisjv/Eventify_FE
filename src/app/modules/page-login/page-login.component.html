@@ -1,8 +1,8 @@
-<section class="col-12 container-fluid contenedor d-flex justify-content-center align-items-center">
-    <div class="col-md-5 col-sm-8 card align-items-center d-flex mb-2 shadow">
-        <div class="d-flex flex-column align-items-center contenedor-card justify-content-center">
+<section class="col-12 container-fluid contenedor d-flex justify-content-center align-items-center" >
+    <div class="col-md-5 col-sm-8 card align-items-center d-flex mb-2 shadow" data-aos="zoom-in">
+        <div class="d-flex flex-column align-items-center contenedor-card justify-content-center" >
             <img type="svg" src="../../../assets/images/logo1.svg" width="300px" class="mt-4">
-            <article class="card-body mx-auto text-light align-items-center" style="max-width: 400px;">
+            <article class="card-body mx-auto text-light align-items-center" style="max-width: 400px;" >
                 <form novalidate (ngSubmit)="onLogin()" [formGroup]="userLogin">
                     <div class="alert alert-danger mt-1" *ngIf="status === 'error'">
                         Email y/o contraseña inválidos
@@ -38,7 +38,7 @@
                     <div class="form-group mt-3 d-flex flex-column align-items-center">
                         <button type="submit" class="btn btn-info text-light btn-block borde"> Iniciar sesión </button>
                     </div>
-                    <p class="text-center text-dark mt-3">No tienes una cuenta? <a class="text-decoration-none"
+                    <p class="text-center text-dark fs-6 mt-3">No tienes una cuenta? <a class="text-decoration-none"
                             href="form-registro">Regístrate</a> </p>
                 </form>
             </article>

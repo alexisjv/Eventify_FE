@@ -6,9 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '@shared/services/shared.service';
 import { ProductoCard } from '@core/models/productoCard';
 import { CardOfertaComponent } from '@shared/components/card-oferta/card-oferta.component';
-import { ProductoLista } from '@core/models/ProductoLista';
 import { ToastrService } from 'ngx-toastr';
-import { timeout } from 'rxjs';
 
 @Component({
   selector: 'app-optimizador-lista',
@@ -74,6 +72,9 @@ export class OptimizadorListaComponent implements OnInit {
 
   mensajeOfertas!: string;
   currentUser!: any;
+
+  masEconomicoActivo: string = "activo";
+  menorRecorridoActivo: string = "inactivo";
 
   constructor(
     private listaCompraService: OptimizadorListaService,
@@ -172,31 +173,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.actualizarDatosMenorRecorrido();
   }
 
-  toggleDiv1() {
-    this.isOpenDiv1 = true;
-    this.isOpenDiv2 = false;
-    this.listaElegidaMasEconomico = true;
-    this.listaElegidaMenorRecorrido = false;
-    this.actualizarDatosMasEconomico();
-    this.obtenerRutaMasEconomico();
-    this.imagenLista = 'mateoMejorOferta';
-    this.toastr.info("Ha cambiado a lista más económica","Lista seleccionada")
-  }
-
-  toggleDiv2() {
-    this.isOpenDiv1 = false;
-    this.isOpenDiv2 = true;
-    this.listaElegidaMasEconomico = false;
-    this.listaElegidaMenorRecorrido = true;
-    this.actualizarDatosMenorRecorrido();
-    this.obtenerRutaMenorRecorrido();
-    this.imagenLista = 'mateoMejorRecorrido';
-    this.toastr.info("Ha cambiado a lista menor recorrido", "Lista seleccionada")
-  }
-
-  toggleDiv3() {
-    this.isOpenDiv3 = !this.isOpenDiv3;
-  }
+  
 
 
   cambiarVistaProducto(vista: string) {
@@ -617,6 +594,8 @@ export class OptimizadorListaComponent implements OnInit {
   }
 
   mostrarContenidoMasEconomico(){
+    this.masEconomicoActivo = 'activo';
+    this.menorRecorridoActivo = 'inactivo';
     this.divContenidoListaMasEconomico = true;
     this.divContenidoListaMenorRecorrido = false;
     this.listaElegidaMasEconomico = true;
@@ -627,6 +606,8 @@ export class OptimizadorListaComponent implements OnInit {
     this.toastr.info("Ha cambiado a lista más económica","Lista seleccionada")
   }
   mostrarContenidoMenorRecorrdio(){
+    this.masEconomicoActivo = 'inactivo';
+    this.menorRecorridoActivo = 'activo';
     this.divContenidoListaMasEconomico = false;
     this.divContenidoListaMenorRecorrido = true;
     this.listaElegidaMasEconomico = false;
