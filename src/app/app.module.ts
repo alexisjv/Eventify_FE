@@ -24,7 +24,7 @@ import { ToastrModule } from 'ngx-toastr';
     FormsModule,
     ToastrModule.forRoot(
       {
-        timeOut: 3000,
+        timeOut: 2000,
         progressBar: true,
         progressAnimation: 'increasing',
         preventDuplicates: true,

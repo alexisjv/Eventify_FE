@@ -92,7 +92,7 @@ export class MapaComponent implements OnInit {
               lng: posicion.coords.longitude,
             };
             resolve(ubicacionActual);
-            this.toastr.success("Usaremos tu ubicación para obtener las ofertas cercanas","Ubicación activada");
+           
           },
           (error) => {
             reject('Error al obtener la ubicación: ' + error);
