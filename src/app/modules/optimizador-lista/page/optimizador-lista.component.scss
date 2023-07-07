@@ -163,10 +163,7 @@ nav-tabs {
 }
 
 
-#carrousel .carousel-control-next {
-  background-color: red;
-  /* Agrega aquí cualquier otro estilo personalizado que desees aplicar */
-}
+
 .scrollable-list {
   max-height: 750px;
   overflow-y: auto;
@@ -277,7 +274,7 @@ nav-tabs {
 
 .img-comparar {
   width: 100%;
-  max-width: 40px;
+  max-width: 60px;
   height: auto;
   border-radius: 50%;
   box-shadow: 3px 4px 9px -3px rgba(0, 0, 0, 0.72);
@@ -402,5 +399,9 @@ nav-tabs {
 
 .imagen-izquierda {
  display: none;
+}
+
+.inicia-sesion{
+  margin-top: 20px;
 }
 }

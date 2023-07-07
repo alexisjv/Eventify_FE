@@ -1,8 +1,8 @@
-<section class="col-12 container-fluid contenedor d-flex justify-content-center align-items-center">
-    <div class="col-md-5 col-sm-8 card align-items-center d-flex mb-2 shadow">
-        <div class="d-flex flex-column align-items-center contenedor-card justify-content-center">
+<section class="col-12 container-fluid contenedor d-flex justify-content-center align-items-center" >
+    <div class="col-md-5 col-sm-8 card align-items-center d-flex mb-2 shadow" data-aos="zoom-in">
+        <div class="d-flex flex-column align-items-center contenedor-card justify-content-center" >
             <img type="svg" src="../../../assets/images/logo1.svg" width="300px" class="mt-4">
-            <article class="card-body mx-auto text-light align-items-center" style="max-width: 400px;">
+            <article class="card-body mx-auto text-light align-items-center" style="max-width: 400px;" >
                 <form novalidate (ngSubmit)="onLogin()" [formGroup]="userLogin">
                     <div class="alert alert-danger mt-1" *ngIf="status === 'error'">
                         Email y/o contraseña inválidos

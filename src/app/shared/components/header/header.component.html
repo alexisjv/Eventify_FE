@@ -10,7 +10,7 @@
       <ul>
         <li><a class="nav-link scrollto active " routerLink="">Inicio</a></li>
         <!-- <li><a class="nav-link scrollto" routerLink="#team">Sobre nosotros</a></li> -->
-        <li *ngIf="rolUsuario == 'Usuario'"><a class="nav-link scrollto" routerLink="consulta-evento">Armá tu lista</a></li>
+        <li *ngIf="rolUsuario == 'Usuario' || rolUsuario == ''"><a class="nav-link scrollto" routerLink="consulta-evento">Armá tu lista</a></li>
 
         <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario == 'Usuario'"><a class="nav-link scrollto" routerLink="perfil-usuario">Mi perfil</a></li>
         <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario == 'Comercio'"><a class="nav-link scrollto" routerLink="perfil-comercio">Mi perfil</a></li>

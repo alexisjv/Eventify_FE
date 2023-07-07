@@ -51,7 +51,7 @@
                   *ngFor="let publicacion of producto.ofertas"
                 >
                   <div>
-                    <app-card-oferta
+                    <app-card-oferta data-aos="zoom-in"
                       class="d-flex justify-content-center"
                       [nombreProducto]="publicacion.oferta.nombreProducto"
                       [marca]="publicacion.oferta.marca"
@@ -124,7 +124,7 @@
                          
                           class="d-flex justify-content-center"
                         >
-                          <app-card-oferta
+                          <app-card-oferta data-aos="zoom-in"
                             [nombreProducto]="producto.oferta.nombreProducto"
                             [marca]="producto.oferta.marca"
                             [precio]="producto.oferta.precio"
@@ -145,10 +145,10 @@
         </div>
       </div>
     </div>
-    <div class="col-xl-5">
+    <div class="col-xl-5" >
 
 
-      <div class="row d-flex justify-content-center align-items-center">
+      <div class="row d-flex justify-content-center align-items-center" >
         <div (click)="mostrarContenidoMasEconomico()" class="col-12 col-xl btn-pestaña-1 card-redondeada card-redondeada-2 escenarioMasEcomonico mx-2 mw-100" [class]="masEconomicoActivo" style="height: 200px;">
   <img src="../../../../assets/images/comparar-mas-economico2.jpg" alt="Imagen" class="imagen-izquierda" />
   <div class="contenido-derecha text-light">
@@ -203,7 +203,7 @@
       
 
       <!-- Button trigger modal -->
-      <div class="d-flex justify-content-center align-items-center">
+      <div class="d-flex justify-content-center align-items-center" *ngIf="currentUser">
         <button
           (click)="ordenarListas()"
           type="button"
@@ -222,6 +222,24 @@
         >
           Guardar Lista
         </button>
+      </div>
+
+      <div class="d-flex justify-content-center align-items-center mt-4 mb-4" *ngIf="!currentUser">
+        <div class="col-12 col-xl btn-pestaña-1  card-redondeada-2 escenarioMasEcomonico mx-2 mw-100">
+          <div class=" text-light d-flex justify-content-center">
+            <div class="row">
+              <div class="col-md-4 col-12 text-center">
+                <a class="btn btn-info" routerLink="/login" [queryParams]="{estadoConsulta: true }">Iniciá sesión</a>
+              </div>
+              <div class="col-md-8 col-12 text-center inicia-sesion">
+                <p class="textoEnBoton">¡Inicia sesión para comparar y guardar tu lista!</p>
+              </div>
+            </div>
+            
+          </div>
+          
+          
+        </div>
       </div>
 
      
@@ -460,6 +478,24 @@
     <div class="modal-footer">
       <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
         Cerrar
+      </button>
+      <button
+        *ngIf="listaElegidaMasEconomico"
+        class="btn btn-info"
+        style="color: white"
+        data-bs-dismiss="modal"
+        (click)="guardarLista(listaOfertasElegidasMasEconomico, distanciaMasEconomico)"
+      >
+        Guardar Lista
+      </button>
+      <button
+        *ngIf="listaElegidaMenorRecorrido"
+        class="btn btn-info"
+        style="color: white"
+        data-bs-dismiss="modal"
+        (click)="guardarLista(aListaSeleccionComercio, distanciaMenorRecorrido)"
+      >
+        Guardar Lista
       </button>
     </div>
   </div>
