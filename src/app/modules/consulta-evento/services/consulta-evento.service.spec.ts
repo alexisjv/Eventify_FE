@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+/* import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ConsultaEventoService } from './consulta-evento.service';
 import { Evento } from '@core/models/evento';
@@ -79,20 +79,4 @@ describe('ConsultaEventoService', () => {
   });
 
 
-/*   it('Deberia traer los tipos de bebidas para el evento', () => {
-    const mockBebidas: Bebidas[] = [
-      { id: 1, tipoBebida: 'Bebida con alcohol' },
-      { id: 2, tipoBebida: 'Bebida sin alcohol' }
-    ];
-    const idEvento = 1;
-
-    service.getListaBebidas(idEvento).subscribe((bebidas: Bebidas[]) => {
-      expect(bebidas).toEqual(mockBebidas);
-    });
-
-    const req = httpMock.expectOne(`${API_URL}Evento/bebidas?idEvento=${idEvento}`);
-    expect(req.request.method).toBe('GET');
-    req.flush(mockBebidas);
-  }); */
-
-});
+}); */

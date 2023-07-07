@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+/* import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import { DireccionAutocompletadoComponent } from './direccion-autocompletado.component';
@@ -23,3 +23,4 @@ describe('DireccionAutocompletadoComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ */

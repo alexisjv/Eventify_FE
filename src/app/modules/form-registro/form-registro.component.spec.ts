@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+/* import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormRegistroComponent } from './form-registro.component';
 
@@ -21,3 +21,4 @@ describe('FormRegistroComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ */

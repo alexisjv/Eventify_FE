@@ -6,9 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '@shared/services/shared.service';
 import { ProductoCard } from '@core/models/productoCard';
 import { CardOfertaComponent } from '@shared/components/card-oferta/card-oferta.component';
-import { ProductoLista } from '@core/models/ProductoLista';
 import { ToastrService } from 'ngx-toastr';
-import { timeout } from 'rxjs';
 
 @Component({
   selector: 'app-optimizador-lista',
