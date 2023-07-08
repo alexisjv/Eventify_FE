@@ -14,10 +14,9 @@ export class PublicoGuard implements CanActivate {
     state: RouterStateSnapshot): boolean | UrlTree | Promise<boolean | UrlTree> {
 
         const comercio = this.authService.esComercio();
-        const usuario = this.authService.esUsuario();
 
 
-    if(!comercio && !usuario){
+    if(!comercio){
       return true;
     }
     else{

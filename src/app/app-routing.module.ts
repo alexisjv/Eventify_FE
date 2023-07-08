@@ -24,13 +24,13 @@ const routes: Routes = [
     path: Ruta.ConsultaEvento,
     component: ConsultaEventoComponent,
     loadChildren: () => import('@modules/consulta-evento/consulta-evento.module').then(m => m.ConsultaEventoModule),
-    canActivate: [PublicoGuard]
+    canActivate: [PublicoGuard, UsuarioGuard]
   },
   {
     path: Ruta.OptimizadorLista,
     component: OptimizadorListaComponent,
     loadChildren: () => import('@modules/optimizador-lista/optimizador-lista.module').then(m => m.OptimizadorListaModule),
-    canActivate: [PublicoGuard]
+    canActivate: [PublicoGuard, UsuarioGuard]
   },
   {
     path: Ruta.FormRegistro,
