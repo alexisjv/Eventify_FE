@@ -39,41 +39,30 @@
           <div class="container">
           <div class="row div-mas-economico  scrollable-list activo">
             <div class="div-oferta" *ngIf="aListaProductos.length > 0">
-              <div class="col-md-12"  *ngFor="let producto of aListaProductos; let i = index" >
-
-              <ngb-carousel
-                [interval]="-1"
-                *ngIf="producto.ofertas.length > 0"
-                [showNavigationArrows]="producto.showArrows"
-                [showNavigationIndicators]="false"
-              >
-                <ng-template
-                  ngbSlide
-                  let-j="index"
-                  *ngFor="let publicacion of producto.ofertas"
-                >
-                  <div>
-                    <app-card-oferta
-                      class="d-flex justify-content-center"
-                      [nombreProducto]="publicacion.oferta.nombreProducto"
-                      [marca]="publicacion.oferta.marca"
-                      [precio]="publicacion.oferta.precio"
-                      [nombreComercio]="publicacion.oferta.nombreComercio"
-                      [imagen]="publicacion.oferta.imagen"
-                      [subtotal]="publicacion.subtotal"
-                      [cantidad]="publicacion.cantidad"
-                      [idProducto]="publicacion.oferta.idPublicacion"
-                      [oferta]="publicacion"
-                      [i]="i"
-                      [rol]="1"
-                      (ofertaSeleccionadaActual)="cambiarMarca($event)"
-                    ></app-card-oferta>
-                  </div>
-                </ng-template>
-              </ngb-carousel>
-              
+              <div class="row">
+                <div class="col" *ngFor="let producto of aListaProductos; let i = index">
+                  <app-card-oferta
+                    class="d-flex justify-content-center"
+                    (click)="abrirModalConOfertas(producto)"
+                    [nombreProducto]="producto.nombreProducto"
+                    [marca]="producto.ofertas[0].oferta.marca"
+                    [precio]="producto.ofertas[0].oferta.precio"
+                    [nombreComercio]="producto.ofertas[0].oferta.nombreComercio"
+                    [imagen]="producto.ofertas[0].oferta.imagen"
+                    [subtotal]="producto.ofertas[0].subtotal"
+                    [cantidad]="producto.ofertas[0].cantidad"
+                    [fechaVencimiento]="producto.ofertas[0].oferta.fechaVencimiento"
+                    [idProducto]="producto.ofertas[0].oferta.idPublicacion"
+                    [oferta]="producto.ofertas[0]"
+                    [editar]="false"
+                    [i]="i"
+                    [rol]="1"
+                  ></app-card-oferta>
+                </div>
+                
+              </div>
             </div>
-            </div>
+            
             <div class="div-oferta  scrollable-list" *ngIf="aListaProductos.length === 0">
               <h1>No se encontraron ofertas en su zona</h1>            </div>
           </div>
@@ -86,64 +75,47 @@
             *ngIf="divContenidoListaMenorRecorrido"
           >
             <div class="container">
-              <div class="row div-menor-recorrido  scrollable-list activo" *ngIf="aListaSeleccionComercio.length > 0">
+              <div class="row div-menor-recorrido scrollable-list activo" *ngIf="aListaSeleccionComercio.length > 0">
                 <div class="col-md-3">
                   <div class="tab-content">
-                      
-                        <div
-                          class="d-flex flex-column"
-                          *ngFor="let comercio of aListaComercios; let i = index"
-                        >
-                        <button
-                            class="btn"
-                            id="boton{{ comercio.nombreComercio }}"
-                            (click)="onClickVerListaDeComercio(comercio, i)"
-                            [class.active]="activeButton === i"
-                          >
-                          <div class="card">
-                            <img class="card-img-top" src="{{ comercio.imagenComercio }}" alt="Imagen">
-                            <div class="card-body">
-                              <h3 class="card-title">{{ comercio.nombreComercio }}</h3>
-                              <p class="card-text">Total: ${{ comercio.total }}</p>
-                            </div>
+                    <div class="d-flex flex-column" *ngFor="let comercio of aListaComercios; let i = index">
+                      <button class="btn" id="boton{{ comercio.nombreComercio }}" (click)="onClickVerListaDeComercio(comercio, i)" [class.active]="activeButton === i">
+                        <div class="card">
+                          <img class="card-img-top" src="{{ comercio.imagenComercio }}" alt="Imagen">
+                          <div class="card-body">
+                            <h3 class="card-title">{{ comercio.nombreComercio }}</h3>
+                            <p class="card-text">Total: ${{ comercio.total }}</p>
                           </div>
-                          
-  
-                        </button>
-                       
                         </div>
-                      
-    
-                      
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-9">
                   <div class="tab-content">
-                      <div *ngIf="isOpenListaSeleccionComercio">
-                        <div
-                          *ngFor="
-                            let producto of aListaSeleccionComercio;
-                            let i = index
-                          "
-                         
-                          class="d-flex justify-content-center"
-                        >
-                          <app-card-oferta
-                            [nombreProducto]="producto.oferta.nombreProducto"
-                            [marca]="producto.oferta.marca"
-                            [precio]="producto.oferta.precio"
-                            [cantidad]="producto.cantidad"
-                            [subtotal]="producto.subtotal"
-                            [nombreComercio]="producto.oferta.nombreComercio"
-                            [imagen]="producto.oferta.imagen"
-                            [rol]="1"
-                          >
-                          </app-card-oferta>
+                    <div *ngIf="isOpenListaSeleccionComercio">
+                      <div class="row">
+                        <div class="col" *ngFor="let producto of aListaSeleccionComercio; let i = index">
+                          <div class="d-flex justify-content-center">
+                            <app-card-oferta
+                              [nombreProducto]="producto.oferta.nombreProducto"
+                              [marca]="producto.oferta.marca"
+                              [precio]="producto.oferta.precio"
+                              [cantidad]="producto.cantidad"
+                              [subtotal]="producto.subtotal"
+                              [nombreComercio]="producto.oferta.nombreComercio"
+                              [imagen]="producto.oferta.imagen"
+                              [rol]="1"
+                            >
+                            </app-card-oferta>
+                          </div>
                         </div>
                       </div>
+                    </div>
                   </div>
                 </div>
               </div>
+              
 
               <div class="row div-menor-recorrido" *ngIf="aListaSeleccionComercio.length === 0">
                 <h1>No se encontraron ofertas en su zona</h1>
@@ -720,6 +692,66 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
           Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Editar Oferta-->
+<div
+  class="modal fade"
+  id="modalEditar"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body text-center">
+        <ngb-carousel
+          [id]="'carousel' + productoElegidoParaEditar.nombreProducto"
+          [interval]="-1"
+          [showNavigationArrows]="true"
+                [showNavigationIndicators]="true"
+        >
+          <ng-template ngbSlide let-publicacion let-j="index" *ngFor="let producto of ofertasProductoElegidoParaEditar; let i = index"> 
+            <h1>Cambiar marca y cantidad de unidades</h1>
+
+            <app-card-oferta
+            class="d-flex justify-content-center"
+            [nombreProducto]="producto.oferta.nombreProducto"
+            [marca]="producto.oferta.marca"
+            [precio]="producto.oferta.precio"
+            [nombreComercio]="producto.oferta.nombreComercio"
+            [imagen]="producto.oferta.imagen"
+            [subtotal]="producto.subtotal"
+            [cantidad]="producto.cantidad"
+            [fechaVencimiento]="producto.oferta.fechaVencimiento"
+            [idProducto]="producto.oferta.idTipoProducto"
+            [oferta]="producto"
+            [editar]="true"
+            [i]="i"
+            [rol]="1"
+            (idMarcaProductoSeleccionadoActual)="cambiarMarca($event)"
+            (cantidadActualizada)="cambiarCantidad($event)"
+            (eliminarOferta)="eliminarOferta($event)"
+          ></app-card-oferta>
+          </ng-template>
+        </ngb-carousel>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" data-bs-dismiss="modal" (click)="actualizarDatosAmbosEscenarios()">
+          Aceptar
         </button>
       </div>
     </div>

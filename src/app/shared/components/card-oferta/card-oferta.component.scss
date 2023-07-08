@@ -1,9 +1,15 @@
-h1,h2, h3,h4,h5,h6, p{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   font-family: "Poppins", sans-serif !important;
 }
 
 .card {
-  max-width: 30em;
+  max-width: 20em;
   background-color: white;
   color: black;
   box-shadow: 0 7px 7px rgba(0, 0, 0, 0.18);
@@ -11,17 +17,14 @@ h1,h2, h3,h4,h5,h6, p{
   border-radius: 15px;
   display: flex;
   flex-direction: column;
-  min-width: 450px; /* Ajusta este valor según tus necesidades */
+  min-width: 20em;
+  min-height: 17em;
+  border: none;
 }
 .card img {
- 
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
-}
-.card-body {
-  display: flex;
-  flex-direction: row;
 }
 .text-section {
   max-width: 60%;
@@ -38,43 +41,66 @@ h1,h2, h3,h4,h5,h6, p{
   font-size: 1em;
   color: black;
 }
-.card-subtitle{
-  font-size: 15px;
-  color: black !important;
+.card-subtitle {
+  font-size: 13px;
+  color: rgb(81, 81, 81) !important;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  font-weight: bold;
 }
-.card-header{
+.card-header {
   background-color: #ffffff !important;
 }
-.card-title{
- font-size: 20px;
+.card-title {
+  font-size: 17px;
 }
 
-.card-text{
-  font-size: 16px;
+.card-text {
+  font-size: 13px;
+  margin: 0 !important;
 }
 
-.boton-cambiar{
-  border-radius: 10px;
-}
-.div-texto{
-  padding-left: 20px;
+.boton-cambiar {
+  font-size: 10px;
 }
 
-.div-boton{
-  padding: 15px;
+.eliminar-icon {
+  position: absolute;
+  top: 0;
+  right: 15px;
+  font-size: 30px;
+  color: red;
+  cursor: pointer;
+  pointer-events: auto;
+
+}
+
+.eliminar-icon:hover {
+  color: darkred;
+}
+
+.vencimiento-icon {
+  position: absolute;
+  top: 10px;
+  padding: 5px 10px;
+  left: 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  background-color: #1371b0;
+  color: white;
 }
 
 @media (max-width: 768px) {
   .card {
-    max-width: 250px;
+    max-width: 15em;
     margin-bottom: 20px;
-    min-width: 250px; 
-
+    min-width: 15em;
   }
 
   .card img {
+    margin-top: 10px;
     width: 80px;
-    height: 80px;
+    height: 100px;
   }
 
   .card-body {
@@ -113,10 +139,5 @@ h1,h2, h3,h4,h5,h6, p{
   .div-texto {
     padding-left: 0;
     text-align: center;
-  }
-
-  .div-boton {
-    padding: 0;
-    margin-top: 10px;
   }
 }
