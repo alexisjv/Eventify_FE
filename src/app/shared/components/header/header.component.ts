@@ -14,6 +14,8 @@ export class HeaderComponent implements OnInit, OnDestroy{
   rolUsuario: string = '';
   public currentUser;
   private eventSubscription!: Subscription;
+  isNavOpen: boolean = false;
+
 
   constructor(private cognitoService : CognitoService, 
               private router: Router, private location : Location,
@@ -64,6 +66,13 @@ export class HeaderComponent implements OnInit, OnDestroy{
   
   reloadPage() {
     window.location.reload();
+  }
+
+  closeMobileNav(): void {
+    const navbar = document.querySelector('#navbar') as HTMLElement | null;
+    if (navbar) {
+      navbar.classList.remove('navbar-mobile');
+    }
   }
 
 }

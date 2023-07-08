@@ -10,6 +10,7 @@ import { PerfilUsuarioComponent } from '@modules/perfil-usuario/perfil-usuario.c
 import { Ruta } from '@core/enums/Ruta.enum';
 import { UsuarioGuard } from '@core/guards/usuario.guard';
 import { ComercioGuard } from '@core/guards/comercio.guard';
+import { PublicoGuard } from '@core/guards/publico.guard';
 
 
 const routes: Routes = [
@@ -23,13 +24,13 @@ const routes: Routes = [
     path: Ruta.ConsultaEvento,
     component: ConsultaEventoComponent,
     loadChildren: () => import('@modules/consulta-evento/consulta-evento.module').then(m => m.ConsultaEventoModule),
-    canActivate: [UsuarioGuard]
+    canActivate: [PublicoGuard]
   },
   {
     path: Ruta.OptimizadorLista,
     component: OptimizadorListaComponent,
     loadChildren: () => import('@modules/optimizador-lista/optimizador-lista.module').then(m => m.OptimizadorListaModule),
-    canActivate: [UsuarioGuard]
+    canActivate: [PublicoGuard]
   },
   {
     path: Ruta.FormRegistro,
