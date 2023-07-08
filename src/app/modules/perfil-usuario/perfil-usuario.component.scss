@@ -72,6 +72,8 @@
     border-radius: .375rem;
     background-color: #fff;
     background-clip: border-box;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+
   }
   
   .card>hr {
@@ -739,6 +741,8 @@ p {
 }
 
 .badge {
+  width: 35px; /* Ajusta el ancho del círculo */
+  height: 35px; /* Ajusta la altura del círculo */
   background-color: #1371B0;
   border-radius: 50%;
   padding: 10px;
@@ -746,6 +750,10 @@ p {
   align-items: center;
   justify-content: center;
   transition: transform 0.3s ease-in-out;
+}
+
+.badge svg {
+  height: 90%; /* Ajusta el tamaño del icono dentro del círculo */
 }
 
 .img-evento{
@@ -778,4 +786,6 @@ h3 {
   font-size: 25px;
   color: #14484d;
 }
+
+
 

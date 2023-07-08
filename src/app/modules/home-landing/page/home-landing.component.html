@@ -4,9 +4,9 @@
     <img src="assets/images/isotipo-blanco.png" alt="" class="isotipo" />
     <img src="assets/images/logotipo-blanco.png" alt="" class="logotipo" />
     <!-- <h1>Eventify</h1> -->
-    <h2>Tu asistente de compras para eventos: <br>
+    <h2 class="slogan">Tu asistente de compras para eventos: <br>
       las mejores ofertas cerca tuyo.</h2>
-    <h2 *ngIf="currentUser" >Bienvenido/a {{currentUser}}</h2>
+    <h2 *ngIf="currentUser" >Bienvenido/a {{currentUser.usuario}}</h2>
     <a routerLink="/consulta-evento" class="btn-info boton-comenzar">Comenzar</a>
   </div>
 </section>
@@ -159,12 +159,6 @@
           />
           <div class="portfolio-info">
             <p>Asado con amigos</p>
-            <a
-              href="portfolio-details.html"
-              class="details-link"
-              title="More Details"
-              ><i class="bx bx-plus"></i
-            ></a>
           </div>
         </div>
 
@@ -176,12 +170,6 @@
           />
           <div class="portfolio-info">
             <p>Cumpleaños</p>
-            <a
-              href="portfolio-details.html"
-              class="details-link"
-              title="More Details"
-              ><i class="bx bx-plus"></i
-            ></a>
           </div>
         </div>
 
@@ -193,12 +181,6 @@
           />
           <div class="portfolio-info">
             <p>Fiesta</p>
-            <a
-              href="portfolio-details.html"
-              class="details-link"
-              title="More Details"
-              ><i class="bx bx-plus"></i
-            ></a>
           </div>
         </div>
 
@@ -210,12 +192,6 @@
           />
           <div class="portfolio-info">
             <p>Comida en familia</p>
-            <a
-              href="portfolio-details.html"
-              class="details-link"
-              title="More Details"
-              ><i class="bx bx-plus"></i
-            ></a>
           </div>
         </div>
 
@@ -227,12 +203,6 @@
           />
           <div class="portfolio-info">
             <p>Evento festivo</p>
-            <a
-              href="portfolio-details.html"
-              class="details-link"
-              title="More Details"
-              ><i class="bx bx-plus"></i
-            ></a>
           </div>
         </div>
 
@@ -244,12 +214,6 @@
           />
           <div class="portfolio-info">
             <p>Casamiento</p>
-            <a
-              href="portfolio-details.html"
-              class="details-link"
-              title="More Details"
-              ><i class="bx bx-plus"></i
-            ></a>
           </div>
         </div>
 
@@ -289,8 +253,7 @@
             />
             <h1>Registrate</h1>
             <p>
-              Clickeá en "Quiero publicar" y llena el formulario con los datos
-              de tu comercio
+              Llená el formulario con los datos de tu comercio
             </p>
           </div>
         </div>
@@ -323,7 +286,7 @@
       <div class="row justify-content-center">
         <div class="col-lg-4 col-md-6 text-center" data-aos="zoom-in">
           <br>
-          <a (click)="redirectToFormRegistro()" class="btn btn-info arma-tu-lista">Quiero publicar</a>
+          <a routerLink="form-registro" class="btn btn-info arma-tu-lista">Quiero publicar</a>
 
           
         </div>

@@ -14,7 +14,7 @@ import { ComercioGuard } from '@core/guards/comercio.guard';
 
 const routes: Routes = [
   {
-    path: Ruta.Home, //TODO (Public) Login, Register, Forgot...
+    path: Ruta.Home, 
     component: HomeLandingComponent,
     loadChildren: () => import('@modules/home-landing/home-landing.module').then(m => m.HomeLandingModule),
 
