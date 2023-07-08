@@ -114,11 +114,33 @@
   /**
    * Mobile nav toggle
    */
-  on('click', '.mobile-nav-toggle', function(e) {
-    select('#navbar').classList.toggle('navbar-mobile')
-    this.classList.toggle('bi-list')
-    this.classList.toggle('bi-x')
-  })
+  // Obtener el botón de alternancia de navegación móvil
+const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+
+// Agregar un controlador de eventos al botón de alternancia de navegación móvil
+mobileNavToggle.addEventListener('click', function(e) {
+  const navbar = document.querySelector('#navbar');
+  navbar.classList.toggle('navbar-mobile');
+  this.classList.toggle('bi-list');
+  this.classList.toggle('bi-x');
+});
+
+// Obtener el contenedor del menú de navegación
+const navbarContainer = document.querySelector('#navbar');
+
+// Agregar un controlador de eventos al contenedor del menú de navegación
+navbarContainer.addEventListener('click', function(e) {
+  // Verificar si se hizo clic en un enlace dentro del menú
+  if (e.target && e.target.matches('#navbar ul li a')) {
+    const navbarMobile = document.querySelector('#navbar.navbar-mobile');
+    if (navbarMobile) {
+      navbarMobile.classList.remove('navbar-mobile');
+      mobileNavToggle.classList.remove('bi-x');
+      mobileNavToggle.classList.add('bi-list');
+    }
+  }
+});
+
 
   /**
    * Mobile nav dropdowns activate

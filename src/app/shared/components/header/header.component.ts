@@ -12,7 +12,10 @@ import { Subscription } from 'rxjs';
 export class HeaderComponent implements OnInit, OnDestroy{
   sessionAuthenticated = "noauth";
   rolUsuario: string = '';
+  public currentUser;
   private eventSubscription!: Subscription;
+  isNavOpen: boolean = false;
+
 
   constructor(private cognitoService : CognitoService, 
               private router: Router, private location : Location,
@@ -27,19 +30,24 @@ export class HeaderComponent implements OnInit, OnDestroy{
     const currentUser = sessionStorage.getItem('currentUser');
     if (currentUser !== null) {
       this.sessionAuthenticated = "auth";
-      this.rolUsuario = JSON.parse(currentUser).rol;
+      this.currentUser = JSON.parse(currentUser)
     }
+    else{
+      this.currentUser = false;
+    }
+    
     this.eventSubscription = this.eventService.getEvent().subscribe((event: string) => {
       if (event === 'loginSuccess') {
         // Lógica para actualizar el encabezado después del inicio de sesión
         const storedUser = sessionStorage.getItem('currentUser');
         if (storedUser !== null) {
           this.sessionAuthenticated = "auth";
-          this.rolUsuario = JSON.parse(storedUser).rol;
+          this.currentUser = JSON.parse(storedUser);
         }
       }
     });
   }
+  
 
   onCerrarSesion(){
     this.cognitoService.signOut()
@@ -58,6 +66,13 @@ export class HeaderComponent implements OnInit, OnDestroy{
   
   reloadPage() {
     window.location.reload();
+  }
+
+  closeMobileNav(): void {
+    const navbar = document.querySelector('#navbar') as HTMLElement | null;
+    if (navbar) {
+      navbar.classList.remove('navbar-mobile');
+    }
   }
 
 }

@@ -40,11 +40,15 @@ export class PerfilUsuarioComponent implements OnInit, AfterViewInit {
   obtenerListasGuardadas(idUsuario: number) {
     this.perfilService.obtenerListasDelUsuario(idUsuario).subscribe(
       (listasGuardadas: ListaGuardada[]) => {
-        this.listasGuardadas = listasGuardadas;
+        // Ordenar las listas guardadas por fecha de creación de forma ascendente
+        this.listasGuardadas = listasGuardadas.sort((a, b) => {
+          return new Date(b.fechaCreacion).getTime() - new Date(a.fechaCreacion).getTime();
+        });
       },
       (error) => console.error(error)
     );
   }
+  
 
   verDetalleLista(idListado, idUsuario) {
     
