@@ -33,10 +33,10 @@ export class OptimizadorListaComponent implements OnInit {
   latitudUbicacion!: number;
   longitudUbicacion!: number;
   oCantidadesPorProducto: any;
-  aListaProductos!: ProductoCard[];
+  aListaProductos: ProductoCard[] = [];
   urlRecorrido: string = '';
-  aListaComercios!: any[];
-  aListaSeleccionComercio!: any[];
+  aListaComercios: any[] = [];
+  aListaSeleccionComercio: any[] = [];
   isOpenListaSeleccionComercio: boolean = true;
   totalListaDeComercio = 0;
   activeButton = 0;
