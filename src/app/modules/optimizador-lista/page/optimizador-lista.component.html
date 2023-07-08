@@ -10,7 +10,8 @@
             
             <button
               (click)="mostrarContenidoMasEconomico()"
-              class="nav-link bg-info text-white tab-mas-economico"
+              class="nav-link  text-white tab-mas-economico"
+              [class]="masEconomicoActivo"
               data-toggle="tab"
             >
               Más Económico
@@ -19,7 +20,8 @@
           <li class="nav-item ml-1">
             <button
               (click)="mostrarContenidoMenorRecorrdio()"
-              class="nav-link bg-info text-white tab-menor-recorrido"
+              class="nav-link  text-white tab-menor-recorrido"
+              [class]="menorRecorridoActivo"
               data-toggle="tab"
             >
               Menor Recorrido
@@ -35,9 +37,9 @@
             *ngIf="divContenidoListaMasEconomico"
           >
           <div class="container">
-          <div class="row div-mas-economico  scrollable-list">
-            <div class="div-oferta  scrollable-list" *ngFor="let producto of aListaProductos; let i = index">
-              <div class="col-md-12">
+          <div class="row div-mas-economico  scrollable-list activo">
+            <div class="div-oferta" *ngIf="aListaProductos.length > 0">
+              <div class="col-md-12"  *ngFor="let producto of aListaProductos; let i = index" >
 
               <ngb-carousel
                 [interval]="-1"
@@ -51,7 +53,7 @@
                   *ngFor="let publicacion of producto.ofertas"
                 >
                   <div>
-                    <app-card-oferta data-aos="zoom-in"
+                    <app-card-oferta
                       class="d-flex justify-content-center"
                       [nombreProducto]="publicacion.oferta.nombreProducto"
                       [marca]="publicacion.oferta.marca"
@@ -72,6 +74,8 @@
               
             </div>
             </div>
+            <div class="div-oferta  scrollable-list" *ngIf="aListaProductos.length === 0">
+              <h1>No se encontraron ofertas en su zona</h1>            </div>
           </div>
           </div>
           </div>
@@ -82,7 +86,7 @@
             *ngIf="divContenidoListaMenorRecorrido"
           >
             <div class="container">
-              <div class="row div-menor-recorrido">
+              <div class="row div-menor-recorrido  scrollable-list activo" *ngIf="aListaSeleccionComercio.length > 0">
                 <div class="col-md-3">
                   <div class="tab-content">
                       
@@ -124,7 +128,7 @@
                          
                           class="d-flex justify-content-center"
                         >
-                          <app-card-oferta data-aos="zoom-in"
+                          <app-card-oferta
                             [nombreProducto]="producto.oferta.nombreProducto"
                             [marca]="producto.oferta.marca"
                             [precio]="producto.oferta.precio"
@@ -140,6 +144,11 @@
                   </div>
                 </div>
               </div>
+
+              <div class="row div-menor-recorrido" *ngIf="aListaSeleccionComercio.length === 0">
+                <h1>No se encontraron ofertas en su zona</h1>
+              </div>
+              
             </div>
           </div>
         </div>
@@ -149,42 +158,52 @@
 
 
       <div class="row d-flex justify-content-center align-items-center" >
-        <div (click)="mostrarContenidoMasEconomico()" class="col-12 col-xl btn-pestaña-1 card-redondeada card-redondeada-2 escenarioMasEcomonico mx-2 mw-100" [class]="masEconomicoActivo" style="height: 200px;">
-  <img src="../../../../assets/images/comparar-mas-economico2.jpg" alt="Imagen" class="imagen-izquierda" />
-  <div class="contenido-derecha text-light">
-    <p class="textoEnBoton">
-      Ofertas encontradas: {{ cantidadOfertasMasEconomico }}
-    </p>
-    <p class="textoEnBoton">
-      Distancia a recorrer: {{ distanciaMasEconomico }}
-    </p>
-    <p class="textoEnBoton">
-      Comercios: {{ cantidadComerciosMasEconomico }}
-    </p>
-    <div class="linea-titulo"></div>
-    <strong class="total">
-      Total: ${{ totalMasEconomico }}
-    </strong>
-  </div>
-</div>
+        <div (click)="mostrarContenidoMasEconomico()" class="col-12 col-xl btn-pestaña-1 card-redondeada card-redondeada-2 escenarioMasEcomonico mx-2 mw-100" [class]="masEconomicoActivo">
+          <div class="row">
+            <!-- <div class="col-12 d-flex justify-content-center align-items-center text-align-center mb-4">
+              <img src="../../../../assets/images/comparar-mas-economico2.jpg" alt="Imagen" class="imagen-izquierda" />
+            </div> -->
+            <div class="col-12 contenido-derecha text-light justify-content-center align-items-center text-align-center">
+              <p class="textoEnBoton">
+                Ofertas encontradas: {{ cantidadOfertasMasEconomico }}
+              </p>
+              <p class="textoEnBoton">
+                Distancia a recorrer: {{ distanciaMasEconomico }}
+              </p>
+              <p class="textoEnBoton">
+                Comercios: {{ cantidadComerciosMasEconomico }}
+              </p>
+              <div class="linea-titulo"></div>
+              <strong class="total">
+                Total: ${{ totalMasEconomico }}
+              </strong>
+            </div>
+          </div>
+        </div>
+        
 
         <div (click)="mostrarContenidoMenorRecorrdio()" class="col-12 col-xl btn-pestaña-2 card-redondeada card-redondeada-2 escenarioMenorRecorrido mx-2 mw-100" [class]="menorRecorridoActivo">
-          <img src="../../../../assets/images/comparar-menor-recorrido.jpg" alt="Imagen" class="imagen-izquierda" />
-          <div class="contenido-derecha text-light">
-            <p class="textoEnBoton">
-              Ofertas encontradas: {{ cantidadOfertasMenorRecorrido }}
-            </p>
-            <p class="textoEnBoton">
-              Distancia a recorrer: {{ distanciaMenorRecorrido }}
-            </p>
-            <p class="textoEnBoton">
-              Comercios: {{ cantidadComerciosLista }}
-            </p>
-            <div class="linea-titulo"></div>
-            <strong class="total">
-              Total: ${{ totalListaDeComercio }}
-            </strong>
+          <div class="row">
+           <!--  <div class="col-12 d-flex justify-content-center align-items-center text-align-center mb-4">
+              <img src="../../../../assets/images/comparar-menor-recorrido.jpg" alt="Imagen" class="imagen-izquierda" />
+            </div> -->
+            <div class="col-12 contenido-derecha text-light justify-content-center align-items-center text-align-center">
+              <p class="textoEnBoton">
+                Ofertas encontradas: {{ cantidadOfertasMenorRecorrido }}
+              </p>
+              <p class="textoEnBoton">
+                Distancia a recorrer: {{ distanciaMenorRecorrido }}
+              </p>
+              <p class="textoEnBoton">
+                Comercios: {{ cantidadComerciosLista }}
+              </p>
+              <div class="linea-titulo"></div>
+              <strong class="total">
+                Total: ${{ totalListaDeComercio }}
+              </strong>
+            </div>
           </div>
+          
         </div>
       </div>
       

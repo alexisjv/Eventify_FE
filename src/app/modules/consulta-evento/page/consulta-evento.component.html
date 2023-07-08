@@ -2,7 +2,7 @@
 
 <div class="container-fluid d-flex contenedor-general justify-content-center" id="grad1">
     <div class="col-md-2 mateo d-flex justify-content-end d-none d-md-block ms-3">
-    <img  src="{{ sImg }}" alt="" height="600px" />
+    <img  src="{{ sImg }}" alt="" height="500px" />
     </div>
     <div class="col-md-8 col-xs-12 col-sm-6 d-flex justify-content-center">
         <div class="col-12 col-sm-9 col-md-12 col-lg-6 text-center p-3 mt-4 mb-2">
@@ -129,7 +129,11 @@
                                             Anterior
                                         </button>
                                         <button type="button" [disabled]="isButtonDisabledContinuar" class="btn w-auto btn-info text-light ms-3"
-                                            (click)="mostrarMapaRadio()">
+                                            (click)="mostrarMapaRadio()"
+                                            
+                data-bs-toggle="modal"
+                data-bs-target="#modalUbicacion">
+                                            
                                             Confirmar
                                         </button>
                                     </div>
@@ -212,4 +216,38 @@
 
     </div>
 
+</div>
+
+<!-- Modal Resumen-->
+<div
+  class="modal fade"
+  id="modalUbicacion"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body text-center">
+        <h1>Necesitamos tu ubicación para buscar las ofertas de la zona</h1>
+        <img src="./assets/images/permiso-ubicacion.png" alt="" class="imagen-ubicacion">
+       
+        <p>Podrás desactivarlo luego</p>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          Aceptar
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

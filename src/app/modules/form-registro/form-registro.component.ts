@@ -1,9 +1,10 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, NgControl, ValidatorFn, Validators } from '@angular/forms';
 import { FormRegistroService } from './services/form-registro.service'
 import { NgForm } from '@angular/forms';
 import { CognitoService, IUser } from 'src/app/shared/services/cognito.service';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
 
 
 declare var google: any;
@@ -28,7 +29,7 @@ function passwordMatchValidatorComercio(): ValidatorFn {
   styleUrls: ['./form-registro.component.scss'],
   providers: [FormRegistroService],
 })
-export class FormRegistroComponent {
+export class FormRegistroComponent implements OnInit{
 
   public userForm: FormGroup;
   cuitControl: FormControl = new FormControl();
@@ -54,7 +55,7 @@ export class FormRegistroComponent {
 
 
   constructor(
-    private _registroService: FormRegistroService, private cognitoService: CognitoService, private toastr: ToastrService
+    private _registroService: FormRegistroService, private cognitoService: CognitoService, private route: ActivatedRoute,private toastr: ToastrService
   ) {
     
     this.comercioForm = new FormGroup({
@@ -102,6 +103,16 @@ export class FormRegistroComponent {
       ])
     }, { validators: passwordMatchValidator() });
 
+  }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      const mostrarRegistroComercio = params['mostrarregistrocomercio'];
+      const mostrarRegistroComun = params['mostrarregistrocomun'];
+  
+      this.mostrarRegistroComercio = mostrarRegistroComercio;
+      this.mostrarRegistroComun = mostrarRegistroComun
+    });
   }
 
 
