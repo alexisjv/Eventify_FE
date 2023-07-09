@@ -15,7 +15,6 @@ export class HeaderComponent implements OnInit, OnDestroy{
   public currentUser;
   private eventSubscription!: Subscription;
 
-  currentUser: any;
 
   isNavOpen: boolean = false;
 
@@ -42,11 +41,6 @@ export class HeaderComponent implements OnInit, OnDestroy{
     
     });
   }
-  
-
-
-  
-
 
   onCerrarSesion(){
     this.cognitoService.signOut()

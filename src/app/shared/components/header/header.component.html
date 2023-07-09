@@ -2,29 +2,23 @@
 <header id="header" class="d-flex align-items-center">
   <div class="container d-flex justify-content-between align-items-center">
 
-    <a routerLink="">
     <div id="logo">
-    </div></a>
+      <a href="index.html"></a>
+    </div>
     
     <nav id="navbar" class="navbar">
       <ul>
-        <li><a class="nav-link scrollto active " routerLink=""  >Inicio</a></li>
+        <li><a class="nav-link scrollto active " routerLink="">Inicio</a></li>
         <!-- <li><a class="nav-link scrollto" routerLink="#team">Sobre nosotros</a></li> -->
-        <li *ngIf="currentUser.rol == 'Usuario' || currentUser.rol == '' || !currentUser "><a class="nav-link scrollto" routerLink="consulta-evento"  >Armá tu lista</a></li>
+        <li *ngIf="rolUsuario == 'Usuario' || rolUsuario == ''"><a class="nav-link scrollto" routerLink="consulta-evento">Armá tu lista</a></li>
 
-
-
-
-        <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario == 'Comercio'"><a class="nav-link scrollto" routerLink="perfil-comercio"  >Mi perfil<img src="./assets/images/perfil-comercio.jpg" alt="" style="width: 30px; margin-left: 15px;"></a></li>
-        <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario == 'Usuario'"><a class="nav-link scrollto" routerLink="perfil-usuario"  >Mi perfil<img src="./assets/images/perfil.jpg" alt="" style="width: 30px; margin-left: 15px;"></a></li>
-
-        <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario != '' "><a class="nav-link scrollto btn" data-bs-toggle="modal" data-bs-target="#cerrarSesion"   >Cerrar sesión</a></li>
-        <li *ngIf="sessionAuthenticated !== 'auth' && rolUsuario == '' "><a class="nav-link scrollto" routerLink="login"  >Iniciar sesión</a></li>
-        <li *ngIf="sessionAuthenticated !== 'auth' && rolUsuario == '' "><a class="nav-link scrollto" routerLink="form-registro"  >Registrarse</a></li>
-    <!--     <li class="nav-link scrollto"><a href="https://www.instagram.com/_eventify2023/"><i class="fab fa-instagram icon-large"></i></a></li> 
-        <li class="nav-link scrollto"><a href="https://twitter.com/eventifyar/"><i class="fab fa-twitter icon-large"></i></a></li>
- -->
-
+        <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario == 'Usuario'"><a class="nav-link scrollto" routerLink="perfil-usuario">Mi perfil</a></li>
+        <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario == 'Comercio'"><a class="nav-link scrollto" routerLink="perfil-comercio">Mi perfil</a></li>
+        <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario != '' "><a class="nav-link scrollto btn" data-bs-toggle="modal" data-bs-target="#cerrarSesion" >Cerrar sesión</a></li>
+        <li *ngIf="sessionAuthenticated !== 'auth' && rolUsuario == '' "><a class="nav-link scrollto" routerLink="login">Iniciar sesión</a></li>
+        <li *ngIf="sessionAuthenticated !== 'auth' && rolUsuario == '' "><a class="nav-link scrollto" routerLink="form-registro">Registrarse</a></li>
+        
+        <!--  -->
       </ul>
       <i class="bi bi-list mobile-nav-toggle"></i>
     </nav>
