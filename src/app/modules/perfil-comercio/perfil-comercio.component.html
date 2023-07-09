@@ -37,10 +37,15 @@
           <div class="row">
             <div class="col">
               <div class="card-profile-stats d-flex justify-content-center mt-md-5">
-                <div>
+                <div *ngIf="ofertasPublicadas.length != 0">
                   <span class="heading">{{ofertasPublicadas.length}}</span>
                   <span class="description">Ofertas</span>
                 </div>
+                <div *ngIf="ofertasPublicadas.length == 0">
+                <button type="button" class="btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="openModalPublicarOferta()">
+                  Publicar Oferta
+                </button>
+              </div>
               </div>
             </div>
           </div>
@@ -65,7 +70,8 @@
         <div class="card-header bg-white border-0">
           <div class="row align-items-center">
             <div class="col-8">
-              <h3 class="mb-0">Mis ofertas</h3>
+              <h3 *ngIf="ofertasPublicadas.length != 0"  class="mb-0">Mis ofertas</h3>
+              <h3 *ngIf="ofertasPublicadas.length == 0" class="mb-0">Todavia no tenes ofertas publicadas</h3>
             </div>
           </div>
         </div>
