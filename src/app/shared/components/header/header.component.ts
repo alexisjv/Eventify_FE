@@ -12,8 +12,13 @@ import { Subscription } from 'rxjs';
 export class HeaderComponent implements OnInit, OnDestroy{
   sessionAuthenticated = "noauth";
   rolUsuario: string = '';
+  public currentUser;
   private eventSubscription!: Subscription;
+
   currentUser: any;
+
+  isNavOpen: boolean = false;
+
 
   constructor(private cognitoService : CognitoService, 
               private router: Router, private location : Location,
@@ -25,16 +30,19 @@ export class HeaderComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
+
     this.obtenerUsuarioActual();
 
     this.eventSubscription = this.eventService.getEvent().subscribe((event: string) => {
       if (event === 'loginSuccess') {
         this.obtenerUsuarioActual();
         
+
       }
     
     });
   }
+  
 
 
   
@@ -59,6 +67,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
     this.router.navigateByUrl('/');
   }
 
+
   private obtenerUsuarioActual() {
     let rol = sessionStorage.getItem("rol");
     let user = sessionStorage.getItem("currentUser");
@@ -77,5 +86,12 @@ export class HeaderComponent implements OnInit, OnDestroy{
   }
  
   
-  
+
+  closeMobileNav(): void {
+    const navbar = document.querySelector('#navbar') as HTMLElement | null;
+    if (navbar) {
+      navbar.classList.remove('navbar-mobile');
+    }
+  }
+
 }

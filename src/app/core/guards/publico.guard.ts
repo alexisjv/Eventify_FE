@@ -5,7 +5,7 @@ import { CognitoService } from '@shared/services/cognito.service';
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioGuard implements CanActivate {
+export class PublicoGuard implements CanActivate {
 
   constructor(private router: Router, private authService: CognitoService) {}
 
@@ -13,7 +13,10 @@ export class UsuarioGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean | UrlTree | Promise<boolean | UrlTree> {
 
-    if(this.authService.esUsuario()){
+        const comercio = this.authService.esComercio();
+
+
+    if(!comercio){
       return true;
     }
     else{

@@ -83,6 +83,7 @@ export class CognitoService {
 
   public esUsuario(): boolean {
     let user = sessionStorage.getItem('currentUser');
+    console.log(user);
     if (user !== null) {
       const currentUser = JSON.parse(user);
       if (currentUser.rol === 'Usuario') {
@@ -105,10 +106,10 @@ export class CognitoService {
 
   public esPublico(): boolean {
     let user = sessionStorage.getItem('currentUser');
-    if (user == null) {
+    if (user) {
       return true;
     }
-    return true;
+    return false;
   }
 
 

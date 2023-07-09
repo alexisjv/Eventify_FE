@@ -13,5 +13,6 @@ export interface Oferta {
     latitud: number;
     longitud: number;
     localidad: string;
+    fechaVencimiento: string;
   };
 }
