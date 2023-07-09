@@ -85,7 +85,7 @@ export class CognitoService {
     let user = sessionStorage.getItem('currentUser');
     if (user !== null) {
       const currentUser = JSON.parse(user);
-      if (currentUser.rol === Rol.Usuario) {
+      if (currentUser.rol === 'Usuario') {
         return true;
       }
     }
@@ -96,7 +96,7 @@ export class CognitoService {
     let user = sessionStorage.getItem('currentUser');
     if (user !== null) {
       const currentUser = JSON.parse(user);
-      if (currentUser.rol === Rol.Comercio) {
+      if (currentUser.rol === 'Comercio') {
         return true;
       }
     }

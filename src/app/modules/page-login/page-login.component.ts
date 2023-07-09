@@ -5,6 +5,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, NgControl, Valida
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '@shared/services/event.service';
 import { ToastrService } from 'ngx-toastr';
+import { Rol } from '@core/enums/Rol.enum';
 
 @Component({
   selector: 'app-login',
@@ -35,14 +36,15 @@ export class PageLoginComponent {
     
   }
 
-  onLogin() {
+   onLogin() {
     this.currentUser = this.email.value;
+   
     const rol = this.role.value;
-    this.getUserInfo(this.email.value, this.password.value, rol);
-    this.cognitoService.signIn(this.email.value, this.password.value).then(() => {
+     this.cognitoService.signIn(this.email.value, this.password.value).then(() => {
       this.status = 'success';
+     
       this.userLogin.reset();
-      this.eventService.emitEvent('loginSuccess');
+      
 
       this.toastr.success("Bienvenido","Sesión inciada");
 
@@ -58,22 +60,39 @@ export class PageLoginComponent {
       this.userLogin.reset();
       this.currentUser = "";
     });
+    this.getUserInfo(this.email.value, this.password.value, rol);
   }
 
   onLoginComercio(){
 
   }
 
-  getUserInfo(email: string, password: string, rol: number) {
-    this._loginService.login(email, password, rol).subscribe(
-      response => {
-        sessionStorage.setItem("currentUser", JSON.stringify(response, null, 2));
+  private getUserInfo(email: string, password: string, rol: number) {
+    if(rol == Rol.Comercio){
+    this._loginService.loginComercio(email, password).subscribe(
+      response =>{
+        sessionStorage.setItem("currentUser", JSON.stringify(response.comercio, null, 2));
+        sessionStorage.setItem("rol", "Comercio")
+        this.eventService.emitEvent('loginSuccess');
       },
       error => {
         console.error(error);
       }
     );
   }
+  if(rol == Rol.Usuario){
+    this._loginService.loginUser(email, password).subscribe(
+      response =>{
+        sessionStorage.setItem("currentUser", JSON.stringify(response.usuario, null, 2));
+        sessionStorage.setItem("rol", "Usuario")
+        this.eventService.emitEvent('loginSuccess');
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+}
 
   get email(): AbstractControl {
     return this.userLogin.get('email') as FormControl;

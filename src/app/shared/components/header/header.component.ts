@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
   sessionAuthenticated = "noauth";
   rolUsuario: string = '';
   private eventSubscription!: Subscription;
+  currentUser: any;
 
   constructor(private cognitoService : CognitoService, 
               private router: Router, private location : Location,
@@ -24,22 +25,20 @@ export class HeaderComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    const currentUser = sessionStorage.getItem('currentUser');
-    if (currentUser !== null) {
-      this.sessionAuthenticated = "auth";
-      this.rolUsuario = JSON.parse(currentUser).rol;
-    }
+    this.obtenerUsuarioActual();
+
     this.eventSubscription = this.eventService.getEvent().subscribe((event: string) => {
       if (event === 'loginSuccess') {
-        // Lógica para actualizar el encabezado después del inicio de sesión
-        const storedUser = sessionStorage.getItem('currentUser');
-        if (storedUser !== null) {
-          this.sessionAuthenticated = "auth";
-          this.rolUsuario = JSON.parse(storedUser).rol;
-        }
+        this.obtenerUsuarioActual();
+        
       }
+    
     });
   }
+
+
+  
+
 
   onCerrarSesion(){
     this.cognitoService.signOut()
@@ -57,7 +56,26 @@ export class HeaderComponent implements OnInit, OnDestroy{
   }
   
   reloadPage() {
-    window.location.reload();
+    this.router.navigateByUrl('/');
   }
 
+  private obtenerUsuarioActual() {
+    let rol = sessionStorage.getItem("rol");
+    let user = sessionStorage.getItem("currentUser");
+    if (user !== null) {
+      if(rol !== null){
+        this.rolUsuario = rol;
+      }
+      this.sessionAuthenticated= 'auth';
+      if(this.rolUsuario === 'Comercio'){
+        this.currentUser = JSON.parse(user).comercio;
+      }
+      if(this.rolUsuario === 'Usuario'){
+        this.currentUser = JSON.parse(user).usuario;
+      }
+    }
+  }
+ 
+  
+  
 }
