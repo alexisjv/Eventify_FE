@@ -239,6 +239,19 @@ export class ConsultaEventoComponent {
     this.bMostrarPreguntaUbicacion = true;
     this.isActivePreguntaUbicacion=true;
   }
+
+  onComensalesChange(event){
+    debugger;
+    const inputValue = (event.target as HTMLInputElement).value;
+      const inputLength = inputValue.length;
+  
+      if (inputValue == '' && inputLength < 1) {
+        this.deshabilitarBotonContinuar();
+      } else {
+        this.habilitarBotonContinuar();
+      }
+
+  }
   
   consultar(): void {
     this.bMostrarListaDeProductos = true;
@@ -306,7 +319,7 @@ export class ConsultaEventoComponent {
     this.isActiveBebida=false;
   }
   volverATipoBebida(){
-    this.oSelecciones.nCantidadComensales=0;
+    this.oSelecciones.nCantidadComensales=2;
     this.bMostrarPreguntaQueTipoDeBebida=true;
     this.bMostrarPreguntaCantidadComensales=false;
     this.isActiveInvitados=false;

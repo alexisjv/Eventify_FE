@@ -8,13 +8,13 @@
         <div class="col-12 col-sm-9 col-md-12 col-lg-6 text-center p-3 mt-4 mb-2">
             
             <div class="card px-0 pt-4 pb-0 mt-3 shadow"*ngIf="bMostrarQueCompraQueresRealizar">
-                <h3 class="textQueCompra"><strong>¿Que compra querés realizar?</strong></h3>
+                <h3 class="textQueCompra"><strong>¿Qué compra querés realizar?</strong></h3>
 
                 <div class="row contenedorPaddingMobile">
                     <div class="col-md-12 mx-0">
                         <form id="msform">
                             <!-- progressbar -->
-                            <ul id="progressbar" >
+                            <ul id="progressbar" class="mb-4" >
                                 <li data-aos="zoom-in"class="active" [class.active]="isActiveEvento" id="eventos"><strong>Evento</strong>
                                 </li>
                                 <li data-aos="zoom-in"id="comidas" [class.active]="isActiveComida"><strong>Comidas</strong></li>
@@ -24,7 +24,7 @@
                                 </li>
                             </ul>
                             <!-- fieldsets  -->
-                            <fieldset *ngIf="bMostrarPreguntaQueTipoDeEvento">
+                            <fieldset class="mt-4" *ngIf="bMostrarPreguntaQueTipoDeEvento">
                                 <label class="form-label">Selecciona un evento</label>
                                 <div class="row flex-nowrap justify-content-center">
 
@@ -48,7 +48,7 @@
 
 
 
-                                <label class="form-label">¿Que tipo de comidas querés ofrecer?</label>
+                                <label class="form-label">¿Qué tipo de comidas querés ofrecer?</label>
                                 <div class="row d-flex justify-content-center">
                                     <div class="w-auto p-3 d-flex flex-column align-items-center justify-content-center mt-3"
                                         *ngFor="let comida of aTiposDeComidas">
@@ -84,7 +84,7 @@
                             <!-- Pregunta tipo de bebida -->
                             <fieldset *ngIf="bMostrarPreguntaQueTipoDeBebida">
                                 <div class="form-group d-flex flex-column align-items-center justify-content-center">
-                                    <label class="form-label ">¿Que tipo de bebidas querés ofrecer?</label>
+                                    <label class="form-label ">¿Qué tipo de bebidas querés ofrecer?</label>
                                     <div class="row">
                                         <div class="w-auto p-3 d-flex flex-column align-items-center justify-content-center mt-3"
                                             *ngFor="let bebida of aTiposDeBebidas">
@@ -104,7 +104,7 @@
                                             (click)="volverATipoDeComida()">
                                             Anterior
                                         </button>
-                                        <button type="button"   class="btn w-auto btn-info text-light ms-3"
+                                        <button type="button" [disabled]="isButtonDisabledContinuar"  class="btn w-auto btn-info text-light ms-3"
                                             (click)="mostrarPreguntaCantidadPersonas()">
                                             Confirmar
                                         </button>
@@ -119,9 +119,9 @@
                                     style="width: 100px">
                                     <input data-aos="zoom-in" type="number" class="form-control w-25"
                                         [(ngModel)]="oSelecciones.nCantidadComensales" name="nCantidadComensales"
-                                        value="10" id="number" min="0"
-                                        oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"
-                                        required />
+                                         id="number" min="1"
+                                        oninput="event.target.value = event.target.value.replace(/[^1-9]*/g,'');"
+                                        required (input)="onComensalesChange($event)" />
                                     <br>
                                     <div class="d-flex row align-items-around  flex-nowrap justify-content-center" >
                                         <button type="button" class="btn w-auto btn-outline-info"
@@ -129,10 +129,7 @@
                                             Anterior
                                         </button>
                                         <button type="button" [disabled]="isButtonDisabledContinuar" class="btn w-auto btn-info text-light ms-3"
-                                            (click)="mostrarMapaRadio()"
-                                            
-                data-bs-toggle="modal"
-                data-bs-target="#modalUbicacion">
+                                            (click)="mostrarMapaRadio()" data-bs-toggle="modal" data-bs-target="#modalUbicacion">
                                             
                                             Confirmar
                                         </button>
@@ -140,7 +137,7 @@
                                 </div>
 
                             </fieldset>
-                            <fieldset class="preguntaUbicacion" *ngIf="bMostrarPreguntaUbicacion">
+                            <fieldset class="preguntaUbicacion p-3" *ngIf="bMostrarPreguntaUbicacion">
                                 <div class="form-group justify-content-center align-content-center">
                                     <label class="form-label labelMapa">Indique el rango de distancia a buscar según su
                                         ubicación:</label>
@@ -245,7 +242,7 @@
       </div>
       
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+        <button type="button" class="btn btn-info" data-bs-dismiss="modal">
           Aceptar
         </button>
       </div>

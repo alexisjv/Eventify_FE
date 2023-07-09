@@ -149,7 +149,7 @@ export class FormRegistroComponent {
     this._registroService.registro(userARegistrar)
       .subscribe(
         async response => {
-          if(response.message === "Registro: El email ingresado ya se encuentra asociado a una cuenta"){
+          if(response.message === "El email ingresado ya se encuentra asociado a una cuenta"){
             this.status = "emailYaExiste"
           }else{
           await this.registroEnCognito();
@@ -209,7 +209,7 @@ export class FormRegistroComponent {
     this._registroService.registroComercio(comercioARegistrar)
       .subscribe(
         async response => {
-          if(response.message === "Registro: El email o CUIT ingresado ya se encuentra registrado"){
+          if(response.message === 'El email o CUIT del comercio ya se encuentran asociados a una cuenta'){
             this.status = "emailYaExiste"
           }else{
           await this.registroComercioEnCognito();
