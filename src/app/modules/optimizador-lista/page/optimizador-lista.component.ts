@@ -8,7 +8,6 @@ import { ProductoCard } from '@core/models/productoCard';
 import { CardOfertaComponent } from '@shared/components/card-oferta/card-oferta.component';
 import { ToastrService } from 'ngx-toastr';
 import * as bootstrap from 'bootstrap';
-import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-optimizador-lista',
@@ -87,6 +86,8 @@ export class OptimizadorListaComponent implements OnInit {
 
   ofertasProductoElegidoParaEditar: Oferta[] = [];
   quiereEliminar: boolean = false;
+  idProductoAEliminar!: number;
+  cargando: boolean = true;
 
   constructor(
     private listaCompraService: OptimizadorListaService,
@@ -94,20 +95,24 @@ export class OptimizadorListaComponent implements OnInit {
     private router: Router,
     private mapaService: SharedService,
     private toastr: ToastrService,
-    private config: NgbCarouselConfig
   ) {}
 
   ngOnInit(): void {
+    
     let user = sessionStorage.getItem('currentUser');
     if (user !== null) {
       this.currentUser = JSON.parse(user);
     }
 
     if (!this.currentUser) {
+       
+    setTimeout(() => {
+     
       this.toastr.warning(
-        'Podrá visualizar el recorrido del mapa, comparar y guardar sus listas',
+        'Podrá comparar y guardar sus listas',
         'Inicie sesión'
       );
+    }, 5000);
     }
 
     this.aListaComercios = [];
@@ -125,15 +130,7 @@ export class OptimizadorListaComponent implements OnInit {
       this.oCantidadesPorProducto = JSON.parse(params['cantidadProductos']);
       this.idEvento = params['idEvento'];
 
-      this.obtenerOfertas(
-        this.latitudUbicacion,
-        this.longitudUbicacion,
-        this.cantidadComensales,
-        this.comidasSeleccionadas,
-        this.bebidasSeleccionadas,
-        this.radioElegido,
-        this.oCantidadesPorProducto
-      );
+      
       this.obtenerOfertasPorComercio(
         this.latitudUbicacion,
         this.longitudUbicacion,
@@ -143,7 +140,27 @@ export class OptimizadorListaComponent implements OnInit {
         this.radioElegido,
         this.oCantidadesPorProducto
       );
+      this.obtenerOfertas(
+        this.latitudUbicacion,
+        this.longitudUbicacion,
+        this.cantidadComensales,
+        this.comidasSeleccionadas,
+        this.bebidasSeleccionadas,
+        this.radioElegido,
+        this.oCantidadesPorProducto
+      );
     });
+
+    setTimeout(() => {
+      this.actualizarDatosAmbosEscenarios();
+  }, 1000);
+    
+      
+    setTimeout(() => {
+      this.cargando = false;
+    }, 5000);
+
+
   }
 
   obtenerOfertasPorComercio(
@@ -158,7 +175,6 @@ export class OptimizadorListaComponent implements OnInit {
     const lista: ListaPost = {
       latitudUbicacion: latitudUbicacion,
       longitudUbicacion: longitudUbicacion,
-      // CAMBIO EL VALOR DE 1000 A 1 PARA EL BACK
       distancia: radioElegido / 1000,
       comidas: comidasSeleccionadas,
       bebidas: bebidasSeleccionadas,
@@ -168,7 +184,7 @@ export class OptimizadorListaComponent implements OnInit {
       presupuesto: 0,
       cantidadProductos: oCantidadesPorProducto,
     };
-
+  
     this.listaCompraService
       .obtenerOfertasPorComercio(lista)
       .subscribe((response: ProductoCard[]) => {
@@ -179,14 +195,17 @@ export class OptimizadorListaComponent implements OnInit {
         });
         this.aListaSeleccionComercio = this.aListaComercios[0].ofertas;
         this.totalListaDeComercio = this.aListaComercios[0].total;
-
+        
+        this.actualizarDatosMenorRecorrido();
+        this.obtenerRutaMenorRecorrido();
+  
         if (this.aListaComercios.length) {
           this.cantidadComerciosLista = 1;
         }
       });
 
-    this.actualizarDatosMenorRecorrido();
   }
+  
 
   cambiarVistaProducto(vista: string) {
     this.sVistaProducto = vista;
@@ -280,8 +299,6 @@ export class OptimizadorListaComponent implements OnInit {
           ...producto,
           showArrows: false,
         }));
-        this.actualizarDatosMasEconomico();
-        this.obtenerRutaMasEconomico();
         console.log('Lista elegida', this.listaOfertasElegidasMasEconomico);
         console.log('Lista alistaproductos', this.aListaProductos);
       },
@@ -404,7 +421,7 @@ export class OptimizadorListaComponent implements OnInit {
       this.aListaSeleccionComercio
     );
   }
-  
+
   cambiarCantidad(data: {
     idProducto: number;
     marca: string;
@@ -418,7 +435,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.ofertasProductoElegidoParaEditar.forEach((oferta) => {
       if (oferta.oferta?.idTipoProducto === idTipoProducto) {
         oferta.cantidad = cantidad;
-        oferta.subtotal = oferta.oferta.precio * cantidad;
+        oferta.subtotal = (oferta.oferta.precio * cantidad);
       }
     });
   
@@ -461,6 +478,7 @@ export class OptimizadorListaComponent implements OnInit {
   
 
   eliminarOferta(idProducto: number): void {
+
     const ofertaIndex = this.aListaProductos.findIndex(
       (producto) => producto.ofertas[0].oferta?.idTipoProducto === idProducto
     );
@@ -507,6 +525,20 @@ export class OptimizadorListaComponent implements OnInit {
     } else {
       console.log('No se encontró la oferta');
     }
+    
+    this.quiereEliminar = false;
+    this.toastr.success(
+      'Oferta eliminada'
+    );
+  }
+
+  eliminarOfertaConfirmar(idProducto: number){
+    this.quiereEliminar = true;
+    this.idProductoAEliminar = idProducto;
+  }
+
+  cancelarEliminarOferta(){
+    this.quiereEliminar = false;
   }
 
   eliminarOfertaDeAListaSeleccionComercio(idProducto: number): void {

@@ -39,6 +39,11 @@ $danger: #d61710e9 !default;
   background: #1371B0;
 }
 
+.carousel-control-next,
+.carousel-control-prev /*, .carousel-indicators */ {
+    filter: invert(100%);
+}
+
 .btn-outline-info{
   font-family: "Poppins", sans-serif;
   border-radius: 50px;

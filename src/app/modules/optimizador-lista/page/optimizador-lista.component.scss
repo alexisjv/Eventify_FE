@@ -85,6 +85,10 @@ border-radius: 15px 0 0 0;
 
 }
 
+.card-redondeada-full{
+  border-radius: 20px;
+}
+
 .card-text{
   font-size: 18px;
 }
@@ -396,6 +400,19 @@ nav-tabs {
   margin-bottom: 20px; /* Ajusta el valor del margen inferior según tus necesidades */
 
 }
+
+.contenedor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/images/patron.jpg');
+  z-index: 9999; /* Asegura que el contenedor esté en la parte superior */
+}
+
+
+
 
 @media (max-width: 768px) {
   

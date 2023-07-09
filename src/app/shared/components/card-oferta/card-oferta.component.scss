@@ -69,7 +69,7 @@ p {
   position: absolute;
   top: 0;
   right: 15px;
-  font-size: 30px;
+  font-size: 40px;
   color: red;
   cursor: pointer;
   pointer-events: auto;
@@ -125,6 +125,22 @@ p {
   font-size: 12px;
   background-color: #1371b0;
   color: white;
+}
+.unidades-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 18px;
+  background-color: #1371b0;
+  color: white;
+  width: 30; /* Ajusta el ancho del círculo */
+  height: 30px; /* Ajusta la altura del círculo */
+  border-radius: 50%;
+  padding: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease-in-out;
 }
 
 @media (max-width: 768px) {

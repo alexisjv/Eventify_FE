@@ -7,11 +7,13 @@
       <div class="col-md-12">
         <div class="div-texto align-items-center text-center">
           <span *ngIf="editar" class="eliminar-icon" (click)="eliminar()">&times;</span>
+          <span *ngIf="!editar"class="unidades-icon">{{cantidad}}</span>
+
           <span class="vencimiento-icon"> {{fechaVencimiento}}</span>
           <p class="card-subtitle mt-2 ">{{ nombreProducto }}</p>
           <p class="card-text">{{ marca }}</p>
           <p class="card-text">{{nombreComercio}}</p>
-          <p class="card-text ">${{precio}} | <span style="color: rgb(2, 53, 0); font-size: 22px;">${{calcularSubtotal(cantidad)}} x {{cantidad}}u</span></p>
+          <p class="card-text ">${{precio}} | <span style="color: rgb(2, 53, 0); font-size: 22px;">${{calcularSubtotal(cantidad)}}</span></p>
           <div class="d-flex justify-content-between mt-4">
             <button *ngIf="editar" class="btn btn-primary" (click)="confirmarCambioMarca()">Elegir</button>
             <div *ngIf="editar" class="d-flex justify-content-center align-items-center cantidad-container">
