@@ -1,4 +1,7 @@
 import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Router } from '@angular/router';
+import { Rol } from '@core/enums/Rol.enum';
+
 @Component({
   selector: 'app-home-landing',
   templateUrl: './home-landing.component.html',
@@ -18,11 +21,18 @@ export class HomeLandingComponent implements OnInit, OnDestroy {
   }
 
   private obtenerUsuarioActual() {
+    let rol = sessionStorage.getItem("rol");
     let user = sessionStorage.getItem("currentUser");
     if (user !== null) {
-      this.currentUser = JSON.parse(user);
+      if(rol === 'Comercio'){
+        this.currentUser = JSON.parse(user).razonSocial;
+      }
+      if(rol === 'Usuario'){
+        this.currentUser = JSON.parse(user).usuario;
+      }
     }
   }
+  
 
   ngOnDestroy() {
     const headerElemento = document.getElementById('header');
