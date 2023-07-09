@@ -44,6 +44,9 @@ precioSeleccionado: any;
 idComercio: any;
 ofertaPost!: OfertaPost;
 statusOferta!: string;
+errorLongitudCodigo= false;
+direccion: string = "";
+localidad: string = "";
 
  
 constructor(private perfilService: PerfilComercioService , private ngModal : NgbModal, 
@@ -82,6 +85,9 @@ private obtenerUsuarioActual() {
     this.comercioLogueado = JSON.parse(user);
     this.nombreComercio = this.comercioLogueado.razonSocial;
     this.idComercio = this.comercioLogueado.id;
+    this.cuit = this.comercioLogueado.cuit;
+    this.localidad = this.comercioLogueado.localidad;
+    this.direccion = this.comercioLogueado.direccion;
   }
 }
 obtenerOfertasPublicadas(idComercio: number) {
@@ -89,7 +95,10 @@ obtenerOfertasPublicadas(idComercio: number) {
     (ofertasPublicadas: OfertaPublicada[]) => {
       this.ofertasPublicadas = ofertasPublicadas;
     },
-    (error) => console.error(error)
+    (error) => {
+      console.error(error)
+      this.ofertasPublicadas = [];
+    }
   );
 }
 
@@ -149,10 +158,12 @@ obtenerMarcasDelProducto(idProducto: string) {
 
   onCargaConCodigo(){
     this.Codebar.nativeElement.focus();
+    this.Codebar.nativeElement.value='';
     this.productoSeleccionado=null;
     this.selectedMarca ='';
     this.selectedProductoTipo='';
     this.idProductoSeleccionado=0;
+    this.errorLongitudCodigo=false;
   }
   onCargaManual(){
     this.productoSeleccionado=null;
@@ -161,21 +172,25 @@ obtenerMarcasDelProducto(idProducto: string) {
     this.buscandoProducto=false;
     this.productosAElegir=[];
     this.formOferta.reset();
+    this.errorBuscandoProducto=false;
+    this.errorLongitudCodigo=false;
   }
 
-  onCodebarChange(event: Event){
+  onCodebarChange(event: any){
       const inputValue = (event.target as HTMLInputElement).value;
       const inputLength = inputValue.length;
-  
+      if (event.keyCode === 13) {
       if (inputLength >= 8 && inputLength <= 14) {
+        this.errorLongitudCodigo=false;
         this.escanearCodigo=false;
         this.buscandoProducto = true;
         this.buscarProducto(inputValue);
         
       } else {
         // Realiza la acción deseada cuando la longitud no está en el rango deseado
-        console.log('Longitud inválida:', inputLength);
+        this.errorLongitudCodigo=true;
       }
+    }
     
   }
 
@@ -192,6 +207,7 @@ obtenerMarcasDelProducto(idProducto: string) {
       this.buscandoProducto=false;  
     });
   }
+  
   volverAEscanearProducto(){
     this.escanearCodigo=true;
     this.productoEncontrado=null;
@@ -213,7 +229,7 @@ obtenerMarcasDelProducto(idProducto: string) {
     this.mostrarEleccionProducto=true;
     this.productoEncontrado = null;
     this.productoSeleccionado = null;
-    this.volverAEscanearProducto();
+  
   }
 
   cerrarModalSubirOferta(){
@@ -226,6 +242,8 @@ obtenerMarcasDelProducto(idProducto: string) {
     this.mostrarCompletarOferta=false;
     this.mostrarEleccionProducto=true;
     this.formOferta.reset();
+    this.errorBuscandoProducto=false;
+    this.errorLongitudCodigo=false;
     
   }
 

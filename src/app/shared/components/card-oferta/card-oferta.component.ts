@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Oferta } from '@core/models/oferta';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-card-oferta',
@@ -38,10 +39,16 @@ export class CardOfertaComponent {
   @Output() cantidadActualizada: EventEmitter<{ idProducto: number; marca: string; cantidad: number, subtotal: number; }> = new EventEmitter<{idProducto: number; marca: string, cantidad: number; subtotal: number }>();
   @Output() eliminarOferta: EventEmitter<number> = new EventEmitter<number>();
 
+  constructor(private toastr: ToastrService){
+
+  }
 
   confirmarCambioMarca(): void {
     const productoMarca = { idProducto: this.idProducto, marca: this.marca };
     this.idMarcaProductoSeleccionadoActual.emit(productoMarca);
+    this.toastr.success(
+      'Marca cambiada'
+    );
   }
 
   sumarCantidad(): void {
@@ -68,8 +75,10 @@ export class CardOfertaComponent {
   }
   
   calcularSubtotal(cantidad: number): number {
-    return this.precio * cantidad;
+    const subtotal = this.precio * cantidad;
+    return Number(subtotal.toFixed(2));
   }
+  
 
 
   eliminar(): void {

@@ -368,6 +368,23 @@ select.list-dt:focus {
     display: block;
     border-radius: 15px;
   }
+
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .image-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
   
   /* Iconos */
   .icon-circle {
@@ -567,9 +584,9 @@ padding-bottom: 50px;
     }
   }
 
-  #modalUbicacion{
-    background-color: #14484d;
 
+  #modalUbicacion, #modalEsperar{
+    background-color: #0b4469;
   }
 
   .imagen-ubicacion{
