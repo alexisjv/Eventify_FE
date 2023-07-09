@@ -14,17 +14,15 @@
 
 
 
+        <li *ngIf="sessionAuthenticated === 'auth' && currentUser.rol == 'Comercio'"><a class="nav-link scrollto" routerLink="perfil-comercio"  >Mi perfil<img src="./assets/images/perfil-comercio.jpg" alt="" style="width: 30px; margin-left: 15px;"></a></li>
+        <li *ngIf="sessionAuthenticated === 'auth' && currentUser.rol == 'Usuario'"><a class="nav-link scrollto" routerLink="perfil-usuario"  >Mi perfil<img src="./assets/images/perfil.jpg" alt="" style="width: 30px; margin-left: 15px;"></a></li>
 
-        <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario == 'Comercio'"><a class="nav-link scrollto" routerLink="perfil-comercio"  >Mi perfil<img src="./assets/images/perfil-comercio.jpg" alt="" style="width: 30px; margin-left: 15px;"></a></li>
-        <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario == 'Usuario'"><a class="nav-link scrollto" routerLink="perfil-usuario"  >Mi perfil<img src="./assets/images/perfil.jpg" alt="" style="width: 30px; margin-left: 15px;"></a></li>
-
-        <li *ngIf="sessionAuthenticated === 'auth' && rolUsuario != '' "><a class="nav-link scrollto btn" data-bs-toggle="modal" data-bs-target="#cerrarSesion"   >Cerrar sesión</a></li>
-        <li *ngIf="sessionAuthenticated !== 'auth' && rolUsuario == '' "><a class="nav-link scrollto" routerLink="login"  >Iniciar sesión</a></li>
-        <li *ngIf="sessionAuthenticated !== 'auth' && rolUsuario == '' "><a class="nav-link scrollto" routerLink="form-registro"  >Registrarse</a></li>
+        <li *ngIf="sessionAuthenticated === 'auth' && currentUser.rol != '' "><a class="nav-link scrollto btn" data-bs-toggle="modal" data-bs-target="#cerrarSesion"   >Cerrar sesión</a></li>
+        <li *ngIf="sessionAuthenticated !== 'auth' && !currentUser "><a class="nav-link scrollto" routerLink="login"  >Iniciar sesión</a></li>
+        <li *ngIf="sessionAuthenticated !== 'auth' && !currentUser "><a class="nav-link scrollto" routerLink="form-registro"  >Registrarse</a></li>
     <!--     <li class="nav-link scrollto"><a href="https://www.instagram.com/_eventify2023/"><i class="fab fa-instagram icon-large"></i></a></li> 
         <li class="nav-link scrollto"><a href="https://twitter.com/eventifyar/"><i class="fab fa-twitter icon-large"></i></a></li>
  -->
-
       </ul>
       <i class="bi bi-list mobile-nav-toggle"></i>
     </nav>

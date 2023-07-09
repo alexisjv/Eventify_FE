@@ -14,9 +14,6 @@ export class HeaderComponent implements OnInit, OnDestroy{
   rolUsuario: string = '';
   public currentUser;
   private eventSubscription!: Subscription;
-
-  currentUser: any;
-
   isNavOpen: boolean = false;
 
 
@@ -30,23 +27,27 @@ export class HeaderComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-
-    this.obtenerUsuarioActual();
-
+    const currentUser = sessionStorage.getItem('currentUser');
+    if (currentUser !== null) {
+      this.sessionAuthenticated = "auth";
+      this.currentUser = JSON.parse(currentUser)
+    }
+    else{
+      this.currentUser = false;
+    }
+    
     this.eventSubscription = this.eventService.getEvent().subscribe((event: string) => {
       if (event === 'loginSuccess') {
-        this.obtenerUsuarioActual();
-        
-
+        // Lógica para actualizar el encabezado después del inicio de sesión
+        const storedUser = sessionStorage.getItem('currentUser');
+        if (storedUser !== null) {
+          this.sessionAuthenticated = "auth";
+          this.currentUser = JSON.parse(storedUser);
+        }
       }
-    
     });
   }
   
-
-
-  
-
 
   onCerrarSesion(){
     this.cognitoService.signOut()
@@ -64,28 +65,8 @@ export class HeaderComponent implements OnInit, OnDestroy{
   }
   
   reloadPage() {
-    this.router.navigateByUrl('/');
+    window.location.reload();
   }
-
-
-  private obtenerUsuarioActual() {
-    let rol = sessionStorage.getItem("rol");
-    let user = sessionStorage.getItem("currentUser");
-    if (user !== null) {
-      if(rol !== null){
-        this.rolUsuario = rol;
-      }
-      this.sessionAuthenticated= 'auth';
-      if(this.rolUsuario === 'Comercio'){
-        this.currentUser = JSON.parse(user).comercio;
-      }
-      if(this.rolUsuario === 'Usuario'){
-        this.currentUser = JSON.parse(user).usuario;
-      }
-    }
-  }
- 
-  
 
   closeMobileNav(): void {
     const navbar = document.querySelector('#navbar') as HTMLElement | null;
