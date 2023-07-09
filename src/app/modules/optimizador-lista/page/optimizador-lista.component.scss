@@ -206,13 +206,10 @@ nav-tabs {
   background-color: #f8f9fa;
 }
 
-#modalCompararEscenarios {
+#modalCompararEscenarios, #modalResumen {
   background-color: #14484d;
 }
 
-#modalResumen {
-  background-color: #14484d;
-}
 .tabla-redondeada {
   border-radius: 10px;
   background-color: #f9f9f9;
@@ -417,6 +414,10 @@ nav-tabs {
 
 .inicia-sesion{
   margin-top: 20px;
+}
+
+#modalEditar {
+  background-color: #14484d;
 }
 }
 

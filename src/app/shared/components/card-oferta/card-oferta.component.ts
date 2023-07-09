@@ -21,6 +21,10 @@ export class CardOfertaComponent {
   subtotal!: number;
   @Input()
   cantidad!: number;
+  @Input()
+  fechaVencimiento!: string;
+  @Input()
+  editar!: boolean;
   @Input() 
   i!: number;
   @Input()
@@ -30,13 +34,47 @@ export class CardOfertaComponent {
   @Input()
   fechaFin!: string;
   @Input() oferta!: Oferta;
-  @Output() ofertaSeleccionadaActual: EventEmitter<{ oferta: Oferta, index: number }> = new EventEmitter<{ oferta: Oferta, index: number }>();
+  @Output() idMarcaProductoSeleccionadoActual: EventEmitter<{ idProducto: number, marca: string }> = new EventEmitter<{ idProducto: number, marca: string }>();
+  @Output() cantidadActualizada: EventEmitter<{ idProducto: number; marca: string; cantidad: number, subtotal: number; }> = new EventEmitter<{idProducto: number; marca: string, cantidad: number; subtotal: number }>();
+  @Output() eliminarOferta: EventEmitter<number> = new EventEmitter<number>();
 
-  confirmarCambio(): void {
-    const data = { oferta: this.oferta, index: this.i };
-    this.ofertaSeleccionadaActual.emit(data);
+
+  confirmarCambioMarca(): void {
+    const productoMarca = { idProducto: this.idProducto, marca: this.marca };
+    this.idMarcaProductoSeleccionadoActual.emit(productoMarca);
   }
 
+  sumarCantidad(): void {
+    const nuevaCantidad = this.cantidad + 1;
+    this.actualizarCantidad(nuevaCantidad);
+  }
+
+  restarCantidad(): void {
+    if (this.cantidad > 1) {
+      const nuevaCantidad = this.cantidad - 1;
+      this.actualizarCantidad(nuevaCantidad);
+    }
+  }
+
+  actualizarCantidad(nuevaCantidad: number): void {
+    const subtotal = this.calcularSubtotal(nuevaCantidad);
+    const productoCantidad = {
+      idProducto: this.idProducto,
+      marca: this.marca,
+      cantidad: nuevaCantidad,
+      subtotal: subtotal,
+    };
+    this.cantidadActualizada.emit(productoCantidad);
+  }
+  
+  calcularSubtotal(cantidad: number): number {
+    return this.precio * cantidad;
+  }
+
+
+  eliminar(): void {
+    this.eliminarOferta.emit(this.idProducto);
+  }
   
   
 }
