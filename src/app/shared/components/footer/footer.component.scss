@@ -55,3 +55,15 @@ html, body {
   font-size: 13px;
   color: #ccc;
 }
+
+/* Estilos para pantallas móviles */
+@media (max-width: 767px) {
+  
+  .credits{
+    display: none;
+  }
+  #footer{
+    padding: 20px;
+  }
+}
+

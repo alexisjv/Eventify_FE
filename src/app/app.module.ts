@@ -28,7 +28,7 @@ import { ToastrModule } from 'ngx-toastr';
         progressBar: true,
         progressAnimation: 'increasing',
         preventDuplicates: true,
-        positionClass: 'toast-bottom-right',
+        positionClass: 'toast-top-right',
       }
     )
    

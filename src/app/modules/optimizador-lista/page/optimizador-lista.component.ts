@@ -7,6 +7,8 @@ import { SharedService } from '@shared/services/shared.service';
 import { ProductoCard } from '@core/models/productoCard';
 import { CardOfertaComponent } from '@shared/components/card-oferta/card-oferta.component';
 import { ToastrService } from 'ngx-toastr';
+import * as bootstrap from 'bootstrap';
+import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-optimizador-lista',
@@ -50,7 +52,7 @@ export class OptimizadorListaComponent implements OnInit {
   totalMasEconomico: number = 0;
   cantidadComerciosMasEconomico: number = 0;
   distanciaMasEconomico: string = '0';
-  cantidadComerciosLista: any;
+  cantidadComerciosLista: number = 0;
   distanciaComercioLista: any;
   mostrarBoton: boolean = true;
   index: any;
@@ -73,35 +75,45 @@ export class OptimizadorListaComponent implements OnInit {
   mensajeOfertas!: string;
   currentUser!: any;
 
-  masEconomicoActivo: string = "activo";
-  menorRecorridoActivo: string = "inactivo";
+  masEconomicoActivo: string = 'activo';
+  menorRecorridoActivo: string = 'inactivo';
+
+  productoElegidoParaEditar: ProductoCard = {
+    nombreProducto: '',
+    ofertas: [],
+    showArrows: false,
+    total: 0,
+  };
+
+  ofertasProductoElegidoParaEditar: Oferta[] = [];
+  quiereEliminar: boolean = false;
 
   constructor(
     private listaCompraService: OptimizadorListaService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private mapaService: SharedService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private config: NgbCarouselConfig
   ) {}
 
   ngOnInit(): void {
-
     let user = sessionStorage.getItem('currentUser');
     if (user !== null) {
       this.currentUser = JSON.parse(user);
     }
 
-    if(!this.currentUser){
-      this.toastr.warning("Podrá visualizar el recorrido del mapa, comparar y guardar sus listas","Inicie sesión");
+    if (!this.currentUser) {
+      this.toastr.warning(
+        'Podrá visualizar el recorrido del mapa, comparar y guardar sus listas',
+        'Inicie sesión'
+      );
     }
-
 
     this.aListaComercios = [];
     this.aListaSeleccionComercio = [];
 
-
-   
-    this.imagenLista = "mateoMejorOferta"
+    this.imagenLista = 'mateoMejorOferta';
 
     this.activatedRoute.queryParams.subscribe((params) => {
       this.cantidadComensales = params['cantidadComensales'];
@@ -167,14 +179,14 @@ export class OptimizadorListaComponent implements OnInit {
         });
         this.aListaSeleccionComercio = this.aListaComercios[0].ofertas;
         this.totalListaDeComercio = this.aListaComercios[0].total;
-        this.cantidadComerciosLista = this.aListaComercios.length;
+
+        if (this.aListaComercios.length) {
+          this.cantidadComerciosLista = 1;
+        }
       });
 
     this.actualizarDatosMenorRecorrido();
   }
-
-  
-
 
   cambiarVistaProducto(vista: string) {
     this.sVistaProducto = vista;
@@ -236,7 +248,6 @@ export class OptimizadorListaComponent implements OnInit {
 
     this.listaCompraService.obtenerOfertas(lista).subscribe(
       (response: ProductoCard[]) => {
-
         for (const productoCard of response) {
           const ofertas = productoCard.ofertas;
 
@@ -257,6 +268,7 @@ export class OptimizadorListaComponent implements OnInit {
                 latitud: primeraOferta.latitud,
                 longitud: primeraOferta.longitud,
                 localidad: primeraOferta.localidad,
+                fechaVencimiento: primeraOferta.fechaVencimiento,
               },
             };
 
@@ -264,19 +276,21 @@ export class OptimizadorListaComponent implements OnInit {
           }
         }
 
-
         this.aListaProductos = response.map((producto) => ({
           ...producto,
           showArrows: false,
         }));
         this.actualizarDatosMasEconomico();
         this.obtenerRutaMasEconomico();
-        console.log(this.listaOfertasElegidasMasEconomico)
+        console.log('Lista elegida', this.listaOfertasElegidasMasEconomico);
+        console.log('Lista alistaproductos', this.aListaProductos);
       },
       (error) => {
         console.error('Error al obtener las ofertas:', error);
       }
     );
+
+    console.log(this.aListaProductos);
   }
 
   toggleArrows(index: number) {
@@ -284,40 +298,287 @@ export class OptimizadorListaComponent implements OnInit {
       !this.aListaProductos[index].showArrows;
   }
 
-  cambiarMarca(data: { oferta: Oferta; index: number }): void {
-    const index = data.index;
-    this.toggleArrows(index);
+  cambiarMarca(data: { idProducto: number; marca: string }): void {
+    const idTipoProducto = this.obtenerIdTipoProducto(data.idProducto);
+    const marca = data.marca;
 
-    // Verificar si la oferta ya existe en ofertasPrincipales
-    const ofertaExistenteIndex =
+    const productoExistenteIndex =
       this.listaOfertasElegidasMasEconomico.findIndex(
-        (o) => o.oferta.idPublicacion === data.oferta.oferta.idPublicacion
+        (o) =>
+          o.oferta.idTipoProducto === idTipoProducto && o.oferta.marca === marca
       );
 
-    if (ofertaExistenteIndex !== -1) {
-      this.ofertaSeleccionadaActual = data.oferta;
-    } else {
-      const ofertaActualIndex = this.listaOfertasElegidasMasEconomico.findIndex(
-        (o) =>
-          o.oferta.idPublicacion ===
-          this.ofertaSeleccionadaActual.oferta.idPublicacion
+    if (productoExistenteIndex !== -1) {
+      console.log(
+        'El producto con la misma marca ya existe en la lista. No se realiza ninguna modificación.'
       );
-      if (ofertaActualIndex !== -1) {
-        this.listaOfertasElegidasMasEconomico.splice(ofertaActualIndex, 1);
-      }
-      this.listaOfertasElegidasMasEconomico.push(data.oferta);
-      this.obtenerRutaMasEconomico();
+      return;
     }
-    const oferta = data.oferta;
-    this.actualizarDatosMasEconomico();
-    // Realiza acciones adicionales con la oferta y el índice
+
+    const productoDiferenteIndex =
+      this.listaOfertasElegidasMasEconomico.findIndex(
+        (o) =>
+          o.oferta.idTipoProducto === idTipoProducto && o.oferta.marca !== marca
+      );
+
+    if (productoDiferenteIndex !== -1) {
+      const ofertaConMarca = this.obtenerOfertaConMarca(idTipoProducto, marca);
+
+      if (!ofertaConMarca) {
+        console.log(
+          'No se encontró una oferta con la marca especificada en ofertasProductoElegidoParaEditar'
+        );
+        return;
+      }
+
+      this.reemplazarOferta(productoDiferenteIndex, ofertaConMarca);
+      this.moverOfertaAlPrimerLugar(ofertaConMarca);
+
+      const ofertaIndex = this.obtenerOfertaIndex(idTipoProducto);
+
+      if (ofertaIndex !== -1) {
+        this.actualizarOfertaEnListaProductos(ofertaIndex);
+        console.log('Oferta reemplazada en listaOfertasElegidasMasEconomico');
+
+        // Actualizar cantidad en aListaSeleccionComercio
+        this.actualizarCantidadOfertaMenorRecorrido(
+          idTipoProducto,
+          ofertaConMarca.cantidad
+        );
+
+        // Actualizar cantidad en listaElegidaMasEconomico
+        this.actualizarCantidadOfertaMasEconomica(
+          idTipoProducto,
+          ofertaConMarca.cantidad
+        );
+      } else {
+        console.log(
+          'No se encontró una oferta con la marca especificada en ofertasProductoElegidoParaEditar'
+        );
+      }
+    }
+
+    console.log(
+      'lista ofertaselegidas post cambio de marca: ',
+      this.listaOfertasElegidasMasEconomico
+    );
+    console.log(
+      'lista alistaproductos post cambio de marca: ',
+      this.aListaProductos
+    );
+  }
+
+  actualizarCantidadOfertaMasEconomica(
+    idTipoProducto: number,
+    cantidad: number
+  ) {
+    this.listaOfertasElegidasMasEconomico.forEach((oferta) => {
+      if (oferta.oferta.idTipoProducto === idTipoProducto) {
+        oferta.cantidad = cantidad;
+        oferta.subtotal = oferta.oferta.precio * cantidad;
+      }
+    });
+    this.totalMasEconomico = this.calcularTotalListaComercio(
+      this.listaOfertasElegidasMasEconomico
+    );
+  }
+
+  obtenerIdTipoProducto(idTipoProducto: number): number {
+    const oferta = this.ofertasProductoElegidoParaEditar.find(
+      (o) => o.oferta?.idTipoProducto === idTipoProducto
+    );
+    return oferta?.oferta?.idTipoProducto || -1;
+  }
+
+  actualizarCantidadOfertaMenorRecorrido(
+    idTipoProducto: number,
+    cantidad: number
+  ) {
+    this.aListaSeleccionComercio.forEach((oferta) => {
+      if (oferta.oferta.idTipoProducto === idTipoProducto) {
+        oferta.cantidad = cantidad;
+        oferta.subtotal = oferta.oferta.precio * cantidad;
+      }
+    });
+    this.totalListaDeComercio = this.calcularTotalListaComercio(
+      this.aListaSeleccionComercio
+    );
+  }
+  
+  cambiarCantidad(data: {
+    idProducto: number;
+    marca: string;
+    cantidad: number;
+    subtotal: number;
+  }): void {
+    const idTipoProducto = data.idProducto;
+    const cantidad = data.cantidad;
+  
+    // Actualizar la cantidad en ofertasProductoElegidoParaEditar
+    this.ofertasProductoElegidoParaEditar.forEach((oferta) => {
+      if (oferta.oferta?.idTipoProducto === idTipoProducto) {
+        oferta.cantidad = cantidad;
+        oferta.subtotal = oferta.oferta.precio * cantidad;
+      }
+    });
+  
+    // Actualizar la cantidad en listaOfertasElegidasMasEconomico
+    this.listaOfertasElegidasMasEconomico.forEach((oferta) => {
+      if (oferta.oferta?.idTipoProducto === idTipoProducto) {
+        oferta.cantidad = cantidad;
+        oferta.subtotal = oferta.oferta.precio * cantidad;
+      }
+    });
+  
+    // Actualizar la cantidad en aListaComercios
+    this.aListaComercios.forEach((comercio) => {
+      comercio.ofertas.forEach((oferta) => {
+        if (oferta.oferta?.idTipoProducto === idTipoProducto) {
+          oferta.cantidad = cantidad;
+          oferta.subtotal = oferta.oferta.precio * cantidad;
+        }
+      });
+      comercio.total = this.calcularTotalListaComercio(comercio.ofertas);
+    });
+  
+    // Actualizar la lista de selección de comercio si es necesario
+    if (this.isOpenListaSeleccionComercio) {
+      const comercioIndex = this.aListaComercios.findIndex(
+        (comercio) => comercio.ofertas === this.aListaSeleccionComercio
+      );
+  
+      if (comercioIndex !== -1) {
+        this.aListaSeleccionComercio =
+          this.aListaComercios[comercioIndex].ofertas;
+        this.totalListaDeComercio = this.aListaComercios[comercioIndex].total;
+      }
+    }
+  
+    // Actualizar la cantidad en aListaSeleccionComercio
+    this.actualizarCantidadOfertaMenorRecorrido(idTipoProducto, cantidad);
+  }
+  
+  
+
+  eliminarOferta(idProducto: number): void {
+    const ofertaIndex = this.aListaProductos.findIndex(
+      (producto) => producto.ofertas[0].oferta?.idTipoProducto === idProducto
+    );
+    const listaIndex = this.listaOfertasElegidasMasEconomico.findIndex(
+      (o) => o.oferta?.idTipoProducto === idProducto
+    );
+
+    if (ofertaIndex !== -1 && listaIndex !== -1) {
+      this.aListaProductos.splice(ofertaIndex, 1);
+      this.listaOfertasElegidasMasEconomico.splice(listaIndex, 1);
+
+      // Actualizar productos en aListaComercios
+      this.aListaComercios.forEach((comercio) => {
+        const ofertaIndex = comercio.ofertas.findIndex(
+          (oferta) => oferta.oferta?.idTipoProducto === idProducto
+        );
+
+        if (ofertaIndex !== -1) {
+          comercio.ofertas.splice(ofertaIndex, 1);
+          comercio.total = this.calcularTotalListaComercio(comercio.ofertas);
+        }
+      });
+
+      // Actualizar la lista de selección de comercio si es necesario
+      if (this.isOpenListaSeleccionComercio) {
+        const comercioIndex = this.aListaComercios.findIndex(
+          (comercio) => comercio.ofertas === this.aListaSeleccionComercio
+        );
+
+        if (comercioIndex !== -1) {
+          this.aListaSeleccionComercio =
+            this.aListaComercios[comercioIndex].ofertas;
+          this.totalListaDeComercio = this.aListaComercios[comercioIndex].total;
+        }
+      }
+
+      console.log(
+        'Oferta eliminada de aListaProductos y listaOfertasElegidasMasEconomico'
+      );
+
+      // Eliminar oferta de aListaSeleccionComercio
+      this.eliminarOfertaDeAListaSeleccionComercio(idProducto);
+      console.log('Oferta eliminada de aListaSeleccionComercio');
+    } else {
+      console.log('No se encontró la oferta');
+    }
+  }
+
+  eliminarOfertaDeAListaSeleccionComercio(idProducto: number): void {
+    const ofertaIndex = this.aListaSeleccionComercio.findIndex(
+      (oferta) => oferta.oferta.idTipoProducto === idProducto
+    );
+
+    if (ofertaIndex !== -1) {
+      this.aListaSeleccionComercio.splice(ofertaIndex, 1);
+    }
+  }
+
+  obtenerOfertaConMarca(idProducto: number, marca: string): Oferta | undefined {
+    return this.ofertasProductoElegidoParaEditar.find(
+      (o) =>
+        o.oferta?.idTipoProducto === idProducto && o.oferta?.marca === marca
+    );
+  }
+
+  reemplazarOferta(index: number, oferta: Oferta): void {
+    this.listaOfertasElegidasMasEconomico.splice(index, 1, oferta);
+  }
+
+  moverOfertaAlPrimerLugar(oferta: Oferta): void {
+    const ofertaIndex = this.ofertasProductoElegidoParaEditar.findIndex(
+      (o) =>
+        o.oferta?.idTipoProducto === oferta.oferta?.idTipoProducto &&
+        o.oferta?.marca === oferta.oferta?.marca
+    );
+
+    if (ofertaIndex !== -1) {
+      const ofertaSeleccionada = this.ofertasProductoElegidoParaEditar.splice(
+        ofertaIndex,
+        1
+      );
+      this.ofertasProductoElegidoParaEditar.unshift(ofertaSeleccionada[0]);
+      console.log(
+        'Oferta movida al primer lugar en ofertasProductoElegidoParaEditar'
+      );
+    } else {
+      console.log(
+        'No se encontró la oferta con la marca especificada en ofertasProductoElegidoParaEditar'
+      );
+    }
+  }
+
+  obtenerOfertaIndex(idProducto: number): number {
+    return this.aListaProductos.findIndex((producto) =>
+      producto.ofertas.some(
+        (oferta) => oferta.oferta?.idTipoProducto === idProducto
+      )
+    );
+  }
+
+  actualizarOfertaEnListaProductos(index: number): void {
+    const ofertaModificada = {
+      nombreProducto: this.aListaProductos[index].nombreProducto,
+      ofertas: this.ofertasProductoElegidoParaEditar,
+      showArrows: this.aListaProductos[index].showArrows,
+      total: this.aListaProductos[index].total,
+    };
+
+    this.aListaProductos[index] = ofertaModificada;
   }
 
   actualizarDatosMasEconomico() {
     this.calcularTotalMasEconomico();
     this.calcularCantidadComerciosMasEconomico();
     this.calcularCantidadDeOfertasMasEconomico();
-    this.guardarMensajeOfertas(this.listaOfertasElegidasMasEconomico);
+    if (this.divContenidoListaMasEconomico) {
+      this.guardarMensajeOfertas(this.listaOfertasElegidasMasEconomico);
+    }
   }
 
   cambiarMarcaNuevo(index: number) {
@@ -327,15 +588,23 @@ export class OptimizadorListaComponent implements OnInit {
     this.toggleArrows(index);
   }
 
-  actualizarDatos() {
-    this.calcularTotalMasEconomico();
-    this.calcularCantidadComerciosMasEconomico();
-    this.calcularCantidadDeOfertasMasEconomico();
+  actualizarDatosAmbosEscenarios() {
+    this.actualizarDatosMasEconomico();
+    this.actualizarDatosMenorRecorrido();
+
+    if (this.divContenidoListaMasEconomico) {
+      this.obtenerRutaMasEconomico();
+    } else {
+      this.obtenerRutaMenorRecorrido();
+    }
   }
+
   actualizarDatosMenorRecorrido() {
     this.calcularCantidadComerciosMenorRecorrido();
     this.calcularCantidadDeOfertasMenorRecorrido();
-    this.guardarMensajeOfertas(this.aListaSeleccionComercio);
+    if (this.divContenidoListaMenorRecorrido) {
+      this.guardarMensajeOfertas(this.aListaSeleccionComercio);
+    }
   }
 
   calcularCantidadDeOfertasMasEconomico() {
@@ -359,15 +628,13 @@ export class OptimizadorListaComponent implements OnInit {
     this.totalMasEconomico = parseFloat(this.totalMasEconomico.toFixed(2));
   }
 
-  calcularTotalListaComercio(aListaComercio: any[]) : any {
-    let totalListaDeComercio=0;
+  calcularTotalListaComercio(aListaComercio: any[]): any {
+    let totalListaDeComercio = 0;
     aListaComercio.forEach((oElement) => {
       totalListaDeComercio += oElement.subtotal;
     });
 
-    return totalListaDeComercio = parseFloat(
-      totalListaDeComercio.toFixed(2)
-    );
+    return (totalListaDeComercio = parseFloat(totalListaDeComercio.toFixed(2)));
   }
 
   calcularCantidadComerciosMasEconomico() {
@@ -390,13 +657,13 @@ export class OptimizadorListaComponent implements OnInit {
     this.cantidadComerciosMenorRecorrido = nombresComercios.size;
   }
 
-
-
   onClickVerListaDeComercio(comercio: any, i: number) {
     this.aListaSeleccionComercio = comercio.ofertas;
     this.isOpenListaSeleccionComercio = true;
     this.activeButton = i;
-    this.totalListaDeComercio = this.calcularTotalListaComercio(comercio.ofertas);
+    this.totalListaDeComercio = this.calcularTotalListaComercio(
+      comercio.ofertas
+    );
     this.obtenerRutaMenorRecorrido();
   }
 
@@ -429,7 +696,6 @@ export class OptimizadorListaComponent implements OnInit {
       // Ordenar por idTipoProducto ascendente
       return a.oferta.idTipoProducto - b.oferta.idTipoProducto;
     });
-
   }
 
   generarResumen() {
@@ -445,10 +711,10 @@ export class OptimizadorListaComponent implements OnInit {
       });
   }
 
-  guardarMensajeOfertas(lista: any){
+  guardarMensajeOfertas(lista: any) {
     this.mensajeOfertas = lista
-    .map((oferta) => {
-      return `
+      .map((oferta) => {
+        return `
       Comercio: ${oferta.oferta.nombreComercio}
       Localidad: ${oferta.oferta.localidad}
       Producto: ${oferta.oferta.nombreProducto}
@@ -458,8 +724,8 @@ export class OptimizadorListaComponent implements OnInit {
       Subtotal: $${oferta.subtotal}
       --------------------------
   `;
-    })
-    .join('');
+      })
+      .join('');
   }
 
   compartirLista() {
@@ -482,9 +748,13 @@ export class OptimizadorListaComponent implements OnInit {
       // Manejar el error de obtener la URL del mapa de recorrido
     }
   }
-  
 
   guardarLista(lista: Oferta[], distancia: string) {
+    if (this.listaElegidaMasEconomico) {
+      this.actualizarDatosMasEconomico();
+    } else {
+      this.actualizarDatosMenorRecorrido();
+    }
 
     let user = sessionStorage.getItem('currentUser');
     if (user !== null) {
@@ -499,56 +769,64 @@ export class OptimizadorListaComponent implements OnInit {
       cantidadOfertas: lista.length,
       total: 0,
       urlRecorrido: this.urlRecorrido,
-      mensajeOfertas:this.mensajeOfertas,
+      mensajeOfertas: this.mensajeOfertas,
       distanciaARecorrer: parseFloat(distancia),
       ofertas: lista.map((oferta) => ({
         nombreProducto: oferta.oferta.nombreProducto,
         idPublicacion: oferta.oferta.idPublicacion,
         precio: oferta.oferta.precio,
         cantidad: oferta.cantidad,
-        subtotal: oferta.subtotal
-      }))
+        subtotal: oferta.subtotal,
+      })),
     };
-  
+
     this.listaCompraService.guardarLista(body);
-    
+
     this.router.navigate(['perfil-usuario']);
-    this.toastr.success("Puedes visualizar el detalle de tu lista en tu perfil","Lista guardada")
-
+    this.toastr.success(
+      'Puedes visualizar el detalle de tu lista en tu perfil',
+      'Lista guardada'
+    );
   }
-  
 
-
-
-  obtenerRuta(rutaComercios, latitud, longitud, distanciaVariable, distanciaCallback) {
+  obtenerRuta(
+    rutaComercios,
+    latitud,
+    longitud,
+    distanciaVariable,
+    distanciaCallback
+  ) {
     rutaComercios = [];
     const ubicacionOrigen = {
       ubicacion: { lat: latitud, lng: longitud },
       nombre: 'Mi ubicación',
     };
-  
+
     rutaComercios.push(ubicacionOrigen);
-  
+
     for (const oferta of distanciaVariable) {
       const ubicacion = {
         lat: oferta.oferta.latitud,
         lng: oferta.oferta.longitud,
       };
-  
+
       const comercio = {
         ubicacion: ubicacion,
         nombre: oferta.oferta.nombreComercio,
       };
-  
+
       rutaComercios.push(comercio);
     }
-  
-  
-    this.mapaService.obtenerRuta(rutaComercios, this.radioElegido, (distancia) => {
-      distanciaCallback(distancia);
-    });
+
+    this.mapaService.obtenerRuta(
+      rutaComercios,
+      this.radioElegido,
+      (distancia) => {
+        distanciaCallback(distancia);
+      }
+    );
   }
-  
+
   obtenerRutaMasEconomico() {
     this.obtenerRuta(
       this.rutaComerciosMasEconomico,
@@ -560,7 +838,7 @@ export class OptimizadorListaComponent implements OnInit {
       }
     );
   }
-  
+
   obtenerRutaMenorRecorrido() {
     this.obtenerRuta(
       this.rutaComerciosMenorRecorrido,
@@ -573,27 +851,41 @@ export class OptimizadorListaComponent implements OnInit {
     );
   }
 
-  
-  cambiarALista(vistaListaMasEconomica, vistaListaMenorRecorrido, classListaActiva, classListaInactiva) {
+  cambiarALista(
+    vistaListaMasEconomica,
+    vistaListaMenorRecorrido,
+    classListaActiva,
+    classListaInactiva
+  ) {
     this.vistaListaMasEconomica = vistaListaMasEconomica;
     this.vistaListaMenorRecorrido = vistaListaMenorRecorrido;
-  
+
     const listaActiva = document.querySelector(classListaActiva);
     const listaInactiva = document.querySelector(classListaInactiva);
-  
+
     listaActiva?.classList.add('activo');
     listaInactiva?.classList.remove('activo');
   }
-  
+
   cambiarAListaMasEconomico() {
-    this.cambiarALista(true, false, '.div-mas-economico', '.div-menor-recorrido');
-  }
-  
-  cambiarAListaMenorRecorrido() {
-    this.cambiarALista(false, true, '.div-menor-recorrido', '.div-mas-economico');
+    this.cambiarALista(
+      true,
+      false,
+      '.div-mas-economico',
+      '.div-menor-recorrido'
+    );
   }
 
-  mostrarContenidoMasEconomico(){
+  cambiarAListaMenorRecorrido() {
+    this.cambiarALista(
+      false,
+      true,
+      '.div-menor-recorrido',
+      '.div-mas-economico'
+    );
+  }
+
+  mostrarContenidoMasEconomico() {
     this.masEconomicoActivo = 'activo';
     this.menorRecorridoActivo = 'inactivo';
     this.divContenidoListaMasEconomico = true;
@@ -603,9 +895,9 @@ export class OptimizadorListaComponent implements OnInit {
     this.actualizarDatosMasEconomico();
     this.obtenerRutaMasEconomico();
     this.imagenLista = 'mateoMejorOferta';
-    this.toastr.info("Ha cambiado a lista más económica","Lista seleccionada")
+    this.toastr.info('Ha cambiado a lista más económica', 'Lista seleccionada');
   }
-  mostrarContenidoMenorRecorrdio(){
+  mostrarContenidoMenorRecorrdio() {
     this.masEconomicoActivo = 'inactivo';
     this.menorRecorridoActivo = 'activo';
     this.divContenidoListaMasEconomico = false;
@@ -615,10 +907,26 @@ export class OptimizadorListaComponent implements OnInit {
     this.actualizarDatosMenorRecorrido();
     this.obtenerRutaMenorRecorrido();
     this.imagenLista = 'mateoMejorRecorrido';
-    this.toastr.info("Ha cambiado a lista menor recorrido", "Lista seleccionada")
+    this.toastr.info(
+      'Ha cambiado a lista menor recorrido',
+      'Lista seleccionada'
+    );
   }
 
   getCurrentUrl(): string {
     return window.location.href;
+  }
+
+  abrirModalConOfertas(producto: ProductoCard) {
+    // Asigna el producto seleccionado a una variable en el componente para mostrarlo en el modal
+    this.productoElegidoParaEditar = producto;
+    this.ofertasProductoElegidoParaEditar = producto.ofertas;
+
+    console.log('Las marcas para cambiar son: ', producto);
+
+    // Abre el modal correspondiente
+    const modal = document.getElementById('modalEditar');
+    const bootstrapModal = new bootstrap.Modal(modal);
+    bootstrapModal.show();
   }
 }

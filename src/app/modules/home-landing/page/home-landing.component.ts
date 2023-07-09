@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { Router } from '@angular/router';
 @Component({
   selector: 'app-home-landing',
   templateUrl: './home-landing.component.html',
@@ -7,7 +6,7 @@ import { Router } from '@angular/router';
 })
 export class HomeLandingComponent implements OnInit, OnDestroy {
   public currentUser;
-  constructor(private renderer: Renderer2, private router: Router) {}
+  constructor(private renderer: Renderer2) {}
 
   ngOnInit() {
     const headerElemento = document.getElementById('header');
@@ -31,10 +30,6 @@ export class HomeLandingComponent implements OnInit, OnDestroy {
     if (headerElemento) {
       this.renderer.removeStyle(headerElemento, 'position');
     }
-  }
-
-  redirectToFormRegistro() {
-    this.router.navigate(['/form-registro'], { queryParams: { mostrarRegistroComercio: true, mostrarRegistroComun: false } });
   }
 
 
