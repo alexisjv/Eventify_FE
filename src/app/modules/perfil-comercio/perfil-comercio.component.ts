@@ -89,7 +89,10 @@ obtenerOfertasPublicadas(idComercio: number) {
     (ofertasPublicadas: OfertaPublicada[]) => {
       this.ofertasPublicadas = ofertasPublicadas;
     },
-    (error) => console.error(error)
+    (error) => {
+      console.error(error)
+      this.ofertasPublicadas = [];
+    }
   );
 }
 
@@ -192,6 +195,7 @@ obtenerMarcasDelProducto(idProducto: string) {
       this.buscandoProducto=false;  
     });
   }
+  
   volverAEscanearProducto(){
     this.escanearCodigo=true;
     this.productoEncontrado=null;
@@ -213,7 +217,7 @@ obtenerMarcasDelProducto(idProducto: string) {
     this.mostrarEleccionProducto=true;
     this.productoEncontrado = null;
     this.productoSeleccionado = null;
-    this.volverAEscanearProducto();
+  
   }
 
   cerrarModalSubirOferta(){
