@@ -178,7 +178,10 @@
                     <div class="card-body align-items-center text-wrap" *ngIf="escanearCodigo">
                       <form>
                       <label class="form-label">Escanee el codigo de barras del producto</label>
-                      <input class="form-control" type="text" #codebar (input)="onCodebarChange($event)">
+                      <input class="form-control" type="text" maxLength="14" minlength="8" #codebar (keyup.enter)="onCodebarChange($event)">
+                      <div class="alert alert-danger align-items-center" role="alert" *ngIf="errorLongitudCodigo">
+                        La longitud del codigo no es correcta. Debe tener entre 8 y 14 dígitos.
+                      </div>
                     </form>
                     </div>
                     <div class="card-body align-items-center text-wrap" *ngIf="buscandoProducto">
