@@ -45,6 +45,8 @@ idComercio: any;
 ofertaPost!: OfertaPost;
 statusOferta!: string;
 errorLongitudCodigo= false;
+direccion: string = "";
+localidad: string = "";
 
  
 constructor(private perfilService: PerfilComercioService , private ngModal : NgbModal, 
@@ -83,6 +85,9 @@ private obtenerUsuarioActual() {
     this.comercioLogueado = JSON.parse(user);
     this.nombreComercio = this.comercioLogueado.razonSocial;
     this.idComercio = this.comercioLogueado.id;
+    this.cuit = this.comercioLogueado.cuit;
+    this.localidad = this.comercioLogueado.localidad;
+    this.direccion = this.comercioLogueado.direccion;
   }
 }
 obtenerOfertasPublicadas(idComercio: number) {
