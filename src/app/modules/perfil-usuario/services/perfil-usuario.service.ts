@@ -14,9 +14,10 @@ export class PerfilUsuarioService {
   constructor(private http: HttpClient) { }
 
 
-  obtenerListasDelUsuario(idUsuario: number): Observable<ListaGuardada[]> {
-    return this.http.get<ListaGuardada[]>(API_URL + `listadoOfertas/misListados?idUsuario=${idUsuario}`);
+  obtenerListasDelUsuario(idUsuario: number): Observable<any> {
+    return this.http.get<any>(API_URL + `listadoOfertas/misListados?idUsuario=${idUsuario}`);
   }
+  
 
   verDetalleLista(idListado: number, idUsuario: number):Observable<ListaDetalle>{
     return this.http.get<ListaDetalle>(API_URL + `listadoOfertas/detalleListado?idUsuario=${idUsuario}&idListado=${idListado}`)

@@ -1,16 +1,20 @@
-<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
-  style="min-height: 100px; background-image: url(./assets/images/supermercado.jpg); background-size: cover; background-position: center top;">
+<div
+  class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+  style="
+    min-height: 100px;
+    background-image: url(./assets/images/supermercado.jpg);
+    background-size: cover;
+    background-position: center top;
+  "
+>
   <!-- Mask -->
   <span class="mask bg-gradient-default opacity-8"></span>
   <!-- Header container -->
   <div class="container-fluid d-flex align-items-center">
     <div class="row">
       <div class="col-lg-7 col-md-10 titulo">
-        <h1 class="display-2 text-white">{{nombreComercio}}</h1>
+        <h1 class="display-2 text-white">{{ nombreComercio }}</h1>
         <h3 class="text-white mt-0 mb-5">Administrá tus ofertas</h3>
-        <button type="button" class="btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="openModalPublicarOferta()">
-          Publicar Oferta
-        </button>
       </div>
     </div>
   </div>
@@ -23,8 +27,10 @@
         <div class="row justify-content-center">
           <div class="col-lg-3 order-lg-2">
             <div class="card-profile-image">
-              <img src="./assets/images/perfil-comercio.jpg" class="rounded-circle">
-
+              <img
+                src="./assets/images/perfil-comercio.jpg"
+                class="rounded-circle"
+              />
             </div>
           </div>
         </div>
@@ -36,31 +42,43 @@
         <div class="card-body pt-0 pt-md-4">
           <div class="row">
             <div class="col">
-              <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+              <div
+                class="card-profile-stats d-flex justify-content-center"
+              >
                 <div *ngIf="ofertasPublicadas.length != 0">
-                  <span class="heading">{{ofertasPublicadas.length}}</span>
+                  <span class="heading">{{ ofertasPublicadas.length }}</span>
                   <span class="description">Ofertas</span>
                 </div>
-                <div *ngIf="ofertasPublicadas.length == 0">
-                <button type="button" class="btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="openModalPublicarOferta()">
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="m-4">
+              <div class="d-flex justify-content-center flex-wrap">
+                
+                <button
+                  type="button"
+                  class="btn-info"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  (click)="openModalPublicarOferta()"
+                >
                   Publicar Oferta
                 </button>
-              </div>
               </div>
             </div>
           </div>
           <div class="text-center">
             <div class="h5 font-weight-300">
-              <i class="ni location_pin mr-2"></i>
+              <i class="ni location_pin mr-2"></i>{{localidad}}
             </div>
-            <!--   <div class="h5 mt-4">
-                <i class="ni business_briefcase-24 mr-2"></i>Belgrano 2165
-              </div>
-              <div>
-                <i class="ni education_hat mr-2"></i>Horarios: Lunes a sábado de 09:00 a 20:00
-              </div>
-              <hr class="my-4">
-              <a href="#">Ver más</a> -->
+
+            <div>
+              <i class="ni education_hat mr-2"></i>{{direccion}}
+            </div>
+            <div class="h5 mt-4">
+              <i class="ni business_briefcase-24 mr-2"></i>Cuit: {{cuit}}
+            </div>
           </div>
         </div>
       </div>
@@ -70,25 +88,32 @@
         <div class="card-header bg-white border-0">
           <div class="row align-items-center">
             <div class="col-8">
-              <h3 *ngIf="ofertasPublicadas.length != 0"  class="mb-0">Mis ofertas</h3>
-              <h3 *ngIf="ofertasPublicadas.length == 0" class="mb-0">Todavia no tenes ofertas publicadas</h3>
+              <h3 *ngIf="ofertasPublicadas.length != 0" class="mb-0">
+                Mis ofertas
+              </h3>
+              <h3 *ngIf="ofertasPublicadas.length == 0" class="mb-0">
+                Todavia no tenes ofertas publicadas
+              </h3>
             </div>
           </div>
         </div>
         <div class="card-body">
           <div class="row justify-content-center">
-            <div class="col-md-6" *ngFor="let oferta of ofertasPublicadas">
+            <div class="col-xl-4 col-lg-6" *ngFor="let oferta of ofertasPublicadas">
               <div class="text-center">
                 <div class="d-inline-block">
-                  <app-card-oferta [nombreProducto]="oferta.nombre" [precio]="oferta.precio" [imagen]="oferta.imagen"
-                    [fechaFin]="oferta.fechaFin" [rol]="2"></app-card-oferta>
+                  <app-card-oferta
+                    [nombreProducto]="oferta.nombre"
+                    [precio]="oferta.precio"
+                    [imagen]="oferta.imagen"
+                    [fechaVencimiento]="oferta.fechaFin"
+                    [rol]="2"
+                  ></app-card-oferta>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
   </div>
@@ -96,182 +121,360 @@
 
 <!-- Subir oferta -->
 
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Publicar oferta</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="cerrarModalSubirOferta()" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          (click)="cerrarModalSubirOferta()"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body" *ngIf="mostrarEleccionProducto">
         <div class="d-flex align-items-start">
-          <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home"
-              type="button" role="tab" aria-controls="v-pills-home"  (click)="onCargaManual()" aria-selected="true">Carga manual</button>
-            <button class="nav-link" (click)="onCargaConCodigo()" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile"
-              type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Carga con codigo de
-              barras</button>
-
+          <div
+            class="nav flex-column nav-pills me-3"
+            id="v-pills-tab"
+            role="tablist"
+            aria-orientation="vertical"
+          >
+            <button
+              class="nav-link active"
+              id="v-pills-home-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-pills-home"
+              type="button"
+              role="tab"
+              aria-controls="v-pills-home"
+              (click)="onCargaManual()"
+              aria-selected="true"
+            >
+              Carga manual
+            </button>
+            <button
+              class="nav-link"
+              (click)="onCargaConCodigo()"
+              id="v-pills-profile-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-pills-profile"
+              type="button"
+              role="tab"
+              aria-controls="v-pills-profile"
+              aria-selected="false"
+            >
+              Carga con codigo de barras
+            </button>
           </div>
           <div class="tab-content" id="v-pills-tabContent">
-            <div class="tab-pane fade show active align-items-center" id="v-pills-home" role="tabpanel"
-              aria-labelledby="v-pills-home-tab">
+            <div
+              class="tab-pane fade show active align-items-center"
+              id="v-pills-home"
+              role="tabpanel"
+              aria-labelledby="v-pills-home-tab"
+            >
               <article class="d-flex align-items-center justify-content-around">
                 <form class="align-self-start">
-
                   <div class="form-group input-group mt-3">
-                    <select class="form-select" (change)="onChangeProductoTipo()" name="selectedProduct"
-                      [(ngModel)]="selectedProductoTipo">
-                      <option value="" disabled selected="selected">Seleccione un tipo de producto</option>
-                      <option *ngFor="let producto of tiposDeProductos" [value]="producto.id">{{producto.nombre}}
+                    <select
+                      class="form-select"
+                      (change)="onChangeProductoTipo()"
+                      name="selectedProduct"
+                      [(ngModel)]="selectedProductoTipo"
+                    >
+                      <option value="" disabled selected="selected">
+                        Seleccione un tipo de producto
+                      </option>
+                      <option
+                        *ngFor="let producto of tiposDeProductos"
+                        [value]="producto.id"
+                      >
+                        {{ producto.nombre }}
                       </option>
                     </select>
                   </div>
                   <div class="form-group input-group mt-3">
-                    <select class="form-select" aria-placeholder="Seleccione la marca" (change)="onChangeMarca()"
-                      name="selectedMarca" [(ngModel)]="selectedMarca">
-                      <option value="" disabled selected="selected">Seleccione la marca del producto</option>
-                      <option *ngFor="let marca of marcas" [value]="marca">{{marca}}</option>
+                    <select
+                      class="form-select"
+                      aria-placeholder="Seleccione la marca"
+                      (change)="onChangeMarca()"
+                      name="selectedMarca"
+                      [(ngModel)]="selectedMarca"
+                    >
+                      <option value="" disabled selected="selected">
+                        Seleccione la marca del producto
+                      </option>
+                      <option *ngFor="let marca of marcas" [value]="marca">
+                        {{ marca }}
+                      </option>
                     </select>
                   </div>
                 </form>
 
-                <div class="row row-cols-2 row-cols-md-2 g-4 ms-3 align-self-end " data-bs-toggle="button"
-                  *ngIf="mostrarProductos">
+                <div
+                  class="row row-cols-2 row-cols-md-2 g-4 ms-3 align-self-end"
+                  data-bs-toggle="button"
+                  *ngIf="mostrarProductos"
+                >
                   <div class="col">
-
-                    <div class="card mb-3" style="max-width: 540px;" *ngFor="let producto of productosAElegir">
-                      <button class="btn btn-outline-info p-4" data-bs-toggle="button"
-                        [class.active]="idProductoSeleccionado === producto.id" (click)="onClickProducto(producto)">
+                    <div
+                      class="card mb-3"
+                      style="max-width: 540px"
+                      *ngFor="let producto of productosAElegir"
+                    >
+                      <button
+                        class="btn btn-outline-info p-4"
+                        data-bs-toggle="button"
+                        [class.active]="idProductoSeleccionado === producto.id"
+                        (click)="onClickProducto(producto)"
+                      >
                         <div class="row g-0">
                           <div class="col-md-4">
-                            <img src="{{producto.imagen}}" class="imagenProducto img-fluid rounded-start" alt="...">
+                            <img
+                              src="{{ producto.imagen }}"
+                              class="imagenProducto img-fluid rounded-start"
+                              alt="..."
+                            />
                           </div>
                           <div class="col-md-8">
                             <div class="card-body align-items-center text-wrap">
-                              <p class="card-text">{{producto.nombre}}</p>
+                              <p class="card-text">{{ producto.nombre }}</p>
                             </div>
                           </div>
                         </div>
                       </button>
                     </div>
-
-
                   </div>
-
                 </div>
-
               </article>
-
-
             </div>
 
             <!-- Carga con codigo de barras -->
-            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-              <div class="card mb-3" style="max-width: 540px;" *ngIf="productoEncontrado == null">
+            <div
+              class="tab-pane fade"
+              id="v-pills-profile"
+              role="tabpanel"
+              aria-labelledby="v-pills-profile-tab"
+            >
+              <div
+                class="card mb-3"
+                style="max-width: 540px"
+                *ngIf="productoEncontrado == null"
+              >
                 <div class="row g-0">
                   <div class="col-md-4">
-                    <img  src="/assets/images/codebar.gif" alt="" height="150px" />
+                    <img
+                      src="/assets/images/codebar.gif"
+                      alt=""
+                      height="150px"
+                    />
                   </div>
-                  <div class="col-md-8" >
-                    <div class="card-body align-items-center text-wrap" *ngIf="escanearCodigo">
+                  <div class="col-md-8">
+                    <div
+                      class="card-body align-items-center text-wrap"
+                      *ngIf="escanearCodigo"
+                    >
                       <form>
-                      <label class="form-label">Escanee el codigo de barras del producto</label>
-                      <input class="form-control" type="text" maxLength="14" minlength="8" #codebar (keyup.enter)="onCodebarChange($event)">
-                      <div class="alert alert-danger align-items-center" role="alert" *ngIf="errorLongitudCodigo">
-                        La longitud del codigo no es correcta. Debe tener entre 8 y 14 dígitos.
-                      </div>
-                    </form>
+                        <label class="form-label"
+                          >Escanee el codigo de barras del producto</label
+                        >
+                        <input
+                          class="form-control"
+                          type="text"
+                          maxLength="14"
+                          minlength="8"
+                          #codebar
+                          (keyup.enter)="onCodebarChange($event)"
+                        />
+                        <div
+                          class="alert alert-danger align-items-center"
+                          role="alert"
+                          *ngIf="errorLongitudCodigo"
+                        >
+                          La longitud del codigo no es correcta. Debe tener
+                          entre 8 y 14 dígitos.
+                        </div>
+                      </form>
                     </div>
-                    <div class="card-body align-items-center text-wrap" *ngIf="buscandoProducto">
+                    <div
+                      class="card-body align-items-center text-wrap"
+                      *ngIf="buscandoProducto"
+                    >
                       <h6>Buscando producto</h6>
                       <div class="spinner-border text-info" role="status">
                         <span class="visually-hidden">Loading...</span>
                       </div>
                     </div>
-                    <div class="alert alert-danger align-items-center" role="alert" *ngIf="errorBuscandoProducto">
-                      El producto escaneado no se encuentra en nuestra base de datos.
+                    <div
+                      class="alert alert-danger align-items-center"
+                      role="alert"
+                      *ngIf="errorBuscandoProducto"
+                    >
+                      El producto escaneado no se encuentra en nuestra base de
+                      datos.
                     </div>
                   </div>
                 </div>
               </div>
-              <div  *ngIf="productoEncontrado !== null">
-              <div class="card mb-3 p-2" >
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img src="{{productoEncontrado.imagen}}" class="imagenProducto img-fluid rounded-start" alt="...">
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body align-items-center text-wrap">
-                      <p class="card-title">{{productoEncontrado.nombre}}</p>
+              <div *ngIf="productoEncontrado !== null">
+                <div class="card mb-3 p-2">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img
+                        src="{{ productoEncontrado.imagen }}"
+                        class="imagenProducto img-fluid rounded-start"
+                        alt="..."
+                      />
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body align-items-center text-wrap">
+                        <p class="card-title">
+                          {{ productoEncontrado.nombre }}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <form class="d-flex flex-column" [formGroup]="formOferta">
+                  <label class="form-label m-2">Precio</label>
+                  <input
+                    class="form-control m-2"
+                    type="number"
+                    formControlName="precio"
+                  />
+                  <label class="form-label m-2">Fecha de finalización</label>
+                  <input
+                    class="form-control m-2"
+                    type="date"
+                    formControlName="fecha"
+                    [value]="fechaHoy"
+                  />
+                  <div
+                    *ngIf="
+                      formOferta.get('fecha')?.hasError('fechaMenor') &&
+                      formOferta.get('fecha')?.touched
+                    "
+                    class="alert alert-danger"
+                  >
+                    La fecha no puede ser menor a la fecha actual.
+                  </div>
+                  <div>
+                    <button
+                      class="btn btn-outline-info m-4"
+                      (click)="volverAEscanearProducto()"
+                    >
+                      Volver
+                    </button>
+                    <button
+                      type="submit"
+                      [disabled]="formOferta.invalid"
+                      (click)="openModalPublicar(myModalContent)"
+                      class="btn btn-info m-4"
+                    >
+                      Publicar oferta
+                    </button>
+                  </div>
+                </form>
               </div>
-              <form class="d-flex flex-column" [formGroup]="formOferta">
-                <label class="form-label m-2">Precio</label>
-                <input class="form-control m-2" type="number" formControlName="precio">
-                <label class="form-label m-2">Fecha de finalización</label>
-                <input  class="form-control m-2" type="date" formControlName="fecha" [value]="fechaHoy">
-                <div *ngIf="formOferta.get('fecha')?.hasError('fechaMenor') && formOferta.get('fecha')?.touched" class="alert alert-danger">La fecha no puede ser menor a la fecha actual.</div>
-                <div>
-                <button class="btn btn-outline-info m-4" (click)="volverAEscanearProducto()">Volver</button>
-                <button type="submit" [disabled]="formOferta.invalid" (click)="openModalPublicar(myModalContent)" class="btn btn-info m-4">Publicar oferta</button>
-              </div>
-              </form>
-            </div> 
-
-            
             </div>
           </div>
         </div>
-        <div class="modal-footer" *ngIf="productoSeleccionado !== null && productoEncontrado == null">
-
-          <button class="btn btn-info mb-3" (click)="onElegirProducto()">Elegir producto seleccionado</button>
-
+        <div
+          class="modal-footer"
+          *ngIf="productoSeleccionado !== null && productoEncontrado == null"
+        >
+          <button class="btn btn-info mb-3" (click)="onElegirProducto()">
+            Elegir producto seleccionado
+          </button>
         </div>
       </div>
 
       <!-- CompletarOferta -->
-      <div class="modal-body d-flex align-items-center flex-column p-4" *ngIf="mostrarCompletarOferta">
-        <div class="card mb-3"  *ngIf="productoSeleccionado!= null">
+      <div
+        class="modal-body d-flex align-items-center flex-column p-4"
+        *ngIf="mostrarCompletarOferta"
+      >
+        <div class="card mb-3" *ngIf="productoSeleccionado != null">
           <div class="row g-0">
             <div class="col-md-4">
-              <img src="{{productoSeleccionado.imagen}}" class="imagenProducto img-fluid rounded-start" alt="...">
+              <img
+                src="{{ productoSeleccionado.imagen }}"
+                class="imagenProducto img-fluid rounded-start"
+                alt="..."
+              />
             </div>
             <div class="col-md-8">
               <div class="card-body align-items-center text-wrap">
-                <p class="card-title">{{productoSeleccionado.nombre}}</p>
+                <p class="card-title">{{ productoSeleccionado.nombre }}</p>
               </div>
             </div>
           </div>
         </div>
         <form class="d-flex flex-column" [formGroup]="formOferta">
           <label class="form-label m-2">Precio</label>
-          <input class="form-control m-2" type="number" formControlName="precio">
+          <input
+            class="form-control m-2"
+            type="number"
+            formControlName="precio"
+          />
           <label class="form-label m-2">Fecha de finalización</label>
-          <input  class="form-control m-2" type="date" formControlName="fecha">
-          <div *ngIf="formOferta.get('fecha')?.hasError('fechaMenor') && formOferta.get('fecha')?.touched" class="alert alert-danger">La fecha no puede ser menor a la fecha actual.</div>
+          <input class="form-control m-2" type="date" formControlName="fecha" />
+          <div
+            *ngIf="
+              formOferta.get('fecha')?.hasError('fechaMenor') &&
+              formOferta.get('fecha')?.touched
+            "
+            class="alert alert-danger"
+          >
+            La fecha no puede ser menor a la fecha actual.
+          </div>
           <div>
-          <button class="btn btn-outline-info m-4" (click)="volverAEleccionProducto()">Volver</button>
-          <button type="submit" [disabled]="formOferta.invalid" (click)="openModalPublicar(myModalContent)"  class="btn btn-info m-4">Publicar oferta</button>
-        </div>
+            <button
+              class="btn btn-outline-info m-4"
+              (click)="volverAEleccionProducto()"
+            >
+              Volver
+            </button>
+            <button
+              type="submit"
+              [disabled]="formOferta.invalid"
+              (click)="openModalPublicar(myModalContent)"
+              class="btn btn-info m-4"
+            >
+              Publicar oferta
+            </button>
+          </div>
         </form>
-
       </div>
 
-      <div class="modal-body d-flex align-items-center flex-column p-4" *ngIf="statusOferta!== ''">
-        <div class="alert alert-success align-items-center" role="alert" *ngIf="statusOferta == 'success'">
+      <div
+        class="modal-body d-flex align-items-center flex-column p-4"
+        *ngIf="statusOferta !== ''"
+      >
+        <div
+          class="alert alert-success align-items-center"
+          role="alert"
+          *ngIf="statusOferta == 'success'"
+        >
           La oferta se ha publicado con exito
         </div>
-        <div class="alert alert-danger align-items-center" role="alert" *ngIf="statusOferta == 'error'">
+        <div
+          class="alert alert-danger align-items-center"
+          role="alert"
+          *ngIf="statusOferta == 'error'"
+        >
           La oferta ya se encuentra en la plataforma
         </div>
       </div>
-
-
-
     </div>
   </div>
 </div>
@@ -279,31 +482,47 @@
 <ng-template #myModalContent let-modal>
   <div class="modal-header">
     <h4 class="modal-title">Publicar oferta</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <div class="card mb-3"  *ngIf="productoSeleccionado!= null">
+    <div class="card mb-3" *ngIf="productoSeleccionado != null">
       <div class="row g-0">
         <div class="col-md-4">
-          <img src="{{productoSeleccionado.imagen}}" class="imagenProducto img-fluid rounded-start" alt="...">
+          <img
+            src="{{ productoSeleccionado.imagen }}"
+            class="imagenProducto img-fluid rounded-start"
+            alt="..."
+          />
         </div>
         <div class="col-md-8">
           <div class="card-body align-items-center text-wrap">
-            <p class="card-title">{{productoSeleccionado.nombre}}</p>
-            <p class="card-text">Fecha de finalización : {{fechaSeleccionada}}</p>
-            <p class="card-text">Precio : {{precioSeleccionado}}</p>
+            <p class="card-title">{{ productoSeleccionado.nombre }}</p>
+            <p class="card-text">
+              Fecha de finalización : {{ fechaSeleccionada }}
+            </p>
+            <p class="card-text">Precio : {{ precioSeleccionado }}</p>
           </div>
         </div>
       </div>
     </div>
-
-    
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-info" (click)="onConfirmarOferta()">Confirmar oferta</button>
-    <button type="button" class="btn btn-outline-info" (click)="modal.close('Close click')">Cancelar</button>
+    <button type="button" class="btn btn-info" (click)="onConfirmarOferta()">
+      Confirmar oferta
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-info"
+      (click)="modal.close('Close click')"
+    >
+      Cancelar
+    </button>
   </div>
 </ng-template>
-

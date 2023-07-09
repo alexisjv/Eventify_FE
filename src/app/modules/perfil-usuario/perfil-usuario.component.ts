@@ -39,26 +39,39 @@ export class PerfilUsuarioComponent implements OnInit, AfterViewInit {
 
   obtenerListasGuardadas(idUsuario: number) {
     this.perfilService.obtenerListasDelUsuario(idUsuario).subscribe(
-      (listasGuardadas: ListaGuardada[]) => {
-        // Ordenar las listas guardadas por fecha de creación de forma ascendente
-        this.listasGuardadas = listasGuardadas.sort((a, b) => {
-          return new Date(b.fechaCreacion).getTime() - new Date(a.fechaCreacion).getTime();
-        });
+      (response: any) => {
+        if (response && Array.isArray(response.listadosAsociados)) {
+          
+          this.listasGuardadas = response.listadosAsociados;
+          console.log("listas del usuario: ", this.listasGuardadas)
+        } else {
+          console.error('El endpoint obtenerListasDelUsuario no devuelve un array válido:', response);
+        }
+      },
+      
+      (error) => console.error(error)
+    );
+  }
+  
+  
+
+  verDetalleLista(idListado: number, idUsuario: number) {
+    this.perfilService.verDetalleLista(idListado, idUsuario).subscribe(
+      (response: any) => {
+        if (response && typeof response === 'object') {
+          this.detalleLista = response.listado;
+          
+          this.modalDetalle = true;
+          console.log("detalle: ", this.detalleLista)
+        } else {
+          console.error('El endpoint verDetalleLista no devuelve un objeto válido:', response);
+        }
       },
       (error) => console.error(error)
     );
   }
   
-
-  verDetalleLista(idListado, idUsuario) {
-    
-    this.perfilService.verDetalleLista(idListado, idUsuario).subscribe(
-      (detalleLista: ListaDetalle) => {
-        this.detalleLista = detalleLista;
-      },
-      (error) => console.error(error)
-    );
-  }
+  
 
   async abrirMapaRecorrido() {
     try {
