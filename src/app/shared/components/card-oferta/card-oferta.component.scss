@@ -64,6 +64,7 @@ p {
   font-size: 10px;
 }
 
+
 .eliminar-icon {
   position: absolute;
   top: 0;
@@ -78,6 +79,42 @@ p {
 .eliminar-icon:hover {
   color: darkred;
 }
+
+.cantidad-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.cantidad-btn {
+  font-size: 20px;
+  padding: 5px 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cantidad-btn:hover {
+  background-color: #ccc;
+  color: #fff;
+}
+
+.cantidad {
+  font-size: 18px;
+  margin: 0 10px;
+  font-weight: bold;
+  color: #333;
+}
+
 
 .vencimiento-icon {
   position: absolute;

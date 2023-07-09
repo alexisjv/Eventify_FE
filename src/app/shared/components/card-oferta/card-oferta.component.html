@@ -11,24 +11,26 @@
           <p class="card-subtitle mt-2 ">{{ nombreProducto }}</p>
           <p class="card-text">{{ marca }}</p>
           <p class="card-text">{{nombreComercio}}</p>
-          <p class="card-text ">${{precio}} x u | <span style="color: rgb(2, 53, 0); font-size: 22px;">${{calcularSubtotal(cantidad)}} x {{cantidad}}u</span></p>
-          <button *ngIf="editar" class="btn btn-primary" (click)="confirmarCambioMarca()">Elegir</button>
-          <div *ngIf="editar" class="d-flex justify-content-center">
-            <!-- Botón para restar la cantidad -->
-            <button (click)="restarCantidad()">-</button>
-          
-            <!-- Mostrar la cantidad actual -->
-            <span>{{ cantidad }}</span>
-          
-            <!-- Botón para sumar la cantidad -->
-            <button (click)="sumarCantidad()">+</button>
+          <p class="card-text ">${{precio}} | <span style="color: rgb(2, 53, 0); font-size: 22px;">${{calcularSubtotal(cantidad)}} x {{cantidad}}u</span></p>
+          <div class="d-flex justify-content-between mt-4">
+            <button *ngIf="editar" class="btn btn-primary" (click)="confirmarCambioMarca()">Elegir</button>
+            <div *ngIf="editar" class="d-flex justify-content-center align-items-center cantidad-container">
+              <!-- Botón para restar la cantidad -->
+              <button class="cantidad-btn" (click)="restarCantidad()">-</button>
+              
+              <!-- Mostrar la cantidad actual -->
+              <span class="cantidad">{{ cantidad }}</span>
+              
+              <!-- Botón para sumar la cantidad -->
+              <button class="cantidad-btn" (click)="sumarCantidad()">+</button>
+            </div>
+            
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 
 
 
