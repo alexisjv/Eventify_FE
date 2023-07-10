@@ -448,6 +448,32 @@
     text-transform: none;
     will-change: transform;
   }
+
+ .btn-elegir{
+  border: none !important;
+  }
+
+  .card-comercio{
+    max-width: 20em;
+  background-color: white;
+  color: black;
+  box-shadow: 0 7px 7px rgba(0, 0, 0, 0.18);
+  margin-bottom: 15px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  min-width: 20em;
+  min-height: 17em;
+  border: none;
+  }
+
+  .card-subtitle {
+    font-size: 13px;
+    color: rgb(81, 81, 81) !important;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    font-weight: bold;
+  }
   
   .btn:hover {
     transform: translateY(-1px);
