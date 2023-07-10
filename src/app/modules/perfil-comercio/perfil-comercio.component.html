@@ -172,7 +172,7 @@
               aria-controls="v-pills-profile"
               aria-selected="false"
             >
-              Carga con codigo de barras
+              Carga con código de barras
             </button>
           </div>
           <div class="tab-content" id="v-pills-tabContent">
@@ -242,7 +242,7 @@
                             <img
                               src="{{ producto.imagen }}"
                               class="imagenProducto img-fluid rounded-start"
-                              alt="..."
+                              alt="..." maxWidth="250px"
                             />
                           </div>
                           <div class="col-md-8">
@@ -328,7 +328,7 @@
               <div *ngIf="productoEncontrado !== null">
                 <div class="card mb-3 p-2">
                   <div class="row g-0">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <img
                         src="{{ productoEncontrado.imagen }}"
                         class="imagenProducto img-fluid rounded-start"
@@ -405,7 +405,7 @@
       >
         <div class="card mb-3" *ngIf="productoSeleccionado != null">
           <div class="row g-0">
-            <div class="col-md-4">
+            <div class="col-md-3">
               <img
                 src="{{ productoSeleccionado.imagen }}"
                 class="imagenProducto img-fluid rounded-start"
@@ -494,7 +494,7 @@
   <div class="modal-body">
     <div class="card mb-3" *ngIf="productoSeleccionado != null">
       <div class="row g-0">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <img
             src="{{ productoSeleccionado.imagen }}"
             class="imagenProducto img-fluid rounded-start"
@@ -507,7 +507,7 @@
             <p class="card-text">
               Fecha de finalización : {{ fechaSeleccionada }}
             </p>
-            <p class="card-text">Precio : {{ precioSeleccionado }}</p>
+            <p class="card-text">Precio : $ {{ precioSeleccionado }}</p>
           </div>
         </div>
       </div>

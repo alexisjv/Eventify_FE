@@ -46,7 +46,7 @@ export class PageLoginComponent {
       this.userLogin.reset();
       
 
-      this.toastr.success("Bienvenido","Sesión inciada");
+      this.toastr.success("Bienvenido","Sesión iniciada");
 
       if(this.estadoConsulta){
         window.history.back();
