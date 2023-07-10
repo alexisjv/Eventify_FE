@@ -33,6 +33,8 @@ export class CardOfertaComponent {
   @Input()
   rol!: number;
   @Input()
+  cargarProducto!: boolean;
+  @Input()
   fechaFin!: string;
   @Input() oferta!: Oferta;
   @Output() idMarcaProductoSeleccionadoActual: EventEmitter<{ idProducto: number, marca: string }> = new EventEmitter<{ idProducto: number, marca: string }>();
