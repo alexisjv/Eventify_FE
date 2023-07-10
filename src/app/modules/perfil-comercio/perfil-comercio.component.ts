@@ -47,6 +47,7 @@ statusOferta!: string;
 errorLongitudCodigo= false;
 direccion: string = "";
 localidad: string = "";
+imagen: string = "";
 
  
 constructor(private perfilService: PerfilComercioService , private ngModal : NgbModal, 
@@ -88,6 +89,7 @@ private obtenerUsuarioActual() {
     this.cuit = this.comercioLogueado.cuit;
     this.localidad = this.comercioLogueado.localidad;
     this.direccion = this.comercioLogueado.direccion;
+    this.imagen = this.comercioLogueado.imagen;
   }
 }
 obtenerOfertasPublicadas(idComercio: number) {

@@ -44,7 +44,7 @@
                   <app-card-oferta
                     class="d-flex justify-content-center"
                     (click)="abrirModalConOfertas(producto)"
-                    [nombreProducto]="producto.nombreProducto"
+                    [nombreProducto]="producto.ofertas[0].oferta.nombreProducto"
                     [marca]="producto.ofertas[0].oferta.marca"
                     [precio]="producto.ofertas[0].oferta.precio"
                     [nombreComercio]="producto.ofertas[0].oferta.nombreComercio"
@@ -63,8 +63,14 @@
               </div>
             </div>
             
-            <div class="div-oferta  scrollable-list" *ngIf="aListaProductos.length === 0">
-              <h1>No se encontraron ofertas en su zona</h1>            </div>
+            <div class="div-oferta scrollable-list d-flex flex-column align-items-center" *ngIf="aListaProductos.length === 0">
+              <h1>No se encontraron ofertas en su zona</h1>
+              <p>Amplía el radio de búsqueda</p>
+              <button class="btn btn-info" routerLink="/consulta-evento" >Volver a consultar</button>
+              <img src="./assets/images/asistente-transparente-triste.png" class="mt-4" alt="" style="width: 250px;">
+            </div>
+            
+
           </div>
           </div>
           </div>
@@ -76,7 +82,7 @@
           >
           <div class="container">
             <div class="row div-menor-recorrido scrollable-list activo" *ngIf="aListaSeleccionComercio.length > 0">
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="tab-content">
                   <div class="d-flex flex-column" *ngFor="let comercio of aListaComercios; let i = index">
                     <div class="text-center mb-5">
@@ -96,7 +102,7 @@
                 </div>
               </div>
               
-              <div class="col-md-9">
+              <div class="col-md-8">
                 <div class="tab-content">
                   <div *ngIf="isOpenListaSeleccionComercio">
                     <div class="row">
@@ -122,9 +128,17 @@
               </div>
             </div>
           
-            <div class="row div-menor-recorrido" *ngIf="aListaSeleccionComercio.length === 0">
-              <h1>No se encontraron ofertas en su zona</h1>
+            <div class="row div-oferta scrollable-list div-menor-recorrido d-flex align-items-center justify-content-center" *ngIf="aListaSeleccionComercio.length === 0">
+              <div class="col-md-12 text-center d-flex flex-column align-items-center">
+                <h1>No se encontraron ofertas en su zona</h1>
+                <p>Amplía el radio de búsqueda</p>
+                <button class="btn btn-info" routerLink="/consulta-evento" >Volver a consultar</button>
+                <img src="./assets/images/asistente-transparente-triste.png" class="mb-4 mt-4" alt="" style="width: 250px;">
+              </div>
             </div>
+            
+            
+            
           </div>
           
           </div>
@@ -732,7 +746,7 @@
         >
 
           <ng-template ngbSlide let-publicacion let-j="index" *ngFor="let producto of ofertasProductoElegidoParaEditar; let i = index"> 
-            <div  data-aos="zoom-in" *ngIf="quiereEliminar" class="alert alert-warning" role="alert">
+            <div  data-aos="zoom-in" *ngIf="quiereEliminar" class="mb-4" role="alert">
               ¿Está seguro que desea eliminar?
               <button type="button" class="btn btn-outline-info" (click)="cancelarEliminarOferta()">
                 Cancelar
@@ -763,7 +777,7 @@
           </ng-template>
         </ngb-carousel>
         
-        <img src="./assets/images/banner.jpg" alt="" style="max-width: 300px;">
+        <img src="./assets/images/banner.jpg" class="card-redondeada card-redondeada-full" calt="" style="max-width: 300px;">
       </div>
       
       <div class="modal-footer">
@@ -787,7 +801,7 @@
         </div>
 
         <div class="image-container">
-          <img src="./assets/images/asistente.png" alt="" style="width:250px;">
+          <img src="./assets/images/asistente-transparente.png" class="mt-4" alt="" style="width:250px;">
         </div>
       </div>
     </div>
