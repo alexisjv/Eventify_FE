@@ -120,7 +120,6 @@
                                     <input data-aos="zoom-in" type="number" class="form-control w-25"
                                         [(ngModel)]="oSelecciones.nCantidadComensales" name="nCantidadComensales"
                                          id="number" min="1"
-                                        oninput="event.target.value = event.target.value.replace(/[^1-9]*/g,'');"
                                         required (input)="onComensalesChange($event)" />
                                     <br>
                                     <div class="d-flex row align-items-around  flex-nowrap justify-content-center" >

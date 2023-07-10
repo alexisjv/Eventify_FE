@@ -13,9 +13,8 @@
   <div class="container-fluid d-flex align-items-center">
     <div class="row">
       <div class="col-lg-7 col-md-10 titulo">
-        <h1 class="display-2 text-white">¡Hola {{currentUser.usuario}}!</h1>
+        <h1 class="display-2 text-white">¡Hola {{ currentUser.usuario }}!</h1>
         <p class="text-white mt-0 mb-5">Administrá tus listas de compras</p>
-       
       </div>
     </div>
   </div>
@@ -29,43 +28,85 @@
         <div class="row justify-content-center">
           <div class="col-lg-3 order-lg-2">
             <div class="card-profile-image">
-                <img 
-                src="./assets/images/perfil.jpg" class="rounded-circle" />
+              <img src="./assets/images/perfil.jpg" class="rounded-circle" />
             </div>
           </div>
         </div>
-        <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-         
-        </div>
-        <div class="card-body pt-0 pt-md-4 text-align-center justify-content-center">
+        <div
+          class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4"
+        ></div>
+        <div
+          class="card-body pt-0 pt-md-4 text-align-center justify-content-center"
+        >
           <div class="row">
             <div class="col">
-              <div
-                class="card-profile-stats d-flex justify-content-center "
-              >
+              <div class="card-profile-stats d-flex justify-content-center">
                 <div>
-                  <span class="heading">{{listasGuardadas.length}}</span>
+                  <span class="heading">{{ listasGuardadas?.length }}</span>
                   <span class="description">Listas</span>
                 </div>
               </div>
-
             </div>
           </div>
           <div class="text-center">
             <div class="m-4">
+              <div
+                *ngIf="selectedListas?.length > 0"
+                class="alert alert-success"
+                role="alert"
+              >
+                <span style="display: inline-block; margin-right: 10px"
+                  >Listas elegidas:</span
+                >
+                <span
+                  *ngFor="let lista of selectedListas"
+                  style="display: inline-block; margin-right: 10px"
+                  >{{ lista.idListado }}</span
+                >
+              </div>
+
               <div class="d-flex justify-content-center flex-wrap">
-                <button type="button" class="btn btn-primary m-2">
+                <button
+                  *ngIf="!comparar"
+                  type="button"
+                  class="btn btn-primary m-2"
+                  (click)="compararListas()"
+                >
                   Comparar
                 </button>
-                <button type="button" class="btn btn-info m-2" routerLink="/consulta-evento">
+                <button
+                  *ngIf="comparar"
+                  type="button"
+                  class="btn btn-outline-primary m-2"
+                  (click)="cancelarComparar()"
+                >
+                  Cancelar
+                </button>
+
+                <button
+                  *ngIf="!comparar"
+                  type="button"
+                  class="btn btn-info m-2"
+                  routerLink="/consulta-evento"
+                >
                   Nueva Lista
+                </button>
+                <button
+                data-bs-toggle="modal"
+                data-bs-target="#modalComparar"
+                  *ngIf="comparar"
+                  type="button"
+                  class="btn"
+                  [ngClass]="{
+                    'btn-info ': selectedListas?.length < 2,
+                    'btn-info m-2': selectedListas?.length === 2
+                  }"
+                >
+                  Comparar
                 </button>
               </div>
             </div>
           </div>
-          
-
-
         </div>
       </div>
     </div>
@@ -79,55 +120,165 @@
           </div>
         </div>
         <div class="card-body">
-            <div class="card" style="width: 18rem;" *ngFor="let listado of listasGuardadas" data-aos="zoom-in">
-              
-              <img 
-              *ngIf="listado.evento === 'Cumpleaños'"
-              src="./assets/images/evento-1.jpg" class="card-img-top" alt="...">
+          <div
+            class="card"
+            style="width: 18rem"
+            *ngFor="let listado of listasGuardadas"
+            data-aos="zoom-in"
+          >
+            <img
+              *ngIf="listado?.evento === 'Cumpleaños'"
+              src="./assets/images/evento-1.jpg"
+              class="card-img-top"
+              alt="..."
+            />
 
-              <img 
-              *ngIf="listado.evento === 'Parrillada con amigos'"
-              src="./assets/images/evento-2.jpg" class="card-img-top" alt="...">
-              <div class="lista">
-                
-              
-                <table class="table mb-0">
-                  <tbody>
-                    <tr>
-                      <td class="pl-0">{{ listado.comidasElegidas.join(", ") }}</td>
-                      <td class="pr-0 text-right"><div class="badge badge-pill badge-outline-primary"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M416 0C400 0 288 32 288 176V288c0 35.3 28.7 64 64 64h32V480c0 17.7 14.3 32 32 32s32-14.3 32-32V352 240 32c0-17.7-14.3-32-32-32zM64 16C64 7.8 57.9 1 49.7 .1S34.2 4.6 32.4 12.5L2.1 148.8C.7 155.1 0 161.5 0 167.9c0 45.9 35.1 83.6 80 87.7V480c0 17.7 14.3 32 32 32s32-14.3 32-32V255.6c44.9-4.1 80-41.8 80-87.7c0-6.4-.7-12.8-2.1-19.1L191.6 12.5c-1.8-8-9.3-13.3-17.4-12.4S160 7.8 160 16V150.2c0 5.4-4.4 9.8-9.8 9.8c-5.1 0-9.3-3.9-9.8-9L127.9 14.6C127.2 6.3 120.3 0 112 0s-15.2 6.3-15.9 14.6L83.7 151c-.5 5.1-4.7 9-9.8 9c-5.4 0-9.8-4.4-9.8-9.8V16zm48.3 152l-.3 0-.3 0 .3-.7 .3 .7z"/></svg></div></td>
-                    </tr>
-                    <tr>
-                      <td class="pl-0">{{ listado.bebidasElegidas.join(", ") }}</td>
-                      <td class="pr-0 text-right"><div class="badge badge-pill badge-outline-info"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M432 240c53 0 96-43 96-96s-43-96-96-96c-35.5 0-66.6 19.3-83.2 48H296.2C316 40.1 369.3 0 432 0c79.5 0 144 64.5 144 144s-64.5 144-144 144c-27.7 0-53.5-7.8-75.5-21.3l35.4-35.4c12.2 5.6 25.8 8.7 40.1 8.7zM1.8 142.8C5.5 133.8 14.3 128 24 128H392c9.7 0 18.5 5.8 22.2 14.8s1.7 19.3-5.2 26.2l-177 177V464h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H208 120c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V345.9L7 169c-6.9-6.9-8.9-17.2-5.2-26.2z"/></svg></div></td>
-                    </tr>
-                    <tr>
-                      <td class="pl-0">{{ listado.cantidadOfertas }} Ofertas</td>
-                      <td class="pr-0 text-right"><div class="badge badge-pill badge-outline-danger"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M24 56c0-13.3 10.7-24 24-24H80c13.3 0 24 10.7 24 24V176h16c13.3 0 24 10.7 24 24s-10.7 24-24 24H40c-13.3 0-24-10.7-24-24s10.7-24 24-24H56V80H48C34.7 80 24 69.3 24 56zM86.7 341.2c-6.5-7.4-18.3-6.9-24 1.2L51.5 357.9c-7.7 10.8-22.7 13.3-33.5 5.6s-13.3-22.7-5.6-33.5l11.1-15.6c23.7-33.2 72.3-35.6 99.2-4.9c21.3 24.4 20.8 60.9-1.1 84.7L86.8 432H120c13.3 0 24 10.7 24 24s-10.7 24-24 24H32c-9.5 0-18.2-5.6-22-14.4s-2.1-18.9 4.3-25.9l72-78c5.3-5.8 5.4-14.6 .3-20.5zM224 64H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 160H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 160H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/></svg></div></td>
-                    </tr>
-                    <tr>
-                      <td class="pl-0">${{ listado.totalListado }}</td>
-                      <td class="pr-0 text-right"><div class="badge badge-pill badge-outline-success"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M14 2.2C22.5-1.7 32.5-.3 39.6 5.8L80 40.4 120.4 5.8c9-7.7 22.3-7.7 31.2 0L192 40.4 232.4 5.8c9-7.7 22.3-7.7 31.2 0L304 40.4 344.4 5.8c7.1-6.1 17.1-7.5 25.6-3.6s14 12.4 14 21.8V488c0 9.4-5.5 17.9-14 21.8s-18.5 2.5-25.6-3.6L304 471.6l-40.4 34.6c-9 7.7-22.3 7.7-31.2 0L192 471.6l-40.4 34.6c-9 7.7-22.3 7.7-31.2 0L80 471.6 39.6 506.2c-7.1 6.1-17.1 7.5-25.6 3.6S0 497.4 0 488V24C0 14.6 5.5 6.1 14 2.2zM96 144c-8.8 0-16 7.2-16 16s7.2 16 16 16H288c8.8 0 16-7.2 16-16s-7.2-16-16-16H96zM80 352c0 8.8 7.2 16 16 16H288c8.8 0 16-7.2 16-16s-7.2-16-16-16H96c-8.8 0-16 7.2-16 16zM96 240c-8.8 0-16 7.2-16 16s7.2 16 16 16H288c8.8 0 16-7.2 16-16s-7.2-16-16-16H96z"/></svg></div></td>
-                    </tr>
-                    <tr>
-                      <td class="pl-0">{{ listado.fechaCreacion }}</td>
-                      <td class="pr-0 text-right"><div class="badge badge-pill badge-outline-warning"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></div></td>
-                    </tr>
-                  </tbody>
-                </table>
+            <img
+              *ngIf="listado?.evento === 'Parrillada con amigos'"
+              src="./assets/images/evento-2.jpg"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="lista">
+              <table class="table mb-0">
+                <tbody>
+                  <tr>
+                    <td class="pl-0">
+                      {{ listado.comidasElegidas.join(", ") }}
+                    </td>
+                    <td class="pr-0 text-right">
+                      <div class="badge badge-pill badge-outline-primary">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="1em"
+                          viewBox="0 0 448 512"
+                        >
+                          <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                          <style>
+                            svg {
+                              fill: #ffffff;
+                            }
+                          </style>
+                          <path
+                            d="M416 0C400 0 288 32 288 176V288c0 35.3 28.7 64 64 64h32V480c0 17.7 14.3 32 32 32s32-14.3 32-32V352 240 32c0-17.7-14.3-32-32-32zM64 16C64 7.8 57.9 1 49.7 .1S34.2 4.6 32.4 12.5L2.1 148.8C.7 155.1 0 161.5 0 167.9c0 45.9 35.1 83.6 80 87.7V480c0 17.7 14.3 32 32 32s32-14.3 32-32V255.6c44.9-4.1 80-41.8 80-87.7c0-6.4-.7-12.8-2.1-19.1L191.6 12.5c-1.8-8-9.3-13.3-17.4-12.4S160 7.8 160 16V150.2c0 5.4-4.4 9.8-9.8 9.8c-5.1 0-9.3-3.9-9.8-9L127.9 14.6C127.2 6.3 120.3 0 112 0s-15.2 6.3-15.9 14.6L83.7 151c-.5 5.1-4.7 9-9.8 9c-5.4 0-9.8-4.4-9.8-9.8V16zm48.3 152l-.3 0-.3 0 .3-.7 .3 .7z"
+                          />
+                        </svg>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="pl-0">
+                      {{ listado.bebidasElegidas.join(", ") }}
+                    </td>
+                    <td class="pr-0 text-right">
+                      <div class="badge badge-pill badge-outline-info">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="1em"
+                          viewBox="0 0 576 512"
+                        >
+                          <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                          <style>
+                            svg {
+                              fill: #ffffff;
+                            }
+                          </style>
+                          <path
+                            d="M432 240c53 0 96-43 96-96s-43-96-96-96c-35.5 0-66.6 19.3-83.2 48H296.2C316 40.1 369.3 0 432 0c79.5 0 144 64.5 144 144s-64.5 144-144 144c-27.7 0-53.5-7.8-75.5-21.3l35.4-35.4c12.2 5.6 25.8 8.7 40.1 8.7zM1.8 142.8C5.5 133.8 14.3 128 24 128H392c9.7 0 18.5 5.8 22.2 14.8s1.7 19.3-5.2 26.2l-177 177V464h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H208 120c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V345.9L7 169c-6.9-6.9-8.9-17.2-5.2-26.2z"
+                          />
+                        </svg>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="pl-0">{{ listado?.cantidadOfertas }} Ofertas</td>
+                    <td class="pr-0 text-right">
+                      <div class="badge badge-pill badge-outline-danger">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="1em"
+                          viewBox="0 0 512 512"
+                        >
+                          <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                          <style>
+                            svg {
+                              fill: #ffffff;
+                            }
+                          </style>
+                          <path
+                            d="M24 56c0-13.3 10.7-24 24-24H80c13.3 0 24 10.7 24 24V176h16c13.3 0 24 10.7 24 24s-10.7 24-24 24H40c-13.3 0-24-10.7-24-24s10.7-24 24-24H56V80H48C34.7 80 24 69.3 24 56zM86.7 341.2c-6.5-7.4-18.3-6.9-24 1.2L51.5 357.9c-7.7 10.8-22.7 13.3-33.5 5.6s-13.3-22.7-5.6-33.5l11.1-15.6c23.7-33.2 72.3-35.6 99.2-4.9c21.3 24.4 20.8 60.9-1.1 84.7L86.8 432H120c13.3 0 24 10.7 24 24s-10.7 24-24 24H32c-9.5 0-18.2-5.6-22-14.4s-2.1-18.9 4.3-25.9l72-78c5.3-5.8 5.4-14.6 .3-20.5zM224 64H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 160H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 160H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32s14.3-32 32-32z"
+                          />
+                        </svg>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="pl-0">${{ listado?.totalListado }}</td>
+                    <td class="pr-0 text-right">
+                      <div class="badge badge-pill badge-outline-success">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="1em"
+                          viewBox="0 0 384 512"
+                        >
+                          <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                          <style>
+                            svg {
+                              fill: #ffffff;
+                            }
+                          </style>
+                          <path
+                            d="M14 2.2C22.5-1.7 32.5-.3 39.6 5.8L80 40.4 120.4 5.8c9-7.7 22.3-7.7 31.2 0L192 40.4 232.4 5.8c9-7.7 22.3-7.7 31.2 0L304 40.4 344.4 5.8c7.1-6.1 17.1-7.5 25.6-3.6s14 12.4 14 21.8V488c0 9.4-5.5 17.9-14 21.8s-18.5 2.5-25.6-3.6L304 471.6l-40.4 34.6c-9 7.7-22.3 7.7-31.2 0L192 471.6l-40.4 34.6c-9 7.7-22.3 7.7-31.2 0L80 471.6 39.6 506.2c-7.1 6.1-17.1 7.5-25.6 3.6S0 497.4 0 488V24C0 14.6 5.5 6.1 14 2.2zM96 144c-8.8 0-16 7.2-16 16s7.2 16 16 16H288c8.8 0 16-7.2 16-16s-7.2-16-16-16H96zM80 352c0 8.8 7.2 16 16 16H288c8.8 0 16-7.2 16-16s-7.2-16-16-16H96c-8.8 0-16 7.2-16 16zM96 240c-8.8 0-16 7.2-16 16s7.2 16 16 16H288c8.8 0 16-7.2 16-16s-7.2-16-16-16H96z"
+                          />
+                        </svg>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="pl-0">{{ listado.fechaCreacion }}</td>
+                    <td class="pr-0 text-right">
+                      <div class="badge badge-pill badge-outline-warning">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="1em"
+                          viewBox="0 0 512 512"
+                        >
+                          <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                          <style>
+                            svg {
+                              fill: #ffffff;
+                            }
+                          </style>
+                          <path
+                            d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"
+                          />
+                        </svg>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
 
-                <button
+              <button
+                *ngIf="!comparar"
                 class="btn btn-info"
-                (click)="
-                  verDetalleLista(listado.idListado, listado.idUsuario)
-                "
+                (click)="verDetalleLista(listado.idListado, listado.idUsuario, false)"
                 data-bs-toggle="modal"
                 data-bs-target="#modalDetalleListado"
               >
                 Ver detalle
               </button>
-              </div>
+
+              <button
+                *ngIf="comparar"
+                class="btn btn-primary"
+                [disabled]="listado.seleccionado || hasTwoSelectedLists()"
+                (click)="seleccionarListado(listado.idListado)"
+              >
+                Seleccionar
+              </button>
             </div>
+          </div>
         </div>
       </div>
     </div>
@@ -156,27 +307,35 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-6 text-center">
-            <h3>{{detalleLista.evento}}</h3>
-            <img *ngIf="detalleLista.evento === 'Cumpleaños'" src="./assets/images/evento-1.jpg" class="img-evento img-fluid" />
-            <img *ngIf="detalleLista.evento === 'Parrillada con amigos'" src="./assets/images/evento-2.jpg" class="img-evento img-fluid" />
-          
+            <h3>{{ detalleLista?.evento }}</h3>
+            <img
+              *ngIf="detalleLista?.evento === 'Cumpleaños'"
+              src="./assets/images/evento-1.jpg"
+              class="img-evento img-fluid"
+            />
+            <img
+              *ngIf="detalleLista?.evento === 'Parrillada con amigos'"
+              src="./assets/images/evento-2.jpg"
+              class="img-evento img-fluid"
+            />
+
             <div>
               <h3 class="texto-comparar">
-                Ofertas encontradas: {{ detalleLista.cantidadOfertas }}
+                Ofertas encontradas: {{ detalleLista?.cantidadOfertas }}
               </h3>
-          
+
               <h3 class="texto-comparar">
-                Distancia a recorrer: {{ detalleLista.distanciaARecorrer}} Km.
+                Distancia a recorrer: {{ detalleLista?.distanciaARecorrer }} Km.
               </h3>
-              <strong class="comparar-total">Total: ${{ detalleLista.totalListado }}</strong>
+              <strong class="comparar-total"
+                >Total: ${{ detalleLista?.totalListado }}</strong
+              >
             </div>
           </div>
-          
-          
-            
-           <div class="col-md-6 text-center">
+
+          <div class="col-md-6 text-center">
             <h3 class="qr">Escaneá el recorrido y abrilo en el GPS:</h3>
-            <qrcode [qrdata]="detalleLista.urlRecorrido" [width]="200"></qrcode>
+            <qrcode *ngIf="detalleLista" [qrdata]="detalleLista.urlRecorrido" [width]="200"></qrcode>
             <h3 class="qr">O abrilo desde tu celular:</h3>
 
             <button
@@ -190,7 +349,6 @@
                 height="2em"
                 viewBox="0 0 448 512"
               >
-                
                 <style>
                   svg {
                     fill: #ffffff;
@@ -212,7 +370,6 @@
                 height="2em"
                 viewBox="0 0 448 512"
               >
-                
                 <style>
                   svg {
                     fill: #ffffff;
@@ -227,7 +384,7 @@
           </div>
         </div>
 
-         <div class="row">
+        <div class="row">
           <div class="col-md-12 .scrollable-list scrollable-list-comparar">
             <div class="table-responsive">
               <table
@@ -249,7 +406,7 @@
                 <tbody>
                   <tr
                     class="fila list text-center align-middle"
-                    *ngFor="let oferta of detalleLista.ofertas"
+                    *ngFor="let oferta of detalleLista?.ofertas"
                   >
                     <th scope="row">
                       <img
@@ -291,3 +448,510 @@
   </div>
 </div>
 
+<!-- Modal Comparar-->
+<div
+  class="modal fade"
+  id="modalComparar"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+              <div class="col-md-6 text-center d-flex align-items-center justify-content-center">
+                <div>
+                  <h3>{{listasAComparar[0]?.evento}}</h3>
+                  <div class="card-body">
+                    <div
+                      class="card card-comparar"
+                    >
+                      <img
+                        *ngIf="listasAComparar[0]?.evento === 'Cumpleaños'"
+                        src="./assets/images/evento-1.jpg"
+                        class="card-img-top"
+                        alt="..."
+                      />
+          
+                      <img
+                        *ngIf="listasAComparar[0]?.evento === 'Parrillada con amigos'"
+                        src="./assets/images/evento-2.jpg"
+                        class="card-img-top"
+                        alt="..."
+                      />
+                      <div class="lista">
+                  <table class="table mb-0">
+                    <tbody>
+                      <tr>
+                        <td class="pl-0">
+                          {{ selectedListas[0]?.comidasElegidas.join(", ") }}
+                        </td>
+                        <td class="pr-0 text-right">
+                          <div class="badge badge-pill badge-outline-primary">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="1em"
+                              viewBox="0 0 448 512"
+                            >
+                              <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                              <style>
+                                svg {
+                                  fill: #ffffff;
+                                }
+                              </style>
+                              <path
+                                d="M416 0C400 0 288 32 288 176V288c0 35.3 28.7 64 64 64h32V480c0 17.7 14.3 32 32 32s32-14.3 32-32V352 240 32c0-17.7-14.3-32-32-32zM64 16C64 7.8 57.9 1 49.7 .1S34.2 4.6 32.4 12.5L2.1 148.8C.7 155.1 0 161.5 0 167.9c0 45.9 35.1 83.6 80 87.7V480c0 17.7 14.3 32 32 32s32-14.3 32-32V255.6c44.9-4.1 80-41.8 80-87.7c0-6.4-.7-12.8-2.1-19.1L191.6 12.5c-1.8-8-9.3-13.3-17.4-12.4S160 7.8 160 16V150.2c0 5.4-4.4 9.8-9.8 9.8c-5.1 0-9.3-3.9-9.8-9L127.9 14.6C127.2 6.3 120.3 0 112 0s-15.2 6.3-15.9 14.6L83.7 151c-.5 5.1-4.7 9-9.8 9c-5.4 0-9.8-4.4-9.8-9.8V16zm48.3 152l-.3 0-.3 0 .3-.7 .3 .7z"
+                              />
+                            </svg>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="pl-0">
+                          {{ selectedListas[0]?.bebidasElegidas.join(", ") }}
+                        </td>
+                        <td class="pr-0 text-right">
+                          <div class="badge badge-pill badge-outline-info">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="1em"
+                              viewBox="0 0 576 512"
+                            >
+                              <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                              <style>
+                                svg {
+                                  fill: #ffffff;
+                                }
+                              </style>
+                              <path
+                                d="M432 240c53 0 96-43 96-96s-43-96-96-96c-35.5 0-66.6 19.3-83.2 48H296.2C316 40.1 369.3 0 432 0c79.5 0 144 64.5 144 144s-64.5 144-144 144c-27.7 0-53.5-7.8-75.5-21.3l35.4-35.4c12.2 5.6 25.8 8.7 40.1 8.7zM1.8 142.8C5.5 133.8 14.3 128 24 128H392c9.7 0 18.5 5.8 22.2 14.8s1.7 19.3-5.2 26.2l-177 177V464h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H208 120c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V345.9L7 169c-6.9-6.9-8.9-17.2-5.2-26.2z"
+                              />
+                            </svg>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="pl-0">{{ selectedListas[0]?.cantidadOfertas }} Ofertas</td>
+                        <td class="pr-0 text-right">
+                          <div class="badge badge-pill badge-outline-danger">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="1em"
+                              viewBox="0 0 512 512"
+                            >
+                              <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                              <style>
+                                svg {
+                                  fill: #ffffff;
+                                }
+                              </style>
+                              <path
+                                d="M24 56c0-13.3 10.7-24 24-24H80c13.3 0 24 10.7 24 24V176h16c13.3 0 24 10.7 24 24s-10.7 24-24 24H40c-13.3 0-24-10.7-24-24s10.7-24 24-24H56V80H48C34.7 80 24 69.3 24 56zM86.7 341.2c-6.5-7.4-18.3-6.9-24 1.2L51.5 357.9c-7.7 10.8-22.7 13.3-33.5 5.6s-13.3-22.7-5.6-33.5l11.1-15.6c23.7-33.2 72.3-35.6 99.2-4.9c21.3 24.4 20.8 60.9-1.1 84.7L86.8 432H120c13.3 0 24 10.7 24 24s-10.7 24-24 24H32c-9.5 0-18.2-5.6-22-14.4s-2.1-18.9 4.3-25.9l72-78c5.3-5.8 5.4-14.6 .3-20.5zM224 64H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 160H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 160H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32s14.3-32 32-32z"
+                              />
+                            </svg>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="pl-0">{{ selectedListas[0]?.fechaCreacion }}</td>
+                        <td class="pr-0 text-right">
+                          <div class="badge badge-pill badge-outline-warning">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="1em"
+                              viewBox="0 0 512 512"
+                            >
+                              <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                              <style>
+                                svg {
+                                  fill: #ffffff;
+                                }
+                              </style>
+                              <path
+                                d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"
+                              />
+                            </svg>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="pl-0">{{ listasAComparar[0]?.distanciaARecorrer }}</td>
+                        <td class="pr-0 text-right">
+                          <div class="badge badge-pill badge-outline-warning">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M512 96c0 50.2-59.1 125.1-84.6 155c-3.8 4.4-9.4 6.1-14.5 5H320c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c53 0 96 43 96 96s-43 96-96 96H139.6c8.7-9.9 19.3-22.6 30-36.8c6.3-8.4 12.8-17.6 19-27.2H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320c-53 0-96-43-96-96s43-96 96-96h39.8c-21-31.5-39.8-67.7-39.8-96c0-53 43-96 96-96s96 43 96 96zM117.1 489.1c-3.8 4.3-7.2 8.1-10.1 11.3l-1.8 2-.2-.2c-6 4.6-14.6 4-20-1.8C59.8 473 0 402.5 0 352c0-53 43-96 96-96s96 43 96 96c0 30-21.1 67-43.5 97.9c-10.7 14.7-21.7 28-30.8 38.5l-.6 .7zM128 352a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zM416 128a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"/></svg>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </div>
+                  </div>
+                  </div>
+<br>
+                  <strong class="comparar-total"
+                    >Total: ${{ listasAComparar[0]?.totalListado }}</strong
+                  >
+                  <br>
+                  <h3 class="qr mt-4">Escaneá el recorrido y abrilo en el GPS:</h3>
+                    <qrcode *ngIf="detalleLista" [qrdata]="listasAComparar[1].urlRecorrido" [width]="200"></qrcode>
+                    <h3 class="qr">O abrilo desde tu celular:</h3>
+        
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-lg icono-generar"
+                      (click)="abrirMapaRecorrido(listasAComparar[0].urlRecorrido, 0)"
+                      style="margin-right: 30px"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="2em"
+                        viewBox="0 0 448 512"
+                      >
+                        <style>
+                          svg {
+                            fill: #ffffff;
+                          }
+                        </style>
+                        <path
+                          d="M429.6 92.1c4.9-11.9 2.1-25.6-7-34.7s-22.8-11.9-34.7-7l-352 144c-14.2 5.8-22.2 20.8-19.3 35.8s16.1 25.8 31.4 25.8H224V432c0 15.3 10.8 28.4 25.8 31.4s30-5.1 35.8-19.3l144-352z"
+                        />
+                      </svg>
+                      Abrir GPS
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-lg icono-generar"
+                      (click)="compartirLista(listasAComparar[0])"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="2em"
+                        viewBox="0 0 448 512"
+                      >
+                        <style>
+                          svg {
+                            fill: #ffffff;
+                          }
+                        </style>
+                        <path
+                          d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"
+                        />
+                      </svg>
+                      Compartir
+                    </button>
+                 
+                </div>
+              </div>
+              
+              <div class="col-md-6 text-center d-flex align-items-center justify-content-center" >
+                <div>
+
+                  <h3>{{listasAComparar[1]?.evento}}</h3>
+
+                  <div class="card-body">
+                    <div
+                      class="card card-comparar"
+                    >
+                      <img
+                        *ngIf="listasAComparar[1]?.evento === 'Cumpleaños'"
+                        src="./assets/images/evento-1.jpg"
+                        class="card-img-top"
+                        alt="..."
+                      />
+          
+                      <img
+                        *ngIf="listasAComparar[1]?.evento === 'Parrillada con amigos'"
+                        src="./assets/images/evento-2.jpg"
+                        class="card-img-top"
+                        alt="..."
+                      />
+                      <div class="lista">
+                  <table class="table mb-0">
+                    <tbody>
+                      <tr>
+                        <td class="pl-0">
+                          {{ selectedListas[1]?.comidasElegidas.join(", ") }}
+                        </td>
+                        <td class="pr-0 text-right">
+                          <div class="badge badge-pill badge-outline-primary">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="1em"
+                              viewBox="0 0 448 512"
+                            >
+                              <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                              <style>
+                                svg {
+                                  fill: #ffffff;
+                                }
+                              </style>
+                              <path
+                                d="M416 0C400 0 288 32 288 176V288c0 35.3 28.7 64 64 64h32V480c0 17.7 14.3 32 32 32s32-14.3 32-32V352 240 32c0-17.7-14.3-32-32-32zM64 16C64 7.8 57.9 1 49.7 .1S34.2 4.6 32.4 12.5L2.1 148.8C.7 155.1 0 161.5 0 167.9c0 45.9 35.1 83.6 80 87.7V480c0 17.7 14.3 32 32 32s32-14.3 32-32V255.6c44.9-4.1 80-41.8 80-87.7c0-6.4-.7-12.8-2.1-19.1L191.6 12.5c-1.8-8-9.3-13.3-17.4-12.4S160 7.8 160 16V150.2c0 5.4-4.4 9.8-9.8 9.8c-5.1 0-9.3-3.9-9.8-9L127.9 14.6C127.2 6.3 120.3 0 112 0s-15.2 6.3-15.9 14.6L83.7 151c-.5 5.1-4.7 9-9.8 9c-5.4 0-9.8-4.4-9.8-9.8V16zm48.3 152l-.3 0-.3 0 .3-.7 .3 .7z"
+                              />
+                            </svg>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="pl-0">
+                          {{ selectedListas[1]?.bebidasElegidas.join(", ") }}
+                        </td>
+                        <td class="pr-0 text-right">
+                          <div class="badge badge-pill badge-outline-info">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="1em"
+                              viewBox="0 0 576 512"
+                            >
+                              <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                              <style>
+                                svg {
+                                  fill: #ffffff;
+                                }
+                              </style>
+                              <path
+                                d="M432 240c53 0 96-43 96-96s-43-96-96-96c-35.5 0-66.6 19.3-83.2 48H296.2C316 40.1 369.3 0 432 0c79.5 0 144 64.5 144 144s-64.5 144-144 144c-27.7 0-53.5-7.8-75.5-21.3l35.4-35.4c12.2 5.6 25.8 8.7 40.1 8.7zM1.8 142.8C5.5 133.8 14.3 128 24 128H392c9.7 0 18.5 5.8 22.2 14.8s1.7 19.3-5.2 26.2l-177 177V464h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H208 120c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V345.9L7 169c-6.9-6.9-8.9-17.2-5.2-26.2z"
+                              />
+                            </svg>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="pl-0">{{ selectedListas[1]?.cantidadOfertas }} Ofertas</td>
+                        <td class="pr-0 text-right">
+                          <div class="badge badge-pill badge-outline-danger">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="1em"
+                              viewBox="0 0 512 512"
+                            >
+                              <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                              <style>
+                                svg {
+                                  fill: #ffffff;
+                                }
+                              </style>
+                              <path
+                                d="M24 56c0-13.3 10.7-24 24-24H80c13.3 0 24 10.7 24 24V176h16c13.3 0 24 10.7 24 24s-10.7 24-24 24H40c-13.3 0-24-10.7-24-24s10.7-24 24-24H56V80H48C34.7 80 24 69.3 24 56zM86.7 341.2c-6.5-7.4-18.3-6.9-24 1.2L51.5 357.9c-7.7 10.8-22.7 13.3-33.5 5.6s-13.3-22.7-5.6-33.5l11.1-15.6c23.7-33.2 72.3-35.6 99.2-4.9c21.3 24.4 20.8 60.9-1.1 84.7L86.8 432H120c13.3 0 24 10.7 24 24s-10.7 24-24 24H32c-9.5 0-18.2-5.6-22-14.4s-2.1-18.9 4.3-25.9l72-78c5.3-5.8 5.4-14.6 .3-20.5zM224 64H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 160H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 160H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32s14.3-32 32-32z"
+                              />
+                            </svg>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="pl-0">{{ selectedListas[1]?.fechaCreacion }}</td>
+                        <td class="pr-0 text-right">
+                          <div class="badge badge-pill badge-outline-warning">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="1em"
+                              viewBox="0 0 512 512"
+                            >
+                              <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                              <style>
+                                svg {
+                                  fill: #ffffff;
+                                }
+                              </style>
+                              <path
+                                d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"
+                              />
+                            </svg>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="pl-0">{{ listasAComparar[1]?.distanciaARecorrer }}</td>
+                        <td class="pr-0 text-right">
+                          <div class="badge badge-pill badge-outline-warning">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M512 96c0 50.2-59.1 125.1-84.6 155c-3.8 4.4-9.4 6.1-14.5 5H320c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c53 0 96 43 96 96s-43 96-96 96H139.6c8.7-9.9 19.3-22.6 30-36.8c6.3-8.4 12.8-17.6 19-27.2H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320c-53 0-96-43-96-96s43-96 96-96h39.8c-21-31.5-39.8-67.7-39.8-96c0-53 43-96 96-96s96 43 96 96zM117.1 489.1c-3.8 4.3-7.2 8.1-10.1 11.3l-1.8 2-.2-.2c-6 4.6-14.6 4-20-1.8C59.8 473 0 402.5 0 352c0-53 43-96 96-96s96 43 96 96c0 30-21.1 67-43.5 97.9c-10.7 14.7-21.7 28-30.8 38.5l-.6 .7zM128 352a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zM416 128a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"/></svg>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </div>
+                  </div>
+                  </div>
+                  <br>
+                  <strong class="comparar-total"
+                    >Total: ${{ listasAComparar[1]?.totalListado }}</strong
+                  >
+                  <br>
+                    <h3 class=" mt-4">Escaneá el recorrido y abrilo en el GPS:</h3>
+                    <qrcode *ngIf="detalleLista" [qrdata]="listasAComparar[1].urlRecorrido" [width]="200"></qrcode>
+                    <h3 class="qr">O abrilo desde tu celular:</h3>
+        
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-lg icono-generar"
+                      (click)="abrirMapaRecorrido(listasAComparar[1].urlRecorrido, 1)"
+                      style="margin-right: 30px"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="2em"
+                        viewBox="0 0 448 512"
+                      >
+                        <style>
+                          svg {
+                            fill: #ffffff;
+                          }
+                        </style>
+                        <path
+                          d="M429.6 92.1c4.9-11.9 2.1-25.6-7-34.7s-22.8-11.9-34.7-7l-352 144c-14.2 5.8-22.2 20.8-19.3 35.8s16.1 25.8 31.4 25.8H224V432c0 15.3 10.8 28.4 25.8 31.4s30-5.1 35.8-19.3l144-352z"
+                        />
+                      </svg>
+                      Abrir GPS
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-lg icono-generar"
+                      (click)="compartirLista(listasAComparar[1])"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="2em"
+                        viewBox="0 0 448 512"
+                      >
+                        <style>
+                          svg {
+                            fill: #ffffff;
+                          }
+                        </style>
+                        <path
+                          d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"
+                        />
+                      </svg>
+                      Compartir
+                    </button>
+                 
+                </div>
+              </div>
+            </div>
+        <div class="row">
+          <div class="col-md-6 .scrollable-list scrollable-list-comparar">
+            <div class="table-responsive">
+              <table
+                class="table tabla-redondeada"
+                data-aos="fade-up"
+                data-aos-delay="100"
+              >
+                <thead>
+                  <tr class="fila list text-center align-middle">
+                    <th></th>
+                    <th>Producto</th>
+                    <th>Marca</th>
+                    <th>Comercio</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    class="fila list text-center align-middle"
+                    *ngFor="let oferta of listasAComparar[0]?.ofertas"
+                  >
+                    <th scope="row">
+                      <img
+                        [src]="oferta.oferta.imagen"
+                        class="card-img-top mx-auto img-producto-tabla"
+                      />
+                    </th>
+                    <td class="align-middle">
+                      {{ oferta.oferta.nombreProducto }}
+                    </td>
+                    <td class="align-middle">
+                      {{ oferta.oferta.marca }}
+                    </td>
+                    <td class="align-middle">
+                      {{ oferta.oferta.nombreComercio }}
+                    </td>
+                    <td class="align-middle precio-tabla">
+                      ${{ oferta.oferta.precio }}
+                    </td>
+                    <td class="align-middle precio-tabla">
+                      {{ oferta.cantidad }}
+                    </td>
+                    <td class="align-middle precio-tabla">
+                      ${{ oferta.subtotal }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-md-6 .scrollable-list scrollable-list-comparar">
+            <div class="table-responsive">
+              <table
+                class="table tabla-redondeada"
+                data-aos="fade-up"
+                data-aos-delay="100"
+              >
+                <thead>
+                  <tr class="fila list text-center align-middle">
+                    <th></th>
+                    <th>Producto</th>
+                    <th>Marca</th>
+                    <th>Comercio</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    class="fila list text-center align-middle"
+                    *ngFor="let oferta of listasAComparar[1]?.ofertas"
+                  >
+                    <th scope="row">
+                      <img
+                        [src]="oferta.oferta.imagen"
+                        class="card-img-top mx-auto img-producto-tabla"
+                      />
+                    </th>
+                    <td class="align-middle">
+                      {{ oferta.oferta.nombreProducto }}
+                    </td>
+                    <td class="align-middle">
+                      {{ oferta.oferta.marca }}
+                    </td>
+                    <td class="align-middle">
+                      {{ oferta.oferta.nombreComercio }}
+                    </td>
+                    <td class="align-middle precio-tabla">
+                      ${{ oferta.oferta.precio }}
+                    </td>
+                    <td class="align-middle precio-tabla">
+                      {{ oferta.cantidad }}
+                    </td>
+                    <td class="align-middle precio-tabla">
+                      ${{ oferta.subtotal }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-md-4"></div>
+          <div class="col-md-4"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

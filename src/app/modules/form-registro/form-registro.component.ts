@@ -201,7 +201,7 @@ export class FormRegistroComponent {
       email: this.emailComercio.value,
       clave: this.passwordComercio.value,
       claveAComparar: this.repeatPasswordComercio.value,
-      imagen: 'asdasdasd',
+      imagen: 'https://static.vecteezy.com/system/resources/previews/000/378/645/original/shop-vector-icon.jpg',
       rol: "Comercio",
     };
 

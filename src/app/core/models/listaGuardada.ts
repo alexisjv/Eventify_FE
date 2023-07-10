@@ -7,4 +7,5 @@ export interface ListaGuardada {
     cantidadOfertas: number;
     totalListado: number;
     fechaCreacion: string;
+    seleccionado: boolean;
   }
