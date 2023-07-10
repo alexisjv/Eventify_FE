@@ -277,7 +277,6 @@ obtenerMarcasDelProducto(idProducto: string) {
         this.mostrarCompletarOferta=false;
         this.mostrarEleccionProducto=false;
         this.ngModal.dismissAll();
-        this.toastr.error(error.message);
         this.statusOferta="error";
       }
     );
