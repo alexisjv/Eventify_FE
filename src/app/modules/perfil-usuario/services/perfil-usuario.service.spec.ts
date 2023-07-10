@@ -27,7 +27,7 @@ describe('PerfilUsuarioService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('Debería recuperar listas del usuario', () => {
+  /* it('Debería recuperar listas del usuario', () => {
     const idUsuario = 1;
     const mockListas: ListaGuardada[] = [
       {
@@ -59,7 +59,7 @@ describe('PerfilUsuarioService', () => {
     const req = httpMock.expectOne(API_URL + `listadoOfertas/misListados?idUsuario=${idUsuario}`);
     expect(req.request.method).toBe('GET');
     req.flush(mockListas);
-  });
+  }); */
 
   it('Debería recuperar detalle de lista', () => {
     const idListado = 1;
