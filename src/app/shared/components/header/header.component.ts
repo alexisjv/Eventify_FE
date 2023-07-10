@@ -58,7 +58,11 @@ export class HeaderComponent implements OnInit, OnDestroy{
   }
   
   reloadPage() {
+    if(window.location.pathname == "/" ){
+      window.location.reload();
+    }else{
     this.router.navigateByUrl('/');
+    }
   }
 
 

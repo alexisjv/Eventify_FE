@@ -35,7 +35,7 @@
         <!-- form-group// -->
         <div
           class="alert alert-danger mt-1"
-          [hidden]="nombre.valid || nombre.pristine"
+          [hidden]="nombre.valid || nombre.pristine "
         >
           *El nombre es obligatorio
         </div>
@@ -64,13 +64,14 @@
             type="text"
           />
         </div>
-        <div
-          class="alert alert-danger mt-1"
-          [hidden]="username.valid || username.pristine"
-        >
-          *El nombre de usuario es obligatorio
+        <div class="alert alert-danger mt-1" [hidden]="!showUsernameError('required')">
+          *El nombre de usuario es obligatorio.
         </div>
-
+        
+        <div class="alert alert-danger mt-1" [hidden]="!showUsernameError('length')">
+          *El nombre de usuario debe tener entre 10 y 20 caracteres.
+        </div>
+      
         <div class="form-group input-group mt-3">
           <input
             name="email"
@@ -215,13 +216,13 @@
 
       <div class="alert alert-success" *ngIf="statusCode == 'success'">
         <p class="text-center mt-3">
-          Tu correo electronico se confirmó exitosamente
+          Tu correo electrónico se confirmó exitosamente
         </p>
         <a class="text-decoration-none" href="login">Iniciar sesión</a>
       </div>
       <div class="alert alert-danger" *ngIf="statusCode == 'error'">
         <p class="text-center mt-3">
-          Tu correo electronico no se pudo verificar. Vuelve a realizar el
+          Tu correo electrónico no se pudo verificar. Vuelve a realizar el
           registro
         </p>
         <a class="text-decoration-none" href="form-registro">Registrarme</a>
@@ -358,11 +359,12 @@
             type="text"
           />
         </div>
-        <div
-          class="alert alert-danger mt-1"
-          [hidden]="usernameComercio.valid || usernameComercio.pristine"
-        >
+        <div class="alert alert-danger mt-1" [hidden]="!showUsernameErrorComercio('required')">
           *El usuario de comercio es obligatorio
+        </div>
+        
+        <div class="alert alert-danger mt-1" [hidden]="!showUsernameErrorComercio('length')">
+          *El nombre de usuario debe tener entre 10 y 20 caracteres.
         </div>
 
         <app-direccion-autocompletado
@@ -513,13 +515,13 @@
 
       <div class="alert alert-success" *ngIf="statusCode == 'success'">
         <p class="text-center mt-3">
-          Tu correo electronico se confirmó exitosamente
+          Tu correo electrónico se confirmó exitosamente
         </p>
         <a class="text-decoration-none" href="login">Iniciar sesión</a>
       </div>
       <div class="alert alert-danger" *ngIf="statusCode == 'error'">
         <p class="text-center mt-3">
-          Tu correo electronico no se pudo verificar. Vuelve a realizar el
+          Tu correo electrónico no se pudo verificar. Vuelve a realizar el
           registro
         </p>
         <a class="text-decoration-none" href="form-registro">Registrarme</a>
@@ -553,7 +555,7 @@
 
       <div class="alert alert-danger">
         <p class="text-center mt-3">
-          Tu correo electronico no se pudo verificar. Vuelve a realizar el
+          Tu correo electrónico no se pudo verificar. Vuelve a realizar el
           registro
         </p>
         <a class="text-decoration-none" href="form-registro">Volver</a>
