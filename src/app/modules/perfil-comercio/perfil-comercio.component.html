@@ -99,7 +99,7 @@
         </div>
         <div class="card-body">
           <div class="row justify-content-center">
-            <div class="col-md-6" *ngFor="let oferta of ofertasPublicadas">
+            <div class="col-xl-4 col-lg-6" *ngFor="let oferta of ofertasPublicadas">
               <div class="text-center">
                 <div class="d-inline-block">
                   <app-card-oferta
@@ -141,89 +141,122 @@
         ></button>
       </div>
       <div class="modal-body" *ngIf="mostrarEleccionProducto">
-        <div class="align-items-start">
-            <div class="col-md-12">
-              <div
-              class="nav flex-column nav-pills me-3"
-              id="v-pills-tab"
-              role="tablist"
-              aria-orientation="vertical"
+        <div class="d-flex align-items-start">
+          <div
+            class="nav flex-column nav-pills me-3"
+            id="v-pills-tab"
+            role="tablist"
+            aria-orientation="vertical"
+          >
+            <button
+              class="nav-link active"
+              id="v-pills-home-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-pills-home"
+              type="button"
+              role="tab"
+              aria-controls="v-pills-home"
+              (click)="onCargaManual()"
+              aria-selected="true"
             >
-              <button
-                class="nav-link active"
-                id="v-pills-home-tab"
-                data-bs-toggle="pill"
-                data-bs-target="#v-pills-home"
-                type="button"
-                role="tab"
-                aria-controls="v-pills-home"
-                (click)="onCargaManual()"
-                aria-selected="true"
-              >
-                Carga manual
-              </button>
-              <button
-                class="nav-link"
-                (click)="onCargaConCodigo()"
-                id="v-pills-profile-tab"
-                data-bs-toggle="pill"
-                data-bs-target="#v-pills-profile"
-                type="button"
-                role="tab"
-                aria-controls="v-pills-profile"
-                aria-selected="false"
-              >
-                Carga con codigo de barras
-              </button>
-            </div></div>
-            <div class="col-md-12">
-              <form class="align-self-start">
-                <div class="form-group input-group mt-3">
-                  <select
-                    class="form-select"
-                    (change)="onChangeProductoTipo()"
-                    name="selectedProduct"
-                    [(ngModel)]="selectedProductoTipo"
-                  >
-                    <option value="" disabled selected="selected">
-                      Seleccione un tipo de producto
-                    </option>
-                    <option
-                      *ngFor="let producto of tiposDeProductos"
-                      [value]="producto.id"
+              Carga manual
+            </button>
+            <button
+              class="nav-link"
+              (click)="onCargaConCodigo()"
+              id="v-pills-profile-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-pills-profile"
+              type="button"
+              role="tab"
+              aria-controls="v-pills-profile"
+              aria-selected="false"
+            >
+              Carga con codigo de barras
+            </button>
+          </div>
+          <div class="tab-content" id="v-pills-tabContent">
+            <div
+              class="tab-pane fade show active align-items-center"
+              id="v-pills-home"
+              role="tabpanel"
+              aria-labelledby="v-pills-home-tab"
+            >
+              <article class="d-flex align-items-center justify-content-around">
+                <form class="align-self-start">
+                  <div class="form-group input-group mt-3">
+                    <select
+                      class="form-select"
+                      (change)="onChangeProductoTipo()"
+                      name="selectedProduct"
+                      [(ngModel)]="selectedProductoTipo"
                     >
-                      {{ producto.nombre }}
-                    </option>
-                  </select>
+                      <option value="" disabled selected="selected">
+                        Seleccione un tipo de producto
+                      </option>
+                      <option
+                        *ngFor="let producto of tiposDeProductos"
+                        [value]="producto.id"
+                      >
+                        {{ producto.nombre }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group input-group mt-3">
+                    <select
+                      class="form-select"
+                      aria-placeholder="Seleccione la marca"
+                      (change)="onChangeMarca()"
+                      name="selectedMarca"
+                      [(ngModel)]="selectedMarca"
+                    >
+                      <option value="" disabled selected="selected">
+                        Seleccione la marca del producto
+                      </option>
+                      <option *ngFor="let marca of marcas" [value]="marca">
+                        {{ marca }}
+                      </option>
+                    </select>
+                  </div>
+                </form>
+
+                <div
+                  class="row row-cols-2 row-cols-md-2 g-4 ms-3 align-self-end"
+                  data-bs-toggle="button"
+                  *ngIf="mostrarProductos"
+                >
+                  <div class="col">
+                    <div
+                      class="card mb-3"
+                      style="max-width: 540px"
+                      *ngFor="let producto of productosAElegir"
+                    >
+                      <button
+                        class="btn btn-outline-info p-4"
+                        data-bs-toggle="button"
+                        [class.active]="idProductoSeleccionado === producto.id"
+                        (click)="onClickProducto(producto)"
+                      >
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <img
+                              src="{{ producto.imagen }}"
+                              class="imagenProducto img-fluid rounded-start"
+                              alt="..."
+                            />
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body align-items-center text-wrap">
+                              <p class="card-text">{{ producto.nombre }}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div class="form-group input-group mt-3">
-                  <select
-                    class="form-select"
-                    aria-placeholder="Seleccione la marca"
-                    (change)="onChangeMarca()"
-                    name="selectedMarca"
-                    [(ngModel)]="selectedMarca"
-                  >
-                    <option value="" disabled selected="selected">
-                      Seleccione la marca del producto
-                    </option>
-                    <option *ngFor="let marca of marcas" [value]="marca">
-                      {{ marca }}
-                    </option>
-                  </select>
-                </div>
-              </form>
+              </article>
             </div>
-            <div class="col-md-12 mt-4">
-              <div *ngIf="mostrarProductos" class="text-center align-items-center justify-content-center">
-                <ng-container class="mb-3 col-md-6 mx-auto" *ngFor="let producto of productosAElegir">
-                  <button class="btn btn-outline-info btn-elegir p-3 mb-4" style="border-radius: 15px;" [class.active]="idProductoSeleccionado === producto.id" (click)="onClickProducto(producto)">
-                    <app-card-oferta [nombreProducto]="producto.nombre" [imagen]="producto.imagen" [rol]="2" [cargarProducto]="true"></app-card-oferta>
-                  </button>
-                </ng-container>
-              </div>
-            </div>
-            <div class="col-md-12 mt-4 d-flex justify-content-center">
 
             <!-- Carga con codigo de barras -->
             <div
@@ -293,28 +326,24 @@
                 </div>
               </div>
               <div *ngIf="productoEncontrado !== null">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="card card-comercio d-flex align-items-center justify-content-center">
-                      <div class="dark card-oferta">
-                        <div class="card-body">
-                          <div class="col-md-12 d-flex align-items-center justify-content-center">
-                            <img src="{{productoEncontrado?.imagen}}" style="width: 100px;" alt="">
-                          </div>
-                          <div class="col-md-12">
-                            <div class="div-texto text-center">
-                              <p class="card-subtitle mt-2">{{ productoEncontrado?.nombre }}</p>
-                              <p class="card-text">
-                                <span style="color: rgb(2, 53, 0); font-size: 22px; font-weight: bold;">
-                                  ${{precioAPublicar}}
-                                </span>
-                              </p>
-                            </div>
-                          </div>
-                        </div>
+                <div class="card mb-3 p-2">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img
+                        src="{{ productoEncontrado.imagen }}"
+                        class="imagenProducto img-fluid rounded-start"
+                        alt="..."
+                      />
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body align-items-center text-wrap">
+                        <p class="card-title">
+                          {{ productoEncontrado.nombre }}
+                        </p>
                       </div>
-                    </div></div>
-                  <div class="col-md-6">
+                    </div>
+                  </div>
+                </div>
                 <form class="d-flex flex-column" [formGroup]="formOferta">
                   <label class="form-label m-2">Precio</label>
                   <input
@@ -354,12 +383,10 @@
                       Publicar oferta
                     </button>
                   </div>
-                </form></div>
-                </div>
-
+                </form>
               </div>
             </div>
-            </div>
+          </div>
         </div>
         <div
           class="modal-footer"
@@ -376,65 +403,57 @@
         class="modal-body d-flex align-items-center flex-column p-4"
         *ngIf="mostrarCompletarOferta"
       >
-      <div class="row">
-        <div class="col-md-6">
-          <div class="card card-comercio d-flex align-items-center justify-content-center">
-            <div class="dark card-oferta">
-              <div class="card-body">
-                <div class="col-md-12 d-flex align-items-center justify-content-center">
-                  <img src="{{productoSeleccionado?.imagen}}" style="width: 100px;" alt="">
-                </div>
-                <div class="col-md-12">
-                  <div class="div-texto text-center">
-                    <p class="card-subtitle mt-2">{{ productoSeleccionado?.nombre }}</p>
-                    <p class="card-text">
-                      <span style="color: rgb(2, 53, 0); font-size: 22px; font-weight: bold;">
-                        ${{precioAPublicar}}
-                      </span>
-                    </p>
-                  </div>
-                </div>
+        <div class="card mb-3" *ngIf="productoSeleccionado != null">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img
+                src="{{ productoSeleccionado.imagen }}"
+                class="imagenProducto img-fluid rounded-start"
+                alt="..."
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body align-items-center text-wrap">
+                <p class="card-title">{{ productoSeleccionado.nombre }}</p>
               </div>
             </div>
-          </div></div>
-        <div class="col-md-6">
-          <form class="d-flex flex-column" [formGroup]="formOferta">
-            <label class="form-label m-2">Precio</label>
-            <input
-              class="form-control m-2"
-              type="number"
-              formControlName="precio"
-            />
-            <label class="form-label m-2">Fecha de finalización</label>
-            <input class="form-control m-2" type="date" formControlName="fecha" />
-            <div
-              *ngIf="
-                formOferta.get('fecha')?.hasError('fechaMenor') &&
-                formOferta.get('fecha')?.touched
-              "
-              class="alert alert-danger"
+          </div>
+        </div>
+        <form class="d-flex flex-column" [formGroup]="formOferta">
+          <label class="form-label m-2">Precio</label>
+          <input
+            class="form-control m-2"
+            type="number"
+            formControlName="precio"
+          />
+          <label class="form-label m-2">Fecha de finalización</label>
+          <input class="form-control m-2" type="date" formControlName="fecha" />
+          <div
+            *ngIf="
+              formOferta.get('fecha')?.hasError('fechaMenor') &&
+              formOferta.get('fecha')?.touched
+            "
+            class="alert alert-danger"
+          >
+            La fecha no puede ser menor a la fecha actual.
+          </div>
+          <div>
+            <button
+              class="btn btn-outline-info m-4"
+              (click)="volverAEleccionProducto()"
             >
-              La fecha no puede ser menor a la fecha actual.
-            </div>
-            <div>
-              <button
-                class="btn btn-outline-info m-4"
-                (click)="volverAEleccionProducto()"
-              >
-                Volver
-              </button>
-              <button
-                type="submit"
-                [disabled]="formOferta.invalid"
-                (click)="openModalPublicar(myModalContent)"
-                class="btn btn-info m-4"
-              >
-                Publicar oferta
-              </button>
-            </div>
-          </form></div>
-      </div>
-      
+              Volver
+            </button>
+            <button
+              type="submit"
+              [disabled]="formOferta.invalid"
+              (click)="openModalPublicar(myModalContent)"
+              class="btn btn-info m-4"
+            >
+              Publicar oferta
+            </button>
+          </div>
+        </form>
       </div>
 
       <div
@@ -462,39 +481,38 @@
 
 <ng-template #myModalContent let-modal>
   <div class="modal-header">
-    <h1 class="modal-title fs-5">Confirmar publicación</h1>
+    <h4 class="modal-title">Publicar oferta</h4>
     <button
       type="button"
-      class="btn-close"
-      (click)="modal.dismiss('Cross click')"
+      class="close"
       aria-label="Close"
-    ></button>
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-  <div class="modal-body d-flex align-items-center justify-content-center">
-    <ng-container class="card mb-3" *ngIf="productoSeleccionado != null">
-      <div class="card card-comercio">
-        <div class="dark card-oferta d-flex align-items-center justify-content-center">
-          <div class="card-body text-center">
-            <div class="col-md-12">
-              <img src="{{productoSeleccionado?.imagen}}" style="width: 100px;" class="card-img-top" alt="">
-            </div>
-            <div class="col-md-12">
-              <div class="div-texto">
-                <p class="card-subtitle mt-2">{{ productoSeleccionado?.nombre }}</p>
-                <p class="card-subtitle mt-2">Fecha de finalización: {{ fechaSeleccionada }}</p>
-                <p class="card-text">
-                  <span style="color: rgb(2, 53, 0); font-size: 22px; font-weight: bold;">
-                    ${{precioSeleccionado}}
-                  </span>
-                </p>
-              </div>
-            </div>
+  <div class="modal-body">
+    <div class="card mb-3" *ngIf="productoSeleccionado != null">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img
+            src="{{ productoSeleccionado.imagen }}"
+            class="imagenProducto img-fluid rounded-start"
+            alt="..."
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body align-items-center text-wrap">
+            <p class="card-title">{{ productoSeleccionado.nombre }}</p>
+            <p class="card-text">
+              Fecha de finalización : {{ fechaSeleccionada }}
+            </p>
+            <p class="card-text">Precio : {{ precioSeleccionado }}</p>
           </div>
         </div>
       </div>
-    </ng-container>
+    </div>
   </div>
-  
   <div class="modal-footer">
     <button type="button" class="btn btn-info" (click)="onConfirmarOferta()">
       Confirmar oferta

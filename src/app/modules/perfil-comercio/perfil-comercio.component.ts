@@ -48,7 +48,6 @@ errorLongitudCodigo= false;
 direccion: string = "";
 localidad: string = "";
 imagen: string = "";
-precioAPublicar: number = 0;
 
  
 constructor(private perfilService: PerfilComercioService , private ngModal : NgbModal, 
@@ -58,7 +57,7 @@ ngOnInit(): void {
   this.obtenerUsuarioActual();
   this.obtenerOfertasPublicadas(this.comercioLogueado.id);
   this.obtenerTipoDeProductos();
-
+ 
  this.formOferta = new FormGroup({
   precio: new FormControl(null, [
     Validators.required,
@@ -68,13 +67,6 @@ ngOnInit(): void {
     Validators.required, this.fechaActualValidator
   ])
 });
-
-this.formOferta.controls['precio'].valueChanges.subscribe((value: number) => {
-  this.precioAPublicar = value;
-});
-
-
-
 }
 
 
@@ -285,10 +277,12 @@ obtenerMarcasDelProducto(idProducto: string) {
         this.mostrarCompletarOferta=false;
         this.mostrarEleccionProducto=false;
         this.ngModal.dismissAll();
-        this.toastr.error("Error al subir la oferta");
+        this.toastr.error(error.message);
         this.statusOferta="error";
       }
     );
+    
+
   }
   reloadPage() {
     window.location.reload();
