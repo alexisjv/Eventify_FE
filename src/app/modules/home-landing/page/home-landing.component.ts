@@ -9,6 +9,7 @@ import { Rol } from '@core/enums/Rol.enum';
 })
 export class HomeLandingComponent implements OnInit, OnDestroy {
   public currentUser;
+  public rol = 'Usuario';
   constructor(private renderer: Renderer2) {}
 
   ngOnInit() {
@@ -26,6 +27,7 @@ export class HomeLandingComponent implements OnInit, OnDestroy {
     if (user !== null) {
       if(rol === 'Comercio'){
         this.currentUser = JSON.parse(user).razonSocial;
+        this.rol = 'Comercio';
       }
       if(rol === 'Usuario'){
         this.currentUser = JSON.parse(user).usuario;

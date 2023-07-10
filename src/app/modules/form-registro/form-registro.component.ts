@@ -61,8 +61,9 @@ export class FormRegistroComponent {
       emailComercio: new FormControl(null, [Validators.required, Validators.email]),
       usernameComercio: new FormControl(null, [
         Validators.required,
+        Validators.minLength(10),
         Validators.maxLength(20),
-        Validators.pattern('^[a-z0-9_-]{8,15}$')
+        Validators.pattern('^[a-z0-9_-]{10,20}$')
       ]),
       passwordComercio: new FormControl(null, [
         Validators.required,
@@ -88,8 +89,9 @@ export class FormRegistroComponent {
       ]),
       username: new FormControl(null, [
         Validators.required,
+        Validators.minLength(10),
         Validators.maxLength(20),
-        Validators.pattern('^[a-z0-9_-]{8,15}$')
+        Validators.pattern('^[a-z0-9_-]{10,20}$')
       ]),
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [
@@ -340,6 +342,44 @@ guardarCuit(event: any) {
   this.cuit = event.target.value;
 }
   
-  
+showUsernameError(errorType: string): boolean {
+  const usernameControl = this.userForm.get('username');
+
+  if (!usernameControl || !usernameControl.touched || usernameControl.valid) {
+    return false;
+  }
+
+  if (errorType === 'required') {
+    return usernameControl.errors?.['required'];
+  }
+
+  if (errorType === 'length') {
+    const valueLength = usernameControl.value.length;
+    return valueLength < 10 || valueLength > 20;
+  }
+
+
+  return false;
+}
+
+showUsernameErrorComercio(errorType: string): boolean {
+  const usernameControl = this.comercioForm.get('usernameComercio');
+
+  if (!usernameControl || !usernameControl.touched || usernameControl.valid) {
+    return false;
+  }
+
+  if (errorType === 'required') {
+    return usernameControl.errors?.['required'];
+  }
+
+  if (errorType === 'length') {
+    const valueLength = usernameControl.value.length;
+    return valueLength < 10 || valueLength > 20;
+  }
+
+
+  return false;
+}
 }
 
