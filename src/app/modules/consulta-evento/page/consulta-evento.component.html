@@ -119,7 +119,7 @@
                                     style="width: 100px">
                                     <input data-aos="zoom-in" type="number" class="form-control w-25"
                                         [(ngModel)]="oSelecciones.nCantidadComensales" name="nCantidadComensales"
-                                         id="number" min="1"
+                                         id="number" min="1" pattern="^[^0]*$"
                                         required (input)="onComensalesChange($event)" />
                                     <br>
                                     <div class="d-flex row align-items-around  flex-nowrap justify-content-center" >

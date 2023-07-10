@@ -245,7 +245,7 @@ export class ConsultaEventoComponent {
     const inputValue = (event.target as HTMLInputElement).value;
       const inputLength = inputValue.length;
   
-      if (inputValue == '' && inputLength < 1) {
+      if (inputValue == ''  && inputLength < 1 || inputValue == '0') {
         this.deshabilitarBotonContinuar();
       } else {
         this.habilitarBotonContinuar();
