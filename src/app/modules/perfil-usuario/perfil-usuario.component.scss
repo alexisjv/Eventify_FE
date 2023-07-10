@@ -630,7 +630,7 @@
   border-radius: 50%;
 }
 
-#modalDetalleListado {
+#modalDetalleListado, #modalComparar {
   background-color: #14484d;
 }
 
@@ -785,6 +785,10 @@ h3 {
 .comparar-total{
   font-size: 25px;
   color: #14484d;
+}
+
+.card-comparar{
+  width: 80% !important;
 }
 
 
