@@ -392,7 +392,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.listaOfertasElegidasMasEconomico.forEach((oferta) => {
       if (oferta.oferta.idTipoProducto === idTipoProducto) {
         oferta.cantidad = cantidad;
-        oferta.subtotal = oferta.oferta.precio * cantidad;
+        oferta.subtotal = parseFloat((oferta.oferta.precio * cantidad).toFixed(2));
       }
     });
     this.totalMasEconomico = this.calcularTotalListaComercio(
@@ -414,7 +414,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.aListaSeleccionComercio.forEach((oferta) => {
       if (oferta.oferta.idTipoProducto === idTipoProducto) {
         oferta.cantidad = cantidad;
-        oferta.subtotal = oferta.oferta.precio * cantidad;
+        oferta.subtotal = parseFloat((oferta.oferta.precio * cantidad).toFixed(2));
       }
     });
     this.totalListaDeComercio = this.calcularTotalListaComercio(
@@ -435,7 +435,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.ofertasProductoElegidoParaEditar.forEach((oferta) => {
       if (oferta.oferta?.idTipoProducto === idTipoProducto) {
         oferta.cantidad = cantidad;
-        oferta.subtotal = (oferta.oferta.precio * cantidad);
+        oferta.subtotal = parseFloat((oferta.oferta.precio * cantidad).toFixed(2));
       }
     });
   
@@ -443,7 +443,7 @@ export class OptimizadorListaComponent implements OnInit {
     this.listaOfertasElegidasMasEconomico.forEach((oferta) => {
       if (oferta.oferta?.idTipoProducto === idTipoProducto) {
         oferta.cantidad = cantidad;
-        oferta.subtotal = oferta.oferta.precio * cantidad;
+        oferta.subtotal = parseFloat((oferta.oferta.precio * cantidad).toFixed(2));
       }
     });
   
@@ -452,7 +452,7 @@ export class OptimizadorListaComponent implements OnInit {
       comercio.ofertas.forEach((oferta) => {
         if (oferta.oferta?.idTipoProducto === idTipoProducto) {
           oferta.cantidad = cantidad;
-          oferta.subtotal = oferta.oferta.precio * cantidad;
+          oferta.subtotal = parseFloat((oferta.oferta.precio * cantidad).toFixed(2));
         }
       });
       comercio.total = this.calcularTotalListaComercio(comercio.ofertas);

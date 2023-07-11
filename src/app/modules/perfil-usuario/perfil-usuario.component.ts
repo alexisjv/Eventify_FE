@@ -20,6 +20,7 @@ export class PerfilUsuarioComponent implements OnInit, AfterViewInit {
   eventoImagen!: number[];
   enlaceMapaLista1!: string;
   enlaceMapaLista2!: string;
+  cargando: boolean = true;
 
 
 
@@ -27,13 +28,19 @@ export class PerfilUsuarioComponent implements OnInit, AfterViewInit {
   
   ngOnInit(): void {
     this.obtenerUsuarioActual();
+
+    setTimeout(() => {
     this.obtenerListasGuardadas(this.currentUser.id);
+    this.cargando = false;
+    }, 1000);
+
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
     this.modalDetalle = true;
     }, 0);
+
   }
 
 
@@ -56,8 +63,15 @@ export class PerfilUsuarioComponent implements OnInit, AfterViewInit {
           this.listasGuardadas.forEach((listado: ListaGuardada) => {
             listado.seleccionado = false;
           });
-          
-          console.log("listas del usuario: ", this.listasGuardadas)
+  
+          // Ordenar la lista por fecha de más reciente a más antigua
+          this.listasGuardadas.sort((a, b) => {
+            const fechaA = new Date(a.fechaCreacion).getTime();
+            const fechaB = new Date(b.fechaCreacion).getTime();
+            return fechaB - fechaA;
+          });
+  
+          console.log("listas del usuario: ", this.listasGuardadas);
         } else {
           console.error('El endpoint obtenerListasDelUsuario no devuelve un array válido:', response);
         }
@@ -66,6 +80,7 @@ export class PerfilUsuarioComponent implements OnInit, AfterViewInit {
       (error) => console.error(error)
     );
   }
+  
   
   
   
